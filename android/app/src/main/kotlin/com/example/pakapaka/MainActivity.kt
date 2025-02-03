@@ -1,4 +1,4 @@
-package com.example.pakapaka
+package com.example.pacapaca
 
 import io.flutter.embedding.android.FlutterActivity
 
