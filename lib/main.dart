@@ -8,11 +8,15 @@ import 'app.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   GetIt.I.registerSingleton<Logger>(Logger());
   await EasyLocalization.ensureInitialized();

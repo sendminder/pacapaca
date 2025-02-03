@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "107122093657",
+    "project_id": "pacapaca-25e00",
+    "storage_bucket": "pacapaca-25e00.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107122093657:android:c923e9e7a38f556a6a0b48",
+        "android_client_info": {
+          "package_name": "com.example.pacapaca"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHKKg_Xsv68R4iSUrMycpmQJlf3Sx-WpM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
