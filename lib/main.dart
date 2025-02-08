@@ -10,18 +10,16 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env");
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // 앱 초기화
+  WidgetsFlutterBinding.ensureInitialized();
 
-  GetIt.I.registerSingleton<Logger>(Logger());
-  await EasyLocalization.ensureInitialized();
-  await setupTimeZone();
+  // 설정 초기화
+  await _initializeSettings();
 
+  // 앱 실행
   runApp(
     ProviderScope(
       child: EasyLocalization(
@@ -29,14 +27,56 @@ void main() async {
         supportedLocales: const [Locale('en'), Locale('ko')],
         fallbackLocale: const Locale('ko'),
         useFallbackTranslations: true,
-        child: const MyApp(),
+        child: ScreenUtilInit(
+          designSize: const Size(393, 852), // iPhone 16 Pro 기준
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) => const MyApp(),
+        ),
       ),
     ),
   );
+}
+
+Future<void> _initializeSettings() async {
+  // 환경 변수 로드
+  await dotenv.load(fileName: ".env");
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // 서비스 로케이터 설정
+  _setupServiceLocator();
+
+  // 다국어 지원 초기화
+  await EasyLocalization.ensureInitialized();
+
+  // 시간대 설정
+  await setupTimeZone();
 }
 
 Future<void> setupTimeZone() async {
   tz.initializeTimeZones();
   String timeZoneName = await FlutterTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
+}
+
+void _setupServiceLocator() {
+  final getIt = GetIt.instance;
+
+  // 로거 등록
+  getIt.registerSingleton<Logger>(
+    Logger(
+      printer: PrettyPrinter(
+        methodCount: 0,
+        errorMethodCount: 5,
+        lineLength: 50,
+        colors: true,
+        printEmojis: true,
+      ),
+    ),
+  );
+
+  // 여기에 추가 서비스 등록
 }
