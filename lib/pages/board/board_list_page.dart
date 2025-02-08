@@ -13,7 +13,7 @@ class BoardListPage extends StatelessWidget {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text('게시글 ${index + 1}'),
-            onTap: () => context.go('/board/$index'),
+            onTap: () => context.push('/board/$index'),
           );
         },
       ),

@@ -12,7 +12,9 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () => context.go('/settings'),
+            onPressed: () {
+              StatefulNavigationShell.of(context).goBranch(2);
+            },
           ),
         ],
       ),
@@ -21,7 +23,10 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () => context.go('/board'),
+              onPressed: () {
+                // StatefulNavigationShell을 찾아서 게시판 탭(인덱스 1)으로 이동
+                StatefulNavigationShell.of(context).goBranch(1);
+              },
               child: const Text('게시판으로 이동'),
             ),
           ],

@@ -134,8 +134,10 @@ class AuthService {
         ),
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final loginResponse = LoginResponse.fromJson(response.data);
+      final responseRest = ResponseRest.fromJson(response.data);
+      logger.d(responseRest);
+      if (responseRest.statusCode == 200 || responseRest.statusCode == 201) {
+        final loginResponse = LoginResponse.fromJson(responseRest.response);
         // 토큰을 안전하게 저장
         await Future.wait([
           _storage.write(

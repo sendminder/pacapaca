@@ -10,6 +10,7 @@ import 'pages/home/home_page.dart';
 import 'pages/board/board_list_page.dart';
 import 'pages/board/board_detail_page.dart';
 import 'pages/settings/settings_page.dart';
+import 'widgets/shell_scaffold.dart';
 
 // 라우터 프로바이더 생성
 final routerProvider = Provider<GoRouter>((ref) {
@@ -58,6 +59,14 @@ class RouterNotifier extends ChangeNotifier {
     return null;
   }
 
+  final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  final _shellNavigatorHomeKey =
+      GlobalKey<NavigatorState>(debugLabel: 'shell/home');
+  final _shellNavigatorBoardKey =
+      GlobalKey<NavigatorState>(debugLabel: 'shell/board');
+  final _shellNavigatorSettingsKey =
+      GlobalKey<NavigatorState>(debugLabel: 'shell/settings');
+
   List<RouteBase> get _routes => [
         GoRoute(
           path: '/splash',
@@ -67,24 +76,49 @@ class RouterNotifier extends ChangeNotifier {
           path: '/login',
           builder: (context, state) => const LoginPage(),
         ),
-        GoRoute(
-          path: '/home',
-          builder: (context, state) => const HomePage(),
-        ),
-        GoRoute(
-          path: '/board',
-          builder: (context, state) => const BoardListPage(),
-        ),
-        GoRoute(
-          path: '/board/:id',
-          builder: (context, state) {
-            final boardId = state.pathParameters['id']!;
-            return BoardDetailPage(boardId: boardId);
+        StatefulShellRoute.indexedStack(
+          builder: (context, state, navigationShell) {
+            return ShellScaffold(navigationShell: navigationShell);
           },
-        ),
-        GoRoute(
-          path: '/settings',
-          builder: (context, state) => const SettingsPage(),
+          branches: [
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorHomeKey,
+              routes: [
+                GoRoute(
+                  path: '/home',
+                  builder: (context, state) => const HomePage(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorBoardKey,
+              routes: [
+                GoRoute(
+                  path: '/board',
+                  builder: (context, state) => const BoardListPage(),
+                  routes: [
+                    GoRoute(
+                      path: ':id',
+                      parentNavigatorKey: _shellNavigatorBoardKey,
+                      builder: (context, state) {
+                        final boardId = state.pathParameters['id']!;
+                        return BoardDetailPage(boardId: boardId);
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorSettingsKey,
+              routes: [
+                GoRoute(
+                  path: '/settings',
+                  builder: (context, state) => const SettingsPage(),
+                ),
+              ],
+            ),
+          ],
         ),
       ];
 }
