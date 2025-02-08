@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'providers/auth_provider.dart';
-
+import 'models/dto/user_dto.dart';
 // 페이지 임포트
 import 'pages/auth/login_page.dart';
 import 'pages/auth/splash_page.dart';
@@ -33,7 +32,7 @@ class RouterNotifier extends ChangeNotifier {
   final Ref _ref;
 
   RouterNotifier(this._ref) {
-    _ref.listen<AsyncValue<User?>>(
+    _ref.listen<AsyncValue<UserDTO?>>(
       authStateProvider,
       (_, __) => notifyListeners(),
     );

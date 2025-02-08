@@ -22,11 +22,11 @@ final authServiceProvider = AutoDisposeProvider<AuthService>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthServiceRef = AutoDisposeProviderRef<AuthService>;
-String _$authStateHash() => r'8d66f1b36c36fb23821c0fc880f8ccb5ae688e88';
+String _$authStateHash() => r'eed576c0d0ea572ab8d6cb8561d1d00acdfd11ce';
 
 /// See also [authState].
 @ProviderFor(authState)
-final authStateProvider = AutoDisposeStreamProvider<User?>.internal(
+final authStateProvider = AutoDisposeStreamProvider<UserDTO?>.internal(
   authState,
   name: r'authStateProvider',
   debugGetCreateSourceHash:
@@ -37,12 +37,12 @@ final authStateProvider = AutoDisposeStreamProvider<User?>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef AuthStateRef = AutoDisposeStreamProviderRef<User?>;
-String _$authHash() => r'a33f6dd567df7b80d95a402a2f7a28343cb66931';
+typedef AuthStateRef = AutoDisposeStreamProviderRef<UserDTO?>;
+String _$authHash() => r'a52e9a33c07c74f254b83e23ea6ffb2055fa0a3d';
 
 /// See also [Auth].
 @ProviderFor(Auth)
-final authProvider = AutoDisposeAsyncNotifierProvider<Auth, void>.internal(
+final authProvider = AutoDisposeAsyncNotifierProvider<Auth, UserDTO?>.internal(
   Auth.new,
   name: r'authProvider',
   debugGetCreateSourceHash:
@@ -51,6 +51,6 @@ final authProvider = AutoDisposeAsyncNotifierProvider<Auth, void>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$Auth = AutoDisposeAsyncNotifier<void>;
+typedef _$Auth = AutoDisposeAsyncNotifier<UserDTO?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

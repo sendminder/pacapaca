@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // User 타입을 위해 추가
-import '../../providers/auth_provider.dart';
+import 'package:pacapaca/providers/auth_provider.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});

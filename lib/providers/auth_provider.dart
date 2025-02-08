@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../services/auth_service.dart';
+import '../models/dto/user_dto.dart';
 
 part 'auth_provider.g.dart';
 
@@ -10,7 +10,7 @@ AuthService authService(AuthServiceRef ref) {
 }
 
 @riverpod
-Stream<User?> authState(AuthStateRef ref) {
+Stream<UserDTO?> authState(AuthStateRef ref) {
   final authService = ref.watch(authServiceProvider);
   return authService.authStateChanges;
 }
@@ -18,14 +18,17 @@ Stream<User?> authState(AuthStateRef ref) {
 @riverpod
 class Auth extends _$Auth {
   @override
-  FutureOr<void> build() => null;
+  FutureOr<UserDTO?> build() {
+    final authService = ref.watch(authServiceProvider);
+    return authService.currentUser;
+  }
 
   Future<void> signInWithApple() async {
     state = const AsyncLoading();
     try {
       final authService = ref.read(authServiceProvider);
-      await authService.signInWithApple();
-      state = const AsyncData(null);
+      final user = await authService.signInWithApple();
+      state = AsyncData(user);
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
     }
