@@ -76,7 +76,7 @@ class AuthService {
           ),
         );
 
-        final responseRest = ResponseRest.fromJson(response.data);
+        final responseRest = ResponseRest.fromJson(jsonDecode(response.data));
         if (responseRest.statusCode == 200 || responseRest.statusCode == 201) {
           return fromJson != null
               ? fromJson(responseRest.response)
@@ -98,7 +98,8 @@ class AuthService {
               ),
             );
 
-            final responseRest = ResponseRest.fromJson(retryResponse.data);
+            final responseRest =
+                ResponseRest.fromJson(jsonDecode(retryResponse.data));
             if (responseRest.statusCode == 200 ||
                 responseRest.statusCode == 201) {
               return fromJson != null
@@ -141,7 +142,7 @@ class AuthService {
         ),
       );
 
-      final responseRest = ResponseRest.fromJson(response.data);
+      final responseRest = ResponseRest.fromJson(jsonDecode(response.data));
       if (responseRest.statusCode == 200 || responseRest.statusCode == 201) {
         final loginResponse = LoginResponse.fromJson(responseRest.response);
         await _storageService.saveTokens(
@@ -217,7 +218,7 @@ class AuthService {
         ),
       );
 
-      final responseRest = ResponseRest.fromJson(response.data);
+      final responseRest = ResponseRest.fromJson(jsonDecode(response.data));
       logger.d(responseRest);
       if (responseRest.statusCode == 200 || responseRest.statusCode == 201) {
         final loginResponse = LoginResponse.fromJson(responseRest.response);
@@ -257,7 +258,7 @@ class AuthService {
         ),
       );
 
-      final responseRest = ResponseRest.fromJson(response.data);
+      final responseRest = ResponseRest.fromJson(jsonDecode(response.data));
       if (responseRest.statusCode == 200 || responseRest.statusCode == 201) {
         // 닉네임 업데이트 성공 시 저장된 사용자 정보도 업데이트
         final currentUser = await _storageService.userData;
