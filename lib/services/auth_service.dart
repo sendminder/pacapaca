@@ -65,46 +65,52 @@ class AuthService {
       if (token == null) return null;
 
       try {
-        final response = await _dio.get<ResponseRest<GetMeResponse>>(
+        final response = await _dio.get(
           '/v1/me',
           options: Options(headers: {'Authorization': 'Bearer $token'}),
         );
 
-        final responseData = response.data?.response;
-        if (responseData != null) {
-          final user = responseData.user;
-          await _storageService.saveUser(user);
-          return user;
+        final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+          response.data,
+          (json) => json as Map<String, dynamic>,
+        );
+
+        if (responseRest.response != null) {
+          final getMeResponse = GetMeResponse.fromJson(responseRest.response!);
+          await _storageService.saveUser(getMeResponse.user);
+          return getMeResponse.user;
         }
         return null;
       } on DioException catch (e) {
-        // 2. 만료되었으면 refresh token으로 토큰 갱신
         if (e.response?.statusCode == 401) {
           final newToken = await _refreshToken();
           if (newToken != null) {
-            // 4. 토큰 갱신 성공시 다시 me를 가져온다.
-            final retryResponse = await _dio.get<ResponseRest<GetMeResponse>>(
+            final retryResponse = await _dio.get(
               '/v1/me',
               options: Options(
                 headers: {'Authorization': 'Bearer $newToken'},
               ),
             );
 
-            final responseData = retryResponse.data?.response;
-            if (responseData != null) {
-              final user = responseData.user;
-              await _storageService.saveUser(user);
-              return user; // 5. 성공시 유저 정보를 반환
+            final retryResponseRest =
+                RestResponse<Map<String, dynamic>>.fromJson(
+              retryResponse.data,
+              (json) => json as Map<String, dynamic>,
+            );
+
+            if (retryResponseRest.response != null) {
+              final getMeResponse =
+                  GetMeResponse.fromJson(retryResponseRest.response!);
+              await _storageService.saveUser(getMeResponse.user);
+              return getMeResponse.user;
             }
           }
-          // 3. 토큰 갱신 실패시 로그아웃
           await signOut();
         }
         rethrow;
       }
     } catch (e, stackTrace) {
       logger.e('get current user', error: e, stackTrace: stackTrace);
-      // 6. 실패시 로그아웃 후 null 반환
       await signOut();
       return null;
     }
@@ -120,7 +126,7 @@ class AuthService {
       final body = jsonEncode(refreshRequest.toJson());
       String signature = _hmacUtil.generateHMACSignature(body, timestamp);
 
-      final response = await _dio.post<ResponseRest<RefreshResponse>>(
+      final response = await _dio.post(
         '/v1/auth/refresh',
         data: body,
         options: Options(
@@ -131,8 +137,14 @@ class AuthService {
         ),
       );
 
-      final refreshResponse = response.data?.response;
-      if (refreshResponse != null) {
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
+
+      if (responseRest.response != null) {
+        final refreshResponse =
+            RefreshResponse.fromJson(responseRest.response!);
         await _storageService.saveTokens(
           accessToken: refreshResponse.accessToken,
           refreshToken: refreshResponse.refreshToken,
@@ -186,7 +198,7 @@ class AuthService {
       String body = jsonEncode(request.toJson());
       String signature = _hmacUtil.generateHMACSignature(body, timestamp);
 
-      final response = await _dio.post<ResponseRest<SignUpResponse>>(
+      final response = await _dio.post(
         '/v1/auth/login',
         data: body,
         options: Options(
@@ -198,11 +210,13 @@ class AuthService {
         ),
       );
 
-      logger.d('/v1/auth/login response: ${response.data}');
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
 
-      final signUpResponse = response.data?.response;
-
-      if (signUpResponse != null) {
+      if (responseRest.response != null) {
+        final signUpResponse = SignUpResponse.fromJson(responseRest.response!);
         await Future.wait([
           _storageService.saveTokens(
             accessToken: signUpResponse.accessToken,
@@ -215,7 +229,7 @@ class AuthService {
 
       return null;
     } catch (e, stackTrace) {
-      logger.e('server login', error: e, stackTrace: stackTrace);
+      logger.e('server login error', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
@@ -227,7 +241,7 @@ class AuthService {
 
       final updateRequest = UpdateMeRequest(nickname: nickname);
 
-      final response = await _dio.put<ResponseRest<GetMeResponse>>(
+      final response = await _dio.put(
         '/v1/me',
         data: jsonEncode(updateRequest.toJson()),
         options: Options(
@@ -238,13 +252,17 @@ class AuthService {
         ),
       );
 
-      final getMeResponse = response.data?.response;
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
 
-      if (getMeResponse != null) {
+      if (responseRest.response != null) {
+        final getMeResponse = GetMeResponse.fromJson(responseRest.response!);
         await _storageService.saveUser(getMeResponse.user);
         return;
       }
-      throw Exception(response.data?.message);
+      throw Exception(responseRest.message);
     } catch (e, stackTrace) {
       logger.e('update nickname', error: e, stackTrace: stackTrace);
       rethrow;

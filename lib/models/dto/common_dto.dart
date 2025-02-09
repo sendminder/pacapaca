@@ -10,16 +10,16 @@ part 'common_dto.freezed.dart';
 part 'common_dto.g.dart';
 
 @Freezed(genericArgumentFactories: true)
-class ResponseRest<T> with _$ResponseRest<T> {
-  const factory ResponseRest({
+class RestResponse<T> with _$RestResponse<T> {
+  const factory RestResponse({
     @JsonKey(name: 'status_code') required int statusCode,
     required String message,
     T? response,
-  }) = _ResponseRest<T>;
+  }) = _RestResponse<T>;
 
-  factory ResponseRest.fromJson(
+  factory RestResponse.fromJson(
     Map<String, dynamic> json,
     T Function(Object?) fromJsonT,
   ) =>
-      _$ResponseRestFromJson(json, fromJsonT);
+      _$RestResponseFromJson(json, fromJsonT);
 }

@@ -6,18 +6,18 @@ part of 'common_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ResponseRestImpl<T> _$$ResponseRestImplFromJson<T>(
+_$RestResponseImpl<T> _$$RestResponseImplFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
 ) =>
-    _$ResponseRestImpl<T>(
+    _$RestResponseImpl<T>(
       statusCode: (json['status_code'] as num).toInt(),
       message: json['message'] as String,
       response: _$nullableGenericFromJson(json['response'], fromJsonT),
     );
 
-Map<String, dynamic> _$$ResponseRestImplToJson<T>(
-  _$ResponseRestImpl<T> instance,
+Map<String, dynamic> _$$RestResponseImplToJson<T>(
+  _$RestResponseImpl<T> instance,
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{

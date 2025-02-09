@@ -14,34 +14,34 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-ResponseRest<T> _$ResponseRestFromJson<T>(
+RestResponse<T> _$RestResponseFromJson<T>(
     Map<String, dynamic> json, T Function(Object?) fromJsonT) {
-  return _ResponseRest<T>.fromJson(json, fromJsonT);
+  return _RestResponse<T>.fromJson(json, fromJsonT);
 }
 
 /// @nodoc
-mixin _$ResponseRest<T> {
+mixin _$RestResponse<T> {
   @JsonKey(name: 'status_code')
   int get statusCode => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
   T? get response => throw _privateConstructorUsedError;
 
-  /// Serializes this ResponseRest to a JSON map.
+  /// Serializes this RestResponse to a JSON map.
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) =>
       throw _privateConstructorUsedError;
 
-  /// Create a copy of ResponseRest
+  /// Create a copy of RestResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ResponseRestCopyWith<T, ResponseRest<T>> get copyWith =>
+  $RestResponseCopyWith<T, RestResponse<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ResponseRestCopyWith<T, $Res> {
-  factory $ResponseRestCopyWith(
-          ResponseRest<T> value, $Res Function(ResponseRest<T>) then) =
-      _$ResponseRestCopyWithImpl<T, $Res, ResponseRest<T>>;
+abstract class $RestResponseCopyWith<T, $Res> {
+  factory $RestResponseCopyWith(
+          RestResponse<T> value, $Res Function(RestResponse<T>) then) =
+      _$RestResponseCopyWithImpl<T, $Res, RestResponse<T>>;
   @useResult
   $Res call(
       {@JsonKey(name: 'status_code') int statusCode,
@@ -50,16 +50,16 @@ abstract class $ResponseRestCopyWith<T, $Res> {
 }
 
 /// @nodoc
-class _$ResponseRestCopyWithImpl<T, $Res, $Val extends ResponseRest<T>>
-    implements $ResponseRestCopyWith<T, $Res> {
-  _$ResponseRestCopyWithImpl(this._value, this._then);
+class _$RestResponseCopyWithImpl<T, $Res, $Val extends RestResponse<T>>
+    implements $RestResponseCopyWith<T, $Res> {
+  _$RestResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ResponseRest
+  /// Create a copy of RestResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -86,11 +86,11 @@ class _$ResponseRestCopyWithImpl<T, $Res, $Val extends ResponseRest<T>>
 }
 
 /// @nodoc
-abstract class _$$ResponseRestImplCopyWith<T, $Res>
-    implements $ResponseRestCopyWith<T, $Res> {
-  factory _$$ResponseRestImplCopyWith(_$ResponseRestImpl<T> value,
-          $Res Function(_$ResponseRestImpl<T>) then) =
-      __$$ResponseRestImplCopyWithImpl<T, $Res>;
+abstract class _$$RestResponseImplCopyWith<T, $Res>
+    implements $RestResponseCopyWith<T, $Res> {
+  factory _$$RestResponseImplCopyWith(_$RestResponseImpl<T> value,
+          $Res Function(_$RestResponseImpl<T>) then) =
+      __$$RestResponseImplCopyWithImpl<T, $Res>;
   @override
   @useResult
   $Res call(
@@ -100,14 +100,14 @@ abstract class _$$ResponseRestImplCopyWith<T, $Res>
 }
 
 /// @nodoc
-class __$$ResponseRestImplCopyWithImpl<T, $Res>
-    extends _$ResponseRestCopyWithImpl<T, $Res, _$ResponseRestImpl<T>>
-    implements _$$ResponseRestImplCopyWith<T, $Res> {
-  __$$ResponseRestImplCopyWithImpl(
-      _$ResponseRestImpl<T> _value, $Res Function(_$ResponseRestImpl<T>) _then)
+class __$$RestResponseImplCopyWithImpl<T, $Res>
+    extends _$RestResponseCopyWithImpl<T, $Res, _$RestResponseImpl<T>>
+    implements _$$RestResponseImplCopyWith<T, $Res> {
+  __$$RestResponseImplCopyWithImpl(
+      _$RestResponseImpl<T> _value, $Res Function(_$RestResponseImpl<T>) _then)
       : super(_value, _then);
 
-  /// Create a copy of ResponseRest
+  /// Create a copy of RestResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -116,7 +116,7 @@ class __$$ResponseRestImplCopyWithImpl<T, $Res>
     Object? message = null,
     Object? response = freezed,
   }) {
-    return _then(_$ResponseRestImpl<T>(
+    return _then(_$RestResponseImpl<T>(
       statusCode: null == statusCode
           ? _value.statusCode
           : statusCode // ignore: cast_nullable_to_non_nullable
@@ -135,15 +135,15 @@ class __$$ResponseRestImplCopyWithImpl<T, $Res>
 
 /// @nodoc
 @JsonSerializable(genericArgumentFactories: true)
-class _$ResponseRestImpl<T> implements _ResponseRest<T> {
-  const _$ResponseRestImpl(
+class _$RestResponseImpl<T> implements _RestResponse<T> {
+  const _$RestResponseImpl(
       {@JsonKey(name: 'status_code') required this.statusCode,
       required this.message,
       this.response});
 
-  factory _$ResponseRestImpl.fromJson(
+  factory _$RestResponseImpl.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$$ResponseRestImplFromJson(json, fromJsonT);
+      _$$RestResponseImplFromJson(json, fromJsonT);
 
   @override
   @JsonKey(name: 'status_code')
@@ -155,14 +155,14 @@ class _$ResponseRestImpl<T> implements _ResponseRest<T> {
 
   @override
   String toString() {
-    return 'ResponseRest<$T>(statusCode: $statusCode, message: $message, response: $response)';
+    return 'RestResponse<$T>(statusCode: $statusCode, message: $message, response: $response)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ResponseRestImpl<T> &&
+            other is _$RestResponseImpl<T> &&
             (identical(other.statusCode, statusCode) ||
                 other.statusCode == statusCode) &&
             (identical(other.message, message) || other.message == message) &&
@@ -174,30 +174,30 @@ class _$ResponseRestImpl<T> implements _ResponseRest<T> {
   int get hashCode => Object.hash(runtimeType, statusCode, message,
       const DeepCollectionEquality().hash(response));
 
-  /// Create a copy of ResponseRest
+  /// Create a copy of RestResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ResponseRestImplCopyWith<T, _$ResponseRestImpl<T>> get copyWith =>
-      __$$ResponseRestImplCopyWithImpl<T, _$ResponseRestImpl<T>>(
+  _$$RestResponseImplCopyWith<T, _$RestResponseImpl<T>> get copyWith =>
+      __$$RestResponseImplCopyWithImpl<T, _$RestResponseImpl<T>>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
-    return _$$ResponseRestImplToJson<T>(this, toJsonT);
+    return _$$RestResponseImplToJson<T>(this, toJsonT);
   }
 }
 
-abstract class _ResponseRest<T> implements ResponseRest<T> {
-  const factory _ResponseRest(
+abstract class _RestResponse<T> implements RestResponse<T> {
+  const factory _RestResponse(
       {@JsonKey(name: 'status_code') required final int statusCode,
       required final String message,
-      final T? response}) = _$ResponseRestImpl<T>;
+      final T? response}) = _$RestResponseImpl<T>;
 
-  factory _ResponseRest.fromJson(
+  factory _RestResponse.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =
-      _$ResponseRestImpl<T>.fromJson;
+      _$RestResponseImpl<T>.fromJson;
 
   @override
   @JsonKey(name: 'status_code')
@@ -207,10 +207,10 @@ abstract class _ResponseRest<T> implements ResponseRest<T> {
   @override
   T? get response;
 
-  /// Create a copy of ResponseRest
+  /// Create a copy of RestResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ResponseRestImplCopyWith<T, _$ResponseRestImpl<T>> get copyWith =>
+  _$$RestResponseImplCopyWith<T, _$RestResponseImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
