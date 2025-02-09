@@ -1,60 +1,20 @@
-class UserDTO {
-  final int id;
-  final String email;
-  final String nickname;
-  final bool isActive;
-  final bool isBlocked;
-  final String? profileImageUrl;
-  final int? points;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const UserDTO({
-    required this.id,
-    required this.email,
-    required this.nickname,
-    required this.isActive,
-    required this.isBlocked,
-    this.profileImageUrl,
-    this.points,
-  });
+part 'user_dto.freezed.dart';
+part 'user_dto.g.dart';
 
-  factory UserDTO.fromJson(Map<String, dynamic> json) => UserDTO(
-        id: json['id'],
-        email: json['email'],
-        nickname: json['nickname'],
-        isActive: json['is_active'],
-        isBlocked: json['is_blocked'],
-        profileImageUrl: json['profile_image_url'],
-        points: json['points'],
-      );
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'email': email,
-      'nickname': nickname,
-      'is_active': isActive,
-      'is_blocked': isBlocked,
-      'profile_image_url': profileImageUrl,
-      'points': points,
-    };
-  }
-
-  UserDTO copyWith({
-    int? id,
-    String? email,
-    String? nickname,
-    bool? isActive,
-    bool? isBlocked,
-    String? profileImageUrl,
+@freezed
+class UserDTO with _$UserDTO {
+  const factory UserDTO({
+    required int id,
+    required String email,
+    required String nickname,
+    @JsonKey(name: 'is_active') required bool isActive,
+    @JsonKey(name: 'is_blocked') required bool isBlocked,
+    @JsonKey(name: 'profile_image_url') String? profileImageUrl,
     int? points,
-  }) =>
-      UserDTO(
-        id: id ?? this.id,
-        email: email ?? this.email,
-        nickname: nickname ?? this.nickname,
-        isActive: isActive ?? this.isActive,
-        isBlocked: isBlocked ?? this.isBlocked,
-        profileImageUrl: profileImageUrl ?? this.profileImageUrl,
-        points: points ?? this.points,
-      );
+  }) = _UserDTO;
+
+  factory UserDTO.fromJson(Map<String, dynamic> json) =>
+      _$UserDTOFromJson(json);
 }

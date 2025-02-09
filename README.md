@@ -75,3 +75,12 @@ lib/
 ├── router.dart         # 라우팅 설정
 ├── app.dart
 └── main.dart
+
+
+## 빌드 및 실행
+
+```bash
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+

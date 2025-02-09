@@ -4,20 +4,22 @@
 // 	Response   any    `json:"response,omitempty"`
 // }
 
-class ResponseRest<T> {
-  final int statusCode;
-  final String message;
-  final T? response;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  ResponseRest({
-    required this.statusCode,
-    required this.message,
-    this.response,
-  });
+part 'common_dto.freezed.dart';
+part 'common_dto.g.dart';
 
-  factory ResponseRest.fromJson(Map<String, dynamic> json) => ResponseRest(
-        statusCode: json['status_code'],
-        message: json['message'],
-        response: json['response'],
-      );
+@Freezed(genericArgumentFactories: true)
+class ResponseRest<T> with _$ResponseRest<T> {
+  const factory ResponseRest({
+    @JsonKey(name: 'status_code') required int statusCode,
+    required String message,
+    T? response,
+  }) = _ResponseRest<T>;
+
+  factory ResponseRest.fromJson(
+    Map<String, dynamic> json,
+    T Function(Object?) fromJsonT,
+  ) =>
+      _$ResponseRestFromJson(json, fromJsonT);
 }

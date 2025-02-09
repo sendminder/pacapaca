@@ -1,39 +1,72 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'user_dto.dart';
 
+part 'auth_dto.freezed.dart';
+part 'auth_dto.g.dart';
+
 // Request DTOs
-class LoginRequest {
-  final String idToken;
-  final String pushToken;
-  final String authProvider;
+@freezed
+class LoginRequest with _$LoginRequest {
+  const factory LoginRequest({
+    @JsonKey(name: 'id_token') required String idToken,
+    @JsonKey(name: 'push_token') required String pushToken,
+    @JsonKey(name: 'auth_provider') required String authProvider,
+  }) = _LoginRequest;
 
-  const LoginRequest({
-    required this.idToken,
-    required this.pushToken,
-    required this.authProvider,
-  });
+  factory LoginRequest.fromJson(Map<String, dynamic> json) =>
+      _$LoginRequestFromJson(json);
+}
 
-  Map<String, dynamic> toJson() => {
-        'id_token': idToken,
-        'push_token': pushToken,
-        'auth_provider': authProvider,
-      };
+@freezed
+class RefreshRequest with _$RefreshRequest {
+  const factory RefreshRequest({
+    @JsonKey(name: 'refresh_token') required String refreshToken,
+  }) = _RefreshRequest;
+
+  factory RefreshRequest.fromJson(Map<String, dynamic> json) =>
+      _$RefreshRequestFromJson(json);
 }
 
 // Response DTOs
-class LoginResponse {
-  final UserDTO user;
-  final String accessToken;
-  final String refreshToken;
+@freezed
+class SignUpResponse with _$SignUpResponse {
+  const factory SignUpResponse({
+    required UserDTO user,
+    @JsonKey(name: 'access_token') required String accessToken,
+    @JsonKey(name: 'refresh_token') required String refreshToken,
+  }) = _SignUpResponse;
 
-  const LoginResponse({
-    required this.user,
-    required this.accessToken,
-    required this.refreshToken,
-  });
+  factory SignUpResponse.fromJson(Map<String, dynamic> json) =>
+      _$SignUpResponseFromJson(json);
+}
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-        user: UserDTO.fromJson(json['user']),
-        accessToken: json['access_token'],
-        refreshToken: json['refresh_token'],
-      );
+@freezed
+class RefreshResponse with _$RefreshResponse {
+  const factory RefreshResponse({
+    @JsonKey(name: 'access_token') required String accessToken,
+    @JsonKey(name: 'refresh_token') required String refreshToken,
+  }) = _RefreshResponse;
+
+  factory RefreshResponse.fromJson(Map<String, dynamic> json) =>
+      _$RefreshResponseFromJson(json);
+}
+
+@freezed
+class GetMeResponse with _$GetMeResponse {
+  const factory GetMeResponse({
+    required UserDTO user,
+  }) = _GetMeResponse;
+
+  factory GetMeResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetMeResponseFromJson(json);
+}
+
+@freezed
+class UpdateMeRequest with _$UpdateMeRequest {
+  const factory UpdateMeRequest({
+    required String nickname,
+  }) = _UpdateMeRequest;
+
+  factory UpdateMeRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateMeRequestFromJson(json);
 }

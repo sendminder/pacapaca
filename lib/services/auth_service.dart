@@ -10,31 +10,35 @@ import 'package:pacapaca/services/hmac_service.dart';
 import 'dart:convert';
 import 'package:pacapaca/models/dto/common_dto.dart';
 import 'package:pacapaca/services/storage_service.dart';
+import 'package:pacapaca/services/interceptors/response_interceptor.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final StorageService _storageService = GetIt.instance<StorageService>();
-
   final HMACUtil _hmacUtil = HMACUtil(utf8.decode(
       base64Decode(dotenv.env['SENDMIND_SECRET_KEY'].toString()).toList()));
-
-  final Dio _dio = Dio(BaseOptions(
-    baseUrl: dotenv.get('SENDMIND_API_URL'),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  ));
+  late final Dio _dio;
   final logger = GetIt.instance<Logger>();
+
+  AuthService() {
+    _dio = Dio(BaseOptions(
+      baseUrl: dotenv.get('SENDMIND_API_URL'),
+      headers: {'Content-Type': 'application/json'},
+    ))
+      ..interceptors.add(ResponseInterceptor());
+  }
 
   // 현재 유저 상태 스트림
   Stream<UserDTO?> get authStateChanges => _auth.authStateChanges().asyncMap(
         (user) async {
           if (user == null) return null;
           try {
-            return await _serverLogin(
+            final loginRequest = LoginRequest(
               idToken: await user.getIdToken() ?? '',
               authProvider: 'apple',
+              pushToken: '', // 필요한 경우 푸시 토큰 추가
             );
+            return await _serverLogin(loginRequest);
           } catch (e, stackTrace) {
             logger.e('auth state changes', error: e, stackTrace: stackTrace);
             return null;
@@ -42,7 +46,6 @@ class AuthService {
         },
       );
 
-  // 현재 유저 가져오기
   /*
   1. 현재 저장된 access token으로 me를 가져온다.
   2. 만료되었으면 refresh token으로 토큰 갱신
@@ -53,68 +56,57 @@ class AuthService {
   */
   Future<UserDTO?> get currentUser async {
     try {
-      return await _getWithAuth('/v1/me');
-    } catch (e, stackTrace) {
-      logger.e('get current user', error: e, stackTrace: stackTrace);
-      return null;
-    }
-  }
+      // 0. 현재 저장된 유저 정보를 가져간다.
+      final user = await _storageService.userData;
+      if (user != null) return user;
 
-  Future<T?> _getWithAuth<T>(String path,
-      {T Function(dynamic)? fromJson}) async {
-    try {
+      // 1. 현재 저장된 access token으로 me를 가져온다.
       final token = await _storageService.accessToken;
       if (token == null) return null;
 
       try {
-        final response = await _dio.get(
-          path,
-          options: Options(
-            headers: {
-              'Authorization': 'Bearer $token',
-            },
-          ),
+        final response = await _dio.get<ResponseRest<GetMeResponse>>(
+          '/v1/me',
+          options: Options(headers: {'Authorization': 'Bearer $token'}),
         );
 
-        final responseRest = ResponseRest.fromJson(jsonDecode(response.data));
-        if (responseRest.statusCode == 200 || responseRest.statusCode == 201) {
-          return fromJson != null
-              ? fromJson(responseRest.response)
-              : responseRest.response;
+        final responseData = response.data?.response;
+        if (responseData != null) {
+          final user = responseData.user;
+          await _storageService.saveUser(user);
+          return user;
         }
-        throw Exception(responseRest.message);
+        return null;
       } on DioException catch (e) {
-        // 401 에러일 경우 토큰 갱신 시도
+        // 2. 만료되었으면 refresh token으로 토큰 갱신
         if (e.response?.statusCode == 401) {
-          final newAccessToken = await _refreshToken();
-          if (newAccessToken != null) {
-            // 새로운 토큰으로 재시도
-            final retryResponse = await _dio.get(
-              path,
+          final newToken = await _refreshToken();
+          if (newToken != null) {
+            // 4. 토큰 갱신 성공시 다시 me를 가져온다.
+            final retryResponse = await _dio.get<ResponseRest<GetMeResponse>>(
+              '/v1/me',
               options: Options(
-                headers: {
-                  'Authorization': 'Bearer $newAccessToken',
-                },
+                headers: {'Authorization': 'Bearer $newToken'},
               ),
             );
 
-            final responseRest =
-                ResponseRest.fromJson(jsonDecode(retryResponse.data));
-            if (responseRest.statusCode == 200 ||
-                responseRest.statusCode == 201) {
-              return fromJson != null
-                  ? fromJson(responseRest.response)
-                  : responseRest.response;
+            final responseData = retryResponse.data?.response;
+            if (responseData != null) {
+              final user = responseData.user;
+              await _storageService.saveUser(user);
+              return user; // 5. 성공시 유저 정보를 반환
             }
           }
-          // 토큰 갱신 실패시 로그아웃
+          // 3. 토큰 갱신 실패시 로그아웃
           await signOut();
         }
         rethrow;
       }
     } catch (e, stackTrace) {
-      logger.e('get with auth', error: e, stackTrace: stackTrace);
-      rethrow;
+      logger.e('get current user', error: e, stackTrace: stackTrace);
+      // 6. 실패시 로그아웃 후 null 반환
+      await signOut();
+      return null;
     }
   }
 
@@ -124,32 +116,28 @@ class AuthService {
       if (refreshToken == null) return null;
 
       String timestamp = DateTime.now().toUtc().toIso8601String();
-      String body = jsonEncode({
-        'refresh_token': refreshToken,
-      });
-
+      final refreshRequest = RefreshRequest(refreshToken: refreshToken);
+      final body = jsonEncode(refreshRequest.toJson());
       String signature = _hmacUtil.generateHMACSignature(body, timestamp);
 
-      final response = await _dio.post(
+      final response = await _dio.post<ResponseRest<RefreshResponse>>(
         '/v1/auth/refresh',
         data: body,
         options: Options(
           headers: {
             'X-Signature': signature,
             'X-Timestamp': timestamp,
-            'Content-Type': 'application/json',
           },
         ),
       );
 
-      final responseRest = ResponseRest.fromJson(jsonDecode(response.data));
-      if (responseRest.statusCode == 200 || responseRest.statusCode == 201) {
-        final loginResponse = LoginResponse.fromJson(responseRest.response);
+      final refreshResponse = response.data?.response;
+      if (refreshResponse != null) {
         await _storageService.saveTokens(
-          accessToken: loginResponse.accessToken,
-          refreshToken: loginResponse.refreshToken,
+          accessToken: refreshResponse.accessToken,
+          refreshToken: refreshResponse.refreshToken,
         );
-        return loginResponse.accessToken;
+        return refreshResponse.accessToken;
       }
       return null;
     } catch (e, stackTrace) {
@@ -161,9 +149,7 @@ class AuthService {
   Future<UserDTO?> signInWithApple() async {
     try {
       final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-        ],
+        scopes: [AppleIDAuthorizationScopes.email],
       );
 
       final oauthCredential = OAuthProvider('apple.com').credential(
@@ -173,10 +159,13 @@ class AuthService {
 
       final userCredential = await _auth.signInWithCredential(oauthCredential);
 
-      return await _serverLogin(
+      final loginRequest = LoginRequest(
         idToken: await userCredential.user?.getIdToken() ?? '',
         authProvider: 'apple',
+        pushToken: '', // 필요한 경우 푸시 토큰 추가
       );
+
+      return await _serverLogin(loginRequest);
     } catch (e, stackTrace) {
       logger.e('sign in with apple', error: e, stackTrace: stackTrace);
       rethrow;
@@ -191,22 +180,13 @@ class AuthService {
     ]);
   }
 
-  Future<UserDTO?> _serverLogin({
-    required String idToken,
-    required String authProvider,
-    String? pushToken,
-  }) async {
+  Future<UserDTO?> _serverLogin(LoginRequest request) async {
     try {
       String timestamp = DateTime.now().toUtc().toIso8601String();
-      String body = jsonEncode({
-        'id_token': idToken,
-        'auth_provider': authProvider,
-        'push_token': pushToken,
-      });
-
+      String body = jsonEncode(request.toJson());
       String signature = _hmacUtil.generateHMACSignature(body, timestamp);
 
-      final response = await _dio.post(
+      final response = await _dio.post<ResponseRest<SignUpResponse>>(
         '/v1/auth/login',
         data: body,
         options: Options(
@@ -218,19 +198,19 @@ class AuthService {
         ),
       );
 
-      final responseRest = ResponseRest.fromJson(jsonDecode(response.data));
-      logger.d(responseRest);
-      if (responseRest.statusCode == 200 || responseRest.statusCode == 201) {
-        final loginResponse = LoginResponse.fromJson(responseRest.response);
-        // 토큰과 함께 사용자 정보도 저장
+      logger.d('/v1/auth/login response: ${response.data}');
+
+      final signUpResponse = response.data?.response;
+
+      if (signUpResponse != null) {
         await Future.wait([
           _storageService.saveTokens(
-            accessToken: loginResponse.accessToken,
-            refreshToken: loginResponse.refreshToken,
+            accessToken: signUpResponse.accessToken,
+            refreshToken: signUpResponse.refreshToken,
           ),
-          _storageService.saveUser(loginResponse.user),
+          _storageService.saveUser(signUpResponse.user),
         ]);
-        return loginResponse.user;
+        return signUpResponse.user;
       }
 
       return null;
@@ -245,11 +225,11 @@ class AuthService {
       final token = await _storageService.accessToken;
       if (token == null) return;
 
-      final response = await _dio.put(
+      final updateRequest = UpdateMeRequest(nickname: nickname);
+
+      final response = await _dio.put<ResponseRest<GetMeResponse>>(
         '/v1/me',
-        data: jsonEncode({
-          'nickname': nickname,
-        }),
+        data: jsonEncode(updateRequest.toJson()),
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -258,18 +238,13 @@ class AuthService {
         ),
       );
 
-      final responseRest = ResponseRest.fromJson(jsonDecode(response.data));
-      if (responseRest.statusCode == 200 || responseRest.statusCode == 201) {
-        // 닉네임 업데이트 성공 시 저장된 사용자 정보도 업데이트
-        final currentUser = await _storageService.userData;
-        if (currentUser != null) {
-          await _storageService.saveUser(
-            currentUser.copyWith(nickname: nickname),
-          );
-        }
+      final getMeResponse = response.data?.response;
+
+      if (getMeResponse != null) {
+        await _storageService.saveUser(getMeResponse.user);
         return;
       }
-      throw Exception(responseRest.message);
+      throw Exception(response.data?.message);
     } catch (e, stackTrace) {
       logger.e('update nickname', error: e, stackTrace: stackTrace);
       rethrow;
