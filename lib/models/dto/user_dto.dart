@@ -26,4 +26,23 @@ class UserDTO {
         profileImageUrl: json['profile_image_url'],
         points: json['points'],
       );
+
+  UserDTO copyWith({
+    int? id,
+    String? email,
+    String? nickname,
+    bool? isActive,
+    bool? isBlocked,
+    String? profileImageUrl,
+    int? points,
+  }) =>
+      UserDTO(
+        id: id ?? this.id,
+        email: email ?? this.email,
+        nickname: nickname ?? this.nickname,
+        isActive: isActive ?? this.isActive,
+        isBlocked: isBlocked ?? this.isBlocked,
+        profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+        points: points ?? this.points,
+      );
 }

@@ -10,6 +10,7 @@ import 'pages/home/home_page.dart';
 import 'pages/board/board_list_page.dart';
 import 'pages/board/board_detail_page.dart';
 import 'pages/settings/settings_page.dart';
+import 'pages/auth/set_nickname_page.dart';
 import 'widgets/shell_scaffold.dart';
 
 // 라우터 프로바이더 생성
@@ -42,6 +43,7 @@ class RouterNotifier extends ChangeNotifier {
   String? _redirectLogic(BuildContext context, GoRouterState state) {
     final user = _ref.read(authStateProvider).value;
     final isLoggingIn = state.matchedLocation == '/login';
+    final isSettingNickname = state.matchedLocation == '/set-nickname';
 
     // 스플래시 화면일 때는 리다이렉트하지 않음
     if (state.matchedLocation == '/splash') return null;
@@ -54,7 +56,28 @@ class RouterNotifier extends ChangeNotifier {
     if (needAuth && user == null) return '/login';
 
     // 이미 로그인되어 있는데 로그인 페이지에 접근하면 홈으로
-    if (isLoggingIn && user != null) return '/home';
+    if (isLoggingIn && user != null) {
+      // 닉네임이 없으면 닉네임 설정 페이지로
+      if (user.nickname == null || user.nickname!.isEmpty) {
+        return '/set-nickname';
+      }
+      return '/home';
+    }
+
+    // 닉네임이 없고 닉네임 설정 페이지가 아니면 닉네임 설정 페이지로
+    if (user != null &&
+        (user.nickname == null || user.nickname!.isEmpty) &&
+        !isSettingNickname) {
+      return '/set-nickname';
+    }
+
+    // 닉네임이 있는데 닉네임 설정 페이지에 접근하면 홈으로
+    if (isSettingNickname &&
+        user != null &&
+        user.nickname != null &&
+        user.nickname!.isNotEmpty) {
+      return '/home';
+    }
 
     return null;
   }
@@ -75,6 +98,10 @@ class RouterNotifier extends ChangeNotifier {
         GoRoute(
           path: '/login',
           builder: (context, state) => const LoginPage(),
+        ),
+        GoRoute(
+          path: '/set-nickname',
+          builder: (context, state) => const SetNicknamePage(),
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {

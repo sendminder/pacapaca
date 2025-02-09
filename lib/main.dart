@@ -11,6 +11,8 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pacapaca/services/storage_service.dart';
+import 'package:pacapaca/services/auth_service.dart';
 
 void main() async {
   // 앱 초기화
@@ -78,5 +80,6 @@ void _setupServiceLocator() {
     ),
   );
 
-  // 여기에 추가 서비스 등록
+  getIt.registerSingleton<StorageService>(StorageService());
+  getIt.registerSingleton<AuthService>(AuthService());
 }

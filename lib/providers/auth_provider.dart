@@ -1,12 +1,12 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/auth_service.dart';
 import '../models/dto/user_dto.dart';
-
+import 'package:get_it/get_it.dart';
 part 'auth_provider.g.dart';
 
 @riverpod
 AuthService authService(AuthServiceRef ref) {
-  return AuthService();
+  return GetIt.instance<AuthService>();
 }
 
 @riverpod
@@ -40,6 +40,17 @@ class Auth extends _$Auth {
       final authService = ref.read(authServiceProvider);
       await authService.signOut();
       state = const AsyncData(null);
+    } catch (e) {
+      state = AsyncError(e, StackTrace.current);
+    }
+  }
+
+  Future<void> updateNickname(String nickname) async {
+    state = const AsyncLoading();
+    try {
+      final authService = ref.read(authServiceProvider);
+      await authService.updateNickname(nickname);
+      state = AsyncData(await authService.currentUser);
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
     }
