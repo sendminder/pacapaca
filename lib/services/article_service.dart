@@ -6,6 +6,8 @@ import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/dto/common_dto.dart';
 import 'package:pacapaca/services/storage_service.dart';
 import 'dart:convert';
+import 'package:pacapaca/services/interceptors/auth_interceptor.dart';
+import 'package:pacapaca/services/interceptors/response_interceptor.dart';
 
 class ArticleService {
   late final Dio _dio;
@@ -16,7 +18,11 @@ class ArticleService {
     _dio = Dio(BaseOptions(
       baseUrl: dotenv.get('SENDMIND_API_URL'),
       headers: {'Content-Type': 'application/json'},
-    ));
+    ))
+      ..interceptors.addAll([
+        AuthInterceptor(),
+        ResponseInterceptor(),
+      ]);
   }
 
   // 게시글 목록 조회
@@ -27,6 +33,9 @@ class ArticleService {
     String? category,
   }) async {
     try {
+      final token = await _storageService.accessToken;
+      if (token == null) throw Exception('No access token');
+
       final request = ListArticlesRequest(
         sortBy: sortBy,
         limit: limit,
@@ -37,6 +46,9 @@ class ArticleService {
       final response = await _dio.get(
         '/v1/articles',
         queryParameters: request.toJson(),
+        options: Options(
+          headers: {'Authorization': 'Bearer $token'},
+        ),
       );
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(

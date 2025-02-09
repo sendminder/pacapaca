@@ -11,7 +11,7 @@ class ArticleListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final articlesAsync = ref.watch(articleListProvider(
-      sortBy: 'create_time',
+      sortBy: 'latest',
       limit: 20,
     ));
 
