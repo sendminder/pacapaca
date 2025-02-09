@@ -71,9 +71,9 @@ void _setupServiceLocator() {
   getIt.registerSingleton<Logger>(
     Logger(
       printer: PrettyPrinter(
-        methodCount: 0,
-        errorMethodCount: 5,
-        lineLength: 50,
+        methodCount: 2,
+        errorMethodCount: 8,
+        lineLength: 120,
         colors: true,
         printEmojis: true,
       ),

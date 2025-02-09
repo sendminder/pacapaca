@@ -35,8 +35,8 @@ class AuthService {
               idToken: await user.getIdToken() ?? '',
               authProvider: 'apple',
             );
-          } catch (e) {
-            logger.e('Failed to get user data: $e');
+          } catch (e, stackTrace) {
+            logger.e('auth state changes', error: e, stackTrace: stackTrace);
             return null;
           }
         },
@@ -54,8 +54,8 @@ class AuthService {
   Future<UserDTO?> get currentUser async {
     try {
       return await _getWithAuth('/v1/me');
-    } catch (e) {
-      logger.e('get current user: $e');
+    } catch (e, stackTrace) {
+      logger.e('get current user', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -111,8 +111,8 @@ class AuthService {
         }
         rethrow;
       }
-    } catch (e) {
-      logger.e('API request failed: $e');
+    } catch (e, stackTrace) {
+      logger.e('get with auth', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
@@ -151,8 +151,8 @@ class AuthService {
         return loginResponse.accessToken;
       }
       return null;
-    } catch (e) {
-      logger.e('Token refresh failed: $e');
+    } catch (e, stackTrace) {
+      logger.e('refresh token', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -176,8 +176,8 @@ class AuthService {
         idToken: await userCredential.user?.getIdToken() ?? '',
         authProvider: 'apple',
       );
-    } catch (e) {
-      logger.e(e);
+    } catch (e, stackTrace) {
+      logger.e('sign in with apple', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
@@ -233,8 +233,8 @@ class AuthService {
       }
 
       return null;
-    } catch (e) {
-      logger.e(e);
+    } catch (e, stackTrace) {
+      logger.e('server login', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
@@ -269,8 +269,8 @@ class AuthService {
         return;
       }
       throw Exception(responseRest.message);
-    } catch (e) {
-      logger.e('Failed to update nickname: $e');
+    } catch (e, stackTrace) {
+      logger.e('update nickname', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }

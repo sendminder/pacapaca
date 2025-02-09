@@ -27,6 +27,18 @@ class UserDTO {
         points: json['points'],
       );
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'nickname': nickname,
+      'is_active': isActive,
+      'is_blocked': isBlocked,
+      'profile_image_url': profileImageUrl,
+      'points': points,
+    };
+  }
+
   UserDTO copyWith({
     int? id,
     String? email,
