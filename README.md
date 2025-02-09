@@ -53,9 +53,9 @@ lib/
 │   │   └── splash_page.dart
 │   ├── home/
 │   │   └── home_page.dart
-│   ├── board/
-│   │   ├── board_list_page.dart
-│   │   └── board_detail_page.dart
+│   ├── article/
+│   │   ├── article_list_page.dart
+│   │   └── article_detail_page.dart
 │   └── settings/
 │       └── settings_page.dart
 │

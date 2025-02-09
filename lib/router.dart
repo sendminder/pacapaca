@@ -7,11 +7,11 @@ import 'models/dto/user_dto.dart';
 import 'pages/auth/login_page.dart';
 import 'pages/auth/splash_page.dart';
 import 'pages/home/home_page.dart';
-import 'pages/board/board_list_page.dart';
-import 'pages/board/board_detail_page.dart';
+import 'pages/article/article_detail_page.dart';
 import 'pages/settings/settings_page.dart';
 import 'pages/auth/set_nickname_page.dart';
 import 'widgets/shell_scaffold.dart';
+import 'pages/article/article_list_page.dart';
 
 // 라우터 프로바이더 생성
 final routerProvider = Provider<GoRouter>((ref) {
@@ -122,14 +122,15 @@ class RouterNotifier extends ChangeNotifier {
               routes: [
                 GoRoute(
                   path: '/board',
-                  builder: (context, state) => const BoardListPage(),
+                  builder: (context, state) => const ArticleListPage(),
                   routes: [
                     GoRoute(
                       path: ':id',
                       parentNavigatorKey: _shellNavigatorBoardKey,
                       builder: (context, state) {
-                        final boardId = state.pathParameters['id']!;
-                        return BoardDetailPage(boardId: boardId);
+                        final articleId =
+                            int.parse(state.pathParameters['id']!);
+                        return ArticleDetailPage(articleId: articleId);
                       },
                     ),
                   ],

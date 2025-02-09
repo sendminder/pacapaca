@@ -13,6 +13,7 @@ import 'firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pacapaca/services/storage_service.dart';
 import 'package:pacapaca/services/auth_service.dart';
+import 'package:pacapaca/services/article_service.dart';
 
 void main() async {
   // 앱 초기화
@@ -82,4 +83,5 @@ void _setupServiceLocator() {
 
   getIt.registerSingleton<StorageService>(StorageService());
   getIt.registerSingleton<AuthService>(AuthService());
+  getIt.registerSingleton<ArticleService>(ArticleService());
 }
