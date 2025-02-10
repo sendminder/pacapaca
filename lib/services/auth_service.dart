@@ -10,23 +10,15 @@ import 'package:pacapaca/services/hmac_service.dart';
 import 'dart:convert';
 import 'package:pacapaca/models/dto/common_dto.dart';
 import 'package:pacapaca/services/storage_service.dart';
-import 'package:pacapaca/services/interceptors/response_interceptor.dart';
+import 'package:pacapaca/services/dio_service.dart';
 
 class AuthService {
+  final Dio _dio = DioService.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final StorageService _storageService = GetIt.instance<StorageService>();
   final HMACUtil _hmacUtil = HMACUtil(utf8.decode(
       base64Decode(dotenv.env['SENDMIND_SECRET_KEY'].toString()).toList()));
-  late final Dio _dio;
   final logger = GetIt.instance<Logger>();
-
-  AuthService() {
-    _dio = Dio(BaseOptions(
-      baseUrl: dotenv.get('SENDMIND_API_URL'),
-      headers: {'Content-Type': 'application/json'},
-    ))
-      ..interceptors.add(ResponseInterceptor());
-  }
 
   // 현재 유저 상태 스트림
   Stream<UserDTO?> get authStateChanges => _auth.authStateChanges().asyncMap(
@@ -185,11 +177,30 @@ class AuthService {
   }
 
   Future<void> signOut() async {
-    await Future.wait([
-      _storageService.deleteTokens(),
-      _storageService.deleteUser(),
-      _auth.signOut(),
-    ]);
+    try {
+      final token = await _storageService.accessToken;
+      if (token == null) return;
+
+      final response = await _dio.post(
+        '/v1/auth/logout',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        await Future.wait([
+          _storageService.deleteTokens(),
+          _storageService.deleteUser(),
+          _auth.signOut(),
+        ]);
+      }
+    } catch (e, stackTrace) {
+      logger.e('sign out', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
   }
 
   Future<UserDTO?> _serverLogin(LoginRequest request) async {
@@ -205,7 +216,6 @@ class AuthService {
           headers: {
             'X-Signature': signature,
             'X-Timestamp': timestamp,
-            'Content-Type': 'application/json',
           },
         ),
       );
@@ -247,7 +257,6 @@ class AuthService {
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
           },
         ),
       );

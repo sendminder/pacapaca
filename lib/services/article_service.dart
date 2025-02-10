@@ -1,29 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/dto/common_dto.dart';
-import 'package:pacapaca/services/storage_service.dart';
 import 'dart:convert';
-import 'package:pacapaca/services/interceptors/auth_interceptor.dart';
-import 'package:pacapaca/services/interceptors/response_interceptor.dart';
+import 'package:pacapaca/services/dio_service.dart';
 
 class ArticleService {
-  late final Dio _dio;
-  final StorageService _storageService = GetIt.instance<StorageService>();
+  final Dio _dio = DioService.instance;
   final logger = GetIt.instance<Logger>();
-
-  ArticleService() {
-    _dio = Dio(BaseOptions(
-      baseUrl: dotenv.get('SENDMIND_API_URL'),
-      headers: {'Content-Type': 'application/json'},
-    ))
-      ..interceptors.addAll([
-        AuthInterceptor(),
-        ResponseInterceptor(),
-      ]);
-  }
 
   // 게시글 목록 조회
   Future<List<ArticleDTO>?> getArticles({
@@ -33,9 +18,6 @@ class ArticleService {
     String? category,
   }) async {
     try {
-      final token = await _storageService.accessToken;
-      if (token == null) throw Exception('No access token');
-
       final request = ListArticlesRequest(
         sortBy: sortBy,
         limit: limit,
@@ -46,9 +28,6 @@ class ArticleService {
       final response = await _dio.get(
         '/v1/articles',
         queryParameters: request.toJson(),
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
       );
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
@@ -93,15 +72,9 @@ class ArticleService {
   // 게시글 작성
   Future<ArticleDTO?> createArticle(CreateArticleRequest request) async {
     try {
-      final token = await _storageService.accessToken;
-      if (token == null) throw Exception('No access token');
-
       final response = await _dio.post(
         '/v1/articles',
         data: jsonEncode(request.toJson()),
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
       );
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
@@ -127,15 +100,9 @@ class ArticleService {
     UpdateArticleRequest request,
   ) async {
     try {
-      final token = await _storageService.accessToken;
-      if (token == null) throw Exception('No access token');
-
       final response = await _dio.put(
         '/v1/articles/$articleId',
         data: jsonEncode(request.toJson()),
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
       );
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
@@ -158,15 +125,7 @@ class ArticleService {
   // 게시글 삭제
   Future<void> deleteArticle(int articleId) async {
     try {
-      final token = await _storageService.accessToken;
-      if (token == null) throw Exception('No access token');
-
-      await _dio.delete(
-        '/v1/articles/$articleId',
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
-      );
+      await _dio.delete('/v1/articles/$articleId');
     } catch (e, stackTrace) {
       logger.e('delete article', error: e, stackTrace: stackTrace);
       rethrow;
@@ -201,15 +160,9 @@ class ArticleService {
     CreateCommentRequest request,
   ) async {
     try {
-      final token = await _storageService.accessToken;
-      if (token == null) throw Exception('No access token');
-
       final response = await _dio.post(
         '/v1/articles/$articleId/comments',
         data: jsonEncode(request.toJson()),
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
       );
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
@@ -235,15 +188,9 @@ class ArticleService {
     UpdateCommentRequest request,
   ) async {
     try {
-      final token = await _storageService.accessToken;
-      if (token == null) throw Exception('No access token');
-
       final response = await _dio.put(
         '/v1/articles/$articleId/comments/$commentId',
         data: jsonEncode(request.toJson()),
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
       );
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
@@ -264,15 +211,7 @@ class ArticleService {
   // 댓글 삭제
   Future<void> deleteComment(int articleId, int commentId) async {
     try {
-      final token = await _storageService.accessToken;
-      if (token == null) throw Exception('No access token');
-
-      await _dio.delete(
-        '/v1/articles/$articleId/comments/$commentId',
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
-      );
+      await _dio.delete('/v1/articles/$articleId/comments/$commentId');
     } catch (e, stackTrace) {
       logger.e('delete comment', error: e, stackTrace: stackTrace);
       rethrow;
