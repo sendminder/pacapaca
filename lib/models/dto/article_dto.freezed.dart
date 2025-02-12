@@ -834,12 +834,14 @@ CreateArticleRequest _$CreateArticleRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CreateArticleRequest {
+  String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   @JsonKey(name: 'image_url')
   String? get imageUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'thumbnail_url')
   String? get thumbnailUrl => throw _privateConstructorUsedError;
   List<String>? get tags => throw _privateConstructorUsedError;
+  String? get category => throw _privateConstructorUsedError;
 
   /// Serializes this CreateArticleRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -858,10 +860,12 @@ abstract class $CreateArticleRequestCopyWith<$Res> {
       _$CreateArticleRequestCopyWithImpl<$Res, CreateArticleRequest>;
   @useResult
   $Res call(
-      {String content,
+      {String title,
+      String content,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
-      List<String>? tags});
+      List<String>? tags,
+      String? category});
 }
 
 /// @nodoc
@@ -880,12 +884,18 @@ class _$CreateArticleRequestCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? title = null,
     Object? content = null,
     Object? imageUrl = freezed,
     Object? thumbnailUrl = freezed,
     Object? tags = freezed,
+    Object? category = freezed,
   }) {
     return _then(_value.copyWith(
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -902,6 +912,10 @@ class _$CreateArticleRequestCopyWithImpl<$Res,
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -915,10 +929,12 @@ abstract class _$$CreateArticleRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String content,
+      {String title,
+      String content,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
-      List<String>? tags});
+      List<String>? tags,
+      String? category});
 }
 
 /// @nodoc
@@ -934,12 +950,18 @@ class __$$CreateArticleRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? title = null,
     Object? content = null,
     Object? imageUrl = freezed,
     Object? thumbnailUrl = freezed,
     Object? tags = freezed,
+    Object? category = freezed,
   }) {
     return _then(_$CreateArticleRequestImpl(
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -956,6 +978,10 @@ class __$$CreateArticleRequestImplCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -964,15 +990,19 @@ class __$$CreateArticleRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateArticleRequestImpl implements _CreateArticleRequest {
   const _$CreateArticleRequestImpl(
-      {required this.content,
+      {required this.title,
+      required this.content,
       @JsonKey(name: 'image_url') this.imageUrl,
       @JsonKey(name: 'thumbnail_url') this.thumbnailUrl,
-      final List<String>? tags})
+      final List<String>? tags,
+      this.category})
       : _tags = tags;
 
   factory _$CreateArticleRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateArticleRequestImplFromJson(json);
 
+  @override
+  final String title;
   @override
   final String content;
   @override
@@ -992,8 +1022,11 @@ class _$CreateArticleRequestImpl implements _CreateArticleRequest {
   }
 
   @override
+  final String? category;
+
+  @override
   String toString() {
-    return 'CreateArticleRequest(content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags)';
+    return 'CreateArticleRequest(title: $title, content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags, category: $category)';
   }
 
   @override
@@ -1001,18 +1034,21 @@ class _$CreateArticleRequestImpl implements _CreateArticleRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateArticleRequestImpl &&
+            (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.thumbnailUrl, thumbnailUrl) ||
                 other.thumbnailUrl == thumbnailUrl) &&
-            const DeepCollectionEquality().equals(other._tags, _tags));
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, content, imageUrl, thumbnailUrl,
-      const DeepCollectionEquality().hash(_tags));
+  int get hashCode => Object.hash(runtimeType, title, content, imageUrl,
+      thumbnailUrl, const DeepCollectionEquality().hash(_tags), category);
 
   /// Create a copy of CreateArticleRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -1034,14 +1070,18 @@ class _$CreateArticleRequestImpl implements _CreateArticleRequest {
 
 abstract class _CreateArticleRequest implements CreateArticleRequest {
   const factory _CreateArticleRequest(
-      {required final String content,
+      {required final String title,
+      required final String content,
       @JsonKey(name: 'image_url') final String? imageUrl,
       @JsonKey(name: 'thumbnail_url') final String? thumbnailUrl,
-      final List<String>? tags}) = _$CreateArticleRequestImpl;
+      final List<String>? tags,
+      final String? category}) = _$CreateArticleRequestImpl;
 
   factory _CreateArticleRequest.fromJson(Map<String, dynamic> json) =
       _$CreateArticleRequestImpl.fromJson;
 
+  @override
+  String get title;
   @override
   String get content;
   @override
@@ -1052,6 +1092,8 @@ abstract class _CreateArticleRequest implements CreateArticleRequest {
   String? get thumbnailUrl;
   @override
   List<String>? get tags;
+  @override
+  String? get category;
 
   /// Create a copy of CreateArticleRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -1067,12 +1109,14 @@ UpdateArticleRequest _$UpdateArticleRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UpdateArticleRequest {
+  String? get title => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
   @JsonKey(name: 'image_url')
   String? get imageUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'thumbnail_url')
   String? get thumbnailUrl => throw _privateConstructorUsedError;
   List<String>? get tags => throw _privateConstructorUsedError;
+  String? get category => throw _privateConstructorUsedError;
 
   /// Serializes this UpdateArticleRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1091,10 +1135,12 @@ abstract class $UpdateArticleRequestCopyWith<$Res> {
       _$UpdateArticleRequestCopyWithImpl<$Res, UpdateArticleRequest>;
   @useResult
   $Res call(
-      {String? content,
+      {String? title,
+      String? content,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
-      List<String>? tags});
+      List<String>? tags,
+      String? category});
 }
 
 /// @nodoc
@@ -1113,12 +1159,18 @@ class _$UpdateArticleRequestCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? title = freezed,
     Object? content = freezed,
     Object? imageUrl = freezed,
     Object? thumbnailUrl = freezed,
     Object? tags = freezed,
+    Object? category = freezed,
   }) {
     return _then(_value.copyWith(
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -1135,6 +1187,10 @@ class _$UpdateArticleRequestCopyWithImpl<$Res,
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -1148,10 +1204,12 @@ abstract class _$$UpdateArticleRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? content,
+      {String? title,
+      String? content,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
-      List<String>? tags});
+      List<String>? tags,
+      String? category});
 }
 
 /// @nodoc
@@ -1167,12 +1225,18 @@ class __$$UpdateArticleRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? title = freezed,
     Object? content = freezed,
     Object? imageUrl = freezed,
     Object? thumbnailUrl = freezed,
     Object? tags = freezed,
+    Object? category = freezed,
   }) {
     return _then(_$UpdateArticleRequestImpl(
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -1189,6 +1253,10 @@ class __$$UpdateArticleRequestImplCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -1197,15 +1265,19 @@ class __$$UpdateArticleRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UpdateArticleRequestImpl implements _UpdateArticleRequest {
   const _$UpdateArticleRequestImpl(
-      {this.content,
+      {this.title,
+      this.content,
       @JsonKey(name: 'image_url') this.imageUrl,
       @JsonKey(name: 'thumbnail_url') this.thumbnailUrl,
-      final List<String>? tags})
+      final List<String>? tags,
+      this.category})
       : _tags = tags;
 
   factory _$UpdateArticleRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$UpdateArticleRequestImplFromJson(json);
 
+  @override
+  final String? title;
   @override
   final String? content;
   @override
@@ -1225,8 +1297,11 @@ class _$UpdateArticleRequestImpl implements _UpdateArticleRequest {
   }
 
   @override
+  final String? category;
+
+  @override
   String toString() {
-    return 'UpdateArticleRequest(content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags)';
+    return 'UpdateArticleRequest(title: $title, content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags, category: $category)';
   }
 
   @override
@@ -1234,18 +1309,21 @@ class _$UpdateArticleRequestImpl implements _UpdateArticleRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UpdateArticleRequestImpl &&
+            (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.thumbnailUrl, thumbnailUrl) ||
                 other.thumbnailUrl == thumbnailUrl) &&
-            const DeepCollectionEquality().equals(other._tags, _tags));
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, content, imageUrl, thumbnailUrl,
-      const DeepCollectionEquality().hash(_tags));
+  int get hashCode => Object.hash(runtimeType, title, content, imageUrl,
+      thumbnailUrl, const DeepCollectionEquality().hash(_tags), category);
 
   /// Create a copy of UpdateArticleRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -1267,14 +1345,18 @@ class _$UpdateArticleRequestImpl implements _UpdateArticleRequest {
 
 abstract class _UpdateArticleRequest implements UpdateArticleRequest {
   const factory _UpdateArticleRequest(
-      {final String? content,
+      {final String? title,
+      final String? content,
       @JsonKey(name: 'image_url') final String? imageUrl,
       @JsonKey(name: 'thumbnail_url') final String? thumbnailUrl,
-      final List<String>? tags}) = _$UpdateArticleRequestImpl;
+      final List<String>? tags,
+      final String? category}) = _$UpdateArticleRequestImpl;
 
   factory _UpdateArticleRequest.fromJson(Map<String, dynamic> json) =
       _$UpdateArticleRequestImpl.fromJson;
 
+  @override
+  String? get title;
   @override
   String? get content;
   @override
@@ -1285,6 +1367,8 @@ abstract class _UpdateArticleRequest implements UpdateArticleRequest {
   String? get thumbnailUrl;
   @override
   List<String>? get tags;
+  @override
+  String? get category;
 
   /// Create a copy of UpdateArticleRequest
   /// with the given fields replaced by the non-null parameter values.

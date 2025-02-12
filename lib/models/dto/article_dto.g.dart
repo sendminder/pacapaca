@@ -73,37 +73,45 @@ Map<String, dynamic> _$$ArticleCommentDTOImplToJson(
 _$CreateArticleRequestImpl _$$CreateArticleRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateArticleRequestImpl(
+      title: json['title'] as String,
       content: json['content'] as String,
       imageUrl: json['image_url'] as String?,
       thumbnailUrl: json['thumbnail_url'] as String?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      category: json['category'] as String?,
     );
 
 Map<String, dynamic> _$$CreateArticleRequestImplToJson(
         _$CreateArticleRequestImpl instance) =>
     <String, dynamic>{
+      'title': instance.title,
       'content': instance.content,
       'image_url': instance.imageUrl,
       'thumbnail_url': instance.thumbnailUrl,
       'tags': instance.tags,
+      'category': instance.category,
     };
 
 _$UpdateArticleRequestImpl _$$UpdateArticleRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$UpdateArticleRequestImpl(
+      title: json['title'] as String?,
       content: json['content'] as String?,
       imageUrl: json['image_url'] as String?,
       thumbnailUrl: json['thumbnail_url'] as String?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      category: json['category'] as String?,
     );
 
 Map<String, dynamic> _$$UpdateArticleRequestImplToJson(
         _$UpdateArticleRequestImpl instance) =>
     <String, dynamic>{
+      'title': instance.title,
       'content': instance.content,
       'image_url': instance.imageUrl,
       'thumbnail_url': instance.thumbnailUrl,
       'tags': instance.tags,
+      'category': instance.category,
     };
 
 _$CreateCommentRequestImpl _$$CreateCommentRequestImplFromJson(

@@ -48,10 +48,12 @@ class ArticleCommentDTO with _$ArticleCommentDTO {
 @freezed
 class CreateArticleRequest with _$CreateArticleRequest {
   const factory CreateArticleRequest({
+    required String title,
     required String content,
     @JsonKey(name: 'image_url') String? imageUrl,
     @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
     List<String>? tags,
+    String? category,
   }) = _CreateArticleRequest;
 
   factory CreateArticleRequest.fromJson(Map<String, dynamic> json) =>
@@ -61,10 +63,12 @@ class CreateArticleRequest with _$CreateArticleRequest {
 @freezed
 class UpdateArticleRequest with _$UpdateArticleRequest {
   const factory UpdateArticleRequest({
+    String? title,
     String? content,
     @JsonKey(name: 'image_url') String? imageUrl,
     @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
     List<String>? tags,
+    String? category,
   }) = _UpdateArticleRequest;
 
   factory UpdateArticleRequest.fromJson(Map<String, dynamic> json) =>
