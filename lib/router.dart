@@ -12,6 +12,7 @@ import 'pages/settings/settings_page.dart';
 import 'pages/auth/set_nickname_page.dart';
 import 'widgets/shell_scaffold.dart';
 import 'pages/article/article_list_page.dart';
+import 'pages/article/article_create_page.dart';
 
 // 라우터 프로바이더 생성
 final routerProvider = Provider<GoRouter>((ref) {
@@ -147,6 +148,28 @@ class RouterNotifier extends ChangeNotifier {
               ],
             ),
           ],
+        ),
+        GoRoute(
+          path: '/articles/new',
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: const ArticleCreatePage(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
+                ).animate(
+                  CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.easeInOut,
+                  ),
+                ),
+                child: child,
+              );
+            },
+          ),
         ),
       ];
 }

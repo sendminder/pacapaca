@@ -20,13 +20,7 @@ class ArticleListPage extends ConsumerWidget {
         title: const Text('게시글'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (context) => const ArticleCreateBottomSheet(),
-          );
-        },
+        onPressed: () => context.push('/articles/new'),
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
@@ -54,132 +48,6 @@ class ArticleListPage extends ConsumerWidget {
           loading: () => const Center(
             child: CircularProgressIndicator(),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class ArticleCreateBottomSheet extends ConsumerStatefulWidget {
-  const ArticleCreateBottomSheet({super.key});
-
-  @override
-  ConsumerState<ArticleCreateBottomSheet> createState() =>
-      _ArticleCreateBottomSheetState();
-}
-
-class _ArticleCreateBottomSheetState
-    extends ConsumerState<ArticleCreateBottomSheet> {
-  final _titleController = TextEditingController();
-  final _contentController = TextEditingController();
-  bool _isLoading = false;
-
-  Future<void> _createArticle() async {
-    if (_contentController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('내용을 입력해주세요')),
-      );
-      return;
-    }
-
-    if (_titleController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('제목을 입력해주세요')),
-      );
-      return;
-    }
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      final request = CreateArticleRequest(
-        title: _titleController.text,
-        content: _contentController.text,
-      );
-
-      await ref.read(articleServiceProvider).createArticle(request);
-      if (mounted) {
-        Navigator.pop(context);
-        ref.invalidate(articleListProvider);
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('게시글 작성 실패: $e')),
-        );
-      }
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _contentController.dispose();
-    _titleController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        height: MediaQuery.of(context).size.height * 0.7,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                Text(
-                  '게시글 작성',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                _isLoading
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : IconButton(
-                        icon: const Icon(Icons.send),
-                        onPressed: _createArticle,
-                      ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: TextField(
-                controller: _titleController,
-                decoration: const InputDecoration(
-                  hintText: '제목을 입력하세요',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
-            Expanded(
-              child: TextField(
-                controller: _contentController,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: '내용을 입력하세요',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );
