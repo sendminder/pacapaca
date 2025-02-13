@@ -33,6 +33,7 @@ Sharing your stories.
 
 ### 디렉토리 구조
 
+```
 lib/
 ├── constants/
 │   ├── constants.dart      # 앱 전반의 상수들
@@ -75,7 +76,7 @@ lib/
 ├── router.dart         # 라우팅 설정
 ├── app.dart
 └── main.dart
-
+```
 
 ## 빌드 및 실행
 
