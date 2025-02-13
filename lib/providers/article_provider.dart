@@ -90,7 +90,10 @@ class ArticleComments extends _$ArticleComments {
 
       if (newComment != null) {
         final currentComments = state.value ?? [];
-        state = AsyncData([newComment, ...currentComments]);
+        state = AsyncData([
+          ...currentComments,
+          newComment,
+        ]);
       }
     } catch (e, stack) {
       state = AsyncError(e, stack);
