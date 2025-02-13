@@ -15,6 +15,8 @@ import 'package:pacapaca/services/storage_service.dart';
 import 'package:pacapaca/services/auth_service.dart';
 import 'package:pacapaca/services/article_service.dart';
 import 'package:pacapaca/services/dio_service.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:pacapaca/messages/ko_messages.dart';
 
 void main() async {
   // 앱 초기화
@@ -22,6 +24,10 @@ void main() async {
 
   // 설정 초기화
   await _initializeSettings();
+
+  // timeago 한국어 설정
+  timeago.setLocaleMessages('ko', KoMessages());
+  timeago.setDefaultLocale('ko');
 
   // 앱 실행
   runApp(

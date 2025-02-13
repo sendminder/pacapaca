@@ -104,6 +104,28 @@ class RouterNotifier extends ChangeNotifier {
           path: '/set-nickname',
           builder: (context, state) => const SetNicknamePage(),
         ),
+        GoRoute(
+          path: '/articles/new',
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: const ArticleCreatePage(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
+                ).animate(
+                  CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.easeInOut,
+                  ),
+                ),
+                child: child,
+              );
+            },
+          ),
+        ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
             return ShellScaffold(navigationShell: navigationShell);
@@ -148,28 +170,6 @@ class RouterNotifier extends ChangeNotifier {
               ],
             ),
           ],
-        ),
-        GoRoute(
-          path: '/articles/new',
-          pageBuilder: (context, state) => CustomTransitionPage(
-            key: state.pageKey,
-            child: const ArticleCreatePage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, 1),
-                  end: Offset.zero,
-                ).animate(
-                  CurvedAnimation(
-                    parent: animation,
-                    curve: Curves.easeInOut,
-                  ),
-                ),
-                child: child,
-              );
-            },
-          ),
         ),
       ];
 }
