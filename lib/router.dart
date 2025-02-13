@@ -87,7 +87,7 @@ class RouterNotifier extends ChangeNotifier {
   final _shellNavigatorHomeKey =
       GlobalKey<NavigatorState>(debugLabel: 'shell/home');
   final _shellNavigatorBoardKey =
-      GlobalKey<NavigatorState>(debugLabel: 'shell/board');
+      GlobalKey<NavigatorState>(debugLabel: 'shell/articles');
   final _shellNavigatorSettingsKey =
       GlobalKey<NavigatorState>(debugLabel: 'shell/settings');
 
@@ -122,7 +122,7 @@ class RouterNotifier extends ChangeNotifier {
               navigatorKey: _shellNavigatorBoardKey,
               routes: [
                 GoRoute(
-                  path: '/board',
+                  path: '/articles',
                   builder: (context, state) => const ArticleListPage(),
                   routes: [
                     GoRoute(
