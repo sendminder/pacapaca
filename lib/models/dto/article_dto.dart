@@ -138,3 +138,13 @@ class ArticleCommentsResponse with _$ArticleCommentsResponse {
   factory ArticleCommentsResponse.fromJson(Map<String, dynamic> json) =>
       _$ArticleCommentsResponseFromJson(json);
 }
+
+@freezed
+class GetCommentResponse with _$GetCommentResponse {
+  const factory GetCommentResponse({
+    required ArticleCommentDTO comment,
+  }) = _GetCommentResponse;
+
+  factory GetCommentResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetCommentResponseFromJson(json);
+}

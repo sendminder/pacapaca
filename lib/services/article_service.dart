@@ -172,7 +172,9 @@ class ArticleService {
 
       if (responseRest.response != null) {
         // 응답에서 단일 댓글 파싱
-        return ArticleCommentDTO.fromJson(responseRest.response!);
+        final getCommentResponse =
+            GetCommentResponse.fromJson(responseRest.response!);
+        return getCommentResponse.comment;
       }
       return null;
     } catch (e, stackTrace) {
@@ -199,7 +201,9 @@ class ArticleService {
       );
 
       if (responseRest.response != null) {
-        return ArticleCommentDTO.fromJson(responseRest.response!);
+        final getCommentResponse =
+            GetCommentResponse.fromJson(responseRest.response!);
+        return getCommentResponse.comment;
       }
       return null;
     } catch (e, stackTrace) {

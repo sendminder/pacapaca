@@ -2397,3 +2397,169 @@ abstract class _ArticleCommentsResponse implements ArticleCommentsResponse {
   _$$ArticleCommentsResponseImplCopyWith<_$ArticleCommentsResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+GetCommentResponse _$GetCommentResponseFromJson(Map<String, dynamic> json) {
+  return _GetCommentResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GetCommentResponse {
+  ArticleCommentDTO get comment => throw _privateConstructorUsedError;
+
+  /// Serializes this GetCommentResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of GetCommentResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $GetCommentResponseCopyWith<GetCommentResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetCommentResponseCopyWith<$Res> {
+  factory $GetCommentResponseCopyWith(
+          GetCommentResponse value, $Res Function(GetCommentResponse) then) =
+      _$GetCommentResponseCopyWithImpl<$Res, GetCommentResponse>;
+  @useResult
+  $Res call({ArticleCommentDTO comment});
+
+  $ArticleCommentDTOCopyWith<$Res> get comment;
+}
+
+/// @nodoc
+class _$GetCommentResponseCopyWithImpl<$Res, $Val extends GetCommentResponse>
+    implements $GetCommentResponseCopyWith<$Res> {
+  _$GetCommentResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of GetCommentResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? comment = null,
+  }) {
+    return _then(_value.copyWith(
+      comment: null == comment
+          ? _value.comment
+          : comment // ignore: cast_nullable_to_non_nullable
+              as ArticleCommentDTO,
+    ) as $Val);
+  }
+
+  /// Create a copy of GetCommentResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ArticleCommentDTOCopyWith<$Res> get comment {
+    return $ArticleCommentDTOCopyWith<$Res>(_value.comment, (value) {
+      return _then(_value.copyWith(comment: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$GetCommentResponseImplCopyWith<$Res>
+    implements $GetCommentResponseCopyWith<$Res> {
+  factory _$$GetCommentResponseImplCopyWith(_$GetCommentResponseImpl value,
+          $Res Function(_$GetCommentResponseImpl) then) =
+      __$$GetCommentResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ArticleCommentDTO comment});
+
+  @override
+  $ArticleCommentDTOCopyWith<$Res> get comment;
+}
+
+/// @nodoc
+class __$$GetCommentResponseImplCopyWithImpl<$Res>
+    extends _$GetCommentResponseCopyWithImpl<$Res, _$GetCommentResponseImpl>
+    implements _$$GetCommentResponseImplCopyWith<$Res> {
+  __$$GetCommentResponseImplCopyWithImpl(_$GetCommentResponseImpl _value,
+      $Res Function(_$GetCommentResponseImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of GetCommentResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? comment = null,
+  }) {
+    return _then(_$GetCommentResponseImpl(
+      comment: null == comment
+          ? _value.comment
+          : comment // ignore: cast_nullable_to_non_nullable
+              as ArticleCommentDTO,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GetCommentResponseImpl implements _GetCommentResponse {
+  const _$GetCommentResponseImpl({required this.comment});
+
+  factory _$GetCommentResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GetCommentResponseImplFromJson(json);
+
+  @override
+  final ArticleCommentDTO comment;
+
+  @override
+  String toString() {
+    return 'GetCommentResponse(comment: $comment)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetCommentResponseImpl &&
+            (identical(other.comment, comment) || other.comment == comment));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, comment);
+
+  /// Create a copy of GetCommentResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetCommentResponseImplCopyWith<_$GetCommentResponseImpl> get copyWith =>
+      __$$GetCommentResponseImplCopyWithImpl<_$GetCommentResponseImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GetCommentResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GetCommentResponse implements GetCommentResponse {
+  const factory _GetCommentResponse(
+      {required final ArticleCommentDTO comment}) = _$GetCommentResponseImpl;
+
+  factory _GetCommentResponse.fromJson(Map<String, dynamic> json) =
+      _$GetCommentResponseImpl.fromJson;
+
+  @override
+  ArticleCommentDTO get comment;
+
+  /// Create a copy of GetCommentResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetCommentResponseImplCopyWith<_$GetCommentResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

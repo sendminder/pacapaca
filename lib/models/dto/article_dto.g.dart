@@ -195,3 +195,16 @@ Map<String, dynamic> _$$ArticleCommentsResponseImplToJson(
     <String, dynamic>{
       'comments': instance.comments,
     };
+
+_$GetCommentResponseImpl _$$GetCommentResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$GetCommentResponseImpl(
+      comment:
+          ArticleCommentDTO.fromJson(json['comment'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$GetCommentResponseImplToJson(
+        _$GetCommentResponseImpl instance) =>
+    <String, dynamic>{
+      'comment': instance.comment,
+    };
