@@ -71,7 +71,7 @@ class AuthService {
         return null;
       } on DioException catch (e) {
         if (e.response?.statusCode == 401) {
-          final newToken = await _refreshToken();
+          final newToken = await refreshToken();
           if (newToken != null) {
             final retryResponse = await _dio.get(
               '/v1/me',
@@ -104,7 +104,7 @@ class AuthService {
     }
   }
 
-  Future<String?> _refreshToken() async {
+  Future<String?> refreshToken() async {
     try {
       final refreshToken = await _storageService.refreshToken;
       if (refreshToken == null) return null;
