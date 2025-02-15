@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/providers/article_provider.dart';
+import 'package:pacapaca/widgets/shared/loading_button.dart';
+import 'package:pacapaca/pages/article/widgets/article_form.dart';
 
 class ArticleCreatePage extends ConsumerStatefulWidget {
   const ArticleCreatePage({super.key});
@@ -62,102 +64,39 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: Colors.white,
         leading: TextButton(
           onPressed: () => context.pop(),
           style: TextButton.styleFrom(
-            foregroundColor: Colors.grey[600],
+            foregroundColor: Colors.grey[700],
           ),
-          child: const Text(
+          child: Text(
             '취소',
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[700],
+              fontWeight: FontWeight.w500,
+              letterSpacing: -0.3,
+            ),
           ),
         ),
         leadingWidth: 80,
         actions: [
-          if (_isLoading)
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-              ),
-            )
-          else
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: TextButton(
-                onPressed: _createArticle,
-                style: TextButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                ),
-                child: const Text(
-                  '작성',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
+          LoadingButton(
+            isLoading: _isLoading,
+            onPressed: _createArticle,
+            text: '작성하기',
+          ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
-              controller: _titleController,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-              decoration: const InputDecoration(
-                hintText: '제목',
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(vertical: 8),
-              ),
-            ),
-          ),
-          const Divider(height: 1),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, top: 12),
-            child: Text(
-              '내용을 입력해주세요...',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[500],
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextField(
-                controller: _contentController,
-                maxLines: null,
-                expands: true,
-                textAlignVertical: TextAlignVertical.top,
-                style: const TextStyle(fontSize: 16),
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 12),
-                  isDense: true,
-                ),
-              ),
-            ),
-          ),
-        ],
+      body: SafeArea(
+        child: ArticleForm(
+          titleController: _titleController,
+          contentController: _contentController,
+        ),
       ),
     );
   }
