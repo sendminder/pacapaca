@@ -5,6 +5,7 @@ import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/widgets/shared/loading_button.dart';
 import 'package:pacapaca/pages/article/widgets/article_form.dart';
+import 'package:pacapaca/providers/auth_provider.dart';
 
 class ArticleCreatePage extends ConsumerStatefulWidget {
   const ArticleCreatePage({super.key});
@@ -63,11 +64,13 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = ref.watch(authProvider).value;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[50],
         leading: TextButton(
           onPressed: () => context.pop(),
           style: TextButton.styleFrom(
@@ -88,7 +91,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
           LoadingButton(
             isLoading: _isLoading,
             onPressed: _createArticle,
-            text: '작성하기',
+            text: '등록',
           ),
         ],
       ),
@@ -96,6 +99,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
         child: ArticleForm(
           titleController: _titleController,
           contentController: _contentController,
+          nickname: currentUser?.nickname ?? '알 수 없음',
         ),
       ),
     );

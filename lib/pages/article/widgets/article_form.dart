@@ -3,26 +3,67 @@ import 'package:flutter/material.dart';
 class ArticleForm extends StatelessWidget {
   final TextEditingController titleController;
   final TextEditingController contentController;
+  final String nickname;
 
   const ArticleForm({
     super.key,
     required this.titleController,
     required this.contentController,
+    required this.nickname,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildTitleField(),
-          Divider(
-            height: 1,
-            color: Colors.grey[300],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildAuthorInfo(context),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            border: Border.symmetric(
+              horizontal: BorderSide(color: Colors.grey[200]!),
+            ),
           ),
-          _buildContentField(),
+          child: Column(
+            children: [
+              _buildTitleField(),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Container(
+            color: Colors.grey[100],
+            child: _buildContentField(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAuthorInfo(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+      child: Row(
+        children: [
+          Text(
+            '작성자',
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
+              letterSpacing: -0.3,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            nickname,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.3,
+            ),
+          ),
         ],
       ),
     );
@@ -30,7 +71,7 @@ class ArticleForm extends StatelessWidget {
 
   Widget _buildTitleField() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: TextField(
         controller: titleController,
         style: const TextStyle(
@@ -39,10 +80,10 @@ class ArticleForm extends StatelessWidget {
           letterSpacing: -0.5,
         ),
         decoration: InputDecoration(
-          hintText: '제목을 입력하세요',
+          hintText: '제목을 입력하세요.',
           hintStyle: TextStyle(
             color: Colors.grey[400],
-            fontSize: 22,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             letterSpacing: -0.5,
           ),
@@ -58,35 +99,33 @@ class ArticleForm extends StatelessWidget {
   }
 
   Widget _buildContentField() {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: TextField(
-          controller: contentController,
-          maxLines: null,
-          expands: true,
-          textAlignVertical: TextAlignVertical.top,
-          style: const TextStyle(
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: TextField(
+        controller: contentController,
+        maxLines: null,
+        expands: true,
+        textAlignVertical: TextAlignVertical.top,
+        style: const TextStyle(
+          fontSize: 16,
+          height: 1.6,
+          letterSpacing: -0.3,
+        ),
+        decoration: InputDecoration(
+          hintText: '내용을 입력하세요.',
+          hintStyle: TextStyle(
+            color: Colors.grey[400],
             fontSize: 16,
             height: 1.6,
             letterSpacing: -0.3,
           ),
-          decoration: InputDecoration(
-            hintText: '내용을 입력하세요...',
-            hintStyle: TextStyle(
-              color: Colors.grey[400],
-              fontSize: 16,
-              height: 1.6,
-              letterSpacing: -0.3,
-            ),
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-          ),
-          cursorColor: Colors.grey[600],
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
         ),
+        cursorColor: Colors.grey[600],
       ),
     );
   }
