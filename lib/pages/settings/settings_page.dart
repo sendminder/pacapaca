@@ -2,48 +2,101 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeProvider);
+    final locale = ref.watch(localeProvider);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('설정')),
+      appBar: AppBar(title: Text('settings.title'.tr())),
       body: ListView(
         children: [
-          const ListTile(
-            leading: Icon(Icons.person),
-            title: Text('프로필 설정'),
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: Text('settings.profile'.tr()),
           ),
-          const ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text('알림 설정'),
+          ListTile(
+            leading: const Icon(Icons.notifications),
+            title: Text('settings.notifications'.tr()),
           ),
-          const ListTile(
-            leading: Icon(Icons.dark_mode),
-            title: Text('테마 설정'),
+          ListTile(
+            leading: const Icon(Icons.language),
+            title: Text('settings.language'.tr()),
+            trailing: DropdownButton<String>(
+              value: locale.languageCode,
+              items: const [
+                DropdownMenuItem(
+                  value: 'ko',
+                  child: Text('한국어'),
+                ),
+                DropdownMenuItem(
+                  value: 'en',
+                  child: Text('English'),
+                ),
+              ],
+              onChanged: (String? newLocale) {
+                if (newLocale != null) {
+                  context.setLocale(Locale(newLocale));
+                  ref
+                      .read(localeProvider.notifier)
+                      .setLocale(Locale(newLocale));
+                }
+              },
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.dark_mode),
+            title: Text('settings.theme'.tr()),
+            trailing: DropdownButton<ThemeMode>(
+              value: themeMode,
+              items: [
+                DropdownMenuItem(
+                  value: ThemeMode.system,
+                  child: Text('settings.system'.tr()),
+                ),
+                DropdownMenuItem(
+                  value: ThemeMode.light,
+                  child: Text('settings.light'.tr()),
+                ),
+                DropdownMenuItem(
+                  value: ThemeMode.dark,
+                  child: Text('settings.dark'.tr()),
+                ),
+              ],
+              onChanged: (ThemeMode? newTheme) {
+                if (newTheme != null) {
+                  ref.read(themeProvider.notifier).setTheme(newTheme);
+                }
+              },
+            ),
           ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
-            title: const Text('로그아웃', style: TextStyle(color: Colors.red)),
+            title: Text('settings.logout'.tr(),
+                style: const TextStyle(color: Colors.red)),
             onTap: () async {
               final confirmed = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('로그아웃'),
-                  content: const Text('정말 로그아웃 하시겠습니까?'),
+                  title: Text('settings.logout'.tr()),
+                  content: Text('settings.logout_confirm'.tr()),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context, false),
-                      child: const Text('취소'),
+                      child: Text('settings.cancel'.tr()),
                     ),
                     TextButton(
                       onPressed: () => Navigator.pop(context, true),
-                      child: const Text(
-                        '로그아웃',
-                        style: TextStyle(color: Colors.red),
+                      child: Text(
+                        'settings.logout'.tr(),
+                        style: const TextStyle(color: Colors.red),
                       ),
                     ),
                   ],

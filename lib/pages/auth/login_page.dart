@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
@@ -9,7 +10,7 @@ class LoginPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('로그인'),
+        title: Text('login.login'.tr()),
       ),
       body: Center(
         child: Consumer(
@@ -20,18 +21,18 @@ class LoginPage extends ConsumerWidget {
               data: (_) => ElevatedButton(
                 onPressed: () =>
                     ref.read(authProvider.notifier).signInWithApple(),
-                child: const Text('Apple로 로그인'),
+                child: Text('login.login_with_apple'.tr()),
               ),
               loading: () => const CircularProgressIndicator(),
               error: (error, _) => Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('로그인 실패: $error'),
+                  Text('login.login_failed'.tr(args: [error.toString()])),
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () =>
                         ref.read(authProvider.notifier).signInWithApple(),
-                    child: const Text('다시 시도'),
+                    child: Text('login.try_again'.tr()),
                   ),
                 ],
               ),

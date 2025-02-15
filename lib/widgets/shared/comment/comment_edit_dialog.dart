@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CommentEditDialog extends StatefulWidget {
   final String initialContent;
@@ -31,19 +32,19 @@ class _CommentEditDialogState extends State<CommentEditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('댓글 수정'),
+      title: Text('comment.edit_comment'.tr()),
       content: TextField(
         controller: _controller,
-        decoration: const InputDecoration(
-          hintText: '댓글을 입력하세요',
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          hintText: 'comment.hint'.tr(),
+          border: const OutlineInputBorder(),
         ),
         maxLines: null,
       ),
       actions: [
         TextButton(
           onPressed: () => context.pop(),
-          child: const Text('취소'),
+          child: Text('comment.cancel'.tr()),
         ),
         TextButton(
           onPressed: () {
@@ -52,7 +53,7 @@ class _CommentEditDialogState extends State<CommentEditDialog> {
               context.pop(content);
             }
           },
-          child: const Text('수정'),
+          child: Text('comment.edit'.tr()),
         ),
       ],
     );

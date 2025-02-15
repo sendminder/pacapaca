@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../providers/auth_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 final nicknameControllerProvider =
     StateNotifierProvider.autoDispose<NicknameController, AsyncValue<void>>(
@@ -34,14 +35,16 @@ class SetNicknamePage extends ConsumerWidget {
         context.go('/home');
       } else if (next is AsyncError) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('닉네임 설정에 실패했습니다: ${next.error}')),
+          SnackBar(
+              content: Text(
+                  'nickname.nickname_error'.tr(args: [next.error.toString()]))),
         );
       }
     });
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('닉네임 설정'),
+        title: Text('nickname.set_nickname'.tr()),
         automaticallyImplyLeading: false,
       ),
       body: Padding(
@@ -49,9 +52,9 @@ class SetNicknamePage extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              '사용하실 닉네임을 입력해주세요',
-              style: TextStyle(fontSize: 18),
+            Text(
+              'nickname.set_nickname'.tr(),
+              style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 20),
             _NicknameInput(
@@ -95,10 +98,11 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
       children: [
         TextField(
           controller: _controller,
-          decoration: const InputDecoration(
-            labelText: '닉네임',
+          decoration: InputDecoration(
+            labelText: 'nickname.nickname_hint'.tr(),
             border: OutlineInputBorder(),
-            hintText: '2자 이상 입력해주세요',
+            hintText: 'nickname.nickname_hint'.tr(),
+            helperText: 'nickname.nickname_rule'.tr(),
           ),
           enabled: !widget.isLoading,
         ),
@@ -113,7 +117,7 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
                     width: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('완료'),
+                : Text('complete'.tr()),
           ),
         ),
       ],

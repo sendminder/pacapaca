@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/pages/article/widgets/article_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ArticleListPage extends ConsumerWidget {
   const ArticleListPage({super.key});
@@ -34,7 +35,7 @@ class ArticleListPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('게시글'),
+        title: Text('article.title'.tr()),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/articles/new'),
@@ -47,8 +48,8 @@ class ArticleListPage extends ConsumerWidget {
         child: articlesAsync.when(
           data: (articles) {
             if (articles == null || articles.isEmpty) {
-              return const Center(
-                child: Text('게시글이 없습니다.'),
+              return Center(
+                child: Text('article.no_articles'.tr()),
               );
             }
 
@@ -63,7 +64,7 @@ class ArticleListPage extends ConsumerWidget {
             );
           },
           error: (error, stackTrace) => Center(
-            child: Text('에러가 발생했습니다: $error'),
+            child: Text('article.error'.tr(args: [error.toString()])),
           ),
           loading: () => const Center(
             child: CircularProgressIndicator(),

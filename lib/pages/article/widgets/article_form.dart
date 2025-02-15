@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ArticleForm extends StatelessWidget {
   final TextEditingController titleController;
@@ -47,7 +48,7 @@ class ArticleForm extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            '작성자',
+            'article.nickname'.tr(),
             style: TextStyle(
               fontSize: 15,
               color: Colors.grey[600],
@@ -80,7 +81,7 @@ class ArticleForm extends StatelessWidget {
           letterSpacing: -0.5,
         ),
         decoration: InputDecoration(
-          hintText: '제목을 입력하세요.',
+          hintText: 'article.title_hint'.tr(),
           hintStyle: TextStyle(
             color: Colors.grey[400],
             fontSize: 20,
@@ -112,7 +113,7 @@ class ArticleForm extends StatelessWidget {
           letterSpacing: -0.3,
         ),
         decoration: InputDecoration(
-          hintText: '내용을 입력하세요.',
+          hintText: 'article.content_hint'.tr(),
           hintStyle: TextStyle(
             color: Colors.grey[400],
             fontSize: 16,

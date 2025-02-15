@@ -5,6 +5,7 @@ import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/widgets/shared/tag_list.dart';
 import 'package:pacapaca/widgets/shared/interaction_button.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ArticleCard extends StatelessWidget {
   final ArticleDTO article;
@@ -101,7 +102,8 @@ class ArticleCard extends StatelessWidget {
             } catch (e) {
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('좋아요 처리 중 오류가 발생했습니다: $e')),
+                  SnackBar(
+                      content: Text('article.error'.tr(args: [e.toString()]))),
                 );
               }
             }

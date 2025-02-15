@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -10,7 +11,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('홈'),
+        title: Text('home.title'.tr()),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -38,24 +39,20 @@ class HomePage extends StatelessWidget {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              '안녕하세요, ${user.nickname ?? '사용자'}님!',
+                              'home.welcome'.tr(args: [
+                                user.nickname ?? 'home.unknown_user'.tr()
+                              ]),
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             const SizedBox(height: 32),
                           ],
                         )
-                      : const Text('로그인이 필요합니다.'),
-                  error: (error, _) => Text('오류가 발생했습니다: $error'),
+                      : Text('home.login_required'.tr()),
+                  error: (error, _) =>
+                      Text('home.error'.tr(args: [error.toString()])),
                   loading: () => const CircularProgressIndicator(),
                 );
               },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // StatefulNavigationShell을 찾아서 게시판 탭(인덱스 1)으로 이동
-                StatefulNavigationShell.of(context).goBranch(1);
-              },
-              child: const Text('게시판으로 이동'),
             ),
           ],
         ),

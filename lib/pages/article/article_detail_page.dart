@@ -8,6 +8,7 @@ import 'package:pacapaca/widgets/shared/comment/comment_input.dart';
 import 'package:pacapaca/pages/article/widgets/article_detail_content.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ArticleDetailPage extends ConsumerWidget {
   final int articleId;
@@ -26,12 +27,13 @@ class ArticleDetailPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('게시글'),
+        title: Text('article.title'.tr()),
         actions: [
           articleAsync.when(
             data: (article) =>
                 _buildArticleActions(context, ref, article, currentUser),
-            error: (error, _) => Text('에러: $error'),
+            error: (error, _) =>
+                Text('article.error'.tr(args: [error.toString()])),
             loading: () => const CircularProgressIndicator(),
           ),
         ],
@@ -61,7 +63,7 @@ class ArticleDetailPage extends ConsumerWidget {
     return articleAsync.when(
       data: (article) {
         if (article == null) {
-          return const Center(child: Text('게시글을 찾을 수 없습니다.'));
+          return Center(child: Text('article.not_found'.tr()));
         }
         return ArticleDetailContent(
           article: article,
@@ -92,7 +94,9 @@ class ArticleDetailPage extends ConsumerWidget {
           },
         );
       },
-      error: (error, _) => Center(child: Text('에러가 발생했습니다: $error')),
+      error: (error, _) => Center(
+        child: Text('article.error'.tr(args: [error.toString()])),
+      ),
       loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
@@ -108,9 +112,9 @@ class ArticleDetailPage extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '댓글',
-            style: TextStyle(
+          Text(
+            'article.comments'.tr(),
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -140,7 +144,7 @@ class ArticleDetailPage extends ConsumerWidget {
     return commentsAsync.when(
       data: (comments) {
         if (comments == null || comments.isEmpty) {
-          return const Center(child: Text('댓글이 없습니다.'));
+          return const SizedBox.shrink();
         }
 
         return ListView.separated(
@@ -168,7 +172,7 @@ class ArticleDetailPage extends ConsumerWidget {
         );
       },
       error: (error, _) => Center(
-        child: Text('댓글을 불러오는데 실패했습니다: $error'),
+        child: Text('article.error'.tr(args: [error.toString()])),
       ),
       loading: () => const Center(child: CircularProgressIndicator()),
     );
@@ -187,30 +191,30 @@ class ArticleDetailPage extends ConsumerWidget {
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
-          child: const Text('수정'),
+          child: Text('article.edit'.tr()),
           onTap: () => context.push('/articles/$articleId/edit'),
         ),
         PopupMenuItem(
-          child: const Text(
-            '삭제',
-            style: TextStyle(color: Colors.red),
+          child: Text(
+            'article.delete'.tr(),
+            style: const TextStyle(color: Colors.red),
           ),
           onTap: () async {
             final confirmed = await showDialog<bool>(
               context: context,
               builder: (context) => AlertDialog(
-                title: const Text('게시글 삭제'),
-                content: const Text('정말 삭제하시겠습니까?'),
+                title: Text('article.delete_confirm'.tr()),
+                content: Text('article.delete_confirm_desc'.tr()),
                 actions: [
                   TextButton(
                     onPressed: () => context.pop(false),
-                    child: const Text('취소'),
+                    child: Text('article.cancel'.tr()),
                   ),
                   TextButton(
                     onPressed: () => context.pop(true),
-                    child: const Text(
-                      '삭제',
-                      style: TextStyle(color: Colors.red),
+                    child: Text(
+                      'article.delete'.tr(),
+                      style: const TextStyle(color: Colors.red),
                     ),
                   ),
                 ],

@@ -6,6 +6,7 @@ import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/widgets/shared/loading_button.dart';
 import 'package:pacapaca/pages/article/widgets/article_form.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ArticleCreatePage extends ConsumerStatefulWidget {
   const ArticleCreatePage({super.key});
@@ -22,7 +23,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
   Future<void> _createArticle() async {
     if (_titleController.text.isEmpty || _contentController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('제목과 내용을 입력해주세요')),
+        SnackBar(content: Text('article.title_and_content_required'.tr())),
       );
       return;
     }
@@ -45,7 +46,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('게시글 작성 실패: $e')),
+          SnackBar(content: Text('article.error'.tr(args: [e.toString()]))),
         );
       }
     } finally {
@@ -77,7 +78,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
             foregroundColor: Colors.grey[700],
           ),
           child: Text(
-            '취소',
+            'article.cancel'.tr(),
             style: TextStyle(
               fontSize: 16,
               color: Colors.grey[700],
@@ -87,11 +88,12 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
           ),
         ),
         leadingWidth: 80,
+        title: Text('article.create'.tr()),
         actions: [
           LoadingButton(
             isLoading: _isLoading,
             onPressed: _createArticle,
-            text: '등록',
+            text: 'article.register'.tr(),
           ),
         ],
       ),
@@ -99,7 +101,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
         child: ArticleForm(
           titleController: _titleController,
           contentController: _contentController,
-          nickname: currentUser?.nickname ?? '알 수 없음',
+          nickname: currentUser?.nickname ?? 'article.unknown_user'.tr(),
         ),
       ),
     );

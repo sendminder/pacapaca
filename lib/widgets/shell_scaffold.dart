@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ShellScaffold extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
@@ -14,14 +15,18 @@ class ShellScaffold extends StatelessWidget {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         selectedIndex: navigationShell.currentIndex,
         onDestinationSelected: (index) {
           navigationShell.goBranch(index);
         },
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: '홈'),
-          NavigationDestination(icon: Icon(Icons.list), label: '게시판'),
-          NavigationDestination(icon: Icon(Icons.settings), label: '설정'),
+        destinations: [
+          NavigationDestination(
+              icon: Icon(Icons.home), label: 'home.title'.tr()),
+          NavigationDestination(
+              icon: Icon(Icons.list), label: 'article.title'.tr()),
+          NavigationDestination(
+              icon: Icon(Icons.settings), label: 'settings.title'.tr()),
         ],
       ),
     );

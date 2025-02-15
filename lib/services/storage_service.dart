@@ -3,11 +3,14 @@ import 'package:pacapaca/models/dto/user_dto.dart';
 import 'dart:convert';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter/material.dart';
 
 class StorageService {
   static const String _accessTokenKey = 'access_token';
   static const String _refreshTokenKey = 'refresh_token';
   static const String _userKey = 'user_data';
+  static const String _themeKey = 'theme_mode';
+  static const String _localeKey = 'locale';
   final logger = GetIt.instance<Logger>();
 
   final _storage = const FlutterSecureStorage(
@@ -84,5 +87,30 @@ class StorageService {
   // 사용자 정보 삭제
   Future<void> deleteUser() async {
     await _storage.delete(key: _userKey);
+  }
+
+  // 테마 저장
+  Future<void> saveTheme(ThemeMode theme) async {
+    await _storage.write(key: _themeKey, value: theme.toString());
+  }
+
+  // 테마 가져오기
+  Future<ThemeMode?> get theme async {
+    final themeStr = await _storage.read(key: _themeKey);
+    if (themeStr == null) return null;
+    return ThemeMode.values.firstWhere((e) => e.toString() == themeStr,
+        orElse: () => ThemeMode.system);
+  }
+
+  // 언어 저장
+  Future<void> saveLocale(Locale locale) async {
+    await _storage.write(key: _localeKey, value: locale.languageCode);
+  }
+
+  // 언어 가져오기
+  Future<Locale?> get locale async {
+    final localeStr = await _storage.read(key: _localeKey);
+    if (localeStr == null) return null;
+    return Locale(localeStr);
   }
 }

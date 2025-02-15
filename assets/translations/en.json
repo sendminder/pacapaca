@@ -1,3 +1,66 @@
 {
-    "app_name": "PacaPaca"
+    "app_name": "PacaPaca",
+    "nickname": {
+        "set_nickname": "Set Nickname",
+        "nickname_hint": "Enter your nickname",
+        "nickname_rule": "Please enter 2-10 characters",
+        "nickname_error": "Failed to set nickname: {}"
+    },
+    "complete": "Complete",
+    "article": {
+        "title": "Article",
+        "nickname": "Author",
+        "create": "Write",
+        "edit": "Edit",
+        "delete": "Delete",
+        "register": "Register",
+        "title_hint": "Enter title",
+        "content_hint": "Enter content",
+        "unknown_user": "Unknown",
+        "comments": "Comments",
+        "delete_confirm": "Are you sure you want to delete?",
+        "delete_confirm_desc": "Deleted posts cannot be recovered",
+        "cancel": "Cancel",
+        "error": "An error occurred: {}",
+        "title_and_content_required": "Please enter title and content",
+        "not_found": "Article not found",
+        "no_comments": "No comments",
+        "no_articles": "No articles"
+    },
+    "comment": {
+        "edit": "Edit",
+        "hint": "Enter your comment",
+        "cancel": "Cancel",
+        "edit_comment": "Edit Comment",
+        "delete_comment": "Delete Comment",
+        "delete_confirm": "Are you sure you want to delete?",
+        "delete": "Delete"
+    },
+    "login": {
+        "login": "Login",
+        "login_failed": "Login failed: {}",
+        "try_again": "Try again",
+        "login_with_apple": "Login with Apple"
+    },
+    "home": {
+        "title": "Home",
+        "welcome": "Welcome, {}",
+        "board": "Go to Board",
+        "unknown_user": "User",
+        "login_required": "Login is required",
+        "error": "Failed to load home page: {}"
+    },
+    "settings": {
+        "title": "Settings",
+        "profile": "Profile",
+        "notifications": "Notifications",
+        "language": "Language",
+        "theme": "Theme",
+        "logout": "Logout",
+        "system": "System",
+        "light": "Light",
+        "dark": "Dark",
+        "logout_confirm": "Are you sure you want to logout?",
+        "cancel": "Cancel"
+    }
 }

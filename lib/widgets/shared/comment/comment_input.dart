@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CommentInput extends ConsumerStatefulWidget {
   final Future<void> Function(String content) onSubmit;
@@ -29,9 +30,9 @@ class _CommentInputState extends ConsumerState<CommentInput> {
         Expanded(
           child: TextField(
             controller: _controller,
-            decoration: const InputDecoration(
-              hintText: '댓글을 입력하세요',
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              hintText: 'comment.hint'.tr(),
+              border: const OutlineInputBorder(),
             ),
             maxLines: null,
           ),

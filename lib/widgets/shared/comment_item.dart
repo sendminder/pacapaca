@@ -4,6 +4,7 @@ import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/widgets/shared/comment/comment_edit_dialog.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CommentItem extends StatelessWidget {
   final ArticleCommentDTO comment;
@@ -70,7 +71,7 @@ class CommentItem extends StatelessWidget {
       itemBuilder: (context) => [
         if (onUpdate != null)
           PopupMenuItem(
-            child: const Text('수정'),
+            child: Text('comment.edit'.tr()),
             onTap: () async {
               final content = await showDialog<String>(
                 context: context,
@@ -85,26 +86,26 @@ class CommentItem extends StatelessWidget {
           ),
         if (onDelete != null)
           PopupMenuItem(
-            child: const Text(
-              '삭제',
-              style: TextStyle(color: Colors.red),
+            child: Text(
+              'comment.delete'.tr(),
+              style: const TextStyle(color: Colors.red),
             ),
             onTap: () async {
               final confirmed = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('댓글 삭제'),
-                  content: const Text('정말 삭제하시겠습니까?'),
+                  title: Text('comment.delete_comment'.tr()),
+                  content: Text('comment.delete_confirm'.tr()),
                   actions: [
                     TextButton(
                       onPressed: () => context.pop(false),
-                      child: const Text('취소'),
+                      child: Text('comment.cancel'.tr()),
                     ),
                     TextButton(
                       onPressed: () => context.pop(true),
-                      child: const Text(
-                        '삭제',
-                        style: TextStyle(color: Colors.red),
+                      child: Text(
+                        'comment.delete'.tr(),
+                        style: const TextStyle(color: Colors.red),
                       ),
                     ),
                   ],
