@@ -35,7 +35,6 @@ class ArticleList extends _$ArticleList {
     required int pagingKey,
     String? category,
   }) async {
-    state = const AsyncLoading();
     try {
       final articleService = ref.read(articleServiceProvider);
       final moreArticles = await articleService.getArticles(
