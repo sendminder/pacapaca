@@ -43,13 +43,22 @@ class ArticleDetailPage extends ConsumerWidget {
           ref.invalidate(provider);
           ref.invalidate(articleCommentsProvider(articleId));
         },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildArticleContent(ref, articleAsync),
-              const Divider(height: 1),
-              _buildCommentSection(context, ref, commentsAsync, currentUser),
-            ],
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification scrollInfo) {
+            if (scrollInfo.metrics.pixels >=
+                scrollInfo.metrics.maxScrollExtent - 200) {
+              ref.read(articleCommentsProvider(articleId).notifier).loadMore();
+            }
+            return true;
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildArticleContent(ref, articleAsync),
+                const Divider(height: 1),
+                _buildCommentSection(context, ref, commentsAsync, currentUser),
+              ],
+            ),
           ),
         ),
       ),

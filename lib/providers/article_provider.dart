@@ -96,7 +96,7 @@ class ArticleComments extends _$ArticleComments {
   @override
   FutureOr<List<ArticleCommentDTO>?> build(int articleId) async {
     final articleService = ref.watch(articleServiceProvider);
-    return articleService.getComments(articleId);
+    return articleService.listComments(articleId, 20, 0, 'latest');
   }
 
   Future<void> addComment(String content) async {
@@ -154,6 +154,25 @@ class ArticleComments extends _$ArticleComments {
     } catch (e, stack) {
       state = AsyncError(e, stack);
     }
+  }
+
+  Future<void> loadMore() async {
+    final currentComments = state.value ?? [];
+    if (currentComments.isEmpty) return; // 댓글이 없으면 중단
+
+    final articleService = ref.read(articleServiceProvider);
+    final lastComment = currentComments.last;
+    final newComments = await articleService.listComments(
+      articleId,
+      20,
+      lastComment.id,
+      'latest',
+    );
+
+    // 새로운 댓글이 없으면 중단
+    if (newComments == null || newComments.isEmpty) return;
+
+    state = AsyncData([...currentComments, ...newComments]);
   }
 
   Future<void> refresh() async {

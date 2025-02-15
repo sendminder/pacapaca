@@ -154,6 +154,40 @@ class ArticleService {
     }
   }
 
+  // 댓글 목록 조회 paging 이용
+  Future<List<ArticleCommentDTO>?> listComments(
+    int articleId,
+    int limit,
+    int pagingKey,
+    String? sortBy,
+  ) async {
+    try {
+      final response = await _dio.get(
+        '/v1/articles/$articleId/comments',
+        queryParameters: {
+          'limit': limit,
+          'paging_key': pagingKey,
+          'sort_by': sortBy,
+        },
+      );
+
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
+
+      if (responseRest.response != null) {
+        final commentsResponse =
+            ArticleCommentsResponse.fromJson(responseRest.response!);
+        return commentsResponse.comments;
+      }
+      return null;
+    } catch (e, stackTrace) {
+      logger.e('list comments', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
+
   // 댓글 작성
   Future<ArticleCommentDTO?> createComment(
     int articleId,
