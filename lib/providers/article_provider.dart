@@ -13,6 +13,8 @@ ArticleService articleService(ArticleServiceRef ref) {
 // 게시글 목록 provider
 @riverpod
 class ArticleList extends _$ArticleList {
+  int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
+
   @override
   FutureOr<List<ArticleDTO>?> build({
     required String sortBy,
@@ -20,6 +22,7 @@ class ArticleList extends _$ArticleList {
     int? pagingKey,
     String? category,
   }) async {
+    _lastPagingKey = null; // 초기화
     final articleService = ref.watch(articleServiceProvider);
     return articleService.getArticles(
       sortBy: sortBy,
@@ -35,7 +38,11 @@ class ArticleList extends _$ArticleList {
     required int pagingKey,
     String? category,
   }) async {
+    // 이전과 같은 페이징 키면 요청하지 않음
+    if (pagingKey == _lastPagingKey) return;
+
     try {
+      _lastPagingKey = pagingKey; // 현재 페이징 키 저장
       final articleService = ref.read(articleServiceProvider);
       final moreArticles = await articleService.getArticles(
         sortBy: sortBy,
@@ -93,8 +100,11 @@ class Article extends _$Article {
 // 댓글 목록 provider
 @riverpod
 class ArticleComments extends _$ArticleComments {
+  int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
+
   @override
   FutureOr<List<ArticleCommentDTO>?> build(int articleId) async {
+    _lastPagingKey = null; // 초기화
     final articleService = ref.watch(articleServiceProvider);
     return articleService.listComments(articleId, 20, 0, 'latest');
   }
@@ -158,21 +168,28 @@ class ArticleComments extends _$ArticleComments {
 
   Future<void> loadMore() async {
     final currentComments = state.value ?? [];
-    if (currentComments.isEmpty) return; // 댓글이 없으면 중단
+    if (currentComments.isEmpty) return;
 
-    final articleService = ref.read(articleServiceProvider);
     final lastComment = currentComments.last;
-    final newComments = await articleService.listComments(
-      articleId,
-      20,
-      lastComment.id,
-      'latest',
-    );
+    // 이전과 같은 페이징 키면 요청하지 않음
+    if (lastComment.id == _lastPagingKey) return;
 
-    // 새로운 댓글이 없으면 중단
-    if (newComments == null || newComments.isEmpty) return;
+    try {
+      _lastPagingKey = lastComment.id; // 현재 페이징 키 저장
+      final articleService = ref.read(articleServiceProvider);
+      final newComments = await articleService.listComments(
+        articleId,
+        20,
+        lastComment.id,
+        'latest',
+      );
 
-    state = AsyncData([...currentComments, ...newComments]);
+      if (newComments == null || newComments.isEmpty) return;
+
+      state = AsyncData([...currentComments, ...newComments]);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+    }
   }
 
   Future<void> refresh() async {
