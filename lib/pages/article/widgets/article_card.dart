@@ -32,7 +32,7 @@ class ArticleCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeader(context),
-              if (article.title?.isNotEmpty ?? false) ...[
+              if (article.title.isNotEmpty ?? false) ...[
                 const SizedBox(height: 16),
                 _buildTitle(),
               ],
@@ -123,7 +123,7 @@ class ArticleCard extends StatelessWidget {
 
   Widget _buildTitle() {
     return Text(
-      article.title!,
+      article.title,
       style: const TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,

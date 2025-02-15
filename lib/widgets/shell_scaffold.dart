@@ -5,9 +5,9 @@ class ShellScaffold extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
   const ShellScaffold({
-    Key? key,
+    super.key,
     required this.navigationShell,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

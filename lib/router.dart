@@ -59,7 +59,7 @@ class RouterNotifier extends ChangeNotifier {
     // 이미 로그인되어 있는데 로그인 페이지에 접근하면 홈으로
     if (isLoggingIn && user != null) {
       // 닉네임이 없으면 닉네임 설정 페이지로
-      if (user.nickname == null || user.nickname!.isEmpty) {
+      if (user.nickname.isEmpty) {
         return '/set-nickname';
       }
       return '/home';
@@ -67,7 +67,7 @@ class RouterNotifier extends ChangeNotifier {
 
     // 닉네임이 없고 닉네임 설정 페이지가 아니면 닉네임 설정 페이지로
     if (user != null &&
-        (user.nickname == null || user.nickname!.isEmpty) &&
+        (user.nickname.isEmpty) &&
         !isSettingNickname) {
       return '/set-nickname';
     }
@@ -75,8 +75,7 @@ class RouterNotifier extends ChangeNotifier {
     // 닉네임이 있는데 닉네임 설정 페이지에 접근하면 홈으로
     if (isSettingNickname &&
         user != null &&
-        user.nickname != null &&
-        user.nickname!.isNotEmpty) {
+        user.nickname.isNotEmpty) {
       return '/home';
     }
 
