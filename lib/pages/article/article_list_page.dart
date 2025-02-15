@@ -89,7 +89,11 @@ class ArticleListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: InkWell(
         onTap: () => context.push('/articles/${article.id}'),
         child: Padding(
@@ -100,6 +104,7 @@ class ArticleListItem extends StatelessWidget {
               Row(
                 children: [
                   CircleAvatar(
+                    radius: 20,
                     backgroundImage: article.profileImageUrl.isNotEmpty
                         ? NetworkImage(article.profileImageUrl)
                         : null,
@@ -107,7 +112,7 @@ class ArticleListItem extends StatelessWidget {
                         ? Text(article.nickname[0])
                         : null,
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,22 +121,39 @@ class ArticleListItem extends StatelessWidget {
                           article.nickname,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           ),
                         ),
+                        const SizedBox(height: 2),
                         Text(
                           timeago.format(
                             DateTime.parse(article.createTime),
                             locale: 'ko',
                           ),
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Colors.grey[600],
+                                  ),
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              if (article.thumbnailUrl != null) ...[
+              const SizedBox(height: 16),
+              if (article.title?.isNotEmpty ?? false) ...[
+                Text(
+                  article.title!,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 const SizedBox(height: 8),
+              ],
+              if (article.thumbnailUrl != null) ...[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
@@ -141,14 +163,19 @@ class ArticleListItem extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
+                const SizedBox(height: 12),
               ],
-              const SizedBox(height: 8),
               Text(
                 article.content,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey[800],
+                  height: 1.4,
+                ),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   InkWell(
@@ -167,43 +194,82 @@ class ArticleListItem extends StatelessWidget {
                           article.isLiked
                               ? Icons.favorite
                               : Icons.favorite_border,
-                          size: 16,
+                          size: 24,
                           color: article.isLiked
                               ? Theme.of(context).colorScheme.primary
                               : Colors.grey,
                         ),
                         const SizedBox(width: 4),
-                        Text('${article.likeCount}'),
+                        Text(
+                          '${article.likeCount}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 16),
-                  Icon(
-                    Icons.comment,
-                    size: 16,
-                    color: Theme.of(context).colorScheme.secondary,
+                  const SizedBox(width: 24),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.chat_bubble_outline,
+                        size: 22,
+                        color: Colors.grey[600],
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${article.commentCount}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 4),
-                  Text('${article.commentCount}'),
-                  const SizedBox(width: 16),
-                  Icon(
-                    Icons.remove_red_eye,
-                    size: 16,
-                    color: Colors.grey,
+                  const SizedBox(width: 24),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.remove_red_eye_outlined,
+                        size: 22,
+                        color: Colors.grey[600],
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${article.viewCount}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 4),
-                  Text('${article.viewCount}'),
                 ],
               ),
               if (article.tags != null && article.tags!.isNotEmpty) ...[
-                const SizedBox(height: 8),
+                const SizedBox(height: 12),
                 Wrap(
-                  spacing: 4,
+                  spacing: 6,
+                  runSpacing: 6,
                   children: article.tags!.map((tag) {
-                    return Chip(
-                      label: Text(tag),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      visualDensity: VisualDensity.compact,
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        '#$tag',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
+                      ),
                     );
                   }).toList(),
                 ),

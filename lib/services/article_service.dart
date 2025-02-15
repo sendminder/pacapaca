@@ -225,7 +225,7 @@ class ArticleService {
   // 좋아요 추가
   Future<ArticleLikeResponse?> toggleArticleLike(int articleId) async {
     try {
-      final response = await _dio.post('/v1/articles/$articleId/likes');
+      final response = await _dio.post('/v1/articles/$articleId/like');
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
         response.data,
