@@ -25,12 +25,8 @@ class AuthService {
         (user) async {
           if (user == null) return null;
           try {
-            final loginRequest = LoginRequest(
-              idToken: await user.getIdToken() ?? '',
-              authProvider: 'apple',
-              pushToken: '', // 필요한 경우 푸시 토큰 추가
-            );
-            return await _serverLogin(loginRequest);
+            // 서버에 저장된 현재 사용자 정보를 가져옴
+            return await currentUser;
           } catch (e, stackTrace) {
             logger.e('auth state changes', error: e, stackTrace: stackTrace);
             return null;

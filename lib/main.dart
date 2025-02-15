@@ -25,10 +25,6 @@ void main() async {
   // 설정 초기화
   await _initializeSettings();
 
-  // timeago 한국어 설정
-  timeago.setLocaleMessages('ko', KoMessages());
-  timeago.setDefaultLocale('ko');
-
   // 앱 실행
   runApp(
     ProviderScope(
@@ -70,6 +66,10 @@ Future<void> setupTimeZone() async {
   tz.initializeTimeZones();
   String timeZoneName = await FlutterTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
+
+  // timeago 한국어 설정
+  timeago.setLocaleMessages('ko', KoMessages());
+  timeago.setDefaultLocale('ko');
 }
 
 void _setupServiceLocator() {

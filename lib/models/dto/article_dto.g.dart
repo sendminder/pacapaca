@@ -22,6 +22,7 @@ _$ArticleDTOImpl _$$ArticleDTOImplFromJson(Map<String, dynamic> json) =>
       viewCount: (json['view_count'] as num).toInt(),
       nickname: json['nickname'] as String,
       profileImageUrl: json['profile_image_url'] as String,
+      isLiked: json['is_liked'] as bool,
     );
 
 Map<String, dynamic> _$$ArticleDTOImplToJson(_$ArticleDTOImpl instance) =>
@@ -40,6 +41,7 @@ Map<String, dynamic> _$$ArticleDTOImplToJson(_$ArticleDTOImpl instance) =>
       'view_count': instance.viewCount,
       'nickname': instance.nickname,
       'profile_image_url': instance.profileImageUrl,
+      'is_liked': instance.isLiked,
     };
 
 _$ArticleCommentDTOImpl _$$ArticleCommentDTOImplFromJson(

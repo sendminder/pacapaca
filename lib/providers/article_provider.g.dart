@@ -23,7 +23,7 @@ final articleServiceProvider = AutoDisposeProvider<ArticleService>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ArticleServiceRef = AutoDisposeProviderRef<ArticleService>;
-String _$articleListHash() => r'bd96d01efc09b532705ebd67d3862ddb5af5fb88';
+String _$articleListHash() => r'7656c8a8d7b65776515701d8e7e1addfa7c514c9';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -398,7 +398,7 @@ class _ArticleProviderElement
   int get articleId => (origin as ArticleProvider).articleId;
 }
 
-String _$articleCommentsHash() => r'85cfe94947114fc7c567623e83ba9ccac6e97d61';
+String _$articleCommentsHash() => r'c68e54e8670736a1d9490689c74d99c2df898eb0';
 
 abstract class _$ArticleComments
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleCommentDTO>?> {

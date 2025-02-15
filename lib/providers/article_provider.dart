@@ -53,6 +53,25 @@ class ArticleList extends _$ArticleList {
     }
   }
 
+  void updateArticleLikeStatus({
+    required int articleId,
+    required bool isLiked,
+    required int likeCount,
+  }) {
+    final currentArticles = state.value ?? [];
+    final updatedArticles = currentArticles.map((article) {
+      if (article.id == articleId) {
+        return article.copyWith(
+          isLiked: isLiked,
+          likeCount: likeCount,
+        );
+      }
+      return article;
+    }).toList();
+
+    state = AsyncData(updatedArticles);
+  }
+
   Future<void> refresh() async {
     ref.invalidateSelf();
   }

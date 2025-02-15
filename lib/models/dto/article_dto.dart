@@ -20,6 +20,7 @@ class ArticleDTO with _$ArticleDTO {
     @JsonKey(name: 'view_count') required int viewCount,
     required String nickname,
     @JsonKey(name: 'profile_image_url') required String profileImageUrl,
+    @JsonKey(name: 'is_liked') required bool isLiked,
   }) = _ArticleDTO;
 
   factory ArticleDTO.fromJson(Map<String, dynamic> json) =>
