@@ -35,14 +35,14 @@ class ArticleCard extends StatelessWidget {
               _buildHeader(context),
               if (article.title.isNotEmpty ?? false) ...[
                 const SizedBox(height: 16),
-                _buildTitle(),
+                _buildTitle(context),
               ],
               if (article.thumbnailUrl != null) ...[
                 const SizedBox(height: 12),
                 _buildThumbnail(),
               ],
               const SizedBox(height: 12),
-              _buildContent(),
+              _buildContent(context),
               const SizedBox(height: 16),
               _buildInteractions(context),
               if (article.tags != null && article.tags!.isNotEmpty) ...[
@@ -70,16 +70,20 @@ class ArticleCard extends StatelessWidget {
             children: [
               Text(
                 article.nickname,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               Text(
                 timeago.format(DateTime.parse(article.createTime),
                     locale: 'ko'),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[600],
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.7),
                     ),
               ),
             ],
@@ -123,12 +127,13 @@ class ArticleCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTitle() {
+  Widget _buildTitle(BuildContext context) {
     return Text(
       article.title,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.onSurface,
       ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
@@ -147,12 +152,12 @@ class ArticleCard extends StatelessWidget {
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(BuildContext context) {
     return Text(
       article.content,
       style: TextStyle(
         fontSize: 15,
-        color: Colors.grey[800],
+        color: Theme.of(context).colorScheme.onSurface,
         height: 1.4,
       ),
       maxLines: 3,

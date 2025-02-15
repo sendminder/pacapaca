@@ -68,20 +68,20 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
     final currentUser = ref.watch(authProvider).value;
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.grey[50],
+        backgroundColor: Theme.of(context).colorScheme.surface,
         leading: TextButton(
           onPressed: () => context.pop(),
           style: TextButton.styleFrom(
-            foregroundColor: Colors.grey[700],
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
           ),
           child: Text(
             'article.cancel'.tr(),
             style: TextStyle(
               fontSize: 16,
-              color: Colors.grey[700],
+              color: Theme.of(context).colorScheme.onSurface,
               fontWeight: FontWeight.w500,
               letterSpacing: -0.3,
             ),

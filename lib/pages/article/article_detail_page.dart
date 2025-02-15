@@ -197,7 +197,7 @@ class ArticleDetailPage extends ConsumerWidget {
         PopupMenuItem(
           child: Text(
             'article.delete'.tr(),
-            style: const TextStyle(color: Colors.red),
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
           ),
           onTap: () async {
             final confirmed = await showDialog<bool>(
@@ -214,7 +214,9 @@ class ArticleDetailPage extends ConsumerWidget {
                     onPressed: () => context.pop(true),
                     child: Text(
                       'article.delete'.tr(),
-                      style: const TextStyle(color: Colors.red),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                     ),
                   ),
                 ],

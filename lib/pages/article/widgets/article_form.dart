@@ -21,21 +21,23 @@ class ArticleForm extends StatelessWidget {
         _buildAuthorInfo(context),
         Container(
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: Theme.of(context).colorScheme.surface,
             border: Border.symmetric(
-              horizontal: BorderSide(color: Colors.grey[200]!),
+              horizontal: BorderSide(
+                color: Theme.of(context).colorScheme.surface,
+              ),
             ),
           ),
           child: Column(
             children: [
-              _buildTitleField(),
+              _buildTitleField(context),
             ],
           ),
         ),
         Expanded(
           child: Container(
-            color: Colors.grey[100],
-            child: _buildContentField(),
+            color: Theme.of(context).colorScheme.surface,
+            child: _buildContentField(context),
           ),
         ),
       ],
@@ -51,7 +53,7 @@ class ArticleForm extends StatelessWidget {
             'article.nickname'.tr(),
             style: TextStyle(
               fontSize: 15,
-              color: Colors.grey[600],
+              color: Theme.of(context).colorScheme.onSurface,
               fontWeight: FontWeight.w500,
               letterSpacing: -0.3,
             ),
@@ -70,7 +72,7 @@ class ArticleForm extends StatelessWidget {
     );
   }
 
-  Widget _buildTitleField() {
+  Widget _buildTitleField(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: TextField(
@@ -83,7 +85,7 @@ class ArticleForm extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'article.title_hint'.tr(),
           hintStyle: TextStyle(
-            color: Colors.grey[400],
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             fontSize: 20,
             fontWeight: FontWeight.bold,
             letterSpacing: -0.5,
@@ -94,12 +96,12 @@ class ArticleForm extends StatelessWidget {
           contentPadding:
               const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         ),
-        cursorColor: Colors.grey[600],
+        cursorColor: Theme.of(context).colorScheme.onSurface,
       ),
     );
   }
 
-  Widget _buildContentField() {
+  Widget _buildContentField(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextField(
@@ -115,7 +117,7 @@ class ArticleForm extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'article.content_hint'.tr(),
           hintStyle: TextStyle(
-            color: Colors.grey[400],
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             fontSize: 16,
             height: 1.6,
             letterSpacing: -0.3,
@@ -126,7 +128,7 @@ class ArticleForm extends StatelessWidget {
           contentPadding:
               const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
         ),
-        cursorColor: Colors.grey[600],
+        cursorColor: Theme.of(context).colorScheme.onSurface,
       ),
     );
   }

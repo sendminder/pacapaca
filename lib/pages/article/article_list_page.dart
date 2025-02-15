@@ -56,6 +56,16 @@ class ArticleListPage extends ConsumerWidget {
             return ListView.builder(
               itemCount: articles.length,
               itemBuilder: (context, index) {
+                if (index == articles.length - 1) {
+                  Future.microtask(() {
+                    ref.read(provider.notifier).loadMore(
+                          sortBy: 'latest',
+                          limit: 20,
+                          pagingKey: articles.last.id,
+                        );
+                  });
+                }
+
                 return ArticleCard(
                   article: articles[index],
                   onToggleLike: handleToggleLike,

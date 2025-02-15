@@ -36,8 +36,9 @@ class ArticleDetailContent extends StatelessWidget {
                   children: [
                     Text(
                       article.nickname,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     Text(
@@ -45,7 +46,12 @@ class ArticleDetailContent extends StatelessWidget {
                         DateTime.parse(article.createTime),
                         locale: 'ko',
                       ),
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.7),
+                          ),
                     ),
                   ],
                 ),
@@ -55,9 +61,10 @@ class ArticleDetailContent extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             article.title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 16),
@@ -77,7 +84,7 @@ class ArticleDetailContent extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               height: 1.6,
-              color: Colors.grey[800],
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 16),
