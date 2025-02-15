@@ -149,3 +149,15 @@ class GetCommentResponse with _$GetCommentResponse {
   factory GetCommentResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCommentResponseFromJson(json);
 }
+
+@freezed
+class ArticleLikeResponse with _$ArticleLikeResponse {
+  const factory ArticleLikeResponse({
+    @JsonKey(name: 'article_id') required int articleId,
+    @JsonKey(name: 'like_count') required int likeCount,
+    @JsonKey(name: 'is_liked') required bool isLiked,
+  }) = _ArticleLikeResponse;
+
+  factory ArticleLikeResponse.fromJson(Map<String, dynamic> json) =>
+      _$ArticleLikeResponseFromJson(json);
+}

@@ -210,3 +210,19 @@ Map<String, dynamic> _$$GetCommentResponseImplToJson(
     <String, dynamic>{
       'comment': instance.comment,
     };
+
+_$ArticleLikeResponseImpl _$$ArticleLikeResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ArticleLikeResponseImpl(
+      articleId: (json['article_id'] as num).toInt(),
+      likeCount: (json['like_count'] as num).toInt(),
+      isLiked: json['is_liked'] as bool,
+    );
+
+Map<String, dynamic> _$$ArticleLikeResponseImplToJson(
+        _$ArticleLikeResponseImpl instance) =>
+    <String, dynamic>{
+      'article_id': instance.articleId,
+      'like_count': instance.likeCount,
+      'is_liked': instance.isLiked,
+    };

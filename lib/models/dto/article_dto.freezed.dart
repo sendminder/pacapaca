@@ -2587,3 +2587,209 @@ abstract class _GetCommentResponse implements GetCommentResponse {
   _$$GetCommentResponseImplCopyWith<_$GetCommentResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+ArticleLikeResponse _$ArticleLikeResponseFromJson(Map<String, dynamic> json) {
+  return _ArticleLikeResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ArticleLikeResponse {
+  @JsonKey(name: 'article_id')
+  int get articleId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'like_count')
+  int get likeCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_liked')
+  bool get isLiked => throw _privateConstructorUsedError;
+
+  /// Serializes this ArticleLikeResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ArticleLikeResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ArticleLikeResponseCopyWith<ArticleLikeResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ArticleLikeResponseCopyWith<$Res> {
+  factory $ArticleLikeResponseCopyWith(
+          ArticleLikeResponse value, $Res Function(ArticleLikeResponse) then) =
+      _$ArticleLikeResponseCopyWithImpl<$Res, ArticleLikeResponse>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'article_id') int articleId,
+      @JsonKey(name: 'like_count') int likeCount,
+      @JsonKey(name: 'is_liked') bool isLiked});
+}
+
+/// @nodoc
+class _$ArticleLikeResponseCopyWithImpl<$Res, $Val extends ArticleLikeResponse>
+    implements $ArticleLikeResponseCopyWith<$Res> {
+  _$ArticleLikeResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ArticleLikeResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? articleId = null,
+    Object? likeCount = null,
+    Object? isLiked = null,
+  }) {
+    return _then(_value.copyWith(
+      articleId: null == articleId
+          ? _value.articleId
+          : articleId // ignore: cast_nullable_to_non_nullable
+              as int,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ArticleLikeResponseImplCopyWith<$Res>
+    implements $ArticleLikeResponseCopyWith<$Res> {
+  factory _$$ArticleLikeResponseImplCopyWith(_$ArticleLikeResponseImpl value,
+          $Res Function(_$ArticleLikeResponseImpl) then) =
+      __$$ArticleLikeResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'article_id') int articleId,
+      @JsonKey(name: 'like_count') int likeCount,
+      @JsonKey(name: 'is_liked') bool isLiked});
+}
+
+/// @nodoc
+class __$$ArticleLikeResponseImplCopyWithImpl<$Res>
+    extends _$ArticleLikeResponseCopyWithImpl<$Res, _$ArticleLikeResponseImpl>
+    implements _$$ArticleLikeResponseImplCopyWith<$Res> {
+  __$$ArticleLikeResponseImplCopyWithImpl(_$ArticleLikeResponseImpl _value,
+      $Res Function(_$ArticleLikeResponseImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ArticleLikeResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? articleId = null,
+    Object? likeCount = null,
+    Object? isLiked = null,
+  }) {
+    return _then(_$ArticleLikeResponseImpl(
+      articleId: null == articleId
+          ? _value.articleId
+          : articleId // ignore: cast_nullable_to_non_nullable
+              as int,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ArticleLikeResponseImpl implements _ArticleLikeResponse {
+  const _$ArticleLikeResponseImpl(
+      {@JsonKey(name: 'article_id') required this.articleId,
+      @JsonKey(name: 'like_count') required this.likeCount,
+      @JsonKey(name: 'is_liked') required this.isLiked});
+
+  factory _$ArticleLikeResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArticleLikeResponseImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'article_id')
+  final int articleId;
+  @override
+  @JsonKey(name: 'like_count')
+  final int likeCount;
+  @override
+  @JsonKey(name: 'is_liked')
+  final bool isLiked;
+
+  @override
+  String toString() {
+    return 'ArticleLikeResponse(articleId: $articleId, likeCount: $likeCount, isLiked: $isLiked)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ArticleLikeResponseImpl &&
+            (identical(other.articleId, articleId) ||
+                other.articleId == articleId) &&
+            (identical(other.likeCount, likeCount) ||
+                other.likeCount == likeCount) &&
+            (identical(other.isLiked, isLiked) || other.isLiked == isLiked));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, articleId, likeCount, isLiked);
+
+  /// Create a copy of ArticleLikeResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ArticleLikeResponseImplCopyWith<_$ArticleLikeResponseImpl> get copyWith =>
+      __$$ArticleLikeResponseImplCopyWithImpl<_$ArticleLikeResponseImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ArticleLikeResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ArticleLikeResponse implements ArticleLikeResponse {
+  const factory _ArticleLikeResponse(
+          {@JsonKey(name: 'article_id') required final int articleId,
+          @JsonKey(name: 'like_count') required final int likeCount,
+          @JsonKey(name: 'is_liked') required final bool isLiked}) =
+      _$ArticleLikeResponseImpl;
+
+  factory _ArticleLikeResponse.fromJson(Map<String, dynamic> json) =
+      _$ArticleLikeResponseImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'article_id')
+  int get articleId;
+  @override
+  @JsonKey(name: 'like_count')
+  int get likeCount;
+  @override
+  @JsonKey(name: 'is_liked')
+  bool get isLiked;
+
+  /// Create a copy of ArticleLikeResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ArticleLikeResponseImplCopyWith<_$ArticleLikeResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

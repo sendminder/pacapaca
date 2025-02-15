@@ -221,4 +221,26 @@ class ArticleService {
       rethrow;
     }
   }
+
+  // 좋아요 추가
+  Future<ArticleLikeResponse?> toggleArticleLike(int articleId) async {
+    try {
+      final response = await _dio.post('/v1/articles/$articleId/likes');
+
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
+
+      if (responseRest.response != null) {
+        final articleResponse =
+            ArticleLikeResponse.fromJson(responseRest.response!);
+        return articleResponse;
+      }
+      return null;
+    } catch (e, stackTrace) {
+      logger.e('toggle like', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
 }

@@ -10,10 +10,29 @@ class ArticleListPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final articlesAsync = ref.watch(articleListProvider(
+    final provider = articleListProvider(
       sortBy: 'latest',
       limit: 20,
-    ));
+    );
+
+    final articlesAsync = ref.watch(provider);
+
+    Future<void> handleToggleLike(int articleId) async {
+      try {
+        final response =
+            await ref.read(articleServiceProvider).toggleArticleLike(articleId);
+
+        if (response != null) {
+          ref.read(provider.notifier).updateArticleLikeStatus(
+                articleId: articleId,
+                isLiked: response.isLiked,
+                likeCount: response.likeCount,
+              );
+        }
+      } catch (e) {
+        rethrow;
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +44,7 @@ class ArticleListPage extends ConsumerWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          ref.invalidate(articleListProvider);
+          ref.invalidate(provider);
         },
         child: articlesAsync.when(
           data: (articles) {
@@ -38,7 +57,10 @@ class ArticleListPage extends ConsumerWidget {
             return ListView.builder(
               itemCount: articles.length,
               itemBuilder: (context, index) {
-                return ArticleListItem(article: articles[index]);
+                return ArticleListItem(
+                  article: articles[index],
+                  onToggleLike: handleToggleLike,
+                );
               },
             );
           },
@@ -56,10 +78,12 @@ class ArticleListPage extends ConsumerWidget {
 
 class ArticleListItem extends StatelessWidget {
   final ArticleDTO article;
+  final Future<void> Function(int articleId) onToggleLike;
 
   const ArticleListItem({
     super.key,
     required this.article,
+    required this.onToggleLike,
   });
 
   @override
@@ -127,13 +151,32 @@ class ArticleListItem extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Icon(
-                    Icons.favorite,
-                    size: 16,
-                    color: Theme.of(context).colorScheme.primary,
+                  InkWell(
+                    onTap: () async {
+                      try {
+                        await onToggleLike(article.id);
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('좋아요 처리 중 오류가 발생했습니다: $e')),
+                        );
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          article.isLiked
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          size: 16,
+                          color: article.isLiked
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.grey,
+                        ),
+                        const SizedBox(width: 4),
+                        Text('${article.likeCount}'),
+                      ],
+                    ),
                   ),
-                  const SizedBox(width: 4),
-                  Text('${article.likeCount}'),
                   const SizedBox(width: 16),
                   Icon(
                     Icons.comment,
