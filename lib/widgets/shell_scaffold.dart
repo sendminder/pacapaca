@@ -15,6 +15,7 @@ class ShellScaffold extends StatelessWidget {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
+        height: 65,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         selectedIndex: navigationShell.currentIndex,
         onDestinationSelected: (index) {

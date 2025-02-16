@@ -15,14 +15,14 @@ import 'pages/article/article_list_page.dart';
 import 'pages/article/article_create_page.dart';
 
 // 라우터 프로바이더 생성
-final _emptyNavigatorKey = GlobalKey<NavigatorState>();
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
   final router = RouterNotifier(ref);
 
   return GoRouter(
     initialLocation: '/splash',
-    navigatorKey: _emptyNavigatorKey,
+    navigatorKey: _rootNavigatorKey,
     refreshListenable: router, // 인증 상태 변경 감지
     redirect: router._redirectLogic, // 리다이렉트 로직
     routes: router._routes, // 라우트 설정
@@ -81,7 +81,6 @@ class RouterNotifier extends ChangeNotifier {
     return null;
   }
 
-  final _rootNavigatorKey = GlobalKey<NavigatorState>();
   final _shellNavigatorHomeKey =
       GlobalKey<NavigatorState>(debugLabel: 'shell/home');
   final _shellNavigatorBoardKey =
@@ -147,7 +146,7 @@ class RouterNotifier extends ChangeNotifier {
                   routes: [
                     GoRoute(
                       path: ':id',
-                      parentNavigatorKey: _emptyNavigatorKey,
+                      parentNavigatorKey: _rootNavigatorKey,
                       builder: (context, state) {
                         final articleId =
                             int.parse(state.pathParameters['id']!);
