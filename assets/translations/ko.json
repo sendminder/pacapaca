@@ -28,6 +28,7 @@
         "no_articles": "게시글이 없습니다",
         "sort": {
             "latest": "최신순",
+            "oldest": "오래된순",
             "views": "조회순"
         }
     },

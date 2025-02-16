@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/article_service.dart';
 import '../models/dto/article_dto.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
 
 part 'article_provider.g.dart';
 
@@ -112,12 +113,14 @@ class Article extends _$Article {
 @riverpod
 class ArticleComments extends _$ArticleComments {
   int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
+  String? _sort; // 댓글 정렬 기준 저장
 
   @override
   FutureOr<List<ArticleCommentDTO>?> build(int articleId) async {
     _lastPagingKey = null; // 초기화
+    _sort = ref.watch(commentSortProvider);
     final articleService = ref.watch(articleServiceProvider);
-    return articleService.listComments(articleId, 20, 0, 'latest');
+    return articleService.listComments(articleId, 20, 0, _sort);
   }
 
   Future<void> addComment(String content) async {
@@ -129,10 +132,17 @@ class ArticleComments extends _$ArticleComments {
 
       if (newComment != null) {
         final currentComments = state.value ?? [];
-        state = AsyncData([
-          ...currentComments,
-          newComment,
-        ]);
+        if (_sort == 'latest') {
+          state = AsyncData([
+            newComment,
+            ...currentComments,
+          ]);
+        } else {
+          state = AsyncData([
+            ...currentComments,
+            newComment,
+          ]);
+        }
       }
     } catch (e, stack) {
       state = AsyncError(e, stack);
@@ -192,7 +202,7 @@ class ArticleComments extends _$ArticleComments {
         articleId,
         20,
         lastComment.id,
-        'latest',
+        _sort,
       );
 
       if (newComments == null || newComments.isEmpty) return;

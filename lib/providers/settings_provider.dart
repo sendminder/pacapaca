@@ -11,6 +11,16 @@ final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>((ref) {
   return LocaleNotifier();
 });
 
+final commentSortProvider =
+    StateNotifierProvider<CommentSortNotifier, String>((ref) {
+  return CommentSortNotifier();
+});
+
+final articleSortProvider =
+    StateNotifierProvider<ArticleSortNotifier, String>((ref) {
+  return ArticleSortNotifier();
+});
+
 class ThemeNotifier extends StateNotifier<ThemeMode> {
   final _storage = GetIt.instance<StorageService>();
 
@@ -48,5 +58,45 @@ class LocaleNotifier extends StateNotifier<Locale> {
   Future<void> setLocale(Locale locale) async {
     await _storage.saveLocale(locale);
     state = locale;
+  }
+}
+
+// 댓글 정렬 상태를 위한 provider
+class CommentSortNotifier extends StateNotifier<String> {
+  CommentSortNotifier() : super('latest') {
+    _loadCommentSort();
+  }
+  final _storage = GetIt.instance<StorageService>();
+
+  void setSort(String sort) {
+    state = sort;
+    _storage.saveCommentSort(sort);
+  }
+
+  Future<void> _loadCommentSort() async {
+    final savedCommentSort = await _storage.commentSort;
+    if (savedCommentSort != null) {
+      state = savedCommentSort;
+    }
+  }
+}
+
+// 게시글 정렬 상태를 위한 provider
+class ArticleSortNotifier extends StateNotifier<String> {
+  ArticleSortNotifier() : super('latest') {
+    _loadArticleSort();
+  }
+  final _storage = GetIt.instance<StorageService>();
+
+  void setSort(String sort) {
+    state = sort;
+    _storage.saveArticleSort(sort);
+  }
+
+  Future<void> _loadArticleSort() async {
+    final savedArticleSort = await _storage.articleSort;
+    if (savedArticleSort != null) {
+      state = savedArticleSort;
+    }
   }
 }

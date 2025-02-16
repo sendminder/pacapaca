@@ -11,6 +11,9 @@ class StorageService {
   static const String _userKey = 'user_data';
   static const String _themeKey = 'theme_mode';
   static const String _localeKey = 'locale';
+  static const String _commentSortKey = 'comment_sort';
+  static const String _articleSortKey = 'article_sort';
+
   final logger = GetIt.instance<Logger>();
 
   final _storage = const FlutterSecureStorage(
@@ -112,5 +115,25 @@ class StorageService {
     final localeStr = await _storage.read(key: _localeKey);
     if (localeStr == null) return null;
     return Locale(localeStr);
+  }
+
+  // 댓글 정렬 저장
+  Future<void> saveCommentSort(String sort) async {
+    await _storage.write(key: _commentSortKey, value: sort);
+  }
+
+  // 댓글 정렬 가져오기
+  Future<String?> get commentSort async {
+    return await _storage.read(key: _commentSortKey);
+  }
+
+  // 게시글 정렬 저장
+  Future<void> saveArticleSort(String sort) async {
+    await _storage.write(key: _articleSortKey, value: sort);
+  }
+
+  // 게시글 정렬 가져오기
+  Future<String?> get articleSort async {
+    return await _storage.read(key: _articleSortKey);
   }
 }

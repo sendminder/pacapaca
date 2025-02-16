@@ -3,7 +3,6 @@ import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/widgets/shared/comment/comment_edit_dialog.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class CommentItem extends StatelessWidget {

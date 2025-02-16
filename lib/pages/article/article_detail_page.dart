@@ -9,6 +9,7 @@ import 'package:pacapaca/pages/article/widgets/article_detail_content.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
 
 class ArticleDetailPage extends ConsumerWidget {
   final int articleId;
@@ -169,11 +170,47 @@ class ArticleDetailPage extends ConsumerWidget {
     AsyncValue<List<ArticleCommentDTO>?> commentsAsync,
     UserDTO? currentUser,
   ) {
+    final commentSort = ref.watch(commentSortProvider);
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'article.comments'.tr(),
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              PopupMenuButton<String>(
+                child: Row(
+                  children: [
+                    if (commentSort == 'latest')
+                      Text('article.sort.latest'.tr()),
+                    if (commentSort == 'oldest')
+                      Text('article.sort.oldest'.tr()),
+                    const Icon(Icons.arrow_drop_down),
+                  ],
+                ),
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 'latest',
+                    child: Text('article.sort.latest'.tr()),
+                  ),
+                  PopupMenuItem(
+                    value: 'oldest',
+                    child: Text('article.sort.oldest'.tr()),
+                  ),
+                ],
+                onSelected: (value) {
+                  ref.read(commentSortProvider.notifier).setSort(value);
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
           _buildCommentList(ref, commentsAsync, currentUser),
           if (currentUser != null) const SizedBox(height: 70),
         ],
