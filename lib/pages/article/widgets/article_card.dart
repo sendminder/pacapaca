@@ -20,9 +20,9 @@ class ArticleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).colorScheme.primary.withAlpha(15),
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      elevation: 2,
+      color: Theme.of(context).colorScheme.primary.withAlpha(20),
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      elevation: 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -37,13 +37,12 @@ class ArticleCard extends StatelessWidget {
               if (article.title.isNotEmpty ?? false) ...[
                 const SizedBox(height: 16),
                 _buildTitle(context),
-                const SizedBox(height: 8),
               ],
               if (article.thumbnailUrl != null) ...[
                 const SizedBox(height: 12),
                 _buildThumbnail(),
               ],
-              const SizedBox(height: 12),
+              const SizedBox(height: 6),
               _buildContent(context),
               const SizedBox(height: 16),
               _buildInteractions(context),

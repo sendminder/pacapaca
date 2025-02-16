@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/pages/article/widgets/article_card.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
 
 class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});
@@ -14,10 +15,10 @@ class ArticleListPage extends ConsumerStatefulWidget {
 
 class _ArticleListPageState extends ConsumerState<ArticleListPage> {
   final ScrollController _scrollController = ScrollController();
-  String sortBy = 'latest'; // 기본값은 최신순
 
   @override
   Widget build(BuildContext context) {
+    final sortBy = ref.watch(articleSortProvider);
     final provider = articleListProvider(
       sortBy: sortBy,
       limit: 20,
@@ -29,7 +30,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
         final response =
             await ref.read(articleServiceProvider).toggleArticleLike(articleId);
         if (response != null) {
-          ref.read(provider.notifier).updateArticleLikeStatus(
+          ref.read(provider.notifier).updateArticleStatus(
                 articleId: articleId,
                 isLiked: response.isLiked,
                 likeCount: response.likeCount,
@@ -43,24 +44,6 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('article.title'.tr()),
-        actions: [
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              sortBy = value;
-              ref.invalidate(provider); // 정렬 변경 시 목록 새로고침
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'latest',
-                child: Text('article.sort.latest'.tr()),
-              ),
-              PopupMenuItem(
-                value: 'views',
-                child: Text('article.sort.views'.tr()),
-              ),
-            ],
-          ),
-        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/articles/new'),
@@ -79,9 +62,58 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
             }
 
             return ListView.builder(
-              itemCount: articles.length,
+              controller: _scrollController,
+              itemCount: articles.length + 1, // +1 for the sort header
               itemBuilder: (context, index) {
-                if (index == articles.length - 1) {
+                if (index == 0) {
+                  return Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      border: Border(
+                        top: BorderSide(
+                          color: Theme.of(context).dividerColor.withAlpha(10),
+                        ),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        PopupMenuButton<String>(
+                          child: Row(
+                            children: [
+                              if (sortBy == 'latest')
+                                Text('article.sort.latest'.tr()),
+                              if (sortBy == 'views')
+                                Text('article.sort.views'.tr()),
+                              const Icon(Icons.arrow_drop_down),
+                            ],
+                          ),
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                              value: 'latest',
+                              child: Text('article.sort.latest'.tr()),
+                            ),
+                            PopupMenuItem(
+                              value: 'views',
+                              child: Text('article.sort.views'.tr()),
+                            ),
+                          ],
+                          onSelected: (value) {
+                            ref
+                                .read(articleSortProvider.notifier)
+                                .setSort(value);
+                            ref.invalidate(provider);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                final articleIndex = index - 1;
+                if (articleIndex == articles.length - 1) {
                   Future.microtask(() {
                     ref.read(provider.notifier).loadMore(
                           sortBy: sortBy,
@@ -92,7 +124,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
                 }
 
                 return ArticleCard(
-                  article: articles[index],
+                  article: articles[articleIndex],
                   onToggleLike: handleToggleLike,
                 );
               },

@@ -71,17 +71,22 @@ class ArticleList extends _$ArticleList {
     }
   }
 
-  void updateArticleLikeStatus({
+  void updateArticleStatus({
     required int articleId,
-    required bool isLiked,
-    required int likeCount,
+    bool? isLiked,
+    int? likeCount,
+    int? viewCount,
   }) {
     final currentArticles = state.value ?? [];
     final updatedArticles = currentArticles.map((article) {
       if (article.id == articleId) {
+        final updatedViewCount = viewCount ?? article.viewCount;
+        final updatedIsLiked = isLiked ?? article.isLiked;
+        final updatedLikeCount = likeCount ?? article.likeCount;
         return article.copyWith(
-          isLiked: isLiked,
-          likeCount: likeCount,
+          isLiked: updatedIsLiked,
+          likeCount: updatedLikeCount,
+          viewCount: updatedViewCount,
         );
       }
       return article;

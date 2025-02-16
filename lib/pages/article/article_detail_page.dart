@@ -26,6 +26,9 @@ class ArticleDetailPage extends ConsumerWidget {
     final commentsAsync = ref.watch(articleCommentsProvider(articleId));
     final currentUser = ref.watch(authProvider).value;
 
+    // 게시글 상세 페이지에서 좋아요 버튼 클릭 시 목록 업데이트
+    _updateArticleList(ref, provider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('article.title'.tr()),
@@ -64,10 +67,8 @@ class ArticleDetailPage extends ConsumerWidget {
                   _buildArticleContent(ref, articleAsync),
                   Divider(
                     height: 0.5,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.1),
+                    color:
+                        Theme.of(context).colorScheme.onSurface.withAlpha(10),
                   ),
                   _buildCommentSection(
                       context, ref, commentsAsync, currentUser),
@@ -119,6 +120,30 @@ class ArticleDetailPage extends ConsumerWidget {
     );
   }
 
+  void _updateArticleList(
+    WidgetRef ref,
+    ArticleProvider provider,
+  ) {
+    ref.listen(provider, (previous, next) {
+      next.whenData((article) {
+        if (article != null) {
+          final currentSortBy = ref.read(articleSortProvider);
+          ref
+              .read(articleListProvider(
+                sortBy: currentSortBy,
+                limit: 20,
+              ).notifier)
+              .updateArticleStatus(
+                articleId: article.id,
+                isLiked: article.isLiked,
+                likeCount: article.likeCount,
+                viewCount: article.viewCount,
+              );
+        }
+      });
+    });
+  }
+
   Widget _buildArticleContent(
     WidgetRef ref,
     AsyncValue<ArticleDTO?> articleAsync,
@@ -128,6 +153,8 @@ class ArticleDetailPage extends ConsumerWidget {
         if (article == null) {
           return Center(child: Text('article.not_found'.tr()));
         }
+        final currentSortBy = ref.read(articleSortProvider);
+
         return ArticleDetailContent(
           article: article,
           onToggleLike: (articleId) async {
@@ -136,19 +163,24 @@ class ArticleDetailPage extends ConsumerWidget {
                   .read(articleServiceProvider)
                   .toggleArticleLike(articleId);
               if (response != null) {
-                // 상세 페이지의 상태 업데이트
-                ref.invalidate(articleProvider(articleId));
+                // 상세 페이지 상태 업데이트
+                ref.read(articleProvider(articleId).notifier).state =
+                    AsyncValue.data(article.copyWith(
+                  isLiked: response.isLiked,
+                  likeCount: response.likeCount,
+                ));
 
-                // 목록 페이지의 상태도 함께 업데이트
+                // 현재 정렬 상태의 목록만 업데이트
                 ref
                     .read(articleListProvider(
-                      sortBy: 'latest',
+                      sortBy: currentSortBy,
                       limit: 20,
                     ).notifier)
-                    .updateArticleLikeStatus(
+                    .updateArticleStatus(
                       articleId: articleId,
                       isLiked: response.isLiked,
                       likeCount: response.likeCount,
+                      viewCount: article.viewCount,
                     );
               }
             } catch (e) {
@@ -178,35 +210,37 @@ class ArticleDetailPage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                'article.comments'.tr(),
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              PopupMenuButton<String>(
-                child: Row(
-                  children: [
-                    if (commentSort == 'latest')
-                      Text('article.sort.latest'.tr()),
-                    if (commentSort == 'oldest')
-                      Text('article.sort.oldest'.tr()),
-                    const Icon(Icons.arrow_drop_down),
-                  ],
-                ),
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: 'latest',
-                    child: Text('article.sort.latest'.tr()),
-                  ),
-                  PopupMenuItem(
-                    value: 'oldest',
-                    child: Text('article.sort.oldest'.tr()),
-                  ),
-                ],
-                onSelected: (value) {
-                  ref.read(commentSortProvider.notifier).setSort(value);
-                },
+              commentsAsync.when(
+                data: (comments) => comments != null && comments.isNotEmpty
+                    ? PopupMenuButton<String>(
+                        child: Row(
+                          children: [
+                            if (commentSort == 'latest')
+                              Text('article.sort.latest'.tr()),
+                            if (commentSort == 'oldest')
+                              Text('article.sort.oldest'.tr()),
+                            const Icon(Icons.arrow_drop_down),
+                          ],
+                        ),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: 'latest',
+                            child: Text('article.sort.latest'.tr()),
+                          ),
+                          PopupMenuItem(
+                            value: 'oldest',
+                            child: Text('article.sort.oldest'.tr()),
+                          ),
+                        ],
+                        onSelected: (value) {
+                          ref.read(commentSortProvider.notifier).setSort(value);
+                        },
+                      )
+                    : const SizedBox.shrink(),
+                error: (_, __) => const SizedBox.shrink(),
+                loading: () => const SizedBox.shrink(),
               ),
             ],
           ),
