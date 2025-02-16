@@ -15,11 +15,14 @@ import 'pages/article/article_list_page.dart';
 import 'pages/article/article_create_page.dart';
 
 // 라우터 프로바이더 생성
+final _emptyNavigatorKey = GlobalKey<NavigatorState>();
+
 final routerProvider = Provider<GoRouter>((ref) {
   final router = RouterNotifier(ref);
 
   return GoRouter(
     initialLocation: '/splash',
+    navigatorKey: _emptyNavigatorKey,
     refreshListenable: router, // 인증 상태 변경 감지
     redirect: router._redirectLogic, // 리다이렉트 로직
     routes: router._routes, // 라우트 설정
@@ -66,16 +69,12 @@ class RouterNotifier extends ChangeNotifier {
     }
 
     // 닉네임이 없고 닉네임 설정 페이지가 아니면 닉네임 설정 페이지로
-    if (user != null &&
-        (user.nickname.isEmpty) &&
-        !isSettingNickname) {
+    if (user != null && (user.nickname.isEmpty) && !isSettingNickname) {
       return '/set-nickname';
     }
 
     // 닉네임이 있는데 닉네임 설정 페이지에 접근하면 홈으로
-    if (isSettingNickname &&
-        user != null &&
-        user.nickname.isNotEmpty) {
+    if (isSettingNickname && user != null && user.nickname.isNotEmpty) {
       return '/home';
     }
 
@@ -148,7 +147,7 @@ class RouterNotifier extends ChangeNotifier {
                   routes: [
                     GoRoute(
                       path: ':id',
-                      parentNavigatorKey: _shellNavigatorBoardKey,
+                      parentNavigatorKey: _emptyNavigatorKey,
                       builder: (context, state) {
                         final articleId =
                             int.parse(state.pathParameters['id']!);

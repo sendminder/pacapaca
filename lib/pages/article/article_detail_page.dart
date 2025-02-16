@@ -38,34 +38,83 @@ class ArticleDetailPage extends ConsumerWidget {
           ),
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          ref.invalidate(provider);
-          ref.invalidate(articleCommentsProvider(articleId));
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
         },
-        child: NotificationListener<ScrollNotification>(
-          onNotification: (ScrollNotification scrollInfo) {
-            if (scrollInfo.metrics.pixels >=
-                scrollInfo.metrics.maxScrollExtent - 200) {
-              ref.read(articleCommentsProvider(articleId).notifier).loadMore();
-            }
-            return true;
+        child: RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(provider);
+            ref.invalidate(articleCommentsProvider(articleId));
           },
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _buildArticleContent(ref, articleAsync),
-                Divider(
-                  height: 0.5,
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
-                ),
-                _buildCommentSection(context, ref, commentsAsync, currentUser),
-              ],
+          child: NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (scrollInfo.metrics.pixels >=
+                  scrollInfo.metrics.maxScrollExtent - 200) {
+                ref
+                    .read(articleCommentsProvider(articleId).notifier)
+                    .loadMore();
+              }
+              return true;
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _buildArticleContent(ref, articleAsync),
+                  Divider(
+                    height: 0.5,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.1),
+                  ),
+                  _buildCommentSection(
+                      context, ref, commentsAsync, currentUser),
+                ],
+              ),
             ),
           ),
         ),
       ),
+      bottomSheet: currentUser != null
+          ? Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withAlpha(50),
+                    blurRadius: 8,
+                    offset: const Offset(0, -2),
+                  ),
+                ],
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.withAlpha(10),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: 16,
+                    left: 16,
+                    right: 16,
+                    bottom: 30,
+                  ),
+                  child: CommentInput(
+                    onSubmit: (content) async {
+                      await ref
+                          .read(articleCommentsProvider(articleId).notifier)
+                          .addComment(content);
+                      FocusScope.of(context).unfocus();
+                    },
+                  ),
+                ),
+              ),
+            )
+          : null,
     );
   }
 
@@ -125,25 +174,8 @@ class ArticleDetailPage extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'article.comments'.tr(),
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
-          if (currentUser != null) ...[
-            CommentInput(
-              onSubmit: (content) async {
-                await ref
-                    .read(articleCommentsProvider(articleId).notifier)
-                    .addComment(content);
-              },
-            ),
-            const SizedBox(height: 16),
-          ],
           _buildCommentList(ref, commentsAsync, currentUser),
+          if (currentUser != null) const SizedBox(height: 70),
         ],
       ),
     );
