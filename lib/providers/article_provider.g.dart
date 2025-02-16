@@ -23,7 +23,7 @@ final articleServiceProvider = AutoDisposeProvider<ArticleService>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ArticleServiceRef = AutoDisposeProviderRef<ArticleService>;
-String _$articleListHash() => r'7656c8a8d7b65776515701d8e7e1addfa7c514c9';
+String _$articleListHash() => r'6bdb3d453bdd848d6d88bf81a2df1dc840b7d58b';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -50,13 +50,15 @@ abstract class _$ArticleList
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
   late final String sortBy;
   late final int limit;
-  late final int? pagingKey;
+  late final int? pagingViewCount;
+  late final int? pagingArticleId;
   late final String? category;
 
   FutureOr<List<ArticleDTO>?> build({
     required String sortBy,
     required int limit,
-    int? pagingKey,
+    int? pagingViewCount,
+    int? pagingArticleId,
     String? category,
   });
 }
@@ -74,13 +76,15 @@ class ArticleListFamily extends Family<AsyncValue<List<ArticleDTO>?>> {
   ArticleListProvider call({
     required String sortBy,
     required int limit,
-    int? pagingKey,
+    int? pagingViewCount,
+    int? pagingArticleId,
     String? category,
   }) {
     return ArticleListProvider(
       sortBy: sortBy,
       limit: limit,
-      pagingKey: pagingKey,
+      pagingViewCount: pagingViewCount,
+      pagingArticleId: pagingArticleId,
       category: category,
     );
   }
@@ -92,7 +96,8 @@ class ArticleListFamily extends Family<AsyncValue<List<ArticleDTO>?>> {
     return call(
       sortBy: provider.sortBy,
       limit: provider.limit,
-      pagingKey: provider.pagingKey,
+      pagingViewCount: provider.pagingViewCount,
+      pagingArticleId: provider.pagingArticleId,
       category: provider.category,
     );
   }
@@ -119,13 +124,15 @@ class ArticleListProvider extends AutoDisposeAsyncNotifierProviderImpl<
   ArticleListProvider({
     required String sortBy,
     required int limit,
-    int? pagingKey,
+    int? pagingViewCount,
+    int? pagingArticleId,
     String? category,
   }) : this._internal(
           () => ArticleList()
             ..sortBy = sortBy
             ..limit = limit
-            ..pagingKey = pagingKey
+            ..pagingViewCount = pagingViewCount
+            ..pagingArticleId = pagingArticleId
             ..category = category,
           from: articleListProvider,
           name: r'articleListProvider',
@@ -138,7 +145,8 @@ class ArticleListProvider extends AutoDisposeAsyncNotifierProviderImpl<
               ArticleListFamily._allTransitiveDependencies,
           sortBy: sortBy,
           limit: limit,
-          pagingKey: pagingKey,
+          pagingViewCount: pagingViewCount,
+          pagingArticleId: pagingArticleId,
           category: category,
         );
 
@@ -151,13 +159,15 @@ class ArticleListProvider extends AutoDisposeAsyncNotifierProviderImpl<
     required super.from,
     required this.sortBy,
     required this.limit,
-    required this.pagingKey,
+    required this.pagingViewCount,
+    required this.pagingArticleId,
     required this.category,
   }) : super.internal();
 
   final String sortBy;
   final int limit;
-  final int? pagingKey;
+  final int? pagingViewCount;
+  final int? pagingArticleId;
   final String? category;
 
   @override
@@ -167,7 +177,8 @@ class ArticleListProvider extends AutoDisposeAsyncNotifierProviderImpl<
     return notifier.build(
       sortBy: sortBy,
       limit: limit,
-      pagingKey: pagingKey,
+      pagingViewCount: pagingViewCount,
+      pagingArticleId: pagingArticleId,
       category: category,
     );
   }
@@ -180,7 +191,8 @@ class ArticleListProvider extends AutoDisposeAsyncNotifierProviderImpl<
         () => create()
           ..sortBy = sortBy
           ..limit = limit
-          ..pagingKey = pagingKey
+          ..pagingViewCount = pagingViewCount
+          ..pagingArticleId = pagingArticleId
           ..category = category,
         from: from,
         name: null,
@@ -189,7 +201,8 @@ class ArticleListProvider extends AutoDisposeAsyncNotifierProviderImpl<
         debugGetCreateSourceHash: null,
         sortBy: sortBy,
         limit: limit,
-        pagingKey: pagingKey,
+        pagingViewCount: pagingViewCount,
+        pagingArticleId: pagingArticleId,
         category: category,
       ),
     );
@@ -206,7 +219,8 @@ class ArticleListProvider extends AutoDisposeAsyncNotifierProviderImpl<
     return other is ArticleListProvider &&
         other.sortBy == sortBy &&
         other.limit == limit &&
-        other.pagingKey == pagingKey &&
+        other.pagingViewCount == pagingViewCount &&
+        other.pagingArticleId == pagingArticleId &&
         other.category == category;
   }
 
@@ -215,7 +229,8 @@ class ArticleListProvider extends AutoDisposeAsyncNotifierProviderImpl<
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, sortBy.hashCode);
     hash = _SystemHash.combine(hash, limit.hashCode);
-    hash = _SystemHash.combine(hash, pagingKey.hashCode);
+    hash = _SystemHash.combine(hash, pagingViewCount.hashCode);
+    hash = _SystemHash.combine(hash, pagingArticleId.hashCode);
     hash = _SystemHash.combine(hash, category.hashCode);
 
     return _SystemHash.finish(hash);
@@ -231,8 +246,11 @@ mixin ArticleListRef on AutoDisposeAsyncNotifierProviderRef<List<ArticleDTO>?> {
   /// The parameter `limit` of this provider.
   int get limit;
 
-  /// The parameter `pagingKey` of this provider.
-  int? get pagingKey;
+  /// The parameter `pagingViewCount` of this provider.
+  int? get pagingViewCount;
+
+  /// The parameter `pagingArticleId` of this provider.
+  int? get pagingArticleId;
 
   /// The parameter `category` of this provider.
   String? get category;
@@ -248,7 +266,9 @@ class _ArticleListProviderElement
   @override
   int get limit => (origin as ArticleListProvider).limit;
   @override
-  int? get pagingKey => (origin as ArticleListProvider).pagingKey;
+  int? get pagingViewCount => (origin as ArticleListProvider).pagingViewCount;
+  @override
+  int? get pagingArticleId => (origin as ArticleListProvider).pagingArticleId;
   @override
   String? get category => (origin as ArticleListProvider).category;
 }
@@ -398,7 +418,7 @@ class _ArticleProviderElement
   int get articleId => (origin as ArticleProvider).articleId;
 }
 
-String _$articleCommentsHash() => r'c68e54e8670736a1d9490689c74d99c2df898eb0';
+String _$articleCommentsHash() => r'c5badc6a0ea1f2ce8a2743298d4fa76fca609c71';
 
 abstract class _$ArticleComments
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleCommentDTO>?> {

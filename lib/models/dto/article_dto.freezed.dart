@@ -1717,8 +1717,10 @@ mixin _$ListArticlesRequest {
   @JsonKey(name: 'sort_by')
   String get sortBy => throw _privateConstructorUsedError;
   int get limit => throw _privateConstructorUsedError;
-  @JsonKey(name: 'paging_key')
-  int? get pagingKey => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paging_view_count')
+  int? get pagingViewCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paging_article_id')
+  int? get pagingArticleId => throw _privateConstructorUsedError;
   String? get category => throw _privateConstructorUsedError;
 
   /// Serializes this ListArticlesRequest to a JSON map.
@@ -1740,7 +1742,8 @@ abstract class $ListArticlesRequestCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'sort_by') String sortBy,
       int limit,
-      @JsonKey(name: 'paging_key') int? pagingKey,
+      @JsonKey(name: 'paging_view_count') int? pagingViewCount,
+      @JsonKey(name: 'paging_article_id') int? pagingArticleId,
       String? category});
 }
 
@@ -1761,7 +1764,8 @@ class _$ListArticlesRequestCopyWithImpl<$Res, $Val extends ListArticlesRequest>
   $Res call({
     Object? sortBy = null,
     Object? limit = null,
-    Object? pagingKey = freezed,
+    Object? pagingViewCount = freezed,
+    Object? pagingArticleId = freezed,
     Object? category = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1773,9 +1777,13 @@ class _$ListArticlesRequestCopyWithImpl<$Res, $Val extends ListArticlesRequest>
           ? _value.limit
           : limit // ignore: cast_nullable_to_non_nullable
               as int,
-      pagingKey: freezed == pagingKey
-          ? _value.pagingKey
-          : pagingKey // ignore: cast_nullable_to_non_nullable
+      pagingViewCount: freezed == pagingViewCount
+          ? _value.pagingViewCount
+          : pagingViewCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      pagingArticleId: freezed == pagingArticleId
+          ? _value.pagingArticleId
+          : pagingArticleId // ignore: cast_nullable_to_non_nullable
               as int?,
       category: freezed == category
           ? _value.category
@@ -1796,7 +1804,8 @@ abstract class _$$ListArticlesRequestImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'sort_by') String sortBy,
       int limit,
-      @JsonKey(name: 'paging_key') int? pagingKey,
+      @JsonKey(name: 'paging_view_count') int? pagingViewCount,
+      @JsonKey(name: 'paging_article_id') int? pagingArticleId,
       String? category});
 }
 
@@ -1815,7 +1824,8 @@ class __$$ListArticlesRequestImplCopyWithImpl<$Res>
   $Res call({
     Object? sortBy = null,
     Object? limit = null,
-    Object? pagingKey = freezed,
+    Object? pagingViewCount = freezed,
+    Object? pagingArticleId = freezed,
     Object? category = freezed,
   }) {
     return _then(_$ListArticlesRequestImpl(
@@ -1827,9 +1837,13 @@ class __$$ListArticlesRequestImplCopyWithImpl<$Res>
           ? _value.limit
           : limit // ignore: cast_nullable_to_non_nullable
               as int,
-      pagingKey: freezed == pagingKey
-          ? _value.pagingKey
-          : pagingKey // ignore: cast_nullable_to_non_nullable
+      pagingViewCount: freezed == pagingViewCount
+          ? _value.pagingViewCount
+          : pagingViewCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      pagingArticleId: freezed == pagingArticleId
+          ? _value.pagingArticleId
+          : pagingArticleId // ignore: cast_nullable_to_non_nullable
               as int?,
       category: freezed == category
           ? _value.category
@@ -1845,7 +1859,8 @@ class _$ListArticlesRequestImpl implements _ListArticlesRequest {
   const _$ListArticlesRequestImpl(
       {@JsonKey(name: 'sort_by') required this.sortBy,
       required this.limit,
-      @JsonKey(name: 'paging_key') this.pagingKey,
+      @JsonKey(name: 'paging_view_count') this.pagingViewCount,
+      @JsonKey(name: 'paging_article_id') this.pagingArticleId,
       this.category});
 
   factory _$ListArticlesRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -1857,14 +1872,17 @@ class _$ListArticlesRequestImpl implements _ListArticlesRequest {
   @override
   final int limit;
   @override
-  @JsonKey(name: 'paging_key')
-  final int? pagingKey;
+  @JsonKey(name: 'paging_view_count')
+  final int? pagingViewCount;
+  @override
+  @JsonKey(name: 'paging_article_id')
+  final int? pagingArticleId;
   @override
   final String? category;
 
   @override
   String toString() {
-    return 'ListArticlesRequest(sortBy: $sortBy, limit: $limit, pagingKey: $pagingKey, category: $category)';
+    return 'ListArticlesRequest(sortBy: $sortBy, limit: $limit, pagingViewCount: $pagingViewCount, pagingArticleId: $pagingArticleId, category: $category)';
   }
 
   @override
@@ -1874,16 +1892,18 @@ class _$ListArticlesRequestImpl implements _ListArticlesRequest {
             other is _$ListArticlesRequestImpl &&
             (identical(other.sortBy, sortBy) || other.sortBy == sortBy) &&
             (identical(other.limit, limit) || other.limit == limit) &&
-            (identical(other.pagingKey, pagingKey) ||
-                other.pagingKey == pagingKey) &&
+            (identical(other.pagingViewCount, pagingViewCount) ||
+                other.pagingViewCount == pagingViewCount) &&
+            (identical(other.pagingArticleId, pagingArticleId) ||
+                other.pagingArticleId == pagingArticleId) &&
             (identical(other.category, category) ||
                 other.category == category));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, sortBy, limit, pagingKey, category);
+  int get hashCode => Object.hash(
+      runtimeType, sortBy, limit, pagingViewCount, pagingArticleId, category);
 
   /// Create a copy of ListArticlesRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -1906,7 +1926,8 @@ abstract class _ListArticlesRequest implements ListArticlesRequest {
   const factory _ListArticlesRequest(
       {@JsonKey(name: 'sort_by') required final String sortBy,
       required final int limit,
-      @JsonKey(name: 'paging_key') final int? pagingKey,
+      @JsonKey(name: 'paging_view_count') final int? pagingViewCount,
+      @JsonKey(name: 'paging_article_id') final int? pagingArticleId,
       final String? category}) = _$ListArticlesRequestImpl;
 
   factory _ListArticlesRequest.fromJson(Map<String, dynamic> json) =
@@ -1918,8 +1939,11 @@ abstract class _ListArticlesRequest implements ListArticlesRequest {
   @override
   int get limit;
   @override
-  @JsonKey(name: 'paging_key')
-  int? get pagingKey;
+  @JsonKey(name: 'paging_view_count')
+  int? get pagingViewCount;
+  @override
+  @JsonKey(name: 'paging_article_id')
+  int? get pagingArticleId;
   @override
   String? get category;
 

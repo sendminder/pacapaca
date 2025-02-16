@@ -13,21 +13,25 @@ ArticleService articleService(ArticleServiceRef ref) {
 // 게시글 목록 provider
 @riverpod
 class ArticleList extends _$ArticleList {
-  int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
+  int? _lastPagingViewCount; // 마지막으로 요청한 페이징 키 저장
+  int? _lastPagingArticleId; // 마지막으로 요청한 페이징 키 저장
 
   @override
   FutureOr<List<ArticleDTO>?> build({
     required String sortBy,
     required int limit,
-    int? pagingKey,
+    int? pagingViewCount,
+    int? pagingArticleId,
     String? category,
   }) async {
-    _lastPagingKey = null; // 초기화
+    _lastPagingViewCount = null; // 초기화
+    _lastPagingArticleId = null; // 초기화
     final articleService = ref.watch(articleServiceProvider);
     return articleService.getArticles(
       sortBy: sortBy,
       limit: limit,
-      pagingKey: pagingKey,
+      pagingViewCount: pagingViewCount,
+      pagingArticleId: pagingArticleId,
       category: category,
     );
   }
@@ -38,18 +42,23 @@ class ArticleList extends _$ArticleList {
     required ArticleDTO lastArticle,
     String? category,
   }) async {
-    final pagingKey =
-        sortBy == 'latest' ? lastArticle.id : lastArticle.viewCount;
+    final pagingViewCount = lastArticle.viewCount;
+    final pagingArticleId = lastArticle.id;
     // 이전과 같은 페이징 키면 요청하지 않음
-    if (pagingKey == _lastPagingKey) return;
+    if (pagingViewCount == _lastPagingViewCount &&
+        pagingArticleId == _lastPagingArticleId) {
+      return;
+    }
 
     try {
-      _lastPagingKey = pagingKey; // 현재 페이징 키 저장
+      _lastPagingViewCount = pagingViewCount; // 현재 페이징 키 저장
+      _lastPagingArticleId = pagingArticleId; // 현재 페이징 키 저장
       final articleService = ref.read(articleServiceProvider);
       final moreArticles = await articleService.getArticles(
         sortBy: sortBy,
         limit: limit,
-        pagingKey: pagingKey,
+        pagingViewCount: pagingViewCount,
+        pagingArticleId: pagingArticleId,
         category: category,
       );
 

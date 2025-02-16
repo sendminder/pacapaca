@@ -14,14 +14,16 @@ class ArticleService {
   Future<List<ArticleDTO>?> getArticles({
     required String sortBy,
     required int limit,
-    int? pagingKey,
+    int? pagingViewCount,
+    int? pagingArticleId,
     String? category,
   }) async {
     try {
       final request = ListArticlesRequest(
         sortBy: sortBy,
         limit: limit,
-        pagingKey: pagingKey,
+        pagingViewCount: pagingViewCount,
+        pagingArticleId: pagingArticleId,
         category: category,
       );
 

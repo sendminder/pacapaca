@@ -101,7 +101,8 @@ class ListArticlesRequest with _$ListArticlesRequest {
   const factory ListArticlesRequest({
     @JsonKey(name: 'sort_by') required String sortBy,
     required int limit,
-    @JsonKey(name: 'paging_key') int? pagingKey,
+    @JsonKey(name: 'paging_view_count') int? pagingViewCount,
+    @JsonKey(name: 'paging_article_id') int? pagingArticleId,
     String? category,
   }) = _ListArticlesRequest;
 

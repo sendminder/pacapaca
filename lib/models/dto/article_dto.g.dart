@@ -145,7 +145,8 @@ _$ListArticlesRequestImpl _$$ListArticlesRequestImplFromJson(
     _$ListArticlesRequestImpl(
       sortBy: json['sort_by'] as String,
       limit: (json['limit'] as num).toInt(),
-      pagingKey: (json['paging_key'] as num?)?.toInt(),
+      pagingViewCount: (json['paging_view_count'] as num?)?.toInt(),
+      pagingArticleId: (json['paging_article_id'] as num?)?.toInt(),
       category: json['category'] as String?,
     );
 
@@ -154,7 +155,8 @@ Map<String, dynamic> _$$ListArticlesRequestImplToJson(
     <String, dynamic>{
       'sort_by': instance.sortBy,
       'limit': instance.limit,
-      'paging_key': instance.pagingKey,
+      'paging_view_count': instance.pagingViewCount,
+      'paging_article_id': instance.pagingArticleId,
       'category': instance.category,
     };
 
