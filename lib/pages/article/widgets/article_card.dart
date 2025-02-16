@@ -36,6 +36,7 @@ class ArticleCard extends StatelessWidget {
               if (article.title.isNotEmpty ?? false) ...[
                 const SizedBox(height: 16),
                 _buildTitle(context),
+                const SizedBox(height: 8),
               ],
               if (article.thumbnailUrl != null) ...[
                 const SizedBox(height: 12),
@@ -65,8 +66,7 @@ class ArticleCard extends StatelessWidget {
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
               Text(
                 article.nickname,
@@ -76,6 +76,7 @@ class ArticleCard extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
+              const SizedBox(width: 8),
               Text(
                 timeago.format(DateTime.parse(article.createTime),
                     locale: 'ko'),
@@ -96,32 +97,41 @@ class ArticleCard extends StatelessWidget {
   Widget _buildInteractions(BuildContext context) {
     return Row(
       children: [
-        InteractionButton(
-          icon: article.isLiked ? Icons.favorite : Icons.favorite_border,
-          count: article.likeCount,
-          color: article.isLiked ? Theme.of(context).colorScheme.primary : null,
-          onTap: () async {
-            try {
-              await onToggleLike(article.id);
-            } catch (e) {
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content: Text('article.error'.tr(args: [e.toString()]))),
-                );
+        Expanded(
+          // 1/3 차지
+          child: InteractionButton(
+            icon: article.isLiked ? Icons.favorite : Icons.favorite_border,
+            count: article.likeCount,
+            color:
+                article.isLiked ? Theme.of(context).colorScheme.primary : null,
+            onTap: () async {
+              try {
+                await onToggleLike(article.id);
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content:
+                            Text('article.error'.tr(args: [e.toString()]))),
+                  );
+                }
               }
-            }
-          },
+            },
+          ),
         ),
-        const SizedBox(width: 24),
-        InteractionButton(
-          icon: Icons.chat_bubble_outline,
-          count: article.commentCount,
+        Expanded(
+          // 1/3 차지
+          child: InteractionButton(
+            icon: Icons.chat_bubble_outline,
+            count: article.commentCount,
+          ),
         ),
-        const SizedBox(width: 24),
-        InteractionButton(
-          icon: Icons.remove_red_eye_outlined,
-          count: article.viewCount,
+        Expanded(
+          // 1/3 차지
+          child: InteractionButton(
+            icon: Icons.remove_red_eye_outlined,
+            count: article.viewCount,
+          ),
         ),
       ],
     );
@@ -131,7 +141,7 @@ class ArticleCard extends StatelessWidget {
     return Text(
       article.title,
       style: TextStyle(
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.onSurface,
       ),

@@ -9,7 +9,7 @@ class UserAvatar extends StatelessWidget {
     super.key,
     required this.imageUrl,
     required this.fallbackText,
-    this.radius = 20,
+    this.radius = 16,
   });
 
   @override

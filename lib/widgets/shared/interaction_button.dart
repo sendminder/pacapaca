@@ -21,17 +21,18 @@ class InteractionButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const SizedBox(width: 4),
           SizedBox(
-            width: 24,
+            width: 20,
             child: Icon(
               icon,
-              size: 24,
+              size: 20,
               color: color ?? Colors.grey[600],
             ),
           ),
           const SizedBox(width: 4),
           SizedBox(
-            width: 30,
+            width: 24,
             child: Text(
               '$count',
               style: TextStyle(
