@@ -6,7 +6,6 @@ import 'package:pacapaca/pages/article/widgets/article_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
-import 'package:pacapaca/models/dto/article_dto.dart';
 
 class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});
@@ -53,13 +52,50 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
         onPressed: () => context.push('/articles/new'),
         child: const Icon(Icons.add),
       ),
-      body: Column(
-        children: [
-          _buildCategoryFilter(),
-          Expanded(
-            child: _buildArticleList(articlesAsync, handleToggleLike),
-          ),
-        ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          ref.invalidate(provider);
+        },
+        child: ListView(
+          controller: _scrollController,
+          children: [
+            _buildCategoryFilter(),
+            _buildSortHeader(),
+            articlesAsync.when(
+              data: (articles) {
+                if (articles == null || articles.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text('article.no_articles'.tr()),
+                    ),
+                  );
+                }
+
+                return Column(
+                  children: articles
+                      .map((article) => ArticleCard(
+                            article: article,
+                            onToggleLike: handleToggleLike,
+                          ))
+                      .toList(),
+                );
+              },
+              error: (error, stackTrace) => Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text('article.error'.tr(args: [error.toString()])),
+                ),
+              ),
+              loading: () => const Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -155,67 +191,6 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
             },
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildArticleList(AsyncValue<List<ArticleDTO>?> articlesAsync,
-      Future<void> Function(int articleId) handleToggleLike) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        ref.invalidate(articleListProvider(
-          sortBy: ref.read(articleSortProvider),
-          category: ref.read(articleCategoryProvider),
-          limit: 20,
-        ));
-      },
-      child: articlesAsync.when(
-        data: (articles) {
-          if (articles == null || articles.isEmpty) {
-            return Center(
-              child: Text('article.no_articles'.tr()),
-            );
-          }
-
-          return ListView.builder(
-            controller: _scrollController,
-            itemCount: articles.length + 1, // +1 for the sort header
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return _buildSortHeader();
-              }
-
-              final articleIndex = index - 1;
-              if (articleIndex == articles.length - 1) {
-                Future.microtask(() {
-                  ref
-                      .read(articleListProvider(
-                        sortBy: ref.read(articleSortProvider),
-                        category: ref.read(articleCategoryProvider),
-                        limit: 20,
-                      ).notifier)
-                      .loadMore(
-                        sortBy: ref.read(articleSortProvider),
-                        category: ref.read(articleCategoryProvider),
-                        limit: 20,
-                        lastArticle: articles.last,
-                      );
-                });
-              }
-
-              return ArticleCard(
-                article: articles[articleIndex],
-                onToggleLike: handleToggleLike,
-              );
-            },
-          );
-        },
-        error: (error, stackTrace) => Center(
-          child: Text('article.error'.tr(args: [error.toString()])),
-        ),
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
       ),
     );
   }
