@@ -45,18 +45,34 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
               fontSize: 16,
               color: Theme.of(context).colorScheme.onSurface,
               fontWeight: FontWeight.w500,
-              letterSpacing: -0.3,
             ),
           ),
         ),
         leadingWidth: 80,
-        title: Text('article.create'.tr()),
-        actions: [
-          LoadingButton(
-            isLoading: _isLoading,
-            onPressed: () => _createArticle(selectedCategory),
-            text: 'article.register'.tr(),
+        title: Text(
+          'article.create'.tr(),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
           ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => _createArticle(selectedCategory),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Colors.white,
+              elevation: 1,
+            ),
+            child: Text(
+              'article.register'.tr(),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
         ],
       ),
       body: SafeArea(

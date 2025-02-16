@@ -6,6 +6,7 @@ import 'package:pacapaca/pages/article/widgets/article_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
+import 'package:pacapaca/models/dto/article_dto.dart';
 
 class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});
@@ -79,6 +80,13 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('article.title'.tr()),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: null,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(40),
+          child: _buildCategoryFilter(),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/articles/new'),
@@ -91,58 +99,8 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
         child: ListView(
           controller: _scrollController,
           children: [
-            _buildCategoryFilter(),
             _buildSortHeader(),
-            articlesAsync.when(
-              data: (articles) {
-                if (articles == null || articles.isEmpty) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text('article.no_articles'.tr()),
-                    ),
-                  );
-                }
-
-                return Column(
-                  children: articles
-                      .map((article) => ArticleCard(
-                            article: article,
-                            onToggleLike: handleToggleLike,
-                          ))
-                      .toList(),
-                );
-              },
-              error: (error, stackTrace) => Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'article.error'.tr(args: [error.toString()]),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () => ref.invalidate(provider),
-                      child: Text('article.retry'.tr()),
-                    ),
-                  ],
-                ),
-              ),
-              loading: () => Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const CircularProgressIndicator(),
-                    const SizedBox(height: 16),
-                    Text(
-                      'article.loading'.tr(),
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            _buildCardList(articlesAsync, handleToggleLike, provider),
           ],
         ),
       ),
@@ -152,10 +110,11 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
   Widget _buildCategoryFilter() {
     final selectedCategory = ref.watch(articleCategoryProvider);
 
-    return SizedBox(
-      height: 36,
+    return Container(
+      color: Theme.of(context).colorScheme.surface,
+      height: 40,
       child: ListView.separated(
-        padding: const EdgeInsets.only(left: 10),
+        padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
         scrollDirection: Axis.horizontal,
         itemCount: ArticleCategory.values.length,
         separatorBuilder: (context, index) => const SizedBox(width: 10),
@@ -246,6 +205,66 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCardList(
+    AsyncValue<List<ArticleDTO>?> articlesAsync,
+    Future<void> Function(int articleId) handleToggleLike,
+    ArticleListProvider provider,
+  ) {
+    return Container(
+      color: Theme.of(context).colorScheme.surface,
+      child: articlesAsync.when(
+        data: (articles) {
+          if (articles == null || articles.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16.0, bottom: 60),
+                child: Text('article.no_articles'.tr()),
+              ),
+            );
+          }
+
+          return Column(
+            children: articles
+                .map((article) => ArticleCard(
+                      article: article,
+                      onToggleLike: handleToggleLike,
+                    ))
+                .toList(),
+          );
+        },
+        error: (error, stackTrace) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'article.error'.tr(args: [error.toString()]),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => ref.invalidate(provider),
+                child: Text('article.retry'.tr()),
+              ),
+            ],
+          ),
+        ),
+        loading: () => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(height: 16),
+              Text(
+                'article.loading'.tr(),
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

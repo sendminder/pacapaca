@@ -25,21 +25,7 @@ class ArticleForm extends StatelessWidget {
       children: [
         _buildCategorySelector(context),
         _buildAuthorInfo(context),
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            border: Border.symmetric(
-              horizontal: BorderSide(
-                color: Theme.of(context).colorScheme.surface,
-              ),
-            ),
-          ),
-          child: Column(
-            children: [
-              _buildTitleField(context),
-            ],
-          ),
-        ),
+        _buildTitleField(context),
         Expanded(
           child: Container(
             color: Theme.of(context).colorScheme.surface,
@@ -121,13 +107,12 @@ class ArticleForm extends StatelessWidget {
 
   Widget _buildTitleField(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.only(left: 10, right: 16),
       child: TextField(
         controller: titleController,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 22,
           fontWeight: FontWeight.bold,
-          letterSpacing: -0.5,
         ),
         decoration: InputDecoration(
           hintText: 'article.title_hint'.tr(),
@@ -135,22 +120,22 @@ class ArticleForm extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            letterSpacing: -0.5,
           ),
+          fillColor: Theme.of(context).colorScheme.surface,
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
           enabledBorder: InputBorder.none,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         ),
-        cursorColor: Theme.of(context).colorScheme.onSurface,
+        cursorColor: Theme.of(context).colorScheme.onSurface.withAlpha(128),
       ),
     );
   }
 
   Widget _buildContentField(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.only(left: 20, right: 16),
       child: TextField(
         controller: contentController,
         maxLines: null,
@@ -159,7 +144,6 @@ class ArticleForm extends StatelessWidget {
         style: const TextStyle(
           fontSize: 16,
           height: 1.6,
-          letterSpacing: -0.3,
         ),
         decoration: InputDecoration(
           hintText: 'article.content_hint'.tr(),
@@ -167,15 +151,14 @@ class ArticleForm extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
             fontSize: 16,
             height: 1.6,
-            letterSpacing: -0.3,
           ),
+          fillColor: Theme.of(context).colorScheme.surface,
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
           enabledBorder: InputBorder.none,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+          contentPadding: const EdgeInsets.only(left: 4, right: 16),
         ),
-        cursorColor: Theme.of(context).colorScheme.onSurface,
+        cursorColor: Theme.of(context).colorScheme.onSurface.withAlpha(128),
       ),
     );
   }
