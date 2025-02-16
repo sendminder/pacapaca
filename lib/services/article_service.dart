@@ -22,7 +22,7 @@ class ArticleService {
     try {
       String categoryString = "";
       if (category != null && category != ArticleCategory.all) {
-        categoryString = category.toString();
+        categoryString = category.name;
       }
 
       final request = ListArticlesRequest(

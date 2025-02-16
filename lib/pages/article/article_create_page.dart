@@ -38,6 +38,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
       final request = CreateArticleRequest(
         title: _titleController.text,
         content: _contentController.text,
+        category: _selectedCategory.name,
       );
 
       await ref.read(articleServiceProvider).createArticle(request);
