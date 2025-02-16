@@ -4,11 +4,10 @@ import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/widgets/shared/tag_list.dart';
 import 'package:pacapaca/widgets/shared/interaction_button.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:easy_localization/easy_localization.dart';
 
 class ArticleDetailContent extends StatelessWidget {
   final ArticleDTO article;
-  final Future<void> Function(int articleId) onToggleLike;
+  final Future<void> Function(int) onToggleLike;
 
   const ArticleDetailContent({
     super.key,
@@ -23,111 +22,125 @@ class ArticleDetailContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              UserAvatar(
-                imageUrl: article.profileImageUrl,
-                fallbackText: article.nickname,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      article.nickname,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                    Text(
-                      timeago.format(
-                        DateTime.parse(article.createTime),
-                        locale: 'ko',
-                      ),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withOpacity(0.7),
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            article.title,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
-          const SizedBox(height: 16),
-          if (article.imageUrl != null && article.imageUrl!.isNotEmpty) ...[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                article.imageUrl!,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
+          _buildHeader(context),
+          if (article.title.isNotEmpty) ...[
             const SizedBox(height: 16),
+            _buildTitle(context),
+            const SizedBox(height: 8),
           ],
-          Text(
-            article.content,
-            style: TextStyle(
-              fontSize: 16,
-              height: 1.6,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
+          if (article.thumbnailUrl != null) ...[
+            const SizedBox(height: 12),
+            _buildThumbnail(),
+          ],
+          const SizedBox(height: 12),
+          _buildContent(context),
           const SizedBox(height: 16),
+          _buildInteractions(context),
           if (article.tags != null && article.tags!.isNotEmpty) ...[
+            const SizedBox(height: 12),
             TagList(tags: article.tags!),
-            const SizedBox(height: 16),
           ],
-          Row(
-            children: [
-              InteractionButton(
-                icon: article.isLiked ? Icons.favorite : Icons.favorite_border,
-                count: article.likeCount,
-                color: article.isLiked
-                    ? Theme.of(context).colorScheme.primary
-                    : null,
-                onTap: () async {
-                  try {
-                    await onToggleLike(article.id);
-                  } catch (e) {
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content:
-                                Text('article.error'.tr(args: [e.toString()]))),
-                      );
-                    }
-                  }
-                },
-              ),
-              const SizedBox(width: 24),
-              InteractionButton(
-                icon: Icons.comment,
-                count: article.commentCount,
-              ),
-              const SizedBox(width: 24),
-              InteractionButton(
-                icon: Icons.remove_red_eye,
-                count: article.viewCount,
-              ),
-            ],
-          ),
         ],
       ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Row(
+      children: [
+        UserAvatar(
+          imageUrl: article.profileImageUrl,
+          fallbackText: article.nickname,
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Row(
+            children: [
+              Text(
+                article.nickname,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                timeago.format(DateTime.parse(article.createTime),
+                    locale: 'ko'),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withAlpha(128),
+                    ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTitle(BuildContext context) {
+    return Text(
+      article.title,
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
+    );
+  }
+
+  Widget _buildThumbnail() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Image.network(
+        article.thumbnailUrl!,
+        width: double.infinity,
+        height: 200,
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    return Text(
+      article.content,
+      style: TextStyle(
+        fontSize: 15,
+        color: Theme.of(context).colorScheme.onSurface,
+        height: 1.4,
+      ),
+    );
+  }
+
+  Widget _buildInteractions(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: InteractionButton(
+            icon: article.isLiked ? Icons.favorite : Icons.favorite_border,
+            count: article.likeCount,
+            color:
+                article.isLiked ? Theme.of(context).colorScheme.primary : null,
+            onTap: () => onToggleLike(article.id),
+          ),
+        ),
+        Expanded(
+          child: InteractionButton(
+            icon: Icons.chat_bubble_outline,
+            count: article.commentCount,
+          ),
+        ),
+        Expanded(
+          child: InteractionButton(
+            icon: Icons.remove_red_eye_outlined,
+            count: article.viewCount,
+          ),
+        ),
+      ],
     );
   }
 }

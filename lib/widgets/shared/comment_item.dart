@@ -23,101 +23,146 @@ class CommentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         UserAvatar(
           imageUrl: comment.profileImageUrl,
           fallbackText: comment.nickname,
-          radius: 16,
+          radius: 18,
         ),
         const SizedBox(width: 8),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    comment.nickname,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary.withAlpha(25),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.only(
+              left: 12,
+              right: 0,
+              top: 0,
+              bottom: 12,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      comment.nickname,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    timeago.format(
-                      DateTime.parse(comment.createTime),
-                      locale: 'ko',
+                    const SizedBox(width: 8),
+                    Text(
+                      timeago.format(
+                        DateTime.parse(comment.createTime),
+                        locale: 'ko',
+                      ),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withAlpha(128),
+                          ),
                     ),
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  if (isOwner && (onDelete != null || onUpdate != null)) ...[
-                    const Spacer(),
-                    _buildActionMenu(context),
+                    if (isOwner && (onDelete != null || onUpdate != null)) ...[
+                      const Spacer(),
+                      IconButton(
+                        icon: Icon(
+                          Icons.more_vert,
+                          size: 18,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withAlpha(128),
+                        ),
+                        onPressed: () => _showActionMenu(context),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                      ),
+                    ],
                   ],
-                ],
-              ),
-              const SizedBox(height: 4),
-              Text(comment.content),
-            ],
+                ),
+                Text(
+                  comment.content,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Theme.of(context).colorScheme.onSurface,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildActionMenu(BuildContext context) {
-    return PopupMenuButton(
-      itemBuilder: (context) => [
-        if (onUpdate != null)
-          PopupMenuItem(
-            child: Text('comment.edit'.tr()),
-            onTap: () async {
-              final content = await showDialog<String>(
-                context: context,
-                builder: (context) => CommentEditDialog(
-                  initialContent: comment.content,
-                ),
-              );
-              if (content != null) {
-                await onUpdate!(comment.id, content);
-              }
-            },
-          ),
-        if (onDelete != null)
-          PopupMenuItem(
-            child: Text(
-              'comment.delete'.tr(),
-              style: const TextStyle(color: Colors.red),
-            ),
-            onTap: () async {
-              final confirmed = await showDialog<bool>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('comment.delete_comment'.tr()),
-                  content: Text('comment.delete_confirm'.tr()),
-                  actions: [
-                    TextButton(
-                      onPressed: () => context.pop(false),
-                      child: Text('comment.cancel'.tr()),
+  void _showActionMenu(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (onUpdate != null)
+              ListTile(
+                leading: const Icon(Icons.edit),
+                title: Text('comment.edit'.tr()),
+                onTap: () async {
+                  Navigator.pop(context);
+                  final content = await showDialog<String>(
+                    context: context,
+                    builder: (context) => CommentEditDialog(
+                      initialContent: comment.content,
                     ),
-                    TextButton(
-                      onPressed: () => context.pop(true),
-                      child: Text(
-                        'comment.delete'.tr(),
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    ),
-                  ],
+                  );
+                  if (content != null) {
+                    await onUpdate!(comment.id, content);
+                  }
+                },
+              ),
+            if (onDelete != null)
+              ListTile(
+                leading: const Icon(Icons.delete, color: Colors.red),
+                title: Text(
+                  'comment.delete'.tr(),
+                  style: const TextStyle(color: Colors.red),
                 ),
-              );
+                onTap: () async {
+                  Navigator.pop(context);
+                  final confirmed = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('comment.delete_comment'.tr()),
+                      content: Text('comment.delete_confirm'.tr()),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: Text('comment.cancel'.tr()),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, true),
+                          child: Text(
+                            'comment.delete'.tr(),
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
 
-              if (confirmed == true) {
-                await onDelete!(comment.id);
-              }
-            },
-          ),
-      ],
+                  if (confirmed == true) {
+                    await onDelete!(comment.id);
+                  }
+                },
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

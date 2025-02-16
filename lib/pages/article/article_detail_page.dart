@@ -55,7 +55,11 @@ class ArticleDetailPage extends ConsumerWidget {
             child: Column(
               children: [
                 _buildArticleContent(ref, articleAsync),
-                const Divider(height: 1),
+                Divider(
+                  height: 0.5,
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+                ),
                 _buildCommentSection(context, ref, commentsAsync, currentUser),
               ],
             ),
