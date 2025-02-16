@@ -5,16 +5,23 @@ import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/pages/article/widgets/article_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class ArticleListPage extends ConsumerWidget {
+class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ArticleListPage> createState() => _ArticleListPageState();
+}
+
+class _ArticleListPageState extends ConsumerState<ArticleListPage> {
+  final ScrollController _scrollController = ScrollController();
+  String sortBy = 'latest'; // 기본값은 최신순
+
+  @override
+  Widget build(BuildContext context) {
     final provider = articleListProvider(
-      sortBy: 'latest',
+      sortBy: sortBy,
       limit: 20,
     );
-
     final articlesAsync = ref.watch(provider);
 
     Future<void> handleToggleLike(int articleId) async {
@@ -36,6 +43,24 @@ class ArticleListPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('article.title'.tr()),
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              sortBy = value;
+              ref.invalidate(provider); // 정렬 변경 시 목록 새로고침
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 'latest',
+                child: Text('article.sort.latest'.tr()),
+              ),
+              PopupMenuItem(
+                value: 'views',
+                child: Text('article.sort.views'.tr()),
+              ),
+            ],
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/articles/new'),
@@ -59,9 +84,9 @@ class ArticleListPage extends ConsumerWidget {
                 if (index == articles.length - 1) {
                   Future.microtask(() {
                     ref.read(provider.notifier).loadMore(
-                          sortBy: 'latest',
+                          sortBy: sortBy,
                           limit: 20,
-                          pagingKey: articles.last.id,
+                          lastArticle: articles.last,
                         );
                   });
                 }

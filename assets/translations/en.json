@@ -25,7 +25,11 @@
         "title_and_content_required": "Please enter title and content",
         "not_found": "Article not found",
         "no_comments": "No comments",
-        "no_articles": "No articles"
+        "no_articles": "No articles",
+        "sort": {
+            "latest": "Latest",
+            "views": "Views"
+        }
     },
     "comment": {
         "edit": "Edit",
