@@ -41,11 +41,11 @@ class ArticleList extends _$ArticleList {
   Future<void> loadMore({
     required String sortBy,
     required int limit,
-    required ArticleDTO lastArticle,
     ArticleCategory? category,
   }) async {
-    final pagingViewCount = lastArticle.viewCount;
-    final pagingArticleId = lastArticle.id;
+    final lastArticle = state.value?.last;
+    final pagingViewCount = lastArticle?.viewCount;
+    final pagingArticleId = lastArticle?.id;
     // 이전과 같은 페이징 키면 요청하지 않음
     if (pagingViewCount == _lastPagingViewCount &&
         pagingArticleId == _lastPagingArticleId) {

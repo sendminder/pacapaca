@@ -18,6 +18,38 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
   final ScrollController _scrollController = ScrollController();
 
   @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.8) {
+      final sortBy = ref.read(articleSortProvider);
+      final selectedCategory = ref.read(articleCategoryProvider);
+      ref
+          .read(articleListProvider(
+            sortBy: sortBy,
+            category: selectedCategory,
+            limit: 20,
+          ).notifier)
+          .loadMore(
+            sortBy: sortBy,
+            limit: 20,
+            category: selectedCategory,
+          );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final sortBy = ref.watch(articleSortProvider);
     final selectedCategory = ref.watch(articleCategoryProvider);
@@ -82,15 +114,32 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
                 );
               },
               error: (error, stackTrace) => Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text('article.error'.tr(args: [error.toString()])),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'article.error'.tr(args: [error.toString()]),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => ref.invalidate(provider),
+                      child: Text('article.retry'.tr()),
+                    ),
+                  ],
                 ),
               ),
-              loading: () => const Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: CircularProgressIndicator(),
+              loading: () => Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CircularProgressIndicator(),
+                    const SizedBox(height: 16),
+                    Text(
+                      'article.loading'.tr(),
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
                 ),
               ),
             ),
