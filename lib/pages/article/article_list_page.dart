@@ -78,31 +78,39 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('article.title'.tr()),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: null,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(40),
-          child: _buildCategoryFilter(),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          ref.invalidate(provider);
+        },
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            SliverAppBar(
+              floating: true,
+              snap: true,
+              title: Text('article.title'.tr()),
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              scrolledUnderElevation: 0,
+              surfaceTintColor: null,
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(40),
+                child: _buildCategoryFilter(),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  _buildSortHeader(),
+                  _buildCardList(articlesAsync, handleToggleLike, provider),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/articles/new'),
         child: const Icon(Icons.add),
-      ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          ref.invalidate(provider);
-        },
-        child: ListView(
-          controller: _scrollController,
-          children: [
-            _buildSortHeader(),
-            _buildCardList(articlesAsync, handleToggleLike, provider),
-          ],
-        ),
       ),
     );
   }

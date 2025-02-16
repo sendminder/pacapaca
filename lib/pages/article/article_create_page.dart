@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/providers/article_provider.dart';
-import 'package:pacapaca/widgets/shared/loading_button.dart';
 import 'package:pacapaca/pages/article/widgets/article_form.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -21,7 +20,6 @@ class ArticleCreatePage extends ConsumerStatefulWidget {
 class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
-  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(authProvider).value;
@@ -99,10 +97,6 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
       return;
     }
 
-    setState(() {
-      _isLoading = true;
-    });
-
     try {
       final request = CreateArticleRequest(
         title: _titleController.text,
@@ -121,10 +115,6 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
           SnackBar(content: Text('article.error'.tr(args: [e.toString()]))),
         );
       }
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
     }
   }
 

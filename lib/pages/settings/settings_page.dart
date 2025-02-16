@@ -14,7 +14,12 @@ class SettingsPage extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text('settings.title'.tr())),
+      appBar: AppBar(
+        title: Text('settings.title'.tr()),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: null,
+      ),
       body: ListView(
         children: [
           ListTile(

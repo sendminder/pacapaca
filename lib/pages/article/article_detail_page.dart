@@ -154,6 +154,7 @@ class ArticleDetailPage extends ConsumerWidget {
           return Center(child: Text('article.not_found'.tr()));
         }
         final currentSortBy = ref.read(articleSortProvider);
+        final selectedCategory = ref.read(articleCategoryProvider);
 
         return ArticleDetailContent(
           article: article,
@@ -174,6 +175,7 @@ class ArticleDetailPage extends ConsumerWidget {
                 ref
                     .read(articleListProvider(
                       sortBy: currentSortBy,
+                      category: selectedCategory,
                       limit: 20,
                     ).notifier)
                     .updateArticleStatus(
