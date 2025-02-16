@@ -26,13 +26,12 @@ class ArticleDetailContent extends StatelessWidget {
           if (article.title.isNotEmpty) ...[
             const SizedBox(height: 16),
             _buildTitle(context),
-            const SizedBox(height: 8),
           ],
           if (article.thumbnailUrl != null) ...[
             const SizedBox(height: 12),
             _buildThumbnail(),
           ],
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           _buildContent(context),
           const SizedBox(height: 16),
           _buildInteractions(context),
@@ -86,7 +85,7 @@ class ArticleDetailContent extends StatelessWidget {
     return Text(
       article.title,
       style: TextStyle(
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.onSurface,
       ),
@@ -109,7 +108,7 @@ class ArticleDetailContent extends StatelessWidget {
     return Text(
       article.content,
       style: TextStyle(
-        fontSize: 15,
+        fontSize: 16,
         color: Theme.of(context).colorScheme.onSurface,
         height: 1.4,
       ),

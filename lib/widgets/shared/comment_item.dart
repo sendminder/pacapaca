@@ -8,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 class CommentItem extends StatelessWidget {
   final ArticleCommentDTO comment;
   final bool isOwner;
+  final bool isWriter;
   final Future<void> Function(int commentId)? onDelete;
   final Future<void> Function(int commentId, String content)? onUpdate;
 
@@ -15,6 +16,7 @@ class CommentItem extends StatelessWidget {
     super.key,
     required this.comment,
     required this.isOwner,
+    required this.isWriter,
     this.onDelete,
     this.onUpdate,
   });
@@ -49,9 +51,19 @@ class CommentItem extends StatelessWidget {
                   children: [
                     Text(
                       comment.nickname,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: isWriter
+                          ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context).colorScheme.primary,
+                              )
+                          : isOwner
+                              ? Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  )
+                              : Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(width: 8),
                     Text(

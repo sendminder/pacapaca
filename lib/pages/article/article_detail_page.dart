@@ -54,7 +54,7 @@ class ArticleDetailPage extends ConsumerWidget {
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
               if (scrollInfo.metrics.pixels >=
-                  scrollInfo.metrics.maxScrollExtent - 200) {
+                  scrollInfo.metrics.maxScrollExtent * 0.8) {
                 ref
                     .read(articleCommentsProvider(articleId).notifier)
                     .loadMore();
@@ -71,7 +71,7 @@ class ArticleDetailPage extends ConsumerWidget {
                         Theme.of(context).colorScheme.onSurface.withAlpha(10),
                   ),
                   _buildCommentSection(
-                      context, ref, commentsAsync, currentUser),
+                      context, ref, commentsAsync, currentUser, articleAsync),
                 ],
               ),
             ),
@@ -201,11 +201,12 @@ class ArticleDetailPage extends ConsumerWidget {
     WidgetRef ref,
     AsyncValue<List<ArticleCommentDTO>?> commentsAsync,
     UserDTO? currentUser,
+    AsyncValue<ArticleDTO?> articleAsync,
   ) {
     final commentSort = ref.watch(commentSortProvider);
 
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 50),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -244,8 +245,8 @@ class ArticleDetailPage extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          _buildCommentList(ref, commentsAsync, currentUser),
+          const SizedBox(height: 12),
+          _buildCommentList(ref, commentsAsync, currentUser, articleAsync),
           if (currentUser != null) const SizedBox(height: 70),
         ],
       ),
@@ -256,6 +257,7 @@ class ArticleDetailPage extends ConsumerWidget {
     WidgetRef ref,
     AsyncValue<List<ArticleCommentDTO>?> commentsAsync,
     UserDTO? currentUser,
+    AsyncValue<ArticleDTO?> articleAsync,
   ) {
     return commentsAsync.when(
       data: (comments) {
@@ -273,6 +275,7 @@ class ArticleDetailPage extends ConsumerWidget {
             return CommentItem(
               comment: comment,
               isOwner: comment.userId == currentUser?.id,
+              isWriter: articleAsync.value?.userId == currentUser?.id,
               onDelete: (commentId) async {
                 await ref
                     .read(articleCommentsProvider(articleId).notifier)
