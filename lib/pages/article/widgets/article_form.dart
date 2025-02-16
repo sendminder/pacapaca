@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 
 class ArticleForm extends StatelessWidget {
   final TextEditingController titleController;
   final TextEditingController contentController;
   final String nickname;
+  final ArticleCategory selectedCategory;
+  final Function(ArticleCategory) onCategoryChanged;
 
   const ArticleForm({
     super.key,
     required this.titleController,
     required this.contentController,
     required this.nickname,
+    required this.selectedCategory,
+    required this.onCategoryChanged,
   });
 
   @override
@@ -18,6 +23,7 @@ class ArticleForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _buildCategorySelector(context),
         _buildAuthorInfo(context),
         Container(
           decoration: BoxDecoration(
@@ -44,6 +50,46 @@ class ArticleForm extends StatelessWidget {
     );
   }
 
+  Widget _buildCategorySelector(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(left: 4, right: 4, top: 16, bottom: 0),
+      child: DropdownButtonHideUnderline(
+        child: ButtonTheme(
+          alignedDropdown: true,
+          child: DropdownButton<ArticleCategory>(
+            isExpanded: true,
+            value: selectedCategory,
+            icon: Icon(
+              Icons.keyboard_arrow_down_rounded,
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
+            ),
+            items: ArticleCategory.valuesWithoutAll.map((category) {
+              final isSelected = selectedCategory == category;
+              return DropdownMenuItem(
+                value: category,
+                child: Text(
+                  category.label,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSurface,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                  ),
+                ),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                onCategoryChanged(value);
+              }
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildAuthorInfo(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
@@ -53,17 +99,18 @@ class ArticleForm extends StatelessWidget {
             'article.nickname'.tr(),
             style: TextStyle(
               fontSize: 15,
-              color: Theme.of(context).colorScheme.onSurface,
-              fontWeight: FontWeight.w500,
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
+              fontWeight: FontWeight.w100,
               letterSpacing: -0.3,
             ),
           ),
           const SizedBox(width: 8),
           Text(
             nickname,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
-              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onSurface,
+              fontWeight: FontWeight.w500,
               letterSpacing: -0.3,
             ),
           ),
@@ -85,7 +132,7 @@ class ArticleForm extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'article.title_hint'.tr(),
           hintStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
             fontSize: 20,
             fontWeight: FontWeight.bold,
             letterSpacing: -0.5,
@@ -117,7 +164,7 @@ class ArticleForm extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'article.content_hint'.tr(),
           hintStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
             fontSize: 16,
             height: 1.6,
             letterSpacing: -0.3,

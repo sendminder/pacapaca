@@ -3,6 +3,7 @@ import '../services/article_service.dart';
 import '../models/dto/article_dto.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 
 part 'article_provider.g.dart';
 
@@ -23,7 +24,7 @@ class ArticleList extends _$ArticleList {
     required int limit,
     int? pagingViewCount,
     int? pagingArticleId,
-    String? category,
+    ArticleCategory? category,
   }) async {
     _lastPagingViewCount = null; // 초기화
     _lastPagingArticleId = null; // 초기화
@@ -41,7 +42,7 @@ class ArticleList extends _$ArticleList {
     required String sortBy,
     required int limit,
     required ArticleDTO lastArticle,
-    String? category,
+    ArticleCategory? category,
   }) async {
     final pagingViewCount = lastArticle.viewCount;
     final pagingArticleId = lastArticle.id;

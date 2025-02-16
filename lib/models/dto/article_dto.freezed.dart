@@ -30,6 +30,7 @@ mixin _$ArticleDTO {
   @JsonKey(name: 'thumbnail_url')
   String? get thumbnailUrl => throw _privateConstructorUsedError;
   List<String>? get tags => throw _privateConstructorUsedError;
+  String? get category => throw _privateConstructorUsedError;
   @JsonKey(name: 'create_time')
   String get createTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'update_time')
@@ -70,6 +71,7 @@ abstract class $ArticleDTOCopyWith<$Res> {
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
       List<String>? tags,
+      String? category,
       @JsonKey(name: 'create_time') String createTime,
       @JsonKey(name: 'update_time') String updateTime,
       @JsonKey(name: 'like_count') int likeCount,
@@ -102,6 +104,7 @@ class _$ArticleDTOCopyWithImpl<$Res, $Val extends ArticleDTO>
     Object? imageUrl = freezed,
     Object? thumbnailUrl = freezed,
     Object? tags = freezed,
+    Object? category = freezed,
     Object? createTime = null,
     Object? updateTime = null,
     Object? likeCount = null,
@@ -140,6 +143,10 @@ class _$ArticleDTOCopyWithImpl<$Res, $Val extends ArticleDTO>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
       createTime: null == createTime
           ? _value.createTime
           : createTime // ignore: cast_nullable_to_non_nullable
@@ -192,6 +199,7 @@ abstract class _$$ArticleDTOImplCopyWith<$Res>
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
       List<String>? tags,
+      String? category,
       @JsonKey(name: 'create_time') String createTime,
       @JsonKey(name: 'update_time') String updateTime,
       @JsonKey(name: 'like_count') int likeCount,
@@ -222,6 +230,7 @@ class __$$ArticleDTOImplCopyWithImpl<$Res>
     Object? imageUrl = freezed,
     Object? thumbnailUrl = freezed,
     Object? tags = freezed,
+    Object? category = freezed,
     Object? createTime = null,
     Object? updateTime = null,
     Object? likeCount = null,
@@ -260,6 +269,10 @@ class __$$ArticleDTOImplCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
       createTime: null == createTime
           ? _value.createTime
           : createTime // ignore: cast_nullable_to_non_nullable
@@ -307,6 +320,7 @@ class _$ArticleDTOImpl implements _ArticleDTO {
       @JsonKey(name: 'image_url') this.imageUrl,
       @JsonKey(name: 'thumbnail_url') this.thumbnailUrl,
       final List<String>? tags,
+      this.category,
       @JsonKey(name: 'create_time') required this.createTime,
       @JsonKey(name: 'update_time') required this.updateTime,
       @JsonKey(name: 'like_count') required this.likeCount,
@@ -346,6 +360,8 @@ class _$ArticleDTOImpl implements _ArticleDTO {
   }
 
   @override
+  final String? category;
+  @override
   @JsonKey(name: 'create_time')
   final String createTime;
   @override
@@ -371,7 +387,7 @@ class _$ArticleDTOImpl implements _ArticleDTO {
 
   @override
   String toString() {
-    return 'ArticleDTO(id: $id, userId: $userId, title: $title, content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags, createTime: $createTime, updateTime: $updateTime, likeCount: $likeCount, commentCount: $commentCount, viewCount: $viewCount, nickname: $nickname, profileImageUrl: $profileImageUrl, isLiked: $isLiked)';
+    return 'ArticleDTO(id: $id, userId: $userId, title: $title, content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags, category: $category, createTime: $createTime, updateTime: $updateTime, likeCount: $likeCount, commentCount: $commentCount, viewCount: $viewCount, nickname: $nickname, profileImageUrl: $profileImageUrl, isLiked: $isLiked)';
   }
 
   @override
@@ -388,6 +404,8 @@ class _$ArticleDTOImpl implements _ArticleDTO {
             (identical(other.thumbnailUrl, thumbnailUrl) ||
                 other.thumbnailUrl == thumbnailUrl) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             (identical(other.createTime, createTime) ||
                 other.createTime == createTime) &&
             (identical(other.updateTime, updateTime) ||
@@ -416,6 +434,7 @@ class _$ArticleDTOImpl implements _ArticleDTO {
       imageUrl,
       thumbnailUrl,
       const DeepCollectionEquality().hash(_tags),
+      category,
       createTime,
       updateTime,
       likeCount,
@@ -450,6 +469,7 @@ abstract class _ArticleDTO implements ArticleDTO {
       @JsonKey(name: 'image_url') final String? imageUrl,
       @JsonKey(name: 'thumbnail_url') final String? thumbnailUrl,
       final List<String>? tags,
+      final String? category,
       @JsonKey(name: 'create_time') required final String createTime,
       @JsonKey(name: 'update_time') required final String updateTime,
       @JsonKey(name: 'like_count') required final int likeCount,
@@ -480,6 +500,8 @@ abstract class _ArticleDTO implements ArticleDTO {
   String? get thumbnailUrl;
   @override
   List<String>? get tags;
+  @override
+  String? get category;
   @override
   @JsonKey(name: 'create_time')
   String get createTime;

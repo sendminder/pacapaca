@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter/material.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 
 class StorageService {
   static const String _accessTokenKey = 'access_token';
@@ -13,6 +14,7 @@ class StorageService {
   static const String _localeKey = 'locale';
   static const String _commentSortKey = 'comment_sort';
   static const String _articleSortKey = 'article_sort';
+  static const String _articleCategoryKey = 'article_category';
 
   final logger = GetIt.instance<Logger>();
 
@@ -135,5 +137,20 @@ class StorageService {
   // 게시글 정렬 가져오기
   Future<String?> get articleSort async {
     return await _storage.read(key: _articleSortKey);
+  }
+
+  // 게시글 카테고리 저장
+  Future<void> saveArticleCategory(ArticleCategory category) async {
+    await _storage.write(key: _articleCategoryKey, value: category.toString());
+  }
+
+  // 게시글 카테고리 가져오기
+  Future<ArticleCategory?> get articleCategory async {
+    final categoryStr = await _storage.read(key: _articleCategoryKey);
+    if (categoryStr == null) return null;
+    return ArticleCategory.values.firstWhere(
+      (e) => e.toString() == categoryStr,
+      orElse: () => ArticleCategory.daily,
+    );
   }
 }

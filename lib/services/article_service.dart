@@ -5,6 +5,7 @@ import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/dto/common_dto.dart';
 import 'dart:convert';
 import 'package:pacapaca/services/dio_service.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 
 class ArticleService {
   final Dio _dio = DioService.instance;
@@ -16,15 +17,20 @@ class ArticleService {
     required int limit,
     int? pagingViewCount,
     int? pagingArticleId,
-    String? category,
+    ArticleCategory? category,
   }) async {
     try {
+      String categoryString = "";
+      if (category != null && category != ArticleCategory.all) {
+        categoryString = category.toString();
+      }
+
       final request = ListArticlesRequest(
         sortBy: sortBy,
         limit: limit,
         pagingViewCount: pagingViewCount,
         pagingArticleId: pagingArticleId,
-        category: category,
+        category: categoryString,
       );
 
       final response = await _dio.get(

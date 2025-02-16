@@ -7,6 +7,7 @@ import 'package:pacapaca/widgets/shared/loading_button.dart';
 import 'package:pacapaca/pages/article/widgets/article_form.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 
 class ArticleCreatePage extends ConsumerStatefulWidget {
   const ArticleCreatePage({super.key});
@@ -19,6 +20,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
   bool _isLoading = false;
+  ArticleCategory _selectedCategory = ArticleCategory.daily;
 
   Future<void> _createArticle() async {
     if (_titleController.text.isEmpty || _contentController.text.isEmpty) {
@@ -102,6 +104,12 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
           titleController: _titleController,
           contentController: _contentController,
           nickname: currentUser?.nickname ?? 'article.unknown_user'.tr(),
+          selectedCategory: _selectedCategory,
+          onCategoryChanged: (category) {
+            setState(() {
+              _selectedCategory = category;
+            });
+          },
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/services/storage_service.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {
   return ThemeNotifier();
@@ -19,6 +20,11 @@ final commentSortProvider =
 final articleSortProvider =
     StateNotifierProvider<ArticleSortNotifier, String>((ref) {
   return ArticleSortNotifier();
+});
+
+final articleCategoryProvider =
+    StateNotifierProvider<ArticleCategoryNotifier, ArticleCategory>((ref) {
+  return ArticleCategoryNotifier();
 });
 
 class ThemeNotifier extends StateNotifier<ThemeMode> {
@@ -98,5 +104,12 @@ class ArticleSortNotifier extends StateNotifier<String> {
     if (savedArticleSort != null) {
       state = savedArticleSort;
     }
+  }
+}
+
+class ArticleCategoryNotifier extends StateNotifier<ArticleCategory> {
+  ArticleCategoryNotifier() : super(ArticleCategory.all) {}
+  void setCategory(ArticleCategory category) {
+    state = category;
   }
 }

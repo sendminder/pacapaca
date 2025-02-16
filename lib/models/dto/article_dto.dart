@@ -13,6 +13,7 @@ class ArticleDTO with _$ArticleDTO {
     @JsonKey(name: 'image_url') String? imageUrl,
     @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
     List<String>? tags,
+    String? category,
     @JsonKey(name: 'create_time') required String createTime,
     @JsonKey(name: 'update_time') required String updateTime,
     @JsonKey(name: 'like_count') required int likeCount,
