@@ -34,8 +34,6 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         leading: TextButton(
           onPressed: () {
-            ref.read(articleCategoryProvider.notifier).state =
-                ArticleCategory.all;
             context.pop();
           },
           style: TextButton.styleFrom(
@@ -66,7 +64,9 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
           titleController: _titleController,
           contentController: _contentController,
           nickname: currentUser?.nickname ?? 'article.unknown_user'.tr(),
-          selectedCategory: selectedCategory,
+          selectedCategory: selectedCategory == ArticleCategory.all
+              ? ArticleCategory.daily // 카테고리가 전체일때는 일상으로 설정
+              : selectedCategory,
           onCategoryChanged: (category) {
             ref.read(articleCategoryProvider.notifier).state = category;
           },

@@ -37,9 +37,7 @@
         "work": "직장",
         "love": "연애",
         "family": "가족",
-        "mental": "정신건강",
-        "study": "학업/진로",
-        "daily": "일상/기타"
+        "daily": "일상"
     },
     "comment": {
         "edit": "수정",

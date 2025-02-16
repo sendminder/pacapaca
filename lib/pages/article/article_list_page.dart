@@ -104,12 +104,12 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     final selectedCategory = ref.watch(articleCategoryProvider);
 
     return SizedBox(
-      height: 48,
+      height: 36,
       child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.only(left: 10),
         scrollDirection: Axis.horizontal,
         itemCount: ArticleCategory.values.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 8),
+        separatorBuilder: (context, index) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           final category = ArticleCategory.values[index];
           return _categoryButton(
@@ -134,16 +134,22 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
       style: ElevatedButton.styleFrom(
         backgroundColor: isSelected
             ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.surfaceVariant,
+            : Theme.of(context).colorScheme.surface,
         foregroundColor: isSelected
-            ? Theme.of(context).colorScheme.onPrimary
+            ? Colors.white
             : Theme.of(context).colorScheme.onSurfaceVariant,
         elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
       ),
-      child: Text(label),
+      child: Text(
+        label,
+        style: const TextStyle(
+          fontSize: 14,
+        ),
+      ),
     );
   }
 
