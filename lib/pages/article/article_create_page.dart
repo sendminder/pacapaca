@@ -11,7 +11,14 @@ import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 
 class ArticleCreatePage extends ConsumerStatefulWidget {
-  const ArticleCreatePage({super.key});
+  final String? initialTitle;
+  final String? initialContent;
+
+  const ArticleCreatePage({
+    super.key,
+    this.initialTitle,
+    this.initialContent,
+  });
 
   @override
   ConsumerState<ArticleCreatePage> createState() => _ArticleCreatePageState();
@@ -20,6 +27,19 @@ class ArticleCreatePage extends ConsumerStatefulWidget {
 class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // 초기값이 있으면 컨트롤러에 설정
+    if (widget.initialTitle != null) {
+      _titleController.text = widget.initialTitle!;
+    }
+    if (widget.initialContent != null) {
+      _contentController.text = widget.initialContent!;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(authProvider).value;

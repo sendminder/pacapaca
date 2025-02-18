@@ -105,25 +105,34 @@ class RouterNotifier extends ChangeNotifier {
         ),
         GoRoute(
           path: '/articles/new',
-          pageBuilder: (context, state) => CustomTransitionPage(
-            key: state.pageKey,
-            child: const ArticleCreatePage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, 1),
-                  end: Offset.zero,
-                ).animate(
-                  CurvedAnimation(
-                    parent: animation,
-                    curve: Curves.easeInOut,
+          pageBuilder: (context, state) {
+            // extra 데이터에서 title과 content 추출
+            final Map<String, String>? extra =
+                state.extra as Map<String, String>?;
+
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: ArticleCreatePage(
+                initialTitle: extra?['title'],
+                initialContent: extra?['content'],
+              ),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0, 1),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeInOut,
+                    ),
                   ),
-                ),
-                child: child,
-              );
-            },
-          ),
+                  child: child,
+                );
+              },
+            );
+          },
         ),
         GoRoute(
           path: '/articles/ai-helper',
