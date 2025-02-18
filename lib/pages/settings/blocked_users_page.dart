@@ -12,7 +12,7 @@ class BlockedUsersPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('settings.blocked_users'.tr()),
+        title: Text('block.list_title'.tr()),
         backgroundColor: Theme.of(context).colorScheme.surface,
         scrolledUnderElevation: 0,
         surfaceTintColor: null,
@@ -31,7 +31,7 @@ class BlockedUsersPage extends ConsumerWidget {
           if (users.isEmpty) {
             return Center(
               child: Text(
-                'settings.no_blocked_users'.tr(),
+                'block.no_blocks'.tr(),
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             );
@@ -57,17 +57,17 @@ class BlockedUsersPage extends ConsumerWidget {
                   return await showDialog<bool>(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: Text('settings.unblock_user'.tr()),
-                          content: Text('settings.unblock_confirm'.tr()),
+                          title: Text('block.unblock'.tr()),
+                          content: Text('block.unblock_confirm'.tr()),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context, false),
-                              child: Text('settings.cancel'.tr()),
+                              child: Text('block.cancel'.tr()),
                             ),
                             TextButton(
                               onPressed: () => Navigator.pop(context, true),
                               child: Text(
-                                'settings.unblock'.tr(),
+                                'block.unblock'.tr(),
                                 style: TextStyle(
                                   color: Theme.of(context).colorScheme.error,
                                 ),
@@ -82,7 +82,7 @@ class BlockedUsersPage extends ConsumerWidget {
                   ref.read(blockStateProvider.notifier).unblockUser(block.id);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('settings.user_unblocked'.tr()),
+                      content: Text('block.unblocked'.tr()),
                       behavior: SnackBarBehavior.floating,
                     ),
                   );
@@ -97,10 +97,10 @@ class BlockedUsersPage extends ConsumerWidget {
                             .format(DateTime.parse(block.createTime)),
                       ),
                       if (block.articleId != null)
-                        Text('settings.blocked_from_article'
+                        Text('block.from_article'
                             .tr(args: [block.articleId.toString()])),
                       if (block.commentId != null)
-                        Text('settings.blocked_from_comment'
+                        Text('block.from_comment'
                             .tr(args: [block.commentId.toString()])),
                     ],
                   ),
@@ -111,17 +111,17 @@ class BlockedUsersPage extends ConsumerWidget {
                       final confirmed = await showDialog<bool>(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: Text('settings.unblock_user'.tr()),
-                          content: Text('settings.unblock_confirm'.tr()),
+                          title: Text('block.unblock'.tr()),
+                          content: Text('block.unblock_confirm'.tr()),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context, false),
-                              child: Text('settings.cancel'.tr()),
+                              child: Text('block.cancel'.tr()),
                             ),
                             TextButton(
                               onPressed: () => Navigator.pop(context, true),
                               child: Text(
-                                'settings.unblock'.tr(),
+                                'block.unblock'.tr(),
                                 style: TextStyle(
                                   color: Theme.of(context).colorScheme.error,
                                 ),
@@ -138,7 +138,7 @@ class BlockedUsersPage extends ConsumerWidget {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('settings.user_unblocked'.tr()),
+                              content: Text('block.unblocked'.tr()),
                               behavior: SnackBarBehavior.floating,
                             ),
                           );
@@ -154,7 +154,7 @@ class BlockedUsersPage extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(
           child: Text(
-            'settings.error_loading_blocks'.tr(),
+            'block.error_loading'.tr(args: [error.toString()]),
             style: TextStyle(color: Theme.of(context).colorScheme.error),
           ),
         ),

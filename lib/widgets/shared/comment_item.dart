@@ -6,6 +6,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/block_provider.dart';
+import 'package:pacapaca/providers/report_provider.dart';
 
 class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
@@ -144,7 +145,7 @@ class CommentItem extends ConsumerWidget {
                         itemBuilder: (context) => [
                           PopupMenuItem(
                             child: Text(
-                              'comment.block_user'.tr(),
+                              'block.title'.tr(),
                               style: TextStyle(
                                   color: Theme.of(context).colorScheme.error),
                             ),
@@ -152,19 +153,19 @@ class CommentItem extends ConsumerWidget {
                               final confirmed = await showDialog<bool>(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: Text('comment.block_user'.tr()),
-                                  content: Text('comment.block_confirm'.tr()),
+                                  title: Text('block.title'.tr()),
+                                  content: Text('block.confirm'.tr()),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.pop(context, false),
-                                      child: Text('comment.cancel'.tr()),
+                                      child: Text('block.cancel'.tr()),
                                     ),
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.pop(context, true),
                                       child: Text(
-                                        'comment.block'.tr(),
+                                        'block.submit'.tr(),
                                         style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
@@ -181,10 +182,83 @@ class CommentItem extends ConsumerWidget {
                                     .read(blockStateProvider.notifier)
                                     .blockUser(
                                       userId: comment.userId,
-                                      reason: 'comment.block_from_comment'
+                                      reason: 'block.from_comment'
                                           .tr(args: [comment.id.toString()]),
                                       commentId: comment.id,
                                     );
+                              }
+                            },
+                          ),
+                          PopupMenuItem(
+                            child: Text(
+                              'report.title'.tr(),
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error),
+                            ),
+                            onTap: () async {
+                              final reason = await showDialog<String>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('report.title'.tr()),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('report.reason'.tr()),
+                                      const SizedBox(height: 16),
+                                      TextField(
+                                        maxLines: 3,
+                                        decoration: InputDecoration(
+                                          hintText: 'report.reason_hint'.tr(),
+                                          border: const OutlineInputBorder(),
+                                        ),
+                                        onSubmitted: (value) =>
+                                            Navigator.pop(context, value),
+                                      ),
+                                    ],
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text('report.cancel'.tr()),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        final textField = context
+                                            .findRenderObject() as RenderBox?;
+                                        if (textField != null) {
+                                          Navigator.pop(
+                                              context, textField.toString());
+                                        }
+                                      },
+                                      child: Text(
+                                        'report.submit'.tr(),
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .error,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+
+                              if (reason != null && reason.isNotEmpty) {
+                                await ref
+                                    .read(reportStateProvider.notifier)
+                                    .reportUser(
+                                      userId: comment.userId,
+                                      reason: reason,
+                                      commentId: comment.id,
+                                    );
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('report.submitted'.tr()),
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                }
                               }
                             },
                           ),

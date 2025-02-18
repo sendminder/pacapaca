@@ -32,11 +32,7 @@
             "latest": "최신순",
             "oldest": "오래된순",
             "views": "조회순"
-        },
-        "block_user": "사용자 차단",
-        "block_confirm": "이 사용자를 차단하시겠어요?",
-        "block": "차단",
-        "block_from_article": "{} 게시글에서 차단됨"
+        }
     },
     "category": {
         "all": "전체",
@@ -52,11 +48,7 @@
         "edit_comment": "댓글 수정",
         "delete_comment": "댓글 삭제",
         "delete_confirm": "정말 삭제하시겠어요?",
-        "delete": "삭제",
-        "block_user": "사용자 차단",
-        "block_confirm": "이 사용자를 차단하시겠어요?",
-        "block": "차단",
-        "block_from_comment": "댓글 #{}에서 차단"
+        "delete": "삭제"
     },
     "login": {
         "login":"로그인",
@@ -84,15 +76,31 @@
         "dark": "다크",
         "logout_confirm": "정말 로그아웃 하시겠어요?",
         "cancel": "취소",
-        "blocked_users": "차단된 사용자",
-        "no_blocked_users": "차단된 사용자가 없어요",
-        "unblock_user": "차단 해제",
-        "unblock_confirm": "정말 차단 해제하시겠어요?",
+        "blocked_users": "차단된 사용자"
+    },
+    "report": {
+        "title": "사용자 신고",
+        "confirm": "이 사용자를 신고하시겠어요?",
+        "reason": "신고 사유를 입력해주세요",
+        "reason_hint": "부적절한 내용, 욕설, 광고 등",
+        "submit": "신고하기",
+        "submitted": "신고가 접수되었어요",
+        "from_article": "{} 게시글에서 신고됨",
+        "from_comment": "댓글 #{}에서 신고됨",
+        "cancel": "취소"
+    },
+    "block": {
+        "title": "사용자 차단",
+        "confirm": "이 사용자를 차단하시겠어요?",
+        "submit": "차단",
+        "from_article": "{} 게시글에서 차단됨",
+        "from_comment": "댓글 #{}에서 차단됨",
+        "cancel": "취소",
         "unblock": "차단 해제",
-        "blocked_from_article": "{} 게시글에서 차단됨",
-        "blocked_from_comment": "{} 댓글에서 차단됨",
-        "user_unblocked": "사용자 차단 해제됨",
-        "blocked_user_removed": "차단된 사용자 제거됨",
-        "error_loading_blocks": "차단된 사용자 불러오기 실패: {}"
+        "unblock_confirm": "정말 차단 해제하시겠어요?",
+        "unblocked": "사용자 차단이 해제되었어요",
+        "list_title": "차단된 사용자",
+        "no_blocks": "차단된 사용자가 없어요",
+        "error_loading": "차단된 사용자 불러오기 실패: {}"
     }
 }

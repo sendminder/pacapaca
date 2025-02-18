@@ -29,11 +29,7 @@
         "sort": {
             "latest": "Latest",
             "views": "Views"
-        },
-        "block_user": "Block User",
-        "block_confirm": "Are you sure you want to block this user?",
-        "block": "Block",
-        "block_from_article": "Blocked from article {}"
+        }
     },
     "category": {
         "all": "All",
@@ -81,15 +77,31 @@
         "dark": "Dark",
         "logout_confirm": "Are you sure you want to logout?",
         "cancel": "Cancel",
-        "blocked_users": "Blocked Users",
-        "no_blocked_users": "No blocked users",
-        "unblock_user": "Unblock User",
+        "blocked_users": "Blocked Users"
+    },
+    "report": {
+        "title": "Report User",
+        "confirm": "Are you sure you want to report this user?",
+        "reason": "Enter report reason",
+        "reason_hint": "Inappropriate content, offensive language, etc.",
+        "submit": "Report",
+        "submitted": "Report submitted",
+        "from_article": "Reported from article {}",
+        "from_comment": "Reported from comment {}",
+        "cancel": "Cancel"
+    },
+    "block": {
+        "title": "Block User",
+        "confirm": "Are you sure you want to block this user?",
+        "submit": "Block",
+        "from_article": "Blocked from article {}",
+        "from_comment": "Blocked from comment {}",
+        "cancel": "Cancel",
+        "unblock": "Unblock User",
         "unblock_confirm": "Are you sure you want to unblock this user?",
-        "unblock": "Unblock",
-        "blocked_from_article": "Blocked from article {}",
-        "blocked_from_comment": "Blocked from comment {}",
-        "user_unblocked": "User unblocked",
-        "blocked_user_removed": "Blocked user removed",
-        "error_loading_blocks": "Failed to load blocked users: {}"
+        "unblocked": "User unblocked",
+        "list_title": "Blocked Users",
+        "no_blocks": "No blocked users",
+        "error_loading": "Failed to load blocked users: {}"
     }
 }

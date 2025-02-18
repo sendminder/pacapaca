@@ -11,6 +11,7 @@ import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/providers/block_provider.dart';
+import 'package:pacapaca/providers/report_provider.dart';
 
 class ArticleDetailPage extends ConsumerWidget {
   final int articleId;
@@ -359,29 +360,29 @@ class ArticleDetailPage extends ConsumerWidget {
       );
     }
 
-    // 다른 사람의 글이면 차단 메뉴
+    // 다른 사람의 글이면 차단/신고 메뉴
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
           child: Text(
-            'article.block_user'.tr(),
+            'block.title'.tr(),
             style: TextStyle(color: Theme.of(context).colorScheme.error),
           ),
           onTap: () async {
             final confirmed = await showDialog<bool>(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('article.block_user'.tr()),
-                content: Text('article.block_confirm'.tr()),
+                title: Text('block.title'.tr()),
+                content: Text('block.confirm'.tr()),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context, false),
-                    child: Text('article.cancel'.tr()),
+                    child: Text('block.cancel'.tr()),
                   ),
                   TextButton(
                     onPressed: () => Navigator.pop(context, true),
                     child: Text(
-                      'article.block'.tr(),
+                      'block.submit'.tr(),
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.error,
                       ),
@@ -394,12 +395,78 @@ class ArticleDetailPage extends ConsumerWidget {
             if (confirmed == true) {
               await ref.read(blockStateProvider.notifier).blockUser(
                     userId: article.userId,
-                    reason: 'article.block_from_article'
-                        .tr(args: [article.id.toString()]),
+                    reason:
+                        'block.from_article'.tr(args: [article.id.toString()]),
                     articleId: article.id,
                   );
               if (context.mounted) {
                 context.pop(); // 게시글 페이지 닫기
+              }
+            }
+          },
+        ),
+        PopupMenuItem(
+          child: Text(
+            'report.title'.tr(),
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
+          onTap: () async {
+            final reason = await showDialog<String>(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text('report.title'.tr()),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('report.reason'.tr()),
+                    const SizedBox(height: 16),
+                    TextField(
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        hintText: 'report.reason_hint'.tr(),
+                        border: const OutlineInputBorder(),
+                      ),
+                      onSubmitted: (value) => Navigator.pop(context, value),
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('report.cancel'.tr()),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      final textField =
+                          context.findRenderObject() as RenderBox?;
+                      if (textField != null) {
+                        Navigator.pop(context, textField.toString());
+                      }
+                    },
+                    child: Text(
+                      'report.submit'.tr(),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+
+            if (reason != null && reason.isNotEmpty) {
+              await ref.read(reportStateProvider.notifier).reportUser(
+                    userId: article.userId,
+                    reason: reason,
+                    articleId: article.id,
+                  );
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('report.submitted'.tr()),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
               }
             }
           },
