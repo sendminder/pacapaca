@@ -81,6 +81,13 @@ class SettingsPage extends ConsumerWidget {
               },
             ),
           ),
+          ListTile(
+            leading: const Icon(Icons.block),
+            title: Text('settings.blocked_users'.tr()),
+            onTap: () {
+              context.push('/settings/blocked-users');
+            },
+          ),
           const Divider(),
           ListTile(
             leading: Icon(

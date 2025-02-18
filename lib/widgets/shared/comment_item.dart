@@ -4,25 +4,27 @@ import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/widgets/shared/comment/comment_edit_dialog.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pacapaca/providers/block_provider.dart';
 
-class CommentItem extends StatelessWidget {
+class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
   final bool isOwner;
   final bool isWriter;
-  final Future<void> Function(int commentId)? onDelete;
-  final Future<void> Function(int commentId, String content)? onUpdate;
+  final Function(int) onDelete;
+  final Function(int, String) onUpdate;
 
   const CommentItem({
     super.key,
     required this.comment,
     required this.isOwner,
     required this.isWriter,
-    this.onDelete,
-    this.onUpdate,
+    required this.onDelete,
+    required this.onUpdate,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -78,20 +80,115 @@ class CommentItem extends StatelessWidget {
                                 .withAlpha(128),
                           ),
                     ),
-                    if (isOwner && (onDelete != null || onUpdate != null)) ...[
+                    if (isOwner) ...[
                       const Spacer(),
-                      IconButton(
-                        icon: Icon(
-                          Icons.more_vert,
-                          size: 18,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withAlpha(128),
-                        ),
-                        onPressed: () => _showActionMenu(context),
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
+                      PopupMenuButton(
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: Text('comment.edit'.tr()),
+                            onTap: () async {
+                              Navigator.pop(context);
+                              final content = await showDialog<String>(
+                                context: context,
+                                builder: (context) => CommentEditDialog(
+                                  initialContent: comment.content,
+                                ),
+                              );
+                              if (content != null) {
+                                onUpdate(comment.id, content);
+                              }
+                            },
+                          ),
+                          PopupMenuItem(
+                            child: Text(
+                              'comment.delete'.tr(),
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error),
+                            ),
+                            onTap: () async {
+                              Navigator.pop(context);
+                              final confirmed = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('comment.delete_comment'.tr()),
+                                  content: Text('comment.delete_confirm'.tr()),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, false),
+                                      child: Text('comment.cancel'.tr()),
+                                    ),
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, true),
+                                      child: Text(
+                                        'comment.delete'.tr(),
+                                        style:
+                                            const TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+
+                              if (confirmed == true) {
+                                onDelete(comment.id);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ] else ...[
+                      const Spacer(),
+                      PopupMenuButton(
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: Text(
+                              'comment.block_user'.tr(),
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error),
+                            ),
+                            onTap: () async {
+                              final confirmed = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('comment.block_user'.tr()),
+                                  content: Text('comment.block_confirm'.tr()),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, false),
+                                      child: Text('comment.cancel'.tr()),
+                                    ),
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, true),
+                                      child: Text(
+                                        'comment.block'.tr(),
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .error,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+
+                              if (confirmed == true) {
+                                await ref
+                                    .read(blockStateProvider.notifier)
+                                    .blockUser(
+                                      userId: comment.userId,
+                                      reason: 'comment.block_from_comment'
+                                          .tr(args: [comment.id.toString()]),
+                                      commentId: comment.id,
+                                    );
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ],
@@ -109,71 +206,6 @@ class CommentItem extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  void _showActionMenu(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (onUpdate != null)
-              ListTile(
-                leading: const Icon(Icons.edit),
-                title: Text('comment.edit'.tr()),
-                onTap: () async {
-                  Navigator.pop(context);
-                  final content = await showDialog<String>(
-                    context: context,
-                    builder: (context) => CommentEditDialog(
-                      initialContent: comment.content,
-                    ),
-                  );
-                  if (content != null) {
-                    await onUpdate!(comment.id, content);
-                  }
-                },
-              ),
-            if (onDelete != null)
-              ListTile(
-                leading: const Icon(Icons.delete, color: Colors.red),
-                title: Text(
-                  'comment.delete'.tr(),
-                  style: const TextStyle(color: Colors.red),
-                ),
-                onTap: () async {
-                  Navigator.pop(context);
-                  final confirmed = await showDialog<bool>(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text('comment.delete_comment'.tr()),
-                      content: Text('comment.delete_confirm'.tr()),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, false),
-                          child: Text('comment.cancel'.tr()),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, true),
-                          child: Text(
-                            'comment.delete'.tr(),
-                            style: const TextStyle(color: Colors.red),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-
-                  if (confirmed == true) {
-                    await onDelete!(comment.id);
-                  }
-                },
-              ),
-          ],
-        ),
-      ),
     );
   }
 }

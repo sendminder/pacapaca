@@ -17,6 +17,8 @@ import 'package:pacapaca/services/article_service.dart';
 import 'package:pacapaca/services/dio_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:pacapaca/messages/ko_messages.dart';
+import 'package:pacapaca/services/block_service.dart';
+import 'package:pacapaca/services/report_service.dart';
 
 void main() async {
   // 앱 초기화
@@ -92,4 +94,6 @@ void _setupServiceLocator() {
   getIt.registerSingleton<AuthService>(AuthService());
   getIt.registerSingleton<ArticleService>(ArticleService());
   getIt.registerSingleton<DioService>(DioService());
+  getIt.registerSingleton<BlockService>(BlockService());
+  getIt.registerSingleton<ReportService>(ReportService());
 }

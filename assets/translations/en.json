@@ -29,7 +29,11 @@
         "sort": {
             "latest": "Latest",
             "views": "Views"
-        }
+        },
+        "block_user": "Block User",
+        "block_confirm": "Are you sure you want to block this user?",
+        "block": "Block",
+        "block_from_article": "Blocked from article {}"
     },
     "category": {
         "all": "All",
@@ -45,7 +49,11 @@
         "edit_comment": "Edit Comment",
         "delete_comment": "Delete Comment",
         "delete_confirm": "Are you sure you want to delete?",
-        "delete": "Delete"
+        "delete": "Delete",
+        "block_user": "Block User",
+        "block_confirm": "Are you sure you want to block this user?",
+        "block": "Block",
+        "block_from_comment": "Blocked from comment {}"
     },
     "login": {
         "login": "Login",
@@ -72,6 +80,16 @@
         "light": "Light",
         "dark": "Dark",
         "logout_confirm": "Are you sure you want to logout?",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "blocked_users": "Blocked Users",
+        "no_blocked_users": "No blocked users",
+        "unblock_user": "Unblock User",
+        "unblock_confirm": "Are you sure you want to unblock this user?",
+        "unblock": "Unblock",
+        "blocked_from_article": "Blocked from article {}",
+        "blocked_from_comment": "Blocked from comment {}",
+        "user_unblocked": "User unblocked",
+        "blocked_user_removed": "Blocked user removed",
+        "error_loading_blocks": "Failed to load blocked users: {}"
     }
 }

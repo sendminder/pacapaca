@@ -10,6 +10,7 @@ import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
+import 'package:pacapaca/providers/block_provider.dart';
 
 class ArticleDetailPage extends ConsumerWidget {
   final int articleId;
@@ -305,36 +306,82 @@ class ArticleDetailPage extends ConsumerWidget {
     ArticleDTO? article,
     UserDTO? currentUser,
   ) {
-    if (article?.userId != currentUser?.id) {
-      return const SizedBox.shrink();
+    if (article == null) return const SizedBox.shrink();
+
+    // 자신의 글이면 수정/삭제 메뉴
+    if (article.userId == currentUser?.id) {
+      return PopupMenuButton(
+        itemBuilder: (context) => [
+          PopupMenuItem(
+            child: Text('article.edit'.tr()),
+            onTap: () => context.push('/articles/${article.id}/edit'),
+          ),
+          PopupMenuItem(
+            child: Text(
+              'article.delete'.tr(),
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+            onTap: () async {
+              final confirmed = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('article.delete_confirm'.tr()),
+                  content: Text('article.delete_confirm_desc'.tr()),
+                  actions: [
+                    TextButton(
+                      onPressed: () => context.pop(false),
+                      child: Text('article.cancel'.tr()),
+                    ),
+                    TextButton(
+                      onPressed: () => context.pop(true),
+                      child: Text(
+                        'article.delete'.tr(),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+
+              if (confirmed == true) {
+                await ref
+                    .read(articleEditorProvider.notifier)
+                    .deleteArticle(article.id);
+                if (context.mounted) {
+                  context.pop();
+                }
+              }
+            },
+          ),
+        ],
+      );
     }
 
+    // 다른 사람의 글이면 차단 메뉴
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
-          child: Text('article.edit'.tr()),
-          onTap: () => context.push('/articles/$articleId/edit'),
-        ),
-        PopupMenuItem(
           child: Text(
-            'article.delete'.tr(),
+            'article.block_user'.tr(),
             style: TextStyle(color: Theme.of(context).colorScheme.error),
           ),
           onTap: () async {
             final confirmed = await showDialog<bool>(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('article.delete_confirm'.tr()),
-                content: Text('article.delete_confirm_desc'.tr()),
+                title: Text('article.block_user'.tr()),
+                content: Text('article.block_confirm'.tr()),
                 actions: [
                   TextButton(
-                    onPressed: () => context.pop(false),
+                    onPressed: () => Navigator.pop(context, false),
                     child: Text('article.cancel'.tr()),
                   ),
                   TextButton(
-                    onPressed: () => context.pop(true),
+                    onPressed: () => Navigator.pop(context, true),
                     child: Text(
-                      'article.delete'.tr(),
+                      'article.block'.tr(),
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.error,
                       ),
@@ -345,11 +392,14 @@ class ArticleDetailPage extends ConsumerWidget {
             );
 
             if (confirmed == true) {
-              await ref
-                  .read(articleEditorProvider.notifier)
-                  .deleteArticle(articleId);
+              await ref.read(blockStateProvider.notifier).blockUser(
+                    userId: article.userId,
+                    reason: 'article.block_from_article'
+                        .tr(args: [article.id.toString()]),
+                    articleId: article.id,
+                  );
               if (context.mounted) {
-                context.pop();
+                context.pop(); // 게시글 페이지 닫기
               }
             }
           },

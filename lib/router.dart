@@ -13,6 +13,7 @@ import 'pages/auth/set_nickname_page.dart';
 import 'widgets/shell_scaffold.dart';
 import 'pages/article/article_list_page.dart';
 import 'pages/article/article_create_page.dart';
+import 'package:pacapaca/pages/settings/blocked_users_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -163,6 +164,10 @@ class RouterNotifier extends ChangeNotifier {
                 GoRoute(
                   path: '/settings',
                   builder: (context, state) => const SettingsPage(),
+                ),
+                GoRoute(
+                  path: '/settings/blocked-users',
+                  builder: (context, state) => const BlockedUsersPage(),
                 ),
               ],
             ),
