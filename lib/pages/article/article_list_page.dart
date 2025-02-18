@@ -108,9 +108,25 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/articles/new'),
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'ai_helper',
+            onPressed: () => context.push('/articles/ai-helper'),
+            child: Image.asset(
+              'assets/profiles/pacapee_origin.png',
+              width: 40,
+              height: 40,
+            ),
+          ),
+          const SizedBox(height: 8),
+          FloatingActionButton(
+            heroTag: 'create_article',
+            onPressed: () => context.push('/articles/new'),
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }

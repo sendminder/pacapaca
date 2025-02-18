@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:pacapaca/widgets/shared/comment_item.dart';
-import 'package:pacapaca/widgets/shared/comment/comment_input.dart';
 import 'package:pacapaca/pages/article/widgets/article_detail_content.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
@@ -12,8 +11,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/providers/report_provider.dart';
+import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
 
-class ArticleDetailPage extends ConsumerWidget {
+class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
 
   const ArticleDetailPage({
@@ -22,10 +22,42 @@ class ArticleDetailPage extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final provider = articleProvider(articleId);
+  ConsumerState<ArticleDetailPage> createState() => _ArticleDetailPageState();
+}
+
+class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
+  final TextEditingController _commentController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  bool _canSend = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _commentController.addListener(_updateCanSend);
+  }
+
+  void _updateCanSend() {
+    final canSend = _commentController.text.isNotEmpty;
+    if (canSend != _canSend) {
+      setState(() {
+        _canSend = canSend;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _commentController.removeListener(_updateCanSend);
+    _commentController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = articleProvider(widget.articleId);
     final articleAsync = ref.watch(provider);
-    final commentsAsync = ref.watch(articleCommentsProvider(articleId));
+    final commentsAsync = ref.watch(articleCommentsProvider(widget.articleId));
     final currentUser = ref.watch(authProvider).value;
 
     // 게시글 상세 페이지에서 좋아요 버튼 클릭 시 목록 업데이트
@@ -51,14 +83,14 @@ class ArticleDetailPage extends ConsumerWidget {
         child: RefreshIndicator(
           onRefresh: () async {
             ref.invalidate(provider);
-            ref.invalidate(articleCommentsProvider(articleId));
+            ref.invalidate(articleCommentsProvider(widget.articleId));
           },
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
               if (scrollInfo.metrics.pixels >=
                   scrollInfo.metrics.maxScrollExtent * 0.8) {
                 ref
-                    .read(articleCommentsProvider(articleId).notifier)
+                    .read(articleCommentsProvider(widget.articleId).notifier)
                     .loadMore();
               }
               return true;
@@ -81,42 +113,18 @@ class ArticleDetailPage extends ConsumerWidget {
         ),
       ),
       bottomSheet: currentUser != null
-          ? Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withAlpha(50),
-                    blurRadius: 8,
-                    offset: const Offset(0, -2),
-                  ),
-                ],
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.withAlpha(10),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: 16,
-                    left: 16,
-                    right: 16,
-                    bottom: 30,
-                  ),
-                  child: CommentInput(
-                    onSubmit: (content) async {
-                      await ref
-                          .read(articleCommentsProvider(articleId).notifier)
-                          .addComment(content);
-                      FocusScope.of(context).unfocus();
-                    },
-                  ),
-                ),
-              ),
+          ? ChatInput(
+              controller: _commentController,
+              focusNode: _focusNode,
+              onSubmit: (content) async {
+                await ref
+                    .read(articleCommentsProvider(widget.articleId).notifier)
+                    .addComment(content);
+                _commentController.clear();
+                FocusScope.of(context).unfocus();
+              },
+              hintText: 'comment.hint'.tr(),
+              canSend: _canSend,
             )
           : null,
     );
@@ -282,12 +290,12 @@ class ArticleDetailPage extends ConsumerWidget {
               isWriter: articleAsync.value?.userId == currentUser?.id,
               onDelete: (commentId) async {
                 await ref
-                    .read(articleCommentsProvider(articleId).notifier)
+                    .read(articleCommentsProvider(widget.articleId).notifier)
                     .deleteComment(commentId);
               },
               onUpdate: (commentId, content) async {
                 await ref
-                    .read(articleCommentsProvider(articleId).notifier)
+                    .read(articleCommentsProvider(widget.articleId).notifier)
                     .updateComment(commentId, content);
               },
             );

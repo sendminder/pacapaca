@@ -14,6 +14,7 @@ import 'widgets/shell_scaffold.dart';
 import 'pages/article/article_list_page.dart';
 import 'pages/article/article_create_page.dart';
 import 'package:pacapaca/pages/settings/blocked_users_page.dart';
+import 'pages/article/article_ai_helper_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -123,6 +124,10 @@ class RouterNotifier extends ChangeNotifier {
               );
             },
           ),
+        ),
+        GoRoute(
+          path: '/articles/ai-helper',
+          builder: (context, state) => const ArticleAiHelperPage(),
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
