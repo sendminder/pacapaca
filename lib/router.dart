@@ -15,6 +15,7 @@ import 'pages/article/article_list_page.dart';
 import 'pages/article/article_create_page.dart';
 import 'package:pacapaca/pages/settings/blocked_users_page.dart';
 import 'pages/article/article_ai_helper_page.dart';
+import 'pages/search/search_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -89,6 +90,8 @@ class RouterNotifier extends ChangeNotifier {
       GlobalKey<NavigatorState>(debugLabel: 'shell/articles');
   final _shellNavigatorSettingsKey =
       GlobalKey<NavigatorState>(debugLabel: 'shell/settings');
+  final _shellNavigatorSearchKey =
+      GlobalKey<NavigatorState>(debugLabel: 'shell/search');
 
   List<RouteBase> get _routes => [
         GoRoute(
@@ -169,6 +172,15 @@ class RouterNotifier extends ChangeNotifier {
                       },
                     ),
                   ],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorSearchKey,
+              routes: [
+                GoRoute(
+                  path: '/search',
+                  builder: (context, state) => const SearchPage(),
                 ),
               ],
             ),

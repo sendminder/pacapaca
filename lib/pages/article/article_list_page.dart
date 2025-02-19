@@ -124,7 +124,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
           FloatingActionButton(
             heroTag: 'create_article',
             onPressed: () => context.push('/articles/new'),
-            child: const Icon(Icons.add),
+            child: const Icon(Icons.edit),
           ),
         ],
       ),

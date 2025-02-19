@@ -1,5 +1,11 @@
 {
     "app_name": "PacaPaca",
+    "nav": {
+        "home": "Home",
+        "articles": "Articles",
+        "search": "Search",
+        "settings": "Settings"
+    },
     "nickname": {
         "set_nickname": "Set Nickname",
         "nickname_hint": "Enter your nickname",
@@ -113,5 +119,11 @@
         "list_title": "Blocked Users",
         "no_blocks": "No blocked users",
         "error_loading": "Failed to load blocked users: {}"
+    },
+    "search": {
+        "title": "Search",
+        "hint": "Enter search keyword",
+        "no_results": "No search results",
+        "error": "Failed to search: {}"
     }
 }
