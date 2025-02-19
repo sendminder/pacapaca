@@ -12,6 +12,7 @@ import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/providers/report_provider.dart';
 import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
+import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -371,6 +372,15 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     // 다른 사람의 글이면 차단/신고 메뉴
     return PopupMenuButton(
       itemBuilder: (context) => [
+        PopupMenuItem(
+          child: Text('carrot.send'.tr()),
+          onTap: () => SendCarrotButton(
+            receiverId: article.userId,
+            receiverName: article.nickname,
+            articleId: article.id,
+            description: 'carrot.for_article'.tr(args: [article.title]),
+          ).build(context, ref),
+        ),
         PopupMenuItem(
           child: Text(
             'block.title'.tr(),

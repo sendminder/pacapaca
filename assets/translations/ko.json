@@ -136,5 +136,19 @@
         "no_results": "검색 결과가 없어요",
         "recent": "최근 검색어",
         "clear": "전체 삭제"
+    },
+    "carrot": {
+        "send": "당근 보내기",
+        "send_title": "당근 보내기",
+        "send_to": "{} 님에게 당근을 보냅니다",
+        "amount": "보낼 당근 수",
+        "amount_hint": "1~100",
+        "amount_error": "1~100개 사이로 입력해주세요",
+        "unit": "개",
+        "cancel": "취소",
+        "sent": "{}개의 당근을 보냈습니다",
+        "error": "당근을 보내는 중 오류가 발생했습니다",
+        "for_article": "게시글 '{}'에 대한 감사 표시",
+        "for_comment": "댓글 '{}'에 대한 감사 표시"
     }
 }

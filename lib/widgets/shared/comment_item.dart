@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/providers/report_provider.dart';
+import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
 
 class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
@@ -143,6 +144,17 @@ class CommentItem extends ConsumerWidget {
                       const Spacer(),
                       PopupMenuButton(
                         itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: Text('carrot.send'.tr()),
+                            onTap: () => SendCarrotButton(
+                              receiverId: comment.userId,
+                              receiverName: comment.nickname,
+                              commentId: comment.id,
+                              description: 'carrot.for_comment'.tr(
+                                args: [comment.content],
+                              ),
+                            ).build(context, ref),
+                          ),
                           PopupMenuItem(
                             child: Text(
                               'block.title'.tr(),

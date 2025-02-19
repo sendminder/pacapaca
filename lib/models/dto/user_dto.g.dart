@@ -15,6 +15,7 @@ _$UserDTOImpl _$$UserDTOImplFromJson(Map<String, dynamic> json) =>
       isBlocked: json['is_blocked'] as bool,
       profileImageUrl: json['profile_image_url'] as String?,
       points: (json['points'] as num?)?.toInt(),
+      carrots: (json['carrots'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$UserDTOImplToJson(_$UserDTOImpl instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$$UserDTOImplToJson(_$UserDTOImpl instance) =>
       'is_blocked': instance.isBlocked,
       'profile_image_url': instance.profileImageUrl,
       'points': instance.points,
+      'carrots': instance.carrots,
     };

@@ -30,6 +30,7 @@ mixin _$UserDTO {
   @JsonKey(name: 'profile_image_url')
   String? get profileImageUrl => throw _privateConstructorUsedError;
   int? get points => throw _privateConstructorUsedError;
+  int? get carrots => throw _privateConstructorUsedError;
 
   /// Serializes this UserDTO to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -52,7 +53,8 @@ abstract class $UserDTOCopyWith<$Res> {
       @JsonKey(name: 'is_active') bool isActive,
       @JsonKey(name: 'is_blocked') bool isBlocked,
       @JsonKey(name: 'profile_image_url') String? profileImageUrl,
-      int? points});
+      int? points,
+      int? carrots});
 }
 
 /// @nodoc
@@ -77,6 +79,7 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
     Object? isBlocked = null,
     Object? profileImageUrl = freezed,
     Object? points = freezed,
+    Object? carrots = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -107,6 +110,10 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
           ? _value.points
           : points // ignore: cast_nullable_to_non_nullable
               as int?,
+      carrots: freezed == carrots
+          ? _value.carrots
+          : carrots // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -125,7 +132,8 @@ abstract class _$$UserDTOImplCopyWith<$Res> implements $UserDTOCopyWith<$Res> {
       @JsonKey(name: 'is_active') bool isActive,
       @JsonKey(name: 'is_blocked') bool isBlocked,
       @JsonKey(name: 'profile_image_url') String? profileImageUrl,
-      int? points});
+      int? points,
+      int? carrots});
 }
 
 /// @nodoc
@@ -148,6 +156,7 @@ class __$$UserDTOImplCopyWithImpl<$Res>
     Object? isBlocked = null,
     Object? profileImageUrl = freezed,
     Object? points = freezed,
+    Object? carrots = freezed,
   }) {
     return _then(_$UserDTOImpl(
       id: null == id
@@ -178,6 +187,10 @@ class __$$UserDTOImplCopyWithImpl<$Res>
           ? _value.points
           : points // ignore: cast_nullable_to_non_nullable
               as int?,
+      carrots: freezed == carrots
+          ? _value.carrots
+          : carrots // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -192,7 +205,8 @@ class _$UserDTOImpl implements _UserDTO {
       @JsonKey(name: 'is_active') required this.isActive,
       @JsonKey(name: 'is_blocked') required this.isBlocked,
       @JsonKey(name: 'profile_image_url') this.profileImageUrl,
-      this.points});
+      this.points,
+      this.carrots});
 
   factory _$UserDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserDTOImplFromJson(json);
@@ -214,10 +228,12 @@ class _$UserDTOImpl implements _UserDTO {
   final String? profileImageUrl;
   @override
   final int? points;
+  @override
+  final int? carrots;
 
   @override
   String toString() {
-    return 'UserDTO(id: $id, email: $email, nickname: $nickname, isActive: $isActive, isBlocked: $isBlocked, profileImageUrl: $profileImageUrl, points: $points)';
+    return 'UserDTO(id: $id, email: $email, nickname: $nickname, isActive: $isActive, isBlocked: $isBlocked, profileImageUrl: $profileImageUrl, points: $points, carrots: $carrots)';
   }
 
   @override
@@ -235,13 +251,14 @@ class _$UserDTOImpl implements _UserDTO {
                 other.isBlocked == isBlocked) &&
             (identical(other.profileImageUrl, profileImageUrl) ||
                 other.profileImageUrl == profileImageUrl) &&
-            (identical(other.points, points) || other.points == points));
+            (identical(other.points, points) || other.points == points) &&
+            (identical(other.carrots, carrots) || other.carrots == carrots));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, email, nickname, isActive,
-      isBlocked, profileImageUrl, points);
+      isBlocked, profileImageUrl, points, carrots);
 
   /// Create a copy of UserDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -267,7 +284,8 @@ abstract class _UserDTO implements UserDTO {
       @JsonKey(name: 'is_active') required final bool isActive,
       @JsonKey(name: 'is_blocked') required final bool isBlocked,
       @JsonKey(name: 'profile_image_url') final String? profileImageUrl,
-      final int? points}) = _$UserDTOImpl;
+      final int? points,
+      final int? carrots}) = _$UserDTOImpl;
 
   factory _UserDTO.fromJson(Map<String, dynamic> json) = _$UserDTOImpl.fromJson;
 
@@ -288,6 +306,8 @@ abstract class _UserDTO implements UserDTO {
   String? get profileImageUrl;
   @override
   int? get points;
+  @override
+  int? get carrots;
 
   /// Create a copy of UserDTO
   /// with the given fields replaced by the non-null parameter values.

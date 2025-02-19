@@ -13,6 +13,7 @@ class UserDTO with _$UserDTO {
     @JsonKey(name: 'is_blocked') required bool isBlocked,
     @JsonKey(name: 'profile_image_url') String? profileImageUrl,
     int? points,
+    int? carrots,
   }) = _UserDTO;
 
   factory UserDTO.fromJson(Map<String, dynamic> json) =>
