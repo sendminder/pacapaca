@@ -16,7 +16,8 @@ class ArticleListPage extends ConsumerStatefulWidget {
 }
 
 class _ArticleListPageState extends ConsumerState<ArticleListPage> {
-  final ScrollController _scrollController = ScrollController();
+  final _pageController = PageController();
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -24,28 +25,21 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     _scrollController.addListener(_onScroll);
   }
 
-  @override
-  void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
-    super.dispose();
-  }
-
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent * 0.8) {
       final sortBy = ref.read(articleSortProvider);
-      final selectedCategory = ref.read(articleCategoryProvider);
+      final category = ref.read(articleCategoryProvider);
       ref
           .read(articleListProvider(
             sortBy: sortBy,
-            category: selectedCategory,
+            category: category,
             limit: 20,
           ).notifier)
           .loadMore(
             sortBy: sortBy,
             limit: 20,
-            category: selectedCategory,
+            category: category,
           );
     }
   }
@@ -54,285 +48,281 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
   Widget build(BuildContext context) {
     final sortBy = ref.watch(articleSortProvider);
     final selectedCategory = ref.watch(articleCategoryProvider);
-    final provider = articleListProvider(
-      sortBy: sortBy,
-      category: selectedCategory,
-      limit: 20,
-    );
-    final articlesAsync = ref.watch(provider);
-
-    Future<void> handleToggleLike(int articleId) async {
-      try {
-        final response =
-            await ref.read(articleServiceProvider).toggleArticleLike(articleId);
-        if (response != null) {
-          ref.read(provider.notifier).updateArticleStatus(
-                articleId: articleId,
-                isLiked: response.isLiked,
-                likeCount: response.likeCount,
-              );
-        }
-      } catch (e) {
-        rethrow;
-      }
-    }
 
     return Scaffold(
-      body: GestureDetector(
-        onHorizontalDragEnd: (details) {
-          final categories = ArticleCategory.values;
-          final currentIndex = categories.indexOf(selectedCategory);
-
-          // 스와이프 방향에 따라 이전/다음 카테고리 선택
-          if (details.primaryVelocity! > 0) {
-            // 왼쪽으로 스와이프
-            if (currentIndex > 0) {
-              ref
-                  .read(articleCategoryProvider.notifier)
-                  .setCategory(categories[currentIndex - 1]);
-            }
-          } else {
-            // 오른쪽으로 스와이프
-            if (currentIndex < categories.length - 1) {
-              ref
-                  .read(articleCategoryProvider.notifier)
-                  .setCategory(categories[currentIndex + 1]);
-            }
-          }
-        },
-        child: RefreshIndicator(
-          onRefresh: () async {
-            ref.invalidate(provider);
-          },
-          child: CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              SliverAppBar(
-                floating: true,
-                snap: true,
-                titleSpacing: 0,
-                automaticallyImplyLeading: false,
-                toolbarHeight: 120,
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 20, top: 8, bottom: 12),
-                      child: Text(
-                        'article.title'.tr(),
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                    ),
-                    _buildCategoryFilter(),
-                  ],
-                ),
-                backgroundColor: Theme.of(context).colorScheme.surface,
-                scrolledUnderElevation: 0,
-                surfaceTintColor: null,
-              ),
-              SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    _buildSortHeader(),
-                    _buildCardList(articlesAsync, handleToggleLike, provider),
-                  ],
-                ),
-              ),
-            ],
-          ),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        titleSpacing: 0,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 120,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeader(),
+            _buildCategoryFilter(selectedCategory),
+          ],
         ),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            heroTag: 'ai_helper',
-            onPressed: () => context.push('/articles/ai-helper'),
-            child: Image.asset(
-              'assets/profiles/pacapee_origin.png',
-              width: 40,
-              height: 40,
-            ),
-          ),
-          const SizedBox(height: 8),
-          FloatingActionButton(
-            heroTag: 'create_article',
-            onPressed: () => context.push('/articles/new'),
-            child: const Icon(Icons.edit),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCategoryFilter() {
-    final selectedCategory = ref.watch(articleCategoryProvider);
-
-    return Container(
-      color: Theme.of(context).colorScheme.surface,
-      height: 40,
-      child: ListView.separated(
-        padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
-        scrollDirection: Axis.horizontal,
+      body: PageView.builder(
+        controller: _pageController,
+        physics: const PageScrollPhysics(),
+        onPageChanged: (index) {
+          // 페이지 전환이 완료된 후에만 카테고리 변경
+          final category = ArticleCategory.values[index];
+          if (category != ref.read(articleCategoryProvider)) {
+            ref.read(articleCategoryProvider.notifier).setCategory(category);
+          }
+        },
         itemCount: ArticleCategory.values.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           final category = ArticleCategory.values[index];
-          return _categoryButton(
-            label: category.label,
-            isSelected: selectedCategory == category,
-            onTap: () => ref
-                .read(articleCategoryProvider.notifier)
-                .setCategory(category),
+          final provider = articleListProvider(
+            sortBy: sortBy,
+            category: category,
+            limit: 20,
+          );
+          final articlesAsync = ref.watch(provider);
+
+          return RefreshIndicator(
+            onRefresh: () async {
+              await ref.read(provider.notifier).forceRefresh(
+                    sortBy: sortBy,
+                    limit: 20,
+                    category: category,
+                  );
+            },
+            child: _buildArticleList(articlesAsync),
           );
         },
       ),
+      floatingActionButton: _buildFloatingActionButton(),
     );
   }
 
-  Widget _categoryButton({
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return ElevatedButton(
-      onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected
-            ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.surface,
-        foregroundColor: isSelected
-            ? Colors.white
-            : Theme.of(context).colorScheme.onSurfaceVariant,
-        elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: BorderSide(
-            color: Theme.of(context).colorScheme.surfaceContainerLow,
-          ),
-        ),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 14,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSortHeader() {
-    final sortBy = ref.watch(articleSortProvider);
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        border: Border(
-          top: BorderSide(
-            color: Theme.of(context).dividerColor.withAlpha(10),
-          ),
-        ),
-      ),
+  Widget _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          PopupMenuButton<String>(
-            child: Row(
-              children: [
-                if (sortBy == 'latest') Text('article.sort.latest'.tr()),
-                if (sortBy == 'views') Text('article.sort.views'.tr()),
-                const Icon(Icons.arrow_drop_down),
-              ],
+          Expanded(
+            child: Text(
+              'article.title'.tr(),
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'latest',
-                child: Text('article.sort.latest'.tr()),
+          ),
+          _buildSortDropdown(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSortDropdown() {
+    final sortBy = ref.watch(articleSortProvider);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: sortBy,
+          icon: const Icon(Icons.arrow_drop_down),
+          isDense: true,
+          items: [
+            DropdownMenuItem(
+              value: 'latest',
+              child: Text(
+                'article.sort.latest'.tr(),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
-              PopupMenuItem(
-                value: 'views',
-                child: Text('article.sort.views'.tr()),
+            ),
+            DropdownMenuItem(
+              value: 'oldest',
+              child: Text(
+                'article.sort.oldest'.tr(),
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          ],
+          onChanged: (value) {
+            if (value != null) {
+              ref.read(articleSortProvider.notifier).setSort(value);
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryFilter(ArticleCategory selectedCategory) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+      child: Row(
+        children: ArticleCategory.values.map((category) {
+          final isSelected = category == selectedCategory;
+          return Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: FilterChip(
+              selected: isSelected,
+              showCheckmark: false,
+              label: Text(
+                category.label,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                  color: isSelected
+                      ? colorScheme.onPrimary
+                      : colorScheme.onSurface.withOpacity(0.75),
+                ),
+              ),
+              labelPadding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              selectedColor: colorScheme.primary,
+              backgroundColor: colorScheme.surfaceContainerLow,
+              side: BorderSide(
+                color: isSelected
+                    ? colorScheme.primary
+                    : colorScheme.outline.withOpacity(0.3),
+                width: 1,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              elevation: 0,
+              pressElevation: 0,
+              visualDensity: VisualDensity.compact,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              onSelected: (_) {
+                final index = ArticleCategory.values.indexOf(category);
+                ref
+                    .read(articleCategoryProvider.notifier)
+                    .setCategory(category);
+                _pageController.animateToPage(
+                  index,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              },
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildArticleList(AsyncValue<List<ArticleDTO>?> articlesAsync) {
+    return articlesAsync.when(
+      data: (articles) {
+        if (articles == null || articles.isEmpty) {
+          return ListView(
+            controller: _scrollController,
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height - 200,
+                child: Center(
+                  child: Text('article.no_articles'.tr()),
+                ),
               ),
             ],
-            onSelected: (value) {
-              ref.read(articleSortProvider.notifier).setSort(value);
-              ref.invalidate(articleListProvider(
-                sortBy: value,
-                category: ref.read(articleCategoryProvider),
-                limit: 20,
-              ));
+          );
+        }
+
+        return ListView.builder(
+          controller: _scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.only(top: 8),
+          itemCount: articles.length,
+          itemBuilder: (context, index) => ArticleCard(
+            article: articles[index],
+            onToggleLike: (articleId) async {
+              try {
+                final response = await ref
+                    .read(articleServiceProvider)
+                    .toggleArticleLike(articleId);
+                if (response != null) {
+                  ref
+                      .read(articleListProvider(
+                        sortBy: ref.read(articleSortProvider),
+                        category: ref.read(articleCategoryProvider),
+                        limit: 20,
+                      ).notifier)
+                      .updateArticleStatus(
+                        articleId: articleId,
+                        isLiked: response.isLiked,
+                        likeCount: response.likeCount,
+                      );
+                }
+              } catch (e) {
+                rethrow;
+              }
             },
+          ),
+        );
+      },
+      error: (error, stackTrace) => ListView(
+        controller: _scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height - 200,
+            child: Center(
+              child: Text('article.error'.tr()),
+            ),
+          ),
+        ],
+      ),
+      loading: () => ListView(
+        controller: _scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height - 200,
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildCardList(
-    AsyncValue<List<ArticleDTO>?> articlesAsync,
-    Future<void> Function(int articleId) handleToggleLike,
-    ArticleListProvider provider,
-  ) {
-    return Container(
-      color: Theme.of(context).colorScheme.surface,
-      child: articlesAsync.when(
-        data: (articles) {
-          if (articles == null || articles.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0, bottom: 60),
-                child: Text('article.no_articles'.tr()),
-              ),
-            );
-          }
-
-          return Column(
-            children: articles
-                .map((article) => ArticleCard(
-                      article: article,
-                      onToggleLike: handleToggleLike,
-                    ))
-                .toList(),
-          );
-        },
-        error: (error, stackTrace) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'article.error'.tr(args: [error.toString()]),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => ref.invalidate(provider),
-                child: Text('article.retry'.tr()),
-              ),
-            ],
+  Widget _buildFloatingActionButton() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        FloatingActionButton(
+          heroTag: 'ai_helper',
+          onPressed: () => context.push('/articles/ai-helper'),
+          child: Image.asset(
+            'assets/profiles/pacapee_origin.png',
+            width: 40,
+            height: 40,
           ),
         ),
-        loading: () => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircularProgressIndicator(),
-              const SizedBox(height: 16),
-              Text(
-                'article.loading'.tr(),
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ],
-          ),
+        const SizedBox(height: 8),
+        FloatingActionButton(
+          heroTag: 'create_article',
+          onPressed: () => context.push('/articles/new'),
+          child: const Icon(Icons.edit),
         ),
-      ),
+      ],
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    _pageController.dispose();
+    super.dispose();
   }
 }

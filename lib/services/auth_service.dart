@@ -273,4 +273,27 @@ class AuthService {
       rethrow;
     }
   }
+
+  Future<UserDTO?> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final loginRequest = LoginRequest(
+        idToken: await userCredential.user?.getIdToken() ?? '',
+        authProvider: 'email',
+        pushToken: '', // 필요한 경우 푸시 토큰 추가
+      );
+
+      return await _serverLogin(loginRequest);
+    } catch (e, stackTrace) {
+      logger.e('sign in with email', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
 }

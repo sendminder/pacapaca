@@ -17,6 +17,8 @@ ArticleService articleService(ArticleServiceRef ref) {
 class ArticleList extends _$ArticleList {
   int? _lastPagingViewCount; // 마지막으로 요청한 페이징 키 저장
   int? _lastPagingArticleId; // 마지막으로 요청한 페이징 키 저장
+  DateTime? _lastFetchTime;
+  static const _cacheValidDuration = Duration(minutes: 5);
 
   @override
   FutureOr<List<ArticleDTO>?> build({
@@ -26,16 +28,50 @@ class ArticleList extends _$ArticleList {
     int? pagingArticleId,
     ArticleCategory? category,
   }) async {
+    // 이미 데이터가 있고 캐시가 유효한 경우 기존 데이터 반환
+    if (state.hasValue &&
+        state.value != null &&
+        _lastFetchTime != null &&
+        DateTime.now().difference(_lastFetchTime!) < _cacheValidDuration) {
+      return state.value;
+    }
+
     _lastPagingViewCount = null; // 초기화
     _lastPagingArticleId = null; // 초기화
     final articleService = ref.watch(articleServiceProvider);
-    return articleService.getArticles(
+    final articles = await articleService.getArticles(
       sortBy: sortBy,
       limit: limit,
       pagingViewCount: pagingViewCount,
       pagingArticleId: pagingArticleId,
       category: category,
     );
+
+    _lastFetchTime = DateTime.now(); // 데이터 fetch 시간 업데이트
+    return articles;
+  }
+
+  // 명시적 새로고침을 위한 메서드
+  Future<void> forceRefresh({
+    required String sortBy,
+    required int limit,
+    ArticleCategory? category,
+  }) async {
+    state = const AsyncLoading();
+    _lastFetchTime = null; // 캐시 무효화
+
+    final articleService = ref.read(articleServiceProvider);
+    try {
+      final articles = await articleService.getArticles(
+        sortBy: sortBy,
+        limit: limit,
+        category: category,
+      );
+      _lastFetchTime = DateTime.now();
+      state = AsyncData(articles);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+    }
   }
 
   Future<void> loadMore({

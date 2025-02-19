@@ -72,7 +72,13 @@
         "login":"로그인",
         "login_with_apple": "Apple로 로그인",
         "login_failed": "로그인 실패했어요: {}",
-        "try_again": "다시 시도"
+        "try_again": "다시 시도",
+        "login_with_email": "이메일로 로그인",
+        "email_login": "이메일로 로그인",
+        "email": "이메일",
+        "password": "비밀번호",
+        "email_required": "이메일을 입력해주세요",
+        "invalid_email": "올바른 이메일 형식을 입력해주세요"
     },
     "home": {
         "title": "홈",

@@ -55,4 +55,21 @@ class Auth extends _$Auth {
       state = AsyncError(e, StackTrace.current);
     }
   }
+
+  Future<void> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    state = const AsyncLoading();
+    try {
+      final authService = ref.read(authServiceProvider);
+      final user = await authService.signInWithEmail(
+        email: email,
+        password: password,
+      );
+      state = AsyncData(user);
+    } catch (e) {
+      state = AsyncError(e, StackTrace.current);
+    }
+  }
 }
