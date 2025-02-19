@@ -19,6 +19,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:pacapaca/messages/ko_messages.dart';
 import 'package:pacapaca/services/block_service.dart';
 import 'package:pacapaca/services/report_service.dart';
+import 'package:pacapaca/services/carrot_service.dart';
 
 void main() async {
   // 앱 초기화
@@ -96,4 +97,5 @@ void _setupServiceLocator() {
   getIt.registerSingleton<DioService>(DioService());
   getIt.registerSingleton<BlockService>(BlockService());
   getIt.registerSingleton<ReportService>(ReportService());
+  getIt.registerSingleton<CarrotService>(CarrotService());
 }

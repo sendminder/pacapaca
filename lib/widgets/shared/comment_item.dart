@@ -146,14 +146,16 @@ class CommentItem extends ConsumerWidget {
                         itemBuilder: (context) => [
                           PopupMenuItem(
                             child: Text('carrot.send'.tr()),
-                            onTap: () => SendCarrotButton(
-                              receiverId: comment.userId,
-                              receiverName: comment.nickname,
-                              commentId: comment.id,
-                              description: 'carrot.for_comment'.tr(
-                                args: [comment.content],
-                              ),
-                            ).build(context, ref),
+                            onTap: () async {
+                              await SendCarrotButton(
+                                receiverId: comment.userId,
+                                receiverName: comment.nickname,
+                                commentId: comment.id,
+                                description: 'carrot.for_comment'.tr(
+                                  args: [comment.content],
+                                ),
+                              ).show(context, ref);
+                            },
                           ),
                           PopupMenuItem(
                             child: Text(

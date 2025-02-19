@@ -374,12 +374,14 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
       itemBuilder: (context) => [
         PopupMenuItem(
           child: Text('carrot.send'.tr()),
-          onTap: () => SendCarrotButton(
-            receiverId: article.userId,
-            receiverName: article.nickname,
-            articleId: article.id,
-            description: 'carrot.for_article'.tr(args: [article.title]),
-          ).build(context, ref),
+          onTap: () async {
+            await SendCarrotButton(
+              receiverId: article.userId,
+              receiverName: article.nickname,
+              articleId: article.id,
+              description: 'carrot.for_article'.tr(args: [article.title]),
+            ).show(context, ref);
+          },
         ),
         PopupMenuItem(
           child: Text(
