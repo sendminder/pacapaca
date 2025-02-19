@@ -4,6 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/pages/article/widgets/article_card.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
+import 'package:pacapaca/models/dto/article_dto.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -35,7 +37,14 @@ class _SearchPageState extends ConsumerState<SearchPage> {
   }
 
   void _onSearch(String query) {
-    if (query.trim().isEmpty) return;
+    if (query.trim().isEmpty) {
+      setState(() {
+        _currentQuery = '';
+      });
+      return;
+    }
+
+    ref.read(recentSearchesProvider.notifier).addSearch(query.trim());
     setState(() {
       _currentQuery = query.trim();
     });
@@ -44,194 +53,279 @@ class _SearchPageState extends ConsumerState<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final searchResults = ref.watch(articleSearchProvider(_currentQuery));
+    final searchResults = _currentQuery.isEmpty
+        ? const AsyncValue.data(<ArticleDTO>[])
+        : ref.watch(articleSearchProvider(_currentQuery));
+    final recentSearches = ref.watch(recentSearchesProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        automaticallyImplyLeading: false,
-        toolbarHeight: 120,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 8, bottom: 12),
-              child: Text(
-                'search.title'.tr(),
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
+      appBar: _buildAppBar(),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: _currentQuery.isEmpty
+          ? _buildEmptySearch(recentSearches)
+          : searchResults.when(
+              data: (articles) => _buildSearchResults(articles),
+              error: (error, stackTrace) => _buildError(),
+              loading: () => _buildLoading(),
             ),
-            TextField(
-              controller: _searchController,
-              focusNode: _focusNode,
-              textInputAction: TextInputAction.search,
-              style: const TextStyle(fontSize: 16),
-              decoration: InputDecoration(
-                hintText: 'search.hint'.tr(),
-                filled: true,
-                fillColor: Theme.of(context).colorScheme.surface,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (_searchController.text.isNotEmpty)
-                      IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                          setState(() {
-                            _currentQuery = '';
-                          });
-                        },
-                      ),
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () => _onSearch(_searchController.text),
-                    ),
-                  ],
-                ),
-              ),
-              onSubmitted: _onSearch,
-            ),
-          ],
-        ),
-      ),
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: searchResults.when(
-        data: (articles) {
-          if (_currentQuery.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.search,
-                      size: 80,
-                      color:
-                          Theme.of(context).colorScheme.surface.withAlpha(10),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'search.empty'.tr(),
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onBackground
-                                .withOpacity(0.5),
-                          ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'search.empty_hint'.tr(),
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onBackground
-                                .withOpacity(0.3),
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
+      floatingActionButton: _buildFloatingActionButton(),
+    );
+  }
 
-          if (articles == null || articles.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.search_off,
-                    size: 80,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onBackground
-                        .withOpacity(0.1),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'search.no_results'.tr(),
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onBackground
-                              .withOpacity(0.5),
-                        ),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          return RefreshIndicator(
-            onRefresh: () async {
-              ref
-                  .read(articleSearchProvider(_currentQuery).notifier)
-                  .refresh(_currentQuery);
-            },
-            child: ListView.builder(
-              controller: _scrollController,
-              padding: const EdgeInsets.only(top: 8),
-              itemCount: articles.length,
-              itemBuilder: (context, index) {
-                final article = articles[index];
-                return ArticleCard(
-                  article: article,
-                  onToggleLike: (articleId) async {
-                    final response = await ref
-                        .read(articleServiceProvider)
-                        .toggleArticleLike(article.id);
-                    if (response != null) {
-                      ref
-                          .read(articleSearchProvider(_currentQuery).notifier)
-                          .updateArticleStatus(
-                            articleId: article.id,
-                            isLiked: response.isLiked,
-                            likeCount: response.likeCount,
-                          );
-                    }
-                  },
-                );
-              },
-            ),
-          );
-        },
-        error: (error, stackTrace) => Center(
-          child: Text('error.common'.tr()),
-        ),
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      titleSpacing: 0,
+      automaticallyImplyLeading: false,
+      toolbarHeight: 120,
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FloatingActionButton(
-            heroTag: 'ai_helper',
-            onPressed: () => context.push('/articles/ai-helper'),
-            child: Image.asset(
-              'assets/profiles/pacapee_origin.png',
-              width: 40,
-              height: 40,
+          _buildTitle(),
+          _buildSearchField(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTitle() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, top: 8, bottom: 12),
+      child: Text(
+        'search.title'.tr(),
+        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
             ),
+      ),
+    );
+  }
+
+  Widget _buildSearchField() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: TextField(
+        controller: _searchController,
+        focusNode: _focusNode,
+        textInputAction: TextInputAction.search,
+        style: const TextStyle(fontSize: 16),
+        decoration: InputDecoration(
+          hintText: 'search.hint'.tr(),
+          filled: true,
+          fillColor: Theme.of(context).colorScheme.surfaceContainerLow,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
+          prefixIcon: const Icon(Icons.search),
+          suffixIcon: _searchController.text.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    _searchController.clear();
+                    _onSearch('');
+                  },
+                )
+              : null,
+        ),
+        onSubmitted: _onSearch,
+      ),
+    );
+  }
+
+  Widget _buildEmptySearch(List<String> recentSearches) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (recentSearches.isNotEmpty) ...[
+          _buildRecentSearchesHeader(),
+          _buildRecentSearchesList(recentSearches),
+        ] else
+          const Spacer(),
+      ],
+    );
+  }
+
+  Widget _buildRecentSearchesHeader() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'search.recent'.tr(),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+          TextButton(
+            onPressed: () {
+              ref.read(recentSearchesProvider.notifier).clearSearches();
+            },
+            style: TextButton.styleFrom(
+              foregroundColor:
+                  Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+            ),
+            child: Text('search.clear'.tr()),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildRecentSearchesList(List<String> recentSearches) {
+    return Expanded(
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: recentSearches.length,
+        itemBuilder: (context, index) =>
+            _buildRecentSearchItem(recentSearches[index]),
+      ),
+    );
+  }
+
+  Widget _buildRecentSearchItem(String query) {
+    return InkWell(
+      onTap: () {
+        _searchController.text = query;
+        _onSearch(query);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.history,
+              size: 18,
+              color: Colors.grey,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                query,
+                style: const TextStyle(
+                  fontSize: 15,
+                  height: 1.2,
+                ),
+              ),
+            ),
+            _buildDeleteButton(query),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDeleteButton(String query) {
+    return IconButton(
+      icon: Icon(
+        Icons.close,
+        size: 18,
+        color: Theme.of(context).colorScheme.onBackground.withOpacity(0.3),
+      ),
+      onPressed: () {
+        ref.read(recentSearchesProvider.notifier).removeSearch(query);
+      },
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints(),
+      visualDensity: VisualDensity.compact,
+    );
+  }
+
+  Widget _buildSearchResults(List<ArticleDTO>? articles) {
+    if (articles == null || articles.isEmpty) {
+      return _buildNoResults();
+    }
+
+    return RefreshIndicator(
+      onRefresh: () async {
+        ref
+            .read(articleSearchProvider(_currentQuery).notifier)
+            .refresh(_currentQuery);
+      },
+      child: ListView.builder(
+        controller: _scrollController,
+        padding: const EdgeInsets.only(top: 8),
+        itemCount: articles.length,
+        itemBuilder: (context, index) => _buildArticleCard(articles[index]),
+      ),
+    );
+  }
+
+  Widget _buildArticleCard(ArticleDTO article) {
+    return ArticleCard(
+      article: article,
+      onToggleLike: (articleId) async {
+        final response = await ref
+            .read(articleServiceProvider)
+            .toggleArticleLike(article.id);
+        if (response != null) {
+          ref
+              .read(articleSearchProvider(_currentQuery).notifier)
+              .updateArticleStatus(
+                articleId: article.id,
+                isLiked: response.isLiked,
+                likeCount: response.likeCount,
+              );
+        }
+      },
+    );
+  }
+
+  Widget _buildNoResults() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.search_off,
+            size: 80,
+            color: Theme.of(context).colorScheme.onBackground.withOpacity(0.1),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'search.no_results'.tr(),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onBackground
+                      .withOpacity(0.5),
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildError() {
+    return Center(
+      child: Text('error.common'.tr()),
+    );
+  }
+
+  Widget _buildLoading() {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  Widget _buildFloatingActionButton() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        FloatingActionButton(
+          heroTag: 'ai_helper',
+          onPressed: () => context.push('/articles/ai-helper'),
+          child: Image.asset(
+            'assets/profiles/pacapee_origin.png',
+            width: 40,
+            height: 40,
+          ),
+        ),
+      ],
     );
   }
 

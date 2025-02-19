@@ -27,6 +27,11 @@ final articleCategoryProvider =
   return ArticleCategoryNotifier();
 });
 
+final recentSearchesProvider =
+    StateNotifierProvider<RecentSearchesNotifier, List<String>>((ref) {
+  return RecentSearchesNotifier();
+});
+
 class ThemeNotifier extends StateNotifier<ThemeMode> {
   final _storage = GetIt.instance<StorageService>();
 
@@ -111,5 +116,48 @@ class ArticleCategoryNotifier extends StateNotifier<ArticleCategory> {
   ArticleCategoryNotifier() : super(ArticleCategory.all) {}
   void setCategory(ArticleCategory category) {
     state = category;
+  }
+}
+
+class RecentSearchesNotifier extends StateNotifier<List<String>> {
+  final _storage = GetIt.instance<StorageService>();
+  static const int maxSearches = 5;
+
+  RecentSearchesNotifier() : super([]) {
+    _loadRecentSearches();
+  }
+
+  Future<void> _loadRecentSearches() async {
+    final searches = await _storage.getRecentSearches();
+    state = searches;
+  }
+
+  Future<void> addSearch(String query) async {
+    if (query.trim().isEmpty) return;
+
+    final newState = [...state];
+    // 이미 있는 검색어라면 제거
+    newState.remove(query);
+    // 최근 검색어를 앞에 추가
+    newState.insert(0, query);
+    // 최대 5개만 유지
+    if (newState.length > maxSearches) {
+      newState.removeLast();
+    }
+
+    state = newState;
+    await _storage.saveRecentSearches(state);
+  }
+
+  Future<void> removeSearch(String query) async {
+    final newState = [...state];
+    newState.remove(query);
+    state = newState;
+    await _storage.saveRecentSearches(state);
+  }
+
+  Future<void> clearSearches() async {
+    state = [];
+    await _storage.saveRecentSearches([]);
   }
 }

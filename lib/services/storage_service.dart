@@ -15,6 +15,7 @@ class StorageService {
   static const String _commentSortKey = 'comment_sort';
   static const String _articleSortKey = 'article_sort';
   static const String _articleCategoryKey = 'article_category';
+  static const String _recentSearchesKey = 'recent_searches';
 
   final logger = GetIt.instance<Logger>();
 
@@ -152,5 +153,20 @@ class StorageService {
       (e) => e.toString() == categoryStr,
       orElse: () => ArticleCategory.daily,
     );
+  }
+
+  // 최근 검색어 저장
+  Future<void> saveRecentSearches(List<String> searches) async {
+    await _storage.write(
+      key: _recentSearchesKey,
+      value: jsonEncode(searches),
+    );
+  }
+
+  // 최근 검색어 가져오기
+  Future<List<String>> getRecentSearches() async {
+    final searchesStr = await _storage.read(key: _recentSearchesKey);
+    if (searchesStr == null) return [];
+    return List<String>.from(jsonDecode(searchesStr));
   }
 }

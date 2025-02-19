@@ -123,9 +123,11 @@
     "search": {
         "title": "Search",
         "hint": "Enter search keyword",
-        "no_results": "No search results",
+        "empty": "Enter search keyword",
+        "empty_hint": "Find the article you want",
         "error": "Failed to search: {}",
-        "empty": "No search results",
-        "empty_hint": "Find the article you want"
+        "no_results": "No search results",
+        "recent": "Recent Searches",
+        "clear": "Clear All"
     }
 }
