@@ -78,34 +78,74 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     }
 
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () async {
-          ref.invalidate(provider);
+      body: GestureDetector(
+        onHorizontalDragEnd: (details) {
+          final categories = ArticleCategory.values;
+          final currentIndex = categories.indexOf(selectedCategory);
+
+          // 스와이프 방향에 따라 이전/다음 카테고리 선택
+          if (details.primaryVelocity! > 0) {
+            // 왼쪽으로 스와이프
+            if (currentIndex > 0) {
+              ref
+                  .read(articleCategoryProvider.notifier)
+                  .setCategory(categories[currentIndex - 1]);
+            }
+          } else {
+            // 오른쪽으로 스와이프
+            if (currentIndex < categories.length - 1) {
+              ref
+                  .read(articleCategoryProvider.notifier)
+                  .setCategory(categories[currentIndex + 1]);
+            }
+          }
         },
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverAppBar(
-              floating: true,
-              snap: true,
-              title: Text('article.title'.tr()),
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              scrolledUnderElevation: 0,
-              surfaceTintColor: null,
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(40),
-                child: _buildCategoryFilter(),
+        child: RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(provider);
+          },
+          child: CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              SliverAppBar(
+                floating: true,
+                snap: true,
+                titleSpacing: 0,
+                automaticallyImplyLeading: false,
+                toolbarHeight: 120,
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 20, top: 8, bottom: 12),
+                      child: Text(
+                        'article.title'.tr(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ),
+                    _buildCategoryFilter(),
+                  ],
+                ),
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                scrolledUnderElevation: 0,
+                surfaceTintColor: null,
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  _buildSortHeader(),
-                  _buildCardList(articlesAsync, handleToggleLike, provider),
-                ],
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    _buildSortHeader(),
+                    _buildCardList(articlesAsync, handleToggleLike, provider),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: Column(
@@ -174,6 +214,9 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
+          side: BorderSide(
+            color: Theme.of(context).colorScheme.surfaceContainerLow,
+          ),
         ),
       ),
       child: Text(
