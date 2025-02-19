@@ -285,4 +285,39 @@ class ArticleService {
       rethrow;
     }
   }
+
+  // 게시글 검색
+  Future<List<ArticleDTO>?> searchArticles({
+    required String query,
+    required int limit,
+    int? pagingKey,
+  }) async {
+    try {
+      final request = SearchArticlesRequest(
+        query: query,
+        limit: limit,
+        pagingKey: pagingKey,
+      );
+
+      final response = await _dio.get(
+        '/v1/articles/search',
+        queryParameters: request.toJson(),
+      );
+
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
+
+      if (responseRest.response != null) {
+        final searchResponse =
+            SearchArticlesResponse.fromJson(responseRest.response!);
+        return searchResponse.articles;
+      }
+      return null;
+    } catch (e, stackTrace) {
+      logger.e('search articles', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
 }

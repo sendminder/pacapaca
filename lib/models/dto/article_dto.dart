@@ -163,3 +163,25 @@ class ArticleLikeResponse with _$ArticleLikeResponse {
   factory ArticleLikeResponse.fromJson(Map<String, dynamic> json) =>
       _$ArticleLikeResponseFromJson(json);
 }
+
+@freezed
+class SearchArticlesRequest with _$SearchArticlesRequest {
+  const factory SearchArticlesRequest({
+    required String query,
+    @JsonKey(name: 'paging_key') int? pagingKey,
+    required int limit,
+  }) = _SearchArticlesRequest;
+
+  factory SearchArticlesRequest.fromJson(Map<String, dynamic> json) =>
+      _$SearchArticlesRequestFromJson(json);
+}
+
+@freezed
+class SearchArticlesResponse with _$SearchArticlesResponse {
+  const factory SearchArticlesResponse({
+    required List<ArticleDTO> articles,
+  }) = _SearchArticlesResponse;
+
+  factory SearchArticlesResponse.fromJson(Map<String, dynamic> json) =>
+      _$SearchArticlesResponseFromJson(json);
+}

@@ -124,6 +124,8 @@
         "title": "Search",
         "hint": "Enter search keyword",
         "no_results": "No search results",
-        "error": "Failed to search: {}"
+        "error": "Failed to search: {}",
+        "empty": "No search results",
+        "empty_hint": "Find the article you want"
     }
 }

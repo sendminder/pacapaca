@@ -270,3 +270,72 @@ class ArticleEditor extends _$ArticleEditor {
     }
   }
 }
+
+// 게시글 검색 provider
+@riverpod
+class ArticleSearch extends _$ArticleSearch {
+  int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
+
+  @override
+  FutureOr<List<ArticleDTO>?> build(String query) async {
+    if (query.isEmpty) return null;
+
+    _lastPagingKey = null; // 초기화
+    final articleService = ref.watch(articleServiceProvider);
+    return articleService.searchArticles(
+      query: query,
+      limit: 20,
+    );
+  }
+
+  Future<void> loadMore(String query) async {
+    if (query.isEmpty) return;
+
+    final currentArticles = state.value ?? [];
+    if (currentArticles.isEmpty) return;
+
+    final lastArticle = currentArticles.last;
+    // 이전과 같은 페이징 키면 요청하지 않음
+    if (lastArticle.id == _lastPagingKey) return;
+
+    try {
+      _lastPagingKey = lastArticle.id; // 현재 페이징 키 저장
+      final articleService = ref.read(articleServiceProvider);
+      final moreArticles = await articleService.searchArticles(
+        query: query,
+        limit: 20,
+        pagingKey: lastArticle.id,
+      );
+
+      if (moreArticles == null || moreArticles.isEmpty) return;
+
+      // 기존 목록에 새로운 항목 추가
+      state = AsyncData([...currentArticles, ...moreArticles]);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+    }
+  }
+
+  Future<void> refresh(String query) async {
+    ref.invalidateSelf();
+  }
+
+  void updateArticleStatus({
+    required int articleId,
+    bool? isLiked,
+    int? likeCount,
+  }) {
+    final currentArticles = state.value ?? [];
+    final updatedArticles = currentArticles.map((article) {
+      if (article.id == articleId) {
+        return article.copyWith(
+          isLiked: isLiked ?? article.isLiked,
+          likeCount: likeCount ?? article.likeCount,
+        );
+      }
+      return article;
+    }).toList();
+
+    state = AsyncData(updatedArticles);
+  }
+}

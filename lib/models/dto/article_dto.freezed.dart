@@ -2839,3 +2839,365 @@ abstract class _ArticleLikeResponse implements ArticleLikeResponse {
   _$$ArticleLikeResponseImplCopyWith<_$ArticleLikeResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+SearchArticlesRequest _$SearchArticlesRequestFromJson(
+    Map<String, dynamic> json) {
+  return _SearchArticlesRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SearchArticlesRequest {
+  String get query => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey => throw _privateConstructorUsedError;
+  int get limit => throw _privateConstructorUsedError;
+
+  /// Serializes this SearchArticlesRequest to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of SearchArticlesRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $SearchArticlesRequestCopyWith<SearchArticlesRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SearchArticlesRequestCopyWith<$Res> {
+  factory $SearchArticlesRequestCopyWith(SearchArticlesRequest value,
+          $Res Function(SearchArticlesRequest) then) =
+      _$SearchArticlesRequestCopyWithImpl<$Res, SearchArticlesRequest>;
+  @useResult
+  $Res call(
+      {String query, @JsonKey(name: 'paging_key') int? pagingKey, int limit});
+}
+
+/// @nodoc
+class _$SearchArticlesRequestCopyWithImpl<$Res,
+        $Val extends SearchArticlesRequest>
+    implements $SearchArticlesRequestCopyWith<$Res> {
+  _$SearchArticlesRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of SearchArticlesRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? query = null,
+    Object? pagingKey = freezed,
+    Object? limit = null,
+  }) {
+    return _then(_value.copyWith(
+      query: null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
+              as String,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SearchArticlesRequestImplCopyWith<$Res>
+    implements $SearchArticlesRequestCopyWith<$Res> {
+  factory _$$SearchArticlesRequestImplCopyWith(
+          _$SearchArticlesRequestImpl value,
+          $Res Function(_$SearchArticlesRequestImpl) then) =
+      __$$SearchArticlesRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String query, @JsonKey(name: 'paging_key') int? pagingKey, int limit});
+}
+
+/// @nodoc
+class __$$SearchArticlesRequestImplCopyWithImpl<$Res>
+    extends _$SearchArticlesRequestCopyWithImpl<$Res,
+        _$SearchArticlesRequestImpl>
+    implements _$$SearchArticlesRequestImplCopyWith<$Res> {
+  __$$SearchArticlesRequestImplCopyWithImpl(_$SearchArticlesRequestImpl _value,
+      $Res Function(_$SearchArticlesRequestImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of SearchArticlesRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? query = null,
+    Object? pagingKey = freezed,
+    Object? limit = null,
+  }) {
+    return _then(_$SearchArticlesRequestImpl(
+      query: null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
+              as String,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SearchArticlesRequestImpl implements _SearchArticlesRequest {
+  const _$SearchArticlesRequestImpl(
+      {required this.query,
+      @JsonKey(name: 'paging_key') this.pagingKey,
+      required this.limit});
+
+  factory _$SearchArticlesRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SearchArticlesRequestImplFromJson(json);
+
+  @override
+  final String query;
+  @override
+  @JsonKey(name: 'paging_key')
+  final int? pagingKey;
+  @override
+  final int limit;
+
+  @override
+  String toString() {
+    return 'SearchArticlesRequest(query: $query, pagingKey: $pagingKey, limit: $limit)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SearchArticlesRequestImpl &&
+            (identical(other.query, query) || other.query == query) &&
+            (identical(other.pagingKey, pagingKey) ||
+                other.pagingKey == pagingKey) &&
+            (identical(other.limit, limit) || other.limit == limit));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, query, pagingKey, limit);
+
+  /// Create a copy of SearchArticlesRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SearchArticlesRequestImplCopyWith<_$SearchArticlesRequestImpl>
+      get copyWith => __$$SearchArticlesRequestImplCopyWithImpl<
+          _$SearchArticlesRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SearchArticlesRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SearchArticlesRequest implements SearchArticlesRequest {
+  const factory _SearchArticlesRequest(
+      {required final String query,
+      @JsonKey(name: 'paging_key') final int? pagingKey,
+      required final int limit}) = _$SearchArticlesRequestImpl;
+
+  factory _SearchArticlesRequest.fromJson(Map<String, dynamic> json) =
+      _$SearchArticlesRequestImpl.fromJson;
+
+  @override
+  String get query;
+  @override
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey;
+  @override
+  int get limit;
+
+  /// Create a copy of SearchArticlesRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SearchArticlesRequestImplCopyWith<_$SearchArticlesRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+SearchArticlesResponse _$SearchArticlesResponseFromJson(
+    Map<String, dynamic> json) {
+  return _SearchArticlesResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SearchArticlesResponse {
+  List<ArticleDTO> get articles => throw _privateConstructorUsedError;
+
+  /// Serializes this SearchArticlesResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of SearchArticlesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $SearchArticlesResponseCopyWith<SearchArticlesResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SearchArticlesResponseCopyWith<$Res> {
+  factory $SearchArticlesResponseCopyWith(SearchArticlesResponse value,
+          $Res Function(SearchArticlesResponse) then) =
+      _$SearchArticlesResponseCopyWithImpl<$Res, SearchArticlesResponse>;
+  @useResult
+  $Res call({List<ArticleDTO> articles});
+}
+
+/// @nodoc
+class _$SearchArticlesResponseCopyWithImpl<$Res,
+        $Val extends SearchArticlesResponse>
+    implements $SearchArticlesResponseCopyWith<$Res> {
+  _$SearchArticlesResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of SearchArticlesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? articles = null,
+  }) {
+    return _then(_value.copyWith(
+      articles: null == articles
+          ? _value.articles
+          : articles // ignore: cast_nullable_to_non_nullable
+              as List<ArticleDTO>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SearchArticlesResponseImplCopyWith<$Res>
+    implements $SearchArticlesResponseCopyWith<$Res> {
+  factory _$$SearchArticlesResponseImplCopyWith(
+          _$SearchArticlesResponseImpl value,
+          $Res Function(_$SearchArticlesResponseImpl) then) =
+      __$$SearchArticlesResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<ArticleDTO> articles});
+}
+
+/// @nodoc
+class __$$SearchArticlesResponseImplCopyWithImpl<$Res>
+    extends _$SearchArticlesResponseCopyWithImpl<$Res,
+        _$SearchArticlesResponseImpl>
+    implements _$$SearchArticlesResponseImplCopyWith<$Res> {
+  __$$SearchArticlesResponseImplCopyWithImpl(
+      _$SearchArticlesResponseImpl _value,
+      $Res Function(_$SearchArticlesResponseImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of SearchArticlesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? articles = null,
+  }) {
+    return _then(_$SearchArticlesResponseImpl(
+      articles: null == articles
+          ? _value._articles
+          : articles // ignore: cast_nullable_to_non_nullable
+              as List<ArticleDTO>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SearchArticlesResponseImpl implements _SearchArticlesResponse {
+  const _$SearchArticlesResponseImpl({required final List<ArticleDTO> articles})
+      : _articles = articles;
+
+  factory _$SearchArticlesResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SearchArticlesResponseImplFromJson(json);
+
+  final List<ArticleDTO> _articles;
+  @override
+  List<ArticleDTO> get articles {
+    if (_articles is EqualUnmodifiableListView) return _articles;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_articles);
+  }
+
+  @override
+  String toString() {
+    return 'SearchArticlesResponse(articles: $articles)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SearchArticlesResponseImpl &&
+            const DeepCollectionEquality().equals(other._articles, _articles));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_articles));
+
+  /// Create a copy of SearchArticlesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SearchArticlesResponseImplCopyWith<_$SearchArticlesResponseImpl>
+      get copyWith => __$$SearchArticlesResponseImplCopyWithImpl<
+          _$SearchArticlesResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SearchArticlesResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SearchArticlesResponse implements SearchArticlesResponse {
+  const factory _SearchArticlesResponse(
+          {required final List<ArticleDTO> articles}) =
+      _$SearchArticlesResponseImpl;
+
+  factory _SearchArticlesResponse.fromJson(Map<String, dynamic> json) =
+      _$SearchArticlesResponseImpl.fromJson;
+
+  @override
+  List<ArticleDTO> get articles;
+
+  /// Create a copy of SearchArticlesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SearchArticlesResponseImplCopyWith<_$SearchArticlesResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}

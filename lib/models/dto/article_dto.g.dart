@@ -230,3 +230,33 @@ Map<String, dynamic> _$$ArticleLikeResponseImplToJson(
       'like_count': instance.likeCount,
       'is_liked': instance.isLiked,
     };
+
+_$SearchArticlesRequestImpl _$$SearchArticlesRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SearchArticlesRequestImpl(
+      query: json['query'] as String,
+      pagingKey: (json['paging_key'] as num?)?.toInt(),
+      limit: (json['limit'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$SearchArticlesRequestImplToJson(
+        _$SearchArticlesRequestImpl instance) =>
+    <String, dynamic>{
+      'query': instance.query,
+      'paging_key': instance.pagingKey,
+      'limit': instance.limit,
+    };
+
+_$SearchArticlesResponseImpl _$$SearchArticlesResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SearchArticlesResponseImpl(
+      articles: (json['articles'] as List<dynamic>)
+          .map((e) => ArticleDTO.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$SearchArticlesResponseImplToJson(
+        _$SearchArticlesResponseImpl instance) =>
+    <String, dynamic>{
+      'articles': instance.articles,
+    };

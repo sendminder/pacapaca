@@ -582,5 +582,151 @@ final articleEditorProvider =
 );
 
 typedef _$ArticleEditor = AutoDisposeAsyncNotifier<void>;
+String _$articleSearchHash() => r'19ecd51e0d6e178a15b41d6a16529eb01eca9df8';
+
+abstract class _$ArticleSearch
+    extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
+  late final String query;
+
+  FutureOr<List<ArticleDTO>?> build(
+    String query,
+  );
+}
+
+/// See also [ArticleSearch].
+@ProviderFor(ArticleSearch)
+const articleSearchProvider = ArticleSearchFamily();
+
+/// See also [ArticleSearch].
+class ArticleSearchFamily extends Family<AsyncValue<List<ArticleDTO>?>> {
+  /// See also [ArticleSearch].
+  const ArticleSearchFamily();
+
+  /// See also [ArticleSearch].
+  ArticleSearchProvider call(
+    String query,
+  ) {
+    return ArticleSearchProvider(
+      query,
+    );
+  }
+
+  @override
+  ArticleSearchProvider getProviderOverride(
+    covariant ArticleSearchProvider provider,
+  ) {
+    return call(
+      provider.query,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'articleSearchProvider';
+}
+
+/// See also [ArticleSearch].
+class ArticleSearchProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    ArticleSearch, List<ArticleDTO>?> {
+  /// See also [ArticleSearch].
+  ArticleSearchProvider(
+    String query,
+  ) : this._internal(
+          () => ArticleSearch()..query = query,
+          from: articleSearchProvider,
+          name: r'articleSearchProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$articleSearchHash,
+          dependencies: ArticleSearchFamily._dependencies,
+          allTransitiveDependencies:
+              ArticleSearchFamily._allTransitiveDependencies,
+          query: query,
+        );
+
+  ArticleSearchProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.query,
+  }) : super.internal();
+
+  final String query;
+
+  @override
+  FutureOr<List<ArticleDTO>?> runNotifierBuild(
+    covariant ArticleSearch notifier,
+  ) {
+    return notifier.build(
+      query,
+    );
+  }
+
+  @override
+  Override overrideWith(ArticleSearch Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ArticleSearchProvider._internal(
+        () => create()..query = query,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        query: query,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<ArticleSearch, List<ArticleDTO>?>
+      createElement() {
+    return _ArticleSearchProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ArticleSearchProvider && other.query == query;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, query.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin ArticleSearchRef
+    on AutoDisposeAsyncNotifierProviderRef<List<ArticleDTO>?> {
+  /// The parameter `query` of this provider.
+  String get query;
+}
+
+class _ArticleSearchProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<ArticleSearch,
+        List<ArticleDTO>?> with ArticleSearchRef {
+  _ArticleSearchProviderElement(super.provider);
+
+  @override
+  String get query => (origin as ArticleSearchProvider).query;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
