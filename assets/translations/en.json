@@ -6,6 +6,16 @@
         "nickname_rule": "Please enter 2-10 characters",
         "nickname_error": "Failed to set nickname: {}"
     },
+    "helper": {
+        "first_message": "Hello! I'm Paca 🦙\n\nWhat's your topic of concern? \nI'll listen to your story and summarize it in an article!",
+        "title": "Concern Counseling Result",
+        "content_hint": "Enter the concern counseling result",
+        "complete": "Complete",
+        "edit": "Edit",
+        "delete": "Delete",
+        "hint": "Paca will help you",
+        "thinking": "Thinking..."
+    },
     "complete": "Complete",
     "article": {
         "title": "Article",

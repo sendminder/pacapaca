@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
+import 'package:pacapaca/providers/article_provider.dart';
+import 'package:pacapaca/models/dto/article_dto.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 
 class ArticleAiHelperPage extends ConsumerStatefulWidget {
   const ArticleAiHelperPage({super.key});
@@ -30,10 +33,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     // 시작할 때 자동으로 첫 메시지 표시
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
-        _chatHistory.add({
-          'assistant':
-              '안녕하세요! 저는 파카예요 🦙\n\n어떤 주제의 고민이 있으신가요? 제가 이야기를 들어드리고 글로 정리해드릴게요!'
-        });
+        _chatHistory.add({'assistant': 'helper.first_message'.tr()});
       });
     });
   }
@@ -96,7 +96,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
         });
 
         // 임시 초안 데이터
-        final draftTitle = "고민 상담 결과";
+        final draftTitle = "helper.title".tr();
         final draftContent = _chatHistory
             .map((msg) => msg['user'] ?? msg['assistant'])
             .join('\n\n');
@@ -153,10 +153,29 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
         child: DraftPreviewBottomSheet(
           title: title,
           content: content,
-          onPost: () {
-            // TODO: 포스팅 구현
-            context.pop(); // 바텀시트 닫기
-            context.pop(); // AI 헬퍼 페이지 닫기
+          onPost: () async {
+            try {
+              final request = CreateArticleRequest(
+                title: title,
+                content: content,
+                category: ArticleCategory.daily.name, // 기본값으로 일상 카테고리 설정
+              );
+
+              await ref.read(articleServiceProvider).createArticle(request);
+
+              if (context.mounted) {
+                context.pop(); // 바텀시트 닫기
+                context.pop(); // AI 헬퍼 페이지 닫기
+                ref.invalidate(articleListProvider); // 글 목록 새로고침
+              }
+            } catch (e) {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text('article.error'.tr(args: [e.toString()]))),
+                );
+              }
+            }
           },
           onEdit: () async {
             // 먼저 바텀시트를 닫고
@@ -193,7 +212,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
                 ),
               ),
               const SizedBox(width: 8),
-              Text('파카와 대화하기'.tr()),
+              Text('helper.title'.tr()),
             ],
           ),
           leading: IconButton(
@@ -241,7 +260,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ChatBubble(
-                                    message: '생각하고 있어요...',
+                                    message: 'helper.thinking'.tr(),
                                     isUser: false,
                                     isLoading: true,
                                   ),
@@ -320,7 +339,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
           controller: _messageController,
           focusNode: _focusNode,
           onSubmit: _sendMessage,
-          hintText: '파카에게 고민을 이야기해보세요'.tr(),
+          hintText: 'helper.hint'.tr(),
           canSend: _canSend,
         ),
       ),
