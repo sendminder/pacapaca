@@ -40,6 +40,7 @@ dependencies:
   json_serializable: ^6.9.3
   timeago: ^3.7.0
   share_plus: ^10.1.4
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,7 @@ flutter:
   assets:
     - assets/translations/
     - assets/profiles/
+    - assets/icon/
     - .env
 
   fonts:

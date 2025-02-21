@@ -84,4 +84,15 @@ lib/
 flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
+```bash
+flutter pub run flutter_launcher_icons:main
+```
 
+```bash
+flutter pub run flutter_native_splash:create
+```
+
+## android build
+```bash
+use key.properties, key.jks flutter build appbundle check ./build/app/outputs/bundle/release/app-release.aab
+```
