@@ -56,19 +56,17 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
         trailing: _buildSortDropdown(),
         bottom: _buildCategoryFilter(selectedCategory),
       ),
-      body: PageView.builder(
+      body: PageView(
         controller: _pageController,
         physics: const PageScrollPhysics(),
+        clipBehavior: Clip.none,
         onPageChanged: (index) {
-          // 페이지 전환이 완료된 후에만 카테고리 변경
           final category = ArticleCategory.values[index];
           if (category != ref.read(articleCategoryProvider)) {
             ref.read(articleCategoryProvider.notifier).setCategory(category);
           }
         },
-        itemCount: ArticleCategory.values.length,
-        itemBuilder: (context, index) {
-          final category = ArticleCategory.values[index];
+        children: ArticleCategory.values.map((category) {
           final provider = articleListProvider(
             sortBy: sortBy,
             category: category,
@@ -86,7 +84,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
             },
             child: _buildArticleList(articlesAsync),
           );
-        },
+        }).toList(),
       ),
       floatingActionButton: _buildFloatingActionButton(),
     );
@@ -142,48 +140,47 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
           final isSelected = category == selectedCategory;
           return Padding(
             padding: const EdgeInsets.only(right: 8),
-            child: FilterChip(
-              selected: isSelected,
-              showCheckmark: false,
-              label: Text(
-                category.label,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                  color: isSelected
-                      ? colorScheme.onPrimary
-                      : colorScheme.onSurface.withOpacity(0.75),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  final index = ArticleCategory.values.indexOf(category);
+                  ref
+                      .read(articleCategoryProvider.notifier)
+                      .setCategory(category);
+
+                  _pageController.jumpToPage(index);
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? colorScheme.primary
+                        : colorScheme.surfaceContainerLow,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: isSelected
+                          ? colorScheme.primary
+                          : colorScheme.outline.withAlpha(10),
+                      width: 0.5,
+                    ),
+                  ),
+                  child: Text(
+                    category.label,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight:
+                          isSelected ? FontWeight.w600 : FontWeight.normal,
+                      color: isSelected
+                          ? colorScheme.onPrimary
+                          : colorScheme.onSurface.withAlpha(200),
+                    ),
+                  ),
                 ),
               ),
-              labelPadding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              selectedColor: colorScheme.primary,
-              backgroundColor: colorScheme.surfaceContainerLow,
-              side: BorderSide(
-                color: isSelected
-                    ? colorScheme.primary
-                    : colorScheme.outline.withOpacity(0.3),
-                width: 1,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              elevation: 0,
-              pressElevation: 0,
-              visualDensity: VisualDensity.compact,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onSelected: (_) {
-                final index = ArticleCategory.values.indexOf(category);
-                ref
-                    .read(articleCategoryProvider.notifier)
-                    .setCategory(category);
-                _pageController.animateToPage(
-                  index,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                );
-              },
             ),
           );
         }).toList(),
