@@ -13,7 +13,7 @@ class CarrotService {
   // 당근 잔액 조회
   Future<CarrotBalanceDTO?> getBalance() async {
     try {
-      final response = await _dio.get('/carrots/balance');
+      final response = await _dio.get('/v1/carrots/balance');
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
         response.data,
@@ -34,7 +34,7 @@ class CarrotService {
   Future<CarrotTransactionDTO?> sendCarrots(RequestSendCarrots request) async {
     try {
       final response = await _dio.post(
-        '/carrots/send',
+        '/v1/carrots/send',
         data: jsonEncode(request.toJson()),
       );
 
@@ -66,7 +66,7 @@ class CarrotService {
       );
 
       final response = await _dio.get(
-        '/carrots/transactions',
+        '/v1/carrots/transactions',
         queryParameters: request.toJson(),
       );
 
@@ -92,7 +92,7 @@ class CarrotService {
   // 랭킹 조회
   Future<CarrotRankingDTO?> getRankings() async {
     try {
-      final response = await _dio.get('/carrots/rankings');
+      final response = await _dio.get('/v1/carrots/rankings');
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
         response.data,

@@ -94,8 +94,8 @@ void _setupServiceLocator() {
   getIt.registerSingleton<StorageService>(StorageService());
   getIt.registerSingleton<AuthService>(AuthService());
   getIt.registerSingleton<ArticleService>(ArticleService());
-  getIt.registerSingleton<DioService>(DioService());
   getIt.registerSingleton<BlockService>(BlockService());
   getIt.registerSingleton<ReportService>(ReportService());
   getIt.registerSingleton<CarrotService>(CarrotService());
+  getIt.registerSingleton<DioService>(DioService());
 }

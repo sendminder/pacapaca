@@ -13,18 +13,17 @@ class AuthInterceptor extends Interceptor {
   ) async {
     logger.d('onRequest: ${options.path}');
 
-    // 인증이 필요한 엔드포인트 목록
-    final authRequiredPaths = [
-      '/v1/auth/logout',
-      '/v1/users',
-      '/v1/articles',
+    // hmac 인증만 필요한 엔드포인트 목록
+    final hmacRequiredPaths = [
+      '/v1/auth/login',
+      '/v1/auth/refresh',
     ];
 
-    // 현재 요청 경로가 인증이 필요한지 확인
-    final needsAuth =
-        authRequiredPaths.any((path) => options.path.startsWith(path));
+    // 현재 요청 경로가 hmac 인증이 필요한지 확인
+    final needsHmacAuth =
+        hmacRequiredPaths.any((path) => options.path.startsWith(path));
 
-    if (needsAuth) {
+    if (!needsHmacAuth) {
       final token = await _storageService.accessToken;
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';

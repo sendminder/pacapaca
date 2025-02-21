@@ -5,18 +5,14 @@ import 'package:get_it/get_it.dart';
 
 part 'carrot_provider.g.dart';
 
-@riverpod
-CarrotService carrotService(CarrotServiceRef ref) {
-  return GetIt.instance<CarrotService>();
-}
-
 // 당근 잔액 provider
 @riverpod
 class CarrotBalance extends _$CarrotBalance {
+  final _carrotService = GetIt.instance<CarrotService>();
+
   @override
   FutureOr<CarrotBalanceDTO?> build() async {
-    final carrotService = ref.watch(carrotServiceProvider);
-    return carrotService.getBalance();
+    return _carrotService.getBalance();
   }
 
   Future<void> refresh() async {
@@ -27,14 +23,15 @@ class CarrotBalance extends _$CarrotBalance {
 // 당근 거래 내역 provider
 @riverpod
 class CarrotTransactions extends _$CarrotTransactions {
+  final _carrotService = GetIt.instance<CarrotService>();
+
   int? _lastPagingKey;
   static const int _pageSize = 20;
 
   @override
   FutureOr<List<CarrotTransactionDTO>?> build() async {
     _lastPagingKey = null;
-    final carrotService = ref.watch(carrotServiceProvider);
-    return carrotService.getTransactions(limit: _pageSize);
+    return _carrotService.getTransactions(limit: _pageSize);
   }
 
   Future<void> loadMore() async {
@@ -47,8 +44,7 @@ class CarrotTransactions extends _$CarrotTransactions {
 
     try {
       _lastPagingKey = lastTransaction.id;
-      final carrotService = ref.read(carrotServiceProvider);
-      final moreTransactions = await carrotService.getTransactions(
+      final moreTransactions = await _carrotService.getTransactions(
         limit: _pageSize,
         pagingKey: lastTransaction.id,
       );
@@ -75,6 +71,7 @@ class CarrotTransactions extends _$CarrotTransactions {
 // 당근 랭킹 provider
 @riverpod
 class CarrotRankings extends _$CarrotRankings {
+  final _carrotService = GetIt.instance<CarrotService>();
   DateTime? _lastFetchTime;
   static const _cacheValidDuration = Duration(minutes: 5);
 
@@ -88,8 +85,7 @@ class CarrotRankings extends _$CarrotRankings {
       return state.value;
     }
 
-    final carrotService = ref.watch(carrotServiceProvider);
-    final rankings = await carrotService.getRankings();
+    final rankings = await _carrotService.getRankings();
     _lastFetchTime = DateTime.now();
     return rankings;
   }
@@ -103,14 +99,15 @@ class CarrotRankings extends _$CarrotRankings {
 // 당근 전송 provider
 @riverpod
 class CarrotSender extends _$CarrotSender {
+  final _carrotService = GetIt.instance<CarrotService>();
+
   @override
   FutureOr<void> build() {}
 
   Future<CarrotTransactionDTO?> sendCarrots(RequestSendCarrots request) async {
     state = const AsyncLoading();
     try {
-      final carrotService = ref.read(carrotServiceProvider);
-      final transaction = await carrotService.sendCarrots(request);
+      final transaction = await _carrotService.sendCarrots(request);
 
       if (transaction != null) {
         // 거래 내역에 새로운 거래 추가
