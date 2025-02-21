@@ -6,6 +6,7 @@ import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/pages/article/widgets/article_card.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
+import 'package:pacapaca/widgets/page_title.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -27,30 +28,6 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     _scrollController.addListener(_onScroll);
   }
 
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      ref
-          .read(articleSearchProvider(_currentQuery).notifier)
-          .loadMore(_currentQuery);
-    }
-  }
-
-  void _onSearch(String query) {
-    if (query.trim().isEmpty) {
-      setState(() {
-        _currentQuery = '';
-      });
-      return;
-    }
-
-    ref.read(recentSearchesProvider.notifier).addSearch(query.trim());
-    setState(() {
-      _currentQuery = query.trim();
-    });
-    _focusNode.unfocus();
-  }
-
   @override
   Widget build(BuildContext context) {
     final searchResults = _currentQuery.isEmpty
@@ -59,7 +36,10 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     final recentSearches = ref.watch(recentSearchesProvider);
 
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: PageTitle(
+        title: 'search.title'.tr(),
+        bottom: _buildSearchField(),
+      ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: _currentQuery.isEmpty
           ? _buildEmptySearch(recentSearches)
@@ -69,34 +49,6 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               loading: () => _buildLoading(),
             ),
       floatingActionButton: _buildFloatingActionButton(),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      titleSpacing: 0,
-      automaticallyImplyLeading: false,
-      toolbarHeight: 120,
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildTitle(),
-          _buildSearchField(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTitle() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 8, bottom: 12),
-      child: Text(
-        'search.title'.tr(),
-        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-      ),
     );
   }
 
@@ -336,5 +288,29 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      ref
+          .read(articleSearchProvider(_currentQuery).notifier)
+          .loadMore(_currentQuery);
+    }
+  }
+
+  void _onSearch(String query) {
+    if (query.trim().isEmpty) {
+      setState(() {
+        _currentQuery = '';
+      });
+      return;
+    }
+
+    ref.read(recentSearchesProvider.notifier).addSearch(query.trim());
+    setState(() {
+      _currentQuery = query.trim();
+    });
+    _focusNode.unfocus();
   }
 }

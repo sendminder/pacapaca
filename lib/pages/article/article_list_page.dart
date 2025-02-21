@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
+import 'package:pacapaca/widgets/page_title.dart';
 
 class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});
@@ -50,18 +51,10 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     final selectedCategory = ref.watch(articleCategoryProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        titleSpacing: 0,
-        automaticallyImplyLeading: false,
-        toolbarHeight: 120,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(),
-            _buildCategoryFilter(selectedCategory),
-          ],
-        ),
+      appBar: PageTitle(
+        title: 'article.title'.tr(),
+        trailing: _buildSortDropdown(),
+        bottom: _buildCategoryFilter(selectedCategory),
       ),
       body: PageView.builder(
         controller: _pageController,
@@ -99,26 +92,6 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     );
   }
 
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              'article.title'.tr(),
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ),
-          _buildSortDropdown(),
-        ],
-      ),
-    );
-  }
-
   Widget _buildSortDropdown() {
     final sortBy = ref.watch(articleSortProvider);
     return Container(
@@ -141,9 +114,9 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
               ),
             ),
             DropdownMenuItem(
-              value: 'oldest',
+              value: 'views',
               child: Text(
-                'article.sort.oldest'.tr(),
+                'article.sort.views'.tr(),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),

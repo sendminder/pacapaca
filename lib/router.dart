@@ -6,7 +6,6 @@ import 'models/dto/user_dto.dart';
 // 페이지 임포트
 import 'pages/auth/login_page.dart';
 import 'pages/auth/splash_page.dart';
-import 'pages/home/home_page.dart';
 import 'pages/article/article_detail_page.dart';
 import 'pages/settings/settings_page.dart';
 import 'pages/auth/set_nickname_page.dart';
@@ -16,6 +15,7 @@ import 'pages/article/article_create_page.dart';
 import 'package:pacapaca/pages/settings/blocked_users_page.dart';
 import 'pages/article/article_ai_helper_page.dart';
 import 'pages/search/search_page.dart';
+import 'pages/ranking/ranking_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -48,7 +48,7 @@ class RouterNotifier extends ChangeNotifier {
   }
 
   String? _redirectLogic(BuildContext context, GoRouterState state) {
-    final user = _ref.read(authStateProvider).value;
+    final user = _ref.watch(authStateProvider).value;
     final isLoggingIn = state.matchedLocation == '/login';
     final isSettingNickname = state.matchedLocation == '/set-nickname';
 
@@ -68,7 +68,7 @@ class RouterNotifier extends ChangeNotifier {
       if (user.nickname.isEmpty) {
         return '/set-nickname';
       }
-      return '/home';
+      return '/articles';
     }
 
     // 닉네임이 없고 닉네임 설정 페이지가 아니면 닉네임 설정 페이지로
@@ -76,9 +76,9 @@ class RouterNotifier extends ChangeNotifier {
       return '/set-nickname';
     }
 
-    // 닉네임이 있는데 닉네임 설정 페이지에 접근하면 홈으로
+    // 닉네임이 있으면 피드로
     if (isSettingNickname && user != null && user.nickname.isNotEmpty) {
-      return '/home';
+      return '/articles';
     }
 
     return null;
@@ -147,15 +147,6 @@ class RouterNotifier extends ChangeNotifier {
           },
           branches: [
             StatefulShellBranch(
-              navigatorKey: _shellNavigatorHomeKey,
-              routes: [
-                GoRoute(
-                  path: '/home',
-                  builder: (context, state) => const HomePage(),
-                ),
-              ],
-            ),
-            StatefulShellBranch(
               navigatorKey: _shellNavigatorBoardKey,
               routes: [
                 GoRoute(
@@ -181,6 +172,15 @@ class RouterNotifier extends ChangeNotifier {
                 GoRoute(
                   path: '/search',
                   builder: (context, state) => const SearchPage(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorHomeKey,
+              routes: [
+                GoRoute(
+                  path: '/ranking',
+                  builder: (context, state) => const RankingPage(),
                 ),
               ],
             ),

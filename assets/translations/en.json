@@ -4,7 +4,8 @@
         "home": "Home",
         "articles": "Articles",
         "search": "Search",
-        "settings": "Settings"
+        "settings": "Settings",
+        "ranking": "Ranking"
     },
     "nickname": {
         "set_nickname": "Set Nickname",
@@ -73,13 +74,9 @@
         "try_again": "Try again",
         "login_with_apple": "Login with Apple"
     },
-    "home": {
-        "title": "Home",
-        "welcome": "Welcome, {}",
-        "board": "Go to Board",
-        "unknown_user": "User",
-        "login_required": "Login is required",
-        "error": "Failed to load home page: {}"
+    "ranking": {
+        "title": "Carrot Ranking",
+        "error": "Failed to load carrot ranking: {}"
     },
     "settings": {
         "title": "Settings",
