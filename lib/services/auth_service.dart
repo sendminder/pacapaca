@@ -53,44 +53,15 @@ class AuthService {
       if (token == null) return null;
 
       try {
-        final response = await _dio.get(
-          '/v1/me',
-          options: Options(headers: {'Authorization': 'Bearer $token'}),
-        );
-
-        final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
-          response.data,
-          (json) => json as Map<String, dynamic>,
-        );
-
-        if (responseRest.response != null) {
-          final getMeResponse = GetMeResponse.fromJson(responseRest.response!);
-          await _storageService.saveUser(getMeResponse.user);
-          return getMeResponse.user;
-        }
-        return null;
+        return await getMe(token);
       } on DioException catch (e) {
         if (e.response?.statusCode == 401) {
           final newToken = await refreshToken();
           if (newToken != null) {
-            final retryResponse = await _dio.get(
-              '/v1/me',
-              options: Options(
-                headers: {'Authorization': 'Bearer $newToken'},
-              ),
-            );
-
-            final retryResponseRest =
-                RestResponse<Map<String, dynamic>>.fromJson(
-              retryResponse.data,
-              (json) => json as Map<String, dynamic>,
-            );
-
-            if (retryResponseRest.response != null) {
-              final getMeResponse =
-                  GetMeResponse.fromJson(retryResponseRest.response!);
-              await _storageService.saveUser(getMeResponse.user);
-              return getMeResponse.user;
+            final me = await getMe(newToken);
+            if (me != null) {
+              await _storageService.saveUser(me);
+              return me;
             }
           }
           await signOut();
@@ -101,6 +72,34 @@ class AuthService {
       logger.e('get current user', error: e, stackTrace: stackTrace);
       await signOut();
       return null;
+    }
+  }
+
+  Future<UserDTO?> getMe(String? token) async {
+    try {
+      var accessToken = token;
+      if (token == null) {
+        accessToken = await _storageService.accessToken;
+      }
+
+      final response = await _dio.get(
+        '/v1/me',
+        options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
+      );
+
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
+
+      if (responseRest.response != null) {
+        final getMeResponse = GetMeResponse.fromJson(responseRest.response!);
+        return getMeResponse.user;
+      }
+      return null;
+    } catch (e, stackTrace) {
+      logger.e('get me', error: e, stackTrace: stackTrace);
+      rethrow;
     }
   }
 

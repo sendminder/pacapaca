@@ -38,9 +38,9 @@ class ShellScaffold extends StatelessWidget {
             label: 'nav.ranking'.tr(),
           ),
           NavigationDestination(
-            icon: const Icon(Icons.settings_outlined),
-            selectedIcon: const Icon(Icons.settings),
-            label: 'nav.settings'.tr(),
+            icon: const Icon(Icons.person_outline),
+            selectedIcon: const Icon(Icons.person),
+            label: 'nav.profile'.tr(),
           ),
         ],
       ),

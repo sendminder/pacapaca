@@ -12,10 +12,11 @@ import 'pages/auth/set_nickname_page.dart';
 import 'widgets/shell_scaffold.dart';
 import 'pages/article/article_list_page.dart';
 import 'pages/article/article_create_page.dart';
-import 'package:pacapaca/pages/settings/blocked_users_page.dart';
 import 'pages/article/article_ai_helper_page.dart';
 import 'pages/search/search_page.dart';
 import 'pages/ranking/ranking_page.dart';
+import 'pages/profile/profile_page.dart';
+import 'pages/settings/blocked_users_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -88,10 +89,10 @@ class RouterNotifier extends ChangeNotifier {
       GlobalKey<NavigatorState>(debugLabel: 'shell/home');
   final _shellNavigatorBoardKey =
       GlobalKey<NavigatorState>(debugLabel: 'shell/articles');
-  final _shellNavigatorSettingsKey =
-      GlobalKey<NavigatorState>(debugLabel: 'shell/settings');
   final _shellNavigatorSearchKey =
       GlobalKey<NavigatorState>(debugLabel: 'shell/search');
+  final _shellNavigatorProfileKey =
+      GlobalKey<NavigatorState>(debugLabel: 'shell/profile');
 
   List<RouteBase> get _routes => [
         GoRoute(
@@ -141,6 +142,15 @@ class RouterNotifier extends ChangeNotifier {
           path: '/articles/ai-helper',
           builder: (context, state) => const ArticleAiHelperPage(),
         ),
+        GoRoute(
+          path: '/settings',
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => const SettingsPage(),
+        ),
+        GoRoute(
+          path: '/settings/blocked-users',
+          builder: (context, state) => const BlockedUsersPage(),
+        ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
             return ShellScaffold(navigationShell: navigationShell);
@@ -185,15 +195,11 @@ class RouterNotifier extends ChangeNotifier {
               ],
             ),
             StatefulShellBranch(
-              navigatorKey: _shellNavigatorSettingsKey,
+              navigatorKey: _shellNavigatorProfileKey,
               routes: [
                 GoRoute(
-                  path: '/settings',
-                  builder: (context, state) => const SettingsPage(),
-                ),
-                GoRoute(
-                  path: '/settings/blocked-users',
-                  builder: (context, state) => const BlockedUsersPage(),
+                  path: '/profile',
+                  builder: (context, state) => const ProfilePage(),
                 ),
               ],
             ),

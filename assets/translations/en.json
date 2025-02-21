@@ -5,7 +5,8 @@
         "articles": "Articles",
         "search": "Search",
         "settings": "Settings",
-        "ranking": "Ranking"
+        "ranking": "Ranking",
+        "profile": "Profile"
     },
     "nickname": {
         "set_nickname": "Set Nickname",
@@ -140,5 +141,11 @@
         "error": "Failed to send carrot",
         "for_article": "Thank you for article '{}'",
         "for_comment": "Thank you for comment '{}'"
+    },
+    "profile": {
+        "title": "Profile",
+        "my_activity": "My Activity",
+        "my_posts": "My Posts",
+        "my_comments": "My Comments"
     }
 }

@@ -23,6 +23,11 @@ class Auth extends _$Auth {
     return authService.currentUser;
   }
 
+  Future<UserDTO?> getMe() async {
+    final authService = ref.read(authServiceProvider);
+    return await authService.getMe(null);
+  }
+
   Future<void> signInWithApple() async {
     state = const AsyncLoading();
     try {
