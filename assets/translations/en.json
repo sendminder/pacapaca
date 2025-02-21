@@ -139,7 +139,7 @@
         "amount_error": "Please enter a number between 1 and 100",
         "unit": "Carrot",
         "cancel": "Cancel",
-        "sent": "Sent {} Carrot",
+        "sent": "Sent {} Carrot, {} Carrot left",
         "error": "Failed to send carrot",
         "for_article": "Thank you for article '{}'",
         "for_comment": "Thank you for comment '{}'"

@@ -31,7 +31,7 @@ class CarrotService {
   }
 
   // 당근 전송
-  Future<CarrotTransactionDTO?> sendCarrots(RequestSendCarrots request) async {
+  Future<CarrotBalanceDTO?> sendCarrots(RequestSendCarrots request) async {
     try {
       final response = await _dio.post(
         '/v1/carrots/send',
@@ -44,8 +44,7 @@ class CarrotService {
       );
 
       if (responseRest.response != null) {
-        return CarrotTransactionDTO.fromJson(
-            responseRest.response!['transaction']);
+        return CarrotBalanceDTO.fromJson(responseRest.response!);
       }
       return null;
     } catch (e, stackTrace) {

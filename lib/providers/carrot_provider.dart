@@ -104,22 +104,12 @@ class CarrotSender extends _$CarrotSender {
   @override
   FutureOr<void> build() {}
 
-  Future<CarrotTransactionDTO?> sendCarrots(RequestSendCarrots request) async {
+  Future<CarrotBalanceDTO?> sendCarrots(RequestSendCarrots request) async {
     state = const AsyncLoading();
     try {
-      final transaction = await _carrotService.sendCarrots(request);
+      final balance = await _carrotService.sendCarrots(request);
 
-      if (transaction != null) {
-        // 거래 내역에 새로운 거래 추가
-        ref
-            .read(carrotTransactionsProvider.notifier)
-            .addTransaction(transaction);
-        // 잔액 정보 갱신
-        ref.invalidate(carrotBalanceProvider);
-      }
-
-      state = const AsyncData(null);
-      return transaction;
+      return balance;
     } catch (e, stack) {
       state = AsyncError(e, stack);
       return null;
