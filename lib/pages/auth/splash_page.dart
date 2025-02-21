@@ -19,8 +19,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
   Future<void> _initialize() async {
     try {
-      final authProvider = ref.read(authServiceProvider);
-      final user = await authProvider.getMe(null);
+      final user = await ref.read(authProvider.notifier).getMe();
 
       if (!mounted) return;
 

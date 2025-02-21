@@ -10,7 +10,7 @@ class ProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authStateProvider).value;
+    final user = ref.watch(authProvider).value;
 
     return Scaffold(
       appBar: PageTitle(

@@ -56,7 +56,7 @@ final carrotRankingsProvider = AutoDisposeAsyncNotifierProvider<CarrotRankings,
 );
 
 typedef _$CarrotRankings = AutoDisposeAsyncNotifier<CarrotRankingDTO?>;
-String _$carrotSenderHash() => r'c8084c586adc8ddafa2c2a46130582d92590c112';
+String _$carrotSenderHash() => r'2f163f042c3db5eecbf1b0e4515737eff5d49c1e';
 
 /// See also [CarrotSender].
 @ProviderFor(CarrotSender)

@@ -58,11 +58,7 @@ class AuthService {
         if (e.response?.statusCode == 401) {
           final newToken = await refreshToken();
           if (newToken != null) {
-            final me = await getMe(newToken);
-            if (me != null) {
-              await _storageService.saveUser(me);
-              return me;
-            }
+            return await getMe(newToken);
           }
           await signOut();
         }
@@ -94,6 +90,7 @@ class AuthService {
 
       if (responseRest.response != null) {
         final getMeResponse = GetMeResponse.fromJson(responseRest.response!);
+        await _storageService.saveUser(getMeResponse.user);
         return getMeResponse.user;
       }
       return null;
@@ -239,10 +236,10 @@ class AuthService {
     }
   }
 
-  Future<void> updateNickname(String nickname) async {
+  Future<UserDTO?> updateNickname(String nickname) async {
     try {
       final token = await _storageService.accessToken;
-      if (token == null) return;
+      if (token == null) return null;
 
       final updateRequest = UpdateMeRequest(nickname: nickname);
 
@@ -264,7 +261,7 @@ class AuthService {
       if (responseRest.response != null) {
         final getMeResponse = GetMeResponse.fromJson(responseRest.response!);
         await _storageService.saveUser(getMeResponse.user);
-        return;
+        return getMeResponse.user;
       }
       throw Exception(responseRest.message);
     } catch (e, stackTrace) {

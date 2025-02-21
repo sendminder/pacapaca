@@ -18,7 +18,7 @@ class NicknameController extends StateNotifier<AsyncValue<void>> {
   Future<void> updateNickname(String nickname) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await _ref.read(authServiceProvider).updateNickname(nickname);
+      await _ref.read(authProvider.notifier).updateNickname(nickname);
     });
   }
 }
@@ -32,7 +32,7 @@ class SetNicknamePage extends ConsumerWidget {
 
     ref.listen(nicknameControllerProvider, (prev, next) {
       if (next is AsyncData) {
-        context.go('/home');
+        context.go('/articles');
       } else if (next is AsyncError) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

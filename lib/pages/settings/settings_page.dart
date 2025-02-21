@@ -124,7 +124,7 @@ class SettingsPage extends ConsumerWidget {
 
               if (confirmed == true) {
                 // 로그아웃 처리
-                await ref.read(authServiceProvider).signOut();
+                await ref.read(authProvider.notifier).signOut();
                 if (context.mounted) {
                   context.go('/login'); // 로그인 페이지로 이동
                 }

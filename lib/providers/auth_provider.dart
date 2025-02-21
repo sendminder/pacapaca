@@ -10,12 +10,6 @@ AuthService authService(AuthServiceRef ref) {
 }
 
 @riverpod
-Stream<UserDTO?> authState(AuthStateRef ref) {
-  final authService = ref.watch(authServiceProvider);
-  return authService.authStateChanges;
-}
-
-@riverpod
 class Auth extends _$Auth {
   @override
   FutureOr<UserDTO?> build() {
@@ -25,7 +19,9 @@ class Auth extends _$Auth {
 
   Future<UserDTO?> getMe() async {
     final authService = ref.read(authServiceProvider);
-    return await authService.getMe(null);
+    final user = await authService.getMe(null);
+    state = AsyncData(user);
+    return user;
   }
 
   Future<void> signInWithApple() async {
@@ -54,8 +50,8 @@ class Auth extends _$Auth {
     state = const AsyncLoading();
     try {
       final authService = ref.read(authServiceProvider);
-      await authService.updateNickname(nickname);
-      state = AsyncData(await authService.currentUser);
+      final user = await authService.updateNickname(nickname);
+      state = AsyncData(user);
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
     }

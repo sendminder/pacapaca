@@ -17,6 +17,8 @@ import 'pages/search/search_page.dart';
 import 'pages/ranking/ranking_page.dart';
 import 'pages/profile/profile_page.dart';
 import 'pages/settings/blocked_users_page.dart';
+import 'package:logger/logger.dart';
+import 'package:get_it/get_it.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -40,49 +42,54 @@ final routerProvider = Provider<GoRouter>((ref) {
 
 class RouterNotifier extends ChangeNotifier {
   final Ref _ref;
+  final logger = GetIt.instance<Logger>();
+  AsyncValue<UserDTO?> _lastKnownState = const AsyncValue.loading();
 
   RouterNotifier(this._ref) {
     _ref.listen<AsyncValue<UserDTO?>>(
-      authStateProvider,
-      (_, __) => notifyListeners(),
+      authProvider,
+      (previous, current) {
+        logger.d('----> authStateProvider $previous -> $current');
+        _lastKnownState = current; // 캐시된 상태 업데이트
+        notifyListeners();
+      },
     );
   }
 
   String? _redirectLogic(BuildContext context, GoRouterState state) {
-    final user = _ref.watch(authStateProvider).value;
-    final isLoggingIn = state.matchedLocation == '/login';
-    final isSettingNickname = state.matchedLocation == '/set-nickname';
+    return _lastKnownState.when(
+      data: (user) {
+        logger.d('Redirect logic with user: $user');
 
-    // 스플래시 화면일 때는 리다이렉트하지 않음
-    if (state.matchedLocation == '/splash') return null;
+        if (state.matchedLocation == '/splash') return null;
 
-    // 로그인이 필요한 페이지 목록
-    final needAuth = !state.matchedLocation.startsWith('/login') &&
-        !state.matchedLocation.startsWith('/splash');
+        final isLoggingIn = state.matchedLocation == '/login';
+        final isSettingNickname = state.matchedLocation == '/set-nickname';
+        final needAuth = !state.matchedLocation.startsWith('/login') &&
+            !state.matchedLocation.startsWith('/splash');
 
-    // 로그인이 필요한 페이지인데 로그인이 안 되어있으면 로그인 페이지로
-    if (needAuth && user == null) return '/login';
+        if (needAuth && user == null) return '/login';
 
-    // 이미 로그인되어 있는데 로그인 페이지에 접근하면 홈으로
-    if (isLoggingIn && user != null) {
-      // 닉네임이 없으면 닉네임 설정 페이지로
-      if (user.nickname.isEmpty) {
-        return '/set-nickname';
-      }
-      return '/articles';
-    }
+        if (isLoggingIn && user != null) {
+          if (user.nickname.isEmpty) {
+            return '/set-nickname';
+          }
+          return '/articles';
+        }
 
-    // 닉네임이 없고 닉네임 설정 페이지가 아니면 닉네임 설정 페이지로
-    if (user != null && (user.nickname.isEmpty) && !isSettingNickname) {
-      return '/set-nickname';
-    }
+        if (user != null && user.nickname.isEmpty && !isSettingNickname) {
+          return '/set-nickname';
+        }
 
-    // 닉네임이 있으면 피드로
-    if (isSettingNickname && user != null && user.nickname.isNotEmpty) {
-      return '/articles';
-    }
+        if (isSettingNickname && user != null && user.nickname.isNotEmpty) {
+          return '/articles';
+        }
 
-    return null;
+        return null;
+      },
+      loading: () => null, // 로딩 중에는 리다이렉트하지 않음
+      error: (_, __) => '/login', // 에러 발생 시 로그인 페이지로
+    );
   }
 
   final _shellNavigatorHomeKey =

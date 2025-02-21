@@ -22,23 +22,7 @@ final authServiceProvider = AutoDisposeProvider<AuthService>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthServiceRef = AutoDisposeProviderRef<AuthService>;
-String _$authStateHash() => r'eed576c0d0ea572ab8d6cb8561d1d00acdfd11ce';
-
-/// See also [authState].
-@ProviderFor(authState)
-final authStateProvider = AutoDisposeStreamProvider<UserDTO?>.internal(
-  authState,
-  name: r'authStateProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$authStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AuthStateRef = AutoDisposeStreamProviderRef<UserDTO?>;
-String _$authHash() => r'60da2999a741dbf454c06e4d25b22169b8be5fdc';
+String _$authHash() => r'f8d34029ef7b7efcfd2c6b4ce2ba91abd84df021';
 
 /// See also [Auth].
 @ProviderFor(Auth)
