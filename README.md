@@ -96,3 +96,9 @@ flutter pub run flutter_native_splash:create
 ```bash
 use key.properties, key.jks flutter build appbundle check ./build/app/outputs/bundle/release/app-release.aab
 ```
+
+## rename app
+```bash
+dart run rename_app:main android="파카파카" ios="파카파카"
+dart run rename_app:main android="PacaPaca" ios="PacaPaca"
+```
