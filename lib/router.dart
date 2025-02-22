@@ -19,6 +19,8 @@ import 'pages/profile/profile_page.dart';
 import 'pages/settings/blocked_users_page.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
+import 'pages/ranking/ranking_detail_page.dart';
+import 'pages/ranking/ranking_type.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -198,6 +200,16 @@ class RouterNotifier extends ChangeNotifier {
                 GoRoute(
                   path: '/ranking',
                   builder: (context, state) => const RankingPage(),
+                  routes: [
+                    GoRoute(
+                      path: ':type',
+                      builder: (context, state) => RankingDetailPage(
+                        title: state.extra as String,
+                        type: RankingType
+                            .values[int.parse(state.pathParameters['type']!)],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -40,6 +40,24 @@ Map<String, dynamic> _$$RequestListTransactionsImplToJson(
       'paging_key': instance.pagingKey,
     };
 
+_$ResponseCarrotRankingsImpl _$$ResponseCarrotRankingsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseCarrotRankingsImpl(
+      topReceivers: (json['top_receivers'] as List<dynamic>)
+          .map((e) => CarrotRankingDTO.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      topSenders: (json['top_senders'] as List<dynamic>)
+          .map((e) => CarrotRankingDTO.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$ResponseCarrotRankingsImplToJson(
+        _$ResponseCarrotRankingsImpl instance) =>
+    <String, dynamic>{
+      'top_receivers': instance.topReceivers,
+      'top_senders': instance.topSenders,
+    };
+
 _$CarrotTransactionDTOImpl _$$CarrotTransactionDTOImplFromJson(
         Map<String, dynamic> json) =>
     _$CarrotTransactionDTOImpl(
@@ -83,31 +101,17 @@ Map<String, dynamic> _$$CarrotBalanceDTOImplToJson(
 _$CarrotRankingDTOImpl _$$CarrotRankingDTOImplFromJson(
         Map<String, dynamic> json) =>
     _$CarrotRankingDTOImpl(
-      topReceivers: (json['top_receivers'] as List<dynamic>)
-          .map((e) => CarrotRankingUserDTO.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      topSenders: (json['top_senders'] as List<dynamic>)
-          .map((e) => CarrotRankingUserDTO.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      userId: (json['user_id'] as num).toInt(),
+      nickname: json['nickname'] as String,
+      profileImageUrl: json['profile_image_url'] as String?,
+      total: (json['total'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$CarrotRankingDTOImplToJson(
         _$CarrotRankingDTOImpl instance) =>
     <String, dynamic>{
-      'top_receivers': instance.topReceivers,
-      'top_senders': instance.topSenders,
-    };
-
-_$CarrotRankingUserDTOImpl _$$CarrotRankingUserDTOImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CarrotRankingUserDTOImpl(
-      userId: (json['userId'] as num).toInt(),
-      amount: (json['amount'] as num).toInt(),
-    );
-
-Map<String, dynamic> _$$CarrotRankingUserDTOImplToJson(
-        _$CarrotRankingUserDTOImpl instance) =>
-    <String, dynamic>{
-      'userId': instance.userId,
-      'amount': instance.amount,
+      'user_id': instance.userId,
+      'nickname': instance.nickname,
+      'profile_image_url': instance.profileImageUrl,
+      'total': instance.total,
     };

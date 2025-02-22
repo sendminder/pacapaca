@@ -75,10 +75,6 @@
         "try_again": "Try again",
         "login_with_apple": "Login with Apple"
     },
-    "ranking": {
-        "title": "Carrot Ranking",
-        "error": "Failed to load carrot ranking: {}"
-    },
     "settings": {
         "title": "Settings",
         "profile": "Profile",
@@ -147,5 +143,14 @@
         "my_activity": "My Activity",
         "my_posts": "My Posts",
         "my_comments": "My Comments"
+    },
+    "ranking": {
+        "title": "Ranking",
+        "point_ranking": "Point Ranking",
+        "received_carrots": "Received Carrots",
+        "sent_carrots": "Sent Carrots",
+        "error": "An error occurred: {}",
+        "no_data": "No data",
+        "view_more": "View More"
     }
 }

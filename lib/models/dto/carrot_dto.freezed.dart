@@ -442,6 +442,214 @@ abstract class _RequestListTransactions implements RequestListTransactions {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+ResponseCarrotRankings _$ResponseCarrotRankingsFromJson(
+    Map<String, dynamic> json) {
+  return _ResponseCarrotRankings.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ResponseCarrotRankings {
+  @JsonKey(name: 'top_receivers')
+  List<CarrotRankingDTO> get topReceivers => throw _privateConstructorUsedError;
+  @JsonKey(name: 'top_senders')
+  List<CarrotRankingDTO> get topSenders => throw _privateConstructorUsedError;
+
+  /// Serializes this ResponseCarrotRankings to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ResponseCarrotRankings
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ResponseCarrotRankingsCopyWith<ResponseCarrotRankings> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ResponseCarrotRankingsCopyWith<$Res> {
+  factory $ResponseCarrotRankingsCopyWith(ResponseCarrotRankings value,
+          $Res Function(ResponseCarrotRankings) then) =
+      _$ResponseCarrotRankingsCopyWithImpl<$Res, ResponseCarrotRankings>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'top_receivers') List<CarrotRankingDTO> topReceivers,
+      @JsonKey(name: 'top_senders') List<CarrotRankingDTO> topSenders});
+}
+
+/// @nodoc
+class _$ResponseCarrotRankingsCopyWithImpl<$Res,
+        $Val extends ResponseCarrotRankings>
+    implements $ResponseCarrotRankingsCopyWith<$Res> {
+  _$ResponseCarrotRankingsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ResponseCarrotRankings
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? topReceivers = null,
+    Object? topSenders = null,
+  }) {
+    return _then(_value.copyWith(
+      topReceivers: null == topReceivers
+          ? _value.topReceivers
+          : topReceivers // ignore: cast_nullable_to_non_nullable
+              as List<CarrotRankingDTO>,
+      topSenders: null == topSenders
+          ? _value.topSenders
+          : topSenders // ignore: cast_nullable_to_non_nullable
+              as List<CarrotRankingDTO>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ResponseCarrotRankingsImplCopyWith<$Res>
+    implements $ResponseCarrotRankingsCopyWith<$Res> {
+  factory _$$ResponseCarrotRankingsImplCopyWith(
+          _$ResponseCarrotRankingsImpl value,
+          $Res Function(_$ResponseCarrotRankingsImpl) then) =
+      __$$ResponseCarrotRankingsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'top_receivers') List<CarrotRankingDTO> topReceivers,
+      @JsonKey(name: 'top_senders') List<CarrotRankingDTO> topSenders});
+}
+
+/// @nodoc
+class __$$ResponseCarrotRankingsImplCopyWithImpl<$Res>
+    extends _$ResponseCarrotRankingsCopyWithImpl<$Res,
+        _$ResponseCarrotRankingsImpl>
+    implements _$$ResponseCarrotRankingsImplCopyWith<$Res> {
+  __$$ResponseCarrotRankingsImplCopyWithImpl(
+      _$ResponseCarrotRankingsImpl _value,
+      $Res Function(_$ResponseCarrotRankingsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ResponseCarrotRankings
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? topReceivers = null,
+    Object? topSenders = null,
+  }) {
+    return _then(_$ResponseCarrotRankingsImpl(
+      topReceivers: null == topReceivers
+          ? _value._topReceivers
+          : topReceivers // ignore: cast_nullable_to_non_nullable
+              as List<CarrotRankingDTO>,
+      topSenders: null == topSenders
+          ? _value._topSenders
+          : topSenders // ignore: cast_nullable_to_non_nullable
+              as List<CarrotRankingDTO>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ResponseCarrotRankingsImpl implements _ResponseCarrotRankings {
+  const _$ResponseCarrotRankingsImpl(
+      {@JsonKey(name: 'top_receivers')
+      required final List<CarrotRankingDTO> topReceivers,
+      @JsonKey(name: 'top_senders')
+      required final List<CarrotRankingDTO> topSenders})
+      : _topReceivers = topReceivers,
+        _topSenders = topSenders;
+
+  factory _$ResponseCarrotRankingsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseCarrotRankingsImplFromJson(json);
+
+  final List<CarrotRankingDTO> _topReceivers;
+  @override
+  @JsonKey(name: 'top_receivers')
+  List<CarrotRankingDTO> get topReceivers {
+    if (_topReceivers is EqualUnmodifiableListView) return _topReceivers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topReceivers);
+  }
+
+  final List<CarrotRankingDTO> _topSenders;
+  @override
+  @JsonKey(name: 'top_senders')
+  List<CarrotRankingDTO> get topSenders {
+    if (_topSenders is EqualUnmodifiableListView) return _topSenders;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topSenders);
+  }
+
+  @override
+  String toString() {
+    return 'ResponseCarrotRankings(topReceivers: $topReceivers, topSenders: $topSenders)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResponseCarrotRankingsImpl &&
+            const DeepCollectionEquality()
+                .equals(other._topReceivers, _topReceivers) &&
+            const DeepCollectionEquality()
+                .equals(other._topSenders, _topSenders));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_topReceivers),
+      const DeepCollectionEquality().hash(_topSenders));
+
+  /// Create a copy of ResponseCarrotRankings
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ResponseCarrotRankingsImplCopyWith<_$ResponseCarrotRankingsImpl>
+      get copyWith => __$$ResponseCarrotRankingsImplCopyWithImpl<
+          _$ResponseCarrotRankingsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ResponseCarrotRankingsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ResponseCarrotRankings implements ResponseCarrotRankings {
+  const factory _ResponseCarrotRankings(
+          {@JsonKey(name: 'top_receivers')
+          required final List<CarrotRankingDTO> topReceivers,
+          @JsonKey(name: 'top_senders')
+          required final List<CarrotRankingDTO> topSenders}) =
+      _$ResponseCarrotRankingsImpl;
+
+  factory _ResponseCarrotRankings.fromJson(Map<String, dynamic> json) =
+      _$ResponseCarrotRankingsImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'top_receivers')
+  List<CarrotRankingDTO> get topReceivers;
+  @override
+  @JsonKey(name: 'top_senders')
+  List<CarrotRankingDTO> get topSenders;
+
+  /// Create a copy of ResponseCarrotRankings
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ResponseCarrotRankingsImplCopyWith<_$ResponseCarrotRankingsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 CarrotTransactionDTO _$CarrotTransactionDTOFromJson(Map<String, dynamic> json) {
   return _CarrotTransactionDTO.fromJson(json);
 }
@@ -939,12 +1147,12 @@ CarrotRankingDTO _$CarrotRankingDTOFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CarrotRankingDTO {
-  @JsonKey(name: 'top_receivers')
-  List<CarrotRankingUserDTO> get topReceivers =>
-      throw _privateConstructorUsedError;
-  @JsonKey(name: 'top_senders')
-  List<CarrotRankingUserDTO> get topSenders =>
-      throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
+  int get userId => throw _privateConstructorUsedError;
+  String get nickname => throw _privateConstructorUsedError;
+  @JsonKey(name: 'profile_image_url')
+  String? get profileImageUrl => throw _privateConstructorUsedError;
+  int get total => throw _privateConstructorUsedError;
 
   /// Serializes this CarrotRankingDTO to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -963,8 +1171,10 @@ abstract class $CarrotRankingDTOCopyWith<$Res> {
       _$CarrotRankingDTOCopyWithImpl<$Res, CarrotRankingDTO>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'top_receivers') List<CarrotRankingUserDTO> topReceivers,
-      @JsonKey(name: 'top_senders') List<CarrotRankingUserDTO> topSenders});
+      {@JsonKey(name: 'user_id') int userId,
+      String nickname,
+      @JsonKey(name: 'profile_image_url') String? profileImageUrl,
+      int total});
 }
 
 /// @nodoc
@@ -982,18 +1192,28 @@ class _$CarrotRankingDTOCopyWithImpl<$Res, $Val extends CarrotRankingDTO>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? topReceivers = null,
-    Object? topSenders = null,
+    Object? userId = null,
+    Object? nickname = null,
+    Object? profileImageUrl = freezed,
+    Object? total = null,
   }) {
     return _then(_value.copyWith(
-      topReceivers: null == topReceivers
-          ? _value.topReceivers
-          : topReceivers // ignore: cast_nullable_to_non_nullable
-              as List<CarrotRankingUserDTO>,
-      topSenders: null == topSenders
-          ? _value.topSenders
-          : topSenders // ignore: cast_nullable_to_non_nullable
-              as List<CarrotRankingUserDTO>,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+      profileImageUrl: freezed == profileImageUrl
+          ? _value.profileImageUrl
+          : profileImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -1007,8 +1227,10 @@ abstract class _$$CarrotRankingDTOImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'top_receivers') List<CarrotRankingUserDTO> topReceivers,
-      @JsonKey(name: 'top_senders') List<CarrotRankingUserDTO> topSenders});
+      {@JsonKey(name: 'user_id') int userId,
+      String nickname,
+      @JsonKey(name: 'profile_image_url') String? profileImageUrl,
+      int total});
 }
 
 /// @nodoc
@@ -1024,18 +1246,28 @@ class __$$CarrotRankingDTOImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? topReceivers = null,
-    Object? topSenders = null,
+    Object? userId = null,
+    Object? nickname = null,
+    Object? profileImageUrl = freezed,
+    Object? total = null,
   }) {
     return _then(_$CarrotRankingDTOImpl(
-      topReceivers: null == topReceivers
-          ? _value._topReceivers
-          : topReceivers // ignore: cast_nullable_to_non_nullable
-              as List<CarrotRankingUserDTO>,
-      topSenders: null == topSenders
-          ? _value._topSenders
-          : topSenders // ignore: cast_nullable_to_non_nullable
-              as List<CarrotRankingUserDTO>,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+      profileImageUrl: freezed == profileImageUrl
+          ? _value.profileImageUrl
+          : profileImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -1044,37 +1276,28 @@ class __$$CarrotRankingDTOImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CarrotRankingDTOImpl implements _CarrotRankingDTO {
   const _$CarrotRankingDTOImpl(
-      {@JsonKey(name: 'top_receivers')
-      required final List<CarrotRankingUserDTO> topReceivers,
-      @JsonKey(name: 'top_senders')
-      required final List<CarrotRankingUserDTO> topSenders})
-      : _topReceivers = topReceivers,
-        _topSenders = topSenders;
+      {@JsonKey(name: 'user_id') required this.userId,
+      required this.nickname,
+      @JsonKey(name: 'profile_image_url') this.profileImageUrl,
+      required this.total});
 
   factory _$CarrotRankingDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$CarrotRankingDTOImplFromJson(json);
 
-  final List<CarrotRankingUserDTO> _topReceivers;
   @override
-  @JsonKey(name: 'top_receivers')
-  List<CarrotRankingUserDTO> get topReceivers {
-    if (_topReceivers is EqualUnmodifiableListView) return _topReceivers;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_topReceivers);
-  }
-
-  final List<CarrotRankingUserDTO> _topSenders;
+  @JsonKey(name: 'user_id')
+  final int userId;
   @override
-  @JsonKey(name: 'top_senders')
-  List<CarrotRankingUserDTO> get topSenders {
-    if (_topSenders is EqualUnmodifiableListView) return _topSenders;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_topSenders);
-  }
+  final String nickname;
+  @override
+  @JsonKey(name: 'profile_image_url')
+  final String? profileImageUrl;
+  @override
+  final int total;
 
   @override
   String toString() {
-    return 'CarrotRankingDTO(topReceivers: $topReceivers, topSenders: $topSenders)';
+    return 'CarrotRankingDTO(userId: $userId, nickname: $nickname, profileImageUrl: $profileImageUrl, total: $total)';
   }
 
   @override
@@ -1082,18 +1305,18 @@ class _$CarrotRankingDTOImpl implements _CarrotRankingDTO {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CarrotRankingDTOImpl &&
-            const DeepCollectionEquality()
-                .equals(other._topReceivers, _topReceivers) &&
-            const DeepCollectionEquality()
-                .equals(other._topSenders, _topSenders));
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
+            (identical(other.profileImageUrl, profileImageUrl) ||
+                other.profileImageUrl == profileImageUrl) &&
+            (identical(other.total, total) || other.total == total));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_topReceivers),
-      const DeepCollectionEquality().hash(_topSenders));
+  int get hashCode =>
+      Object.hash(runtimeType, userId, nickname, profileImageUrl, total);
 
   /// Create a copy of CarrotRankingDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -1114,21 +1337,24 @@ class _$CarrotRankingDTOImpl implements _CarrotRankingDTO {
 
 abstract class _CarrotRankingDTO implements CarrotRankingDTO {
   const factory _CarrotRankingDTO(
-          {@JsonKey(name: 'top_receivers')
-          required final List<CarrotRankingUserDTO> topReceivers,
-          @JsonKey(name: 'top_senders')
-          required final List<CarrotRankingUserDTO> topSenders}) =
-      _$CarrotRankingDTOImpl;
+      {@JsonKey(name: 'user_id') required final int userId,
+      required final String nickname,
+      @JsonKey(name: 'profile_image_url') final String? profileImageUrl,
+      required final int total}) = _$CarrotRankingDTOImpl;
 
   factory _CarrotRankingDTO.fromJson(Map<String, dynamic> json) =
       _$CarrotRankingDTOImpl.fromJson;
 
   @override
-  @JsonKey(name: 'top_receivers')
-  List<CarrotRankingUserDTO> get topReceivers;
+  @JsonKey(name: 'user_id')
+  int get userId;
   @override
-  @JsonKey(name: 'top_senders')
-  List<CarrotRankingUserDTO> get topSenders;
+  String get nickname;
+  @override
+  @JsonKey(name: 'profile_image_url')
+  String? get profileImageUrl;
+  @override
+  int get total;
 
   /// Create a copy of CarrotRankingDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -1136,175 +1362,4 @@ abstract class _CarrotRankingDTO implements CarrotRankingDTO {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CarrotRankingDTOImplCopyWith<_$CarrotRankingDTOImpl> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-CarrotRankingUserDTO _$CarrotRankingUserDTOFromJson(Map<String, dynamic> json) {
-  return _CarrotRankingUserDTO.fromJson(json);
-}
-
-/// @nodoc
-mixin _$CarrotRankingUserDTO {
-  int get userId => throw _privateConstructorUsedError;
-  int get amount => throw _privateConstructorUsedError;
-
-  /// Serializes this CarrotRankingUserDTO to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of CarrotRankingUserDTO
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $CarrotRankingUserDTOCopyWith<CarrotRankingUserDTO> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $CarrotRankingUserDTOCopyWith<$Res> {
-  factory $CarrotRankingUserDTOCopyWith(CarrotRankingUserDTO value,
-          $Res Function(CarrotRankingUserDTO) then) =
-      _$CarrotRankingUserDTOCopyWithImpl<$Res, CarrotRankingUserDTO>;
-  @useResult
-  $Res call({int userId, int amount});
-}
-
-/// @nodoc
-class _$CarrotRankingUserDTOCopyWithImpl<$Res,
-        $Val extends CarrotRankingUserDTO>
-    implements $CarrotRankingUserDTOCopyWith<$Res> {
-  _$CarrotRankingUserDTOCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of CarrotRankingUserDTO
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? userId = null,
-    Object? amount = null,
-  }) {
-    return _then(_value.copyWith(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as int,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$CarrotRankingUserDTOImplCopyWith<$Res>
-    implements $CarrotRankingUserDTOCopyWith<$Res> {
-  factory _$$CarrotRankingUserDTOImplCopyWith(_$CarrotRankingUserDTOImpl value,
-          $Res Function(_$CarrotRankingUserDTOImpl) then) =
-      __$$CarrotRankingUserDTOImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({int userId, int amount});
-}
-
-/// @nodoc
-class __$$CarrotRankingUserDTOImplCopyWithImpl<$Res>
-    extends _$CarrotRankingUserDTOCopyWithImpl<$Res, _$CarrotRankingUserDTOImpl>
-    implements _$$CarrotRankingUserDTOImplCopyWith<$Res> {
-  __$$CarrotRankingUserDTOImplCopyWithImpl(_$CarrotRankingUserDTOImpl _value,
-      $Res Function(_$CarrotRankingUserDTOImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of CarrotRankingUserDTO
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? userId = null,
-    Object? amount = null,
-  }) {
-    return _then(_$CarrotRankingUserDTOImpl(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as int,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$CarrotRankingUserDTOImpl implements _CarrotRankingUserDTO {
-  const _$CarrotRankingUserDTOImpl(
-      {required this.userId, required this.amount});
-
-  factory _$CarrotRankingUserDTOImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CarrotRankingUserDTOImplFromJson(json);
-
-  @override
-  final int userId;
-  @override
-  final int amount;
-
-  @override
-  String toString() {
-    return 'CarrotRankingUserDTO(userId: $userId, amount: $amount)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CarrotRankingUserDTOImpl &&
-            (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.amount, amount) || other.amount == amount));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, userId, amount);
-
-  /// Create a copy of CarrotRankingUserDTO
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CarrotRankingUserDTOImplCopyWith<_$CarrotRankingUserDTOImpl>
-      get copyWith =>
-          __$$CarrotRankingUserDTOImplCopyWithImpl<_$CarrotRankingUserDTOImpl>(
-              this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$CarrotRankingUserDTOImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _CarrotRankingUserDTO implements CarrotRankingUserDTO {
-  const factory _CarrotRankingUserDTO(
-      {required final int userId,
-      required final int amount}) = _$CarrotRankingUserDTOImpl;
-
-  factory _CarrotRankingUserDTO.fromJson(Map<String, dynamic> json) =
-      _$CarrotRankingUserDTOImpl.fromJson;
-
-  @override
-  int get userId;
-  @override
-  int get amount;
-
-  /// Create a copy of CarrotRankingUserDTO
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CarrotRankingUserDTOImplCopyWith<_$CarrotRankingUserDTOImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }

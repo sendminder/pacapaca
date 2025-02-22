@@ -82,10 +82,6 @@
         "email_required": "이메일을 입력해주세요",
         "invalid_email": "올바른 이메일 형식을 입력해주세요"
     },
-    "ranking": {
-        "title": "당근 랭킹",
-        "error": "당근 랭킹 로드에 실패했어요: {}"
-    },
     "settings": {
         "title": "설정",
         "profile": "프로필 설정",
@@ -158,5 +154,14 @@
         "my_comments": "내 댓글",
         "my_likes": "내 좋아요",
         "my_scraps": "내 스크랩"
+    },
+    "ranking": {
+        "title": "랭킹",
+        "point_ranking": "포인트 랭킹",
+        "received_carrots": "당근 받은 순",
+        "sent_carrots": "당근 보낸 순",
+        "error": "오류가 발생했어요: {}",
+        "no_data": "데이터가 없어요",
+        "view_more": "더보기"
     }
 }

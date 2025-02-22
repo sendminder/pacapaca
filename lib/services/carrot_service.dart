@@ -89,7 +89,7 @@ class CarrotService {
   }
 
   // 랭킹 조회
-  Future<CarrotRankingDTO?> getRankings() async {
+  Future<ResponseCarrotRankings?> getRankings() async {
     try {
       final response = await _dio.get('/v1/carrots/rankings');
 
@@ -99,7 +99,7 @@ class CarrotService {
       );
 
       if (responseRest.response != null) {
-        return CarrotRankingDTO.fromJson(responseRest.response!);
+        return ResponseCarrotRankings.fromJson(responseRest.response!);
       }
       return null;
     } catch (e, stackTrace) {

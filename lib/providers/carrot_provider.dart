@@ -76,7 +76,7 @@ class CarrotRankings extends _$CarrotRankings {
   static const _cacheValidDuration = Duration(minutes: 5);
 
   @override
-  FutureOr<CarrotRankingDTO?> build() async {
+  FutureOr<ResponseCarrotRankings?> build() async {
     // 캐시가 유효한 경우 기존 데이터 반환
     if (state.hasValue &&
         state.value != null &&

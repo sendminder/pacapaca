@@ -40,12 +40,12 @@ final carrotTransactionsProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$CarrotTransactions
     = AutoDisposeAsyncNotifier<List<CarrotTransactionDTO>?>;
-String _$carrotRankingsHash() => r'00746e35df91eee7831c2000971e19049e2d832c';
+String _$carrotRankingsHash() => r'414008649aa560817106b02592ef052734ce3fc3';
 
 /// See also [CarrotRankings].
 @ProviderFor(CarrotRankings)
 final carrotRankingsProvider = AutoDisposeAsyncNotifierProvider<CarrotRankings,
-    CarrotRankingDTO?>.internal(
+    ResponseCarrotRankings?>.internal(
   CarrotRankings.new,
   name: r'carrotRankingsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -55,7 +55,7 @@ final carrotRankingsProvider = AutoDisposeAsyncNotifierProvider<CarrotRankings,
   allTransitiveDependencies: null,
 );
 
-typedef _$CarrotRankings = AutoDisposeAsyncNotifier<CarrotRankingDTO?>;
+typedef _$CarrotRankings = AutoDisposeAsyncNotifier<ResponseCarrotRankings?>;
 String _$carrotSenderHash() => r'2f163f042c3db5eecbf1b0e4515737eff5d49c1e';
 
 /// See also [CarrotSender].

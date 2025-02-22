@@ -29,6 +29,18 @@ class RequestListTransactions with _$RequestListTransactions {
 }
 
 @freezed
+class ResponseCarrotRankings with _$ResponseCarrotRankings {
+  const factory ResponseCarrotRankings({
+    @JsonKey(name: 'top_receivers')
+    required List<CarrotRankingDTO> topReceivers,
+    @JsonKey(name: 'top_senders') required List<CarrotRankingDTO> topSenders,
+  }) = _ResponseCarrotRankings;
+
+  factory ResponseCarrotRankings.fromJson(Map<String, dynamic> json) =>
+      _$ResponseCarrotRankingsFromJson(json);
+}
+
+@freezed
 class CarrotTransactionDTO with _$CarrotTransactionDTO {
   const factory CarrotTransactionDTO({
     required int id,
@@ -59,23 +71,12 @@ class CarrotBalanceDTO with _$CarrotBalanceDTO {
 @freezed
 class CarrotRankingDTO with _$CarrotRankingDTO {
   const factory CarrotRankingDTO({
-    @JsonKey(name: 'top_receivers')
-    required List<CarrotRankingUserDTO> topReceivers,
-    @JsonKey(name: 'top_senders')
-    required List<CarrotRankingUserDTO> topSenders,
+    @JsonKey(name: 'user_id') required int userId,
+    required String nickname,
+    @JsonKey(name: 'profile_image_url') String? profileImageUrl,
+    required int total,
   }) = _CarrotRankingDTO;
 
   factory CarrotRankingDTO.fromJson(Map<String, dynamic> json) =>
       _$CarrotRankingDTOFromJson(json);
-}
-
-@freezed
-class CarrotRankingUserDTO with _$CarrotRankingUserDTO {
-  const factory CarrotRankingUserDTO({
-    required int userId,
-    required int amount,
-  }) = _CarrotRankingUserDTO;
-
-  factory CarrotRankingUserDTO.fromJson(Map<String, dynamic> json) =>
-      _$CarrotRankingUserDTOFromJson(json);
 }
