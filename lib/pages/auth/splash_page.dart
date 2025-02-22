@@ -30,7 +30,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
         //   context.go('/notice-check');
         // } else
 
-        if (user.nickname.isEmpty) {
+        if (user.displayUser.nickname.isEmpty) {
           context.go('/set-nickname');
         } else {
           context.go('/articles');

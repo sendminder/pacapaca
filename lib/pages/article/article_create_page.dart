@@ -96,7 +96,8 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
         child: ArticleForm(
           titleController: _titleController,
           contentController: _contentController,
-          nickname: currentUser?.nickname ?? 'article.unknown_user'.tr(),
+          nickname:
+              currentUser?.displayUser.nickname ?? 'article.unknown_user'.tr(),
           selectedCategory: selectedCategory == ArticleCategory.all
               ? ArticleCategory.daily // 카테고리가 전체일때는 일상으로 설정
               : selectedCategory,

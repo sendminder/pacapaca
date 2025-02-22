@@ -76,17 +76,21 @@ class RouterNotifier extends ChangeNotifier {
         if (needAuth && user == null) return '/login';
 
         if (isLoggingIn && user != null) {
-          if (user.nickname.isEmpty) {
+          if (user.displayUser.nickname.isEmpty) {
             return '/set-nickname';
           }
           return '/articles';
         }
 
-        if (user != null && user.nickname.isEmpty && !isSettingNickname) {
+        if (user != null &&
+            user.displayUser.nickname.isEmpty &&
+            !isSettingNickname) {
           return '/set-nickname';
         }
 
-        if (isSettingNickname && user != null && user.nickname.isNotEmpty) {
+        if (isSettingNickname &&
+            user != null &&
+            user.displayUser.nickname.isNotEmpty) {
           return '/articles';
         }
 

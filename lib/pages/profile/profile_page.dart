@@ -25,7 +25,7 @@ class ProfilePage extends ConsumerWidget {
       body: ListView(
         children: [
           // 프로필 헤더
-          _buildProfileHeader(context, user?.nickname ?? ''),
+          _buildProfileHeader(context, user?.displayUser.nickname ?? ''),
 
           const Divider(height: 32),
 
