@@ -6,7 +6,7 @@ class RankingListItem extends StatelessWidget {
   final String? profileImageUrl;
   final String score;
   final VoidCallback? onTap;
-  final String defaultProfilePath = "assets/profiles/pacapoo.jpeg";
+  final String defaultProfilePath = "assets/profiles/pacappu.jpeg";
 
   const RankingListItem({
     super.key,

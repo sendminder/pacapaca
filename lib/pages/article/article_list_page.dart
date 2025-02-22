@@ -273,7 +273,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
           heroTag: 'ai_helper',
           onPressed: () => context.push('/articles/ai-helper'),
           child: Image.asset(
-            'assets/profiles/pacapee_origin.png',
+            'assets/profiles/pacappi_origin.png',
             width: 40,
             height: 40,
           ),

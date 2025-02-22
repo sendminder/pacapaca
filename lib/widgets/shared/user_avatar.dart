@@ -18,7 +18,7 @@ class UserAvatar extends StatelessWidget {
       radius: radius,
       backgroundImage: imageUrl.isNotEmpty
           ? NetworkImage(imageUrl)
-          : const AssetImage('assets/profiles/pacapoo.jpeg') as ImageProvider,
+          : const AssetImage('assets/profiles/pacappu.jpeg') as ImageProvider,
     );
   }
 }
