@@ -6,7 +6,6 @@ import 'package:pacapaca/widgets/ranking/ranking_list_item.dart';
 import 'package:pacapaca/providers/point_provider.dart';
 import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/widgets/page_title.dart';
-import 'package:pacapaca/pages/ranking/ranking_detail_page.dart';
 import 'package:pacapaca/pages/ranking/ranking_type.dart';
 import 'package:go_router/go_router.dart';
 
@@ -135,7 +134,7 @@ class RankingPage extends ConsumerWidget {
     RankingType type,
   ) {
     context.push(
-      '/ranking/$type',
+      '/ranking/${type.value}',
       extra: title,
     );
   }

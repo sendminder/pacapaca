@@ -75,11 +75,13 @@ class CarrotService {
       );
 
       if (responseRest.response != null) {
-        final List<dynamic> transactions =
-            responseRest.response!['transactions'];
-        return transactions
-            .map((json) => CarrotTransactionDTO.fromJson(json))
-            .toList();
+        if (responseRest.response!['transactions'] != null) {
+          final List<dynamic> transactions =
+              responseRest.response!['transactions'];
+          return transactions
+              .map((json) => CarrotTransactionDTO.fromJson(json))
+              .toList();
+        }
       }
       return null;
     } catch (e, stackTrace) {
@@ -98,7 +100,8 @@ class CarrotService {
         (json) => json as Map<String, dynamic>,
       );
 
-      if (responseRest.response != null) {
+      if (responseRest.response != null &&
+          responseRest.response!['rankings'] != null) {
         return ResponseCarrotRankings.fromJson(responseRest.response!);
       }
       return null;

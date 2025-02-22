@@ -6,6 +6,7 @@ class RankingListItem extends StatelessWidget {
   final String? profileImageUrl;
   final String score;
   final VoidCallback? onTap;
+  final String defaultProfilePath = "assets/profiles/pacapoo.jpeg";
 
   const RankingListItem({
     super.key,
@@ -43,7 +44,9 @@ class RankingListItem extends StatelessWidget {
           const SizedBox(width: 8),
           CircleAvatar(
             backgroundImage:
-                profileImageUrl != null ? NetworkImage(profileImageUrl!) : null,
+                profileImageUrl != null && profileImageUrl!.isNotEmpty
+                    ? NetworkImage(profileImageUrl!)
+                    : AssetImage(defaultProfilePath) as ImageProvider,
             child: profileImageUrl == null ? const Icon(Icons.person) : null,
           ),
         ],

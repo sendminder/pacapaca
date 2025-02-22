@@ -28,7 +28,7 @@ class PointService {
       );
 
       if (responseRest.response != null) {
-        final List<dynamic> rankings = responseRest.response!['rankings'];
+        final List<dynamic> rankings = responseRest.response!['top_users'];
         return rankings.map((json) => PointRankingDTO.fromJson(json)).toList();
       }
       return null;

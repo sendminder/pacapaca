@@ -203,6 +203,7 @@ class RouterNotifier extends ChangeNotifier {
                   routes: [
                     GoRoute(
                       path: ':type',
+                      parentNavigatorKey: _rootNavigatorKey,
                       builder: (context, state) => RankingDetailPage(
                         title: state.extra as String,
                         type: RankingType
