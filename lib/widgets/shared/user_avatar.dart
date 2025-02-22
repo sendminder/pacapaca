@@ -16,8 +16,9 @@ class UserAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: radius,
-      backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
-      child: imageUrl.isEmpty ? Text(fallbackText[0]) : null,
+      backgroundImage: imageUrl.isNotEmpty
+          ? NetworkImage(imageUrl)
+          : const AssetImage('assets/profiles/pacapoo.jpeg') as ImageProvider,
     );
   }
 }

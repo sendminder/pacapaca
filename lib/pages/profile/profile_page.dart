@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
+import 'package:pacapaca/widgets/shared/user_avatar.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -45,13 +46,10 @@ class ProfilePage extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          CircleAvatar(
+          UserAvatar(
+            imageUrl: '', // TODO: 사용자 이미지 URL 추가
+            fallbackText: nickname.isEmpty ? '?' : nickname,
             radius: 40,
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            child: Text(
-              nickname.isEmpty ? '?' : nickname[0].toUpperCase(),
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
           ),
           const SizedBox(width: 16),
           Expanded(

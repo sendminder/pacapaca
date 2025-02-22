@@ -23,7 +23,7 @@ final articleServiceProvider = AutoDisposeProvider<ArticleService>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ArticleServiceRef = AutoDisposeProviderRef<ArticleService>;
-String _$articleListHash() => r'bd4197e91b3eb47c7baa33e2b469885783d00a8c';
+String _$articleListHash() => r'dd562284281211c00830aaf0c9cea323797358d0';
 
 /// Copied from Dart SDK
 class _SystemHash {
