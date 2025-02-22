@@ -52,8 +52,11 @@ class RouterNotifier extends ChangeNotifier {
       authProvider,
       (previous, current) {
         logger.d('----> authStateProvider $previous -> $current');
-        _lastKnownState = current; // 캐시된 상태 업데이트
-        notifyListeners();
+        if (_lastKnownState != current) {
+          // 변경된 경우에만 캐시된 상태 업데이트
+          _lastKnownState = current;
+          notifyListeners();
+        }
       },
     );
   }

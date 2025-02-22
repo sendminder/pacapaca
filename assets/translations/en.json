@@ -142,7 +142,11 @@
         "title": "Profile",
         "my_activity": "My Activity",
         "my_posts": "My Posts",
-        "my_comments": "My Comments"
+        "my_comments": "My Comments",
+        "my_likes": "My Likes",
+        "my_scraps": "My Scraps",
+        "my_points": "My Points",
+        "liked_posts": "Liked Posts"
     },
     "ranking": {
         "title": "Ranking",

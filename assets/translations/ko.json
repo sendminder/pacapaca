@@ -153,7 +153,9 @@
         "my_articles": "내 게시글",
         "my_comments": "내 댓글",
         "my_likes": "내 좋아요",
-        "my_scraps": "내 스크랩"
+        "my_scraps": "내 스크랩",
+        "my_points": "내 포인트",
+        "liked_posts": "좋아요 누른 게시글"
     },
     "ranking": {
         "title": "랭킹",
