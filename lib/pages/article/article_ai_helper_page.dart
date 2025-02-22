@@ -203,12 +203,15 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
         appBar: AppBar(
           title: Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/profiles/pacapee.jpeg',
-                  width: 40,
-                  height: 40,
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: AssetImage('assets/profiles/pacapee.jpeg'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -245,13 +248,14 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              margin: const EdgeInsets.only(right: 8),
-                              child: ClipRRect(
+                              width: 35,
+                              height: 35,
+                              decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                child: Image.asset(
-                                  'assets/profiles/pacapee.jpeg',
-                                  width: 35,
-                                  height: 35,
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/profiles/pacapee.jpeg'),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -292,12 +296,16 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
                           if (!isUser) ...[
                             Container(
                               margin: const EdgeInsets.only(right: 8),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.asset(
-                                  'assets/profiles/pacapee.jpeg',
-                                  width: 35,
-                                  height: 35,
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/profiles/pacapee.jpeg'),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
@@ -453,12 +461,15 @@ class DraftPreviewBottomSheet extends StatelessWidget {
         children: [
           Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.asset(
-                  'assets/profiles/pacapee.jpeg',
-                  width: 30,
-                  height: 30,
+              Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: AssetImage('assets/profiles/pacapee.jpeg'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),

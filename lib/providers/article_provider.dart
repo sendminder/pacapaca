@@ -79,9 +79,10 @@ class ArticleList extends _$ArticleList {
     required int limit,
     ArticleCategory? category,
   }) async {
-    final lastArticle = state.value?.last;
-    final pagingViewCount = lastArticle?.viewCount;
-    final pagingArticleId = lastArticle?.id;
+    if (state.value == null) return;
+    final lastArticle = state.value!.last;
+    final pagingViewCount = lastArticle.viewCount;
+    final pagingArticleId = lastArticle.id;
     // 이전과 같은 페이징 키면 요청하지 않음
     if (pagingViewCount == _lastPagingViewCount &&
         pagingArticleId == _lastPagingArticleId) {
