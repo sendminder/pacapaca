@@ -6,12 +6,12 @@ part of 'carrot_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$carrotBalanceHash() => r'8673a28e4271c2d5e0b8c5950b42ada7fb6a9396';
+String _$carrotBalanceHash() => r'90c4d257ffe60dc6919f66a8083ab64bbe8ad86e';
 
 /// See also [CarrotBalance].
 @ProviderFor(CarrotBalance)
-final carrotBalanceProvider =
-    AutoDisposeAsyncNotifierProvider<CarrotBalance, CarrotBalanceDTO?>.internal(
+final carrotBalanceProvider = AutoDisposeAsyncNotifierProvider<CarrotBalance,
+    ResponseCarrotBalance?>.internal(
   CarrotBalance.new,
   name: r'carrotBalanceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,7 +21,7 @@ final carrotBalanceProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$CarrotBalance = AutoDisposeAsyncNotifier<CarrotBalanceDTO?>;
+typedef _$CarrotBalance = AutoDisposeAsyncNotifier<ResponseCarrotBalance?>;
 String _$carrotTransactionsHash() =>
     r'641c49621408400c94fd437846dfa94051e3dd31';
 
@@ -56,7 +56,7 @@ final carrotRankingsProvider = AutoDisposeAsyncNotifierProvider<CarrotRankings,
 );
 
 typedef _$CarrotRankings = AutoDisposeAsyncNotifier<ResponseCarrotRankings?>;
-String _$carrotSenderHash() => r'2f163f042c3db5eecbf1b0e4515737eff5d49c1e';
+String _$carrotSenderHash() => r'd3227417d0be735579143ad2e9fa17448ed14180';
 
 /// See also [CarrotSender].
 @ProviderFor(CarrotSender)

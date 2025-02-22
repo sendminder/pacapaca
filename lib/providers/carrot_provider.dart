@@ -11,7 +11,7 @@ class CarrotBalance extends _$CarrotBalance {
   final _carrotService = GetIt.instance<CarrotService>();
 
   @override
-  FutureOr<CarrotBalanceDTO?> build() async {
+  FutureOr<ResponseCarrotBalance?> build() async {
     return _carrotService.getBalance();
   }
 
@@ -104,7 +104,7 @@ class CarrotSender extends _$CarrotSender {
   @override
   FutureOr<void> build() {}
 
-  Future<CarrotBalanceDTO?> sendCarrots(RequestSendCarrots request) async {
+  Future<ResponseCarrotBalance?> sendCarrots(RequestSendCarrots request) async {
     state = const AsyncLoading();
     try {
       final balance = await _carrotService.sendCarrots(request);

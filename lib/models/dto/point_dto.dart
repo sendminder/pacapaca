@@ -4,6 +4,29 @@ part 'point_dto.freezed.dart';
 part 'point_dto.g.dart';
 
 @freezed
+class RequestListPointRankings with _$RequestListPointRankings {
+  const factory RequestListPointRankings({
+    required int limit,
+    @JsonKey(name: 'paging_user_id') int? pagingUserId,
+    @JsonKey(name: 'paging_amount') int? pagingAmount,
+  }) = _RequestListPointRankings;
+
+  factory RequestListPointRankings.fromJson(Map<String, dynamic> json) =>
+      _$RequestListPointRankingsFromJson(json);
+}
+
+@freezed
+class RequestListPointsHistory with _$RequestListPointsHistory {
+  const factory RequestListPointsHistory({
+    required int limit,
+    @JsonKey(name: 'paging_key') int? pagingKey,
+  }) = _RequestListPointsHistory;
+
+  factory RequestListPointsHistory.fromJson(Map<String, dynamic> json) =>
+      _$RequestListPointsHistoryFromJson(json);
+}
+
+@freezed
 class ResponseGetTopPointUsers with _$ResponseGetTopPointUsers {
   const factory ResponseGetTopPointUsers({
     @JsonKey(name: 'top_users') required List<DisplayUserDTO> topUsers,
@@ -37,6 +60,7 @@ class ResponseGetPointBalance with _$ResponseGetPointBalance {
 @freezed
 class PointsHistoryDTO with _$PointsHistoryDTO {
   const factory PointsHistoryDTO({
+    required int id,
     @JsonKey(name: 'user_id') required int userId,
     required int amount,
     required String description,

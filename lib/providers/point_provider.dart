@@ -25,14 +25,12 @@ class PointBalance extends _$PointBalance {
 class PointHistories extends _$PointHistories {
   final _pointService = GetIt.instance<PointService>();
 
-  int? _lastPagingUserId;
-  int? _lastPagingAmount;
+  int? _lastPagingKey;
   static const int _pageSize = 20;
 
   @override
   FutureOr<List<PointsHistoryDTO>?> build() async {
-    _lastPagingUserId = null;
-    _lastPagingAmount = null;
+    _lastPagingKey = null;
     return _pointService.getHistories(limit: _pageSize);
   }
 
@@ -42,17 +40,14 @@ class PointHistories extends _$PointHistories {
 
     final lastHistory = currentHistories.last;
     // 이전과 같은 페이징 키면 요청하지 않음
-    if (lastHistory.userId == _lastPagingUserId &&
-        lastHistory.amount == _lastPagingAmount) return;
+    if (lastHistory.id == _lastPagingKey) return;
 
     try {
-      _lastPagingUserId = lastHistory.userId;
-      _lastPagingAmount = lastHistory.amount;
+      _lastPagingKey = lastHistory.id;
 
       final moreHistories = await _pointService.getHistories(
         limit: _pageSize,
-        pagingUserID: lastHistory.userId,
-        pagingAmount: lastHistory.amount,
+        pagingKey: lastHistory.id,
       );
 
       if (moreHistories == null || moreHistories.isEmpty) return;
@@ -72,22 +67,55 @@ class PointHistories extends _$PointHistories {
 @riverpod
 class PointRankings extends _$PointRankings {
   final _pointService = GetIt.instance<PointService>();
+
+  int? _lastPagingUserId;
+  int? _lastPagingAmount;
+
   DateTime? _lastFetchTime;
   static const _cacheValidDuration = Duration(minutes: 5);
 
   @override
   FutureOr<List<DisplayUserDTO>?> build() async {
-    // 캐시가 유효한 경우 기존 데이터 반환
-    if (state.hasValue &&
-        state.value != null &&
-        _lastFetchTime != null &&
+    if (_lastFetchTime != null &&
         DateTime.now().difference(_lastFetchTime!) < _cacheValidDuration) {
       return state.value;
     }
 
-    final rankings = await _pointService.getRankings();
+    final rankings = await _pointService.getRankings(
+      pagingUserId: state.value?.last.id,
+      pagingAmount: state.value?.last.points,
+    );
+    _lastPagingUserId = rankings?.last.id;
+    _lastPagingAmount = rankings?.last.points;
     _lastFetchTime = DateTime.now();
     return rankings;
+  }
+
+  Future<void> loadMore() async {
+    final currentRankings = state.value ?? [];
+    if (currentRankings.isEmpty) return;
+
+    final lastRanking = currentRankings.last;
+    if (lastRanking.id == _lastPagingUserId &&
+        lastRanking.points == _lastPagingAmount) {
+      return;
+    }
+
+    try {
+      _lastPagingUserId = lastRanking.id;
+      _lastPagingAmount = lastRanking.points;
+
+      final moreRankings = await _pointService.getRankings(
+        pagingUserId: lastRanking.id,
+        pagingAmount: lastRanking.points,
+      );
+
+      if (moreRankings == null || moreRankings.isEmpty) return;
+
+      state = AsyncData([...currentRankings, ...moreRankings]);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+    }
   }
 
   Future<void> refresh() async {

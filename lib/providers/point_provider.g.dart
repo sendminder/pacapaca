@@ -21,7 +21,7 @@ final pointBalanceProvider =
 );
 
 typedef _$PointBalance = AutoDisposeAsyncNotifier<int?>;
-String _$pointHistoriesHash() => r'06edac7efc44c752a7df2592f99dc19ac44f6028';
+String _$pointHistoriesHash() => r'ec3760aa9f9e146137f0a1c5e04404c3a085f972';
 
 /// See also [PointHistories].
 @ProviderFor(PointHistories)

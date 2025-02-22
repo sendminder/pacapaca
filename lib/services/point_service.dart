@@ -13,14 +13,19 @@ class PointService {
   // 포인트 랭킹 조회
   Future<List<DisplayUserDTO>?> getRankings({
     int? limit = 20,
+    int? pagingUserId,
+    int? pagingAmount,
   }) async {
     try {
-      final queryParams = {
-        'limit': limit,
-      };
+      final request = RequestListPointRankings(
+        limit: limit ?? 20,
+        pagingUserId: pagingUserId,
+        pagingAmount: pagingAmount,
+      );
+
       final response = await _dio.get(
         '/v1/points/rankings',
-        queryParameters: queryParams,
+        queryParameters: request.toJson(),
       );
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
@@ -29,8 +34,10 @@ class PointService {
       );
 
       if (responseRest.response != null) {
-        final List<dynamic> rankings = responseRest.response!['top_users'];
-        return rankings.map((json) => DisplayUserDTO.fromJson(json)).toList();
+        final pointRankings = ResponseGetTopPointUsers.fromJson(
+          responseRest.response!,
+        );
+        return pointRankings.topUsers;
       }
       return null;
     } catch (e, stackTrace) {
@@ -50,7 +57,10 @@ class PointService {
       );
 
       if (responseRest.response != null) {
-        return responseRest.response!['balance'] as int;
+        final pointBalance = ResponseGetPointBalance.fromJson(
+          responseRest.response!,
+        );
+        return pointBalance.balance;
       }
       return null;
     } catch (e, stackTrace) {
@@ -62,19 +72,17 @@ class PointService {
   // 포인트 내역 조회
   Future<List<PointsHistoryDTO>?> getHistories({
     required int limit,
-    int? pagingUserID,
-    int? pagingAmount,
+    int? pagingKey,
   }) async {
     try {
-      final queryParams = {
-        'limit': limit,
-        if (pagingUserID != null) 'paging_user_id': pagingUserID,
-        if (pagingAmount != null) 'paging_amount': pagingAmount,
-      };
+      final request = RequestListPointsHistory(
+        limit: limit,
+        pagingKey: pagingKey,
+      );
 
       final response = await _dio.get(
         '/v1/points/histories',
-        queryParameters: queryParams,
+        queryParameters: request.toJson(),
       );
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
@@ -83,10 +91,10 @@ class PointService {
       );
 
       if (responseRest.response != null) {
-        final List<dynamic> histories = responseRest.response!['histories'];
-        return histories
-            .map((json) => PointsHistoryDTO.fromJson(json))
-            .toList();
+        final pointHistories = ResponseGetPointsHistory.fromJson(
+          responseRest.response!,
+        );
+        return pointHistories.histories;
       }
       return null;
     } catch (e, stackTrace) {

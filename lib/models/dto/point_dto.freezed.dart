@@ -14,6 +14,394 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+RequestListPointRankings _$RequestListPointRankingsFromJson(
+    Map<String, dynamic> json) {
+  return _RequestListPointRankings.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RequestListPointRankings {
+  int get limit => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paging_user_id')
+  int? get pagingUserId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paging_amount')
+  int? get pagingAmount => throw _privateConstructorUsedError;
+
+  /// Serializes this RequestListPointRankings to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RequestListPointRankings
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RequestListPointRankingsCopyWith<RequestListPointRankings> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RequestListPointRankingsCopyWith<$Res> {
+  factory $RequestListPointRankingsCopyWith(RequestListPointRankings value,
+          $Res Function(RequestListPointRankings) then) =
+      _$RequestListPointRankingsCopyWithImpl<$Res, RequestListPointRankings>;
+  @useResult
+  $Res call(
+      {int limit,
+      @JsonKey(name: 'paging_user_id') int? pagingUserId,
+      @JsonKey(name: 'paging_amount') int? pagingAmount});
+}
+
+/// @nodoc
+class _$RequestListPointRankingsCopyWithImpl<$Res,
+        $Val extends RequestListPointRankings>
+    implements $RequestListPointRankingsCopyWith<$Res> {
+  _$RequestListPointRankingsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RequestListPointRankings
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? limit = null,
+    Object? pagingUserId = freezed,
+    Object? pagingAmount = freezed,
+  }) {
+    return _then(_value.copyWith(
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingUserId: freezed == pagingUserId
+          ? _value.pagingUserId
+          : pagingUserId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      pagingAmount: freezed == pagingAmount
+          ? _value.pagingAmount
+          : pagingAmount // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RequestListPointRankingsImplCopyWith<$Res>
+    implements $RequestListPointRankingsCopyWith<$Res> {
+  factory _$$RequestListPointRankingsImplCopyWith(
+          _$RequestListPointRankingsImpl value,
+          $Res Function(_$RequestListPointRankingsImpl) then) =
+      __$$RequestListPointRankingsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int limit,
+      @JsonKey(name: 'paging_user_id') int? pagingUserId,
+      @JsonKey(name: 'paging_amount') int? pagingAmount});
+}
+
+/// @nodoc
+class __$$RequestListPointRankingsImplCopyWithImpl<$Res>
+    extends _$RequestListPointRankingsCopyWithImpl<$Res,
+        _$RequestListPointRankingsImpl>
+    implements _$$RequestListPointRankingsImplCopyWith<$Res> {
+  __$$RequestListPointRankingsImplCopyWithImpl(
+      _$RequestListPointRankingsImpl _value,
+      $Res Function(_$RequestListPointRankingsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RequestListPointRankings
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? limit = null,
+    Object? pagingUserId = freezed,
+    Object? pagingAmount = freezed,
+  }) {
+    return _then(_$RequestListPointRankingsImpl(
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingUserId: freezed == pagingUserId
+          ? _value.pagingUserId
+          : pagingUserId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      pagingAmount: freezed == pagingAmount
+          ? _value.pagingAmount
+          : pagingAmount // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RequestListPointRankingsImpl implements _RequestListPointRankings {
+  const _$RequestListPointRankingsImpl(
+      {required this.limit,
+      @JsonKey(name: 'paging_user_id') this.pagingUserId,
+      @JsonKey(name: 'paging_amount') this.pagingAmount});
+
+  factory _$RequestListPointRankingsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestListPointRankingsImplFromJson(json);
+
+  @override
+  final int limit;
+  @override
+  @JsonKey(name: 'paging_user_id')
+  final int? pagingUserId;
+  @override
+  @JsonKey(name: 'paging_amount')
+  final int? pagingAmount;
+
+  @override
+  String toString() {
+    return 'RequestListPointRankings(limit: $limit, pagingUserId: $pagingUserId, pagingAmount: $pagingAmount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestListPointRankingsImpl &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.pagingUserId, pagingUserId) ||
+                other.pagingUserId == pagingUserId) &&
+            (identical(other.pagingAmount, pagingAmount) ||
+                other.pagingAmount == pagingAmount));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, limit, pagingUserId, pagingAmount);
+
+  /// Create a copy of RequestListPointRankings
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestListPointRankingsImplCopyWith<_$RequestListPointRankingsImpl>
+      get copyWith => __$$RequestListPointRankingsImplCopyWithImpl<
+          _$RequestListPointRankingsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestListPointRankingsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RequestListPointRankings implements RequestListPointRankings {
+  const factory _RequestListPointRankings(
+          {required final int limit,
+          @JsonKey(name: 'paging_user_id') final int? pagingUserId,
+          @JsonKey(name: 'paging_amount') final int? pagingAmount}) =
+      _$RequestListPointRankingsImpl;
+
+  factory _RequestListPointRankings.fromJson(Map<String, dynamic> json) =
+      _$RequestListPointRankingsImpl.fromJson;
+
+  @override
+  int get limit;
+  @override
+  @JsonKey(name: 'paging_user_id')
+  int? get pagingUserId;
+  @override
+  @JsonKey(name: 'paging_amount')
+  int? get pagingAmount;
+
+  /// Create a copy of RequestListPointRankings
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequestListPointRankingsImplCopyWith<_$RequestListPointRankingsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RequestListPointsHistory _$RequestListPointsHistoryFromJson(
+    Map<String, dynamic> json) {
+  return _RequestListPointsHistory.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RequestListPointsHistory {
+  int get limit => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey => throw _privateConstructorUsedError;
+
+  /// Serializes this RequestListPointsHistory to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RequestListPointsHistory
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RequestListPointsHistoryCopyWith<RequestListPointsHistory> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RequestListPointsHistoryCopyWith<$Res> {
+  factory $RequestListPointsHistoryCopyWith(RequestListPointsHistory value,
+          $Res Function(RequestListPointsHistory) then) =
+      _$RequestListPointsHistoryCopyWithImpl<$Res, RequestListPointsHistory>;
+  @useResult
+  $Res call({int limit, @JsonKey(name: 'paging_key') int? pagingKey});
+}
+
+/// @nodoc
+class _$RequestListPointsHistoryCopyWithImpl<$Res,
+        $Val extends RequestListPointsHistory>
+    implements $RequestListPointsHistoryCopyWith<$Res> {
+  _$RequestListPointsHistoryCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RequestListPointsHistory
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? limit = null,
+    Object? pagingKey = freezed,
+  }) {
+    return _then(_value.copyWith(
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RequestListPointsHistoryImplCopyWith<$Res>
+    implements $RequestListPointsHistoryCopyWith<$Res> {
+  factory _$$RequestListPointsHistoryImplCopyWith(
+          _$RequestListPointsHistoryImpl value,
+          $Res Function(_$RequestListPointsHistoryImpl) then) =
+      __$$RequestListPointsHistoryImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int limit, @JsonKey(name: 'paging_key') int? pagingKey});
+}
+
+/// @nodoc
+class __$$RequestListPointsHistoryImplCopyWithImpl<$Res>
+    extends _$RequestListPointsHistoryCopyWithImpl<$Res,
+        _$RequestListPointsHistoryImpl>
+    implements _$$RequestListPointsHistoryImplCopyWith<$Res> {
+  __$$RequestListPointsHistoryImplCopyWithImpl(
+      _$RequestListPointsHistoryImpl _value,
+      $Res Function(_$RequestListPointsHistoryImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RequestListPointsHistory
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? limit = null,
+    Object? pagingKey = freezed,
+  }) {
+    return _then(_$RequestListPointsHistoryImpl(
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RequestListPointsHistoryImpl implements _RequestListPointsHistory {
+  const _$RequestListPointsHistoryImpl(
+      {required this.limit, @JsonKey(name: 'paging_key') this.pagingKey});
+
+  factory _$RequestListPointsHistoryImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestListPointsHistoryImplFromJson(json);
+
+  @override
+  final int limit;
+  @override
+  @JsonKey(name: 'paging_key')
+  final int? pagingKey;
+
+  @override
+  String toString() {
+    return 'RequestListPointsHistory(limit: $limit, pagingKey: $pagingKey)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestListPointsHistoryImpl &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.pagingKey, pagingKey) ||
+                other.pagingKey == pagingKey));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, limit, pagingKey);
+
+  /// Create a copy of RequestListPointsHistory
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestListPointsHistoryImplCopyWith<_$RequestListPointsHistoryImpl>
+      get copyWith => __$$RequestListPointsHistoryImplCopyWithImpl<
+          _$RequestListPointsHistoryImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestListPointsHistoryImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RequestListPointsHistory implements RequestListPointsHistory {
+  const factory _RequestListPointsHistory(
+          {required final int limit,
+          @JsonKey(name: 'paging_key') final int? pagingKey}) =
+      _$RequestListPointsHistoryImpl;
+
+  factory _RequestListPointsHistory.fromJson(Map<String, dynamic> json) =
+      _$RequestListPointsHistoryImpl.fromJson;
+
+  @override
+  int get limit;
+  @override
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey;
+
+  /// Create a copy of RequestListPointsHistory
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequestListPointsHistoryImplCopyWith<_$RequestListPointsHistoryImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 ResponseGetTopPointUsers _$ResponseGetTopPointUsersFromJson(
     Map<String, dynamic> json) {
   return _ResponseGetTopPointUsers.fromJson(json);
@@ -547,6 +935,7 @@ PointsHistoryDTO _$PointsHistoryDTOFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PointsHistoryDTO {
+  int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
   int get userId => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
@@ -571,7 +960,8 @@ abstract class $PointsHistoryDTOCopyWith<$Res> {
       _$PointsHistoryDTOCopyWithImpl<$Res, PointsHistoryDTO>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'user_id') int userId,
+      {int id,
+      @JsonKey(name: 'user_id') int userId,
       int amount,
       String description,
       @JsonKey(name: 'create_time') String createTime});
@@ -592,12 +982,17 @@ class _$PointsHistoryDTOCopyWithImpl<$Res, $Val extends PointsHistoryDTO>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? userId = null,
     Object? amount = null,
     Object? description = null,
     Object? createTime = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -627,7 +1022,8 @@ abstract class _$$PointsHistoryDTOImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'user_id') int userId,
+      {int id,
+      @JsonKey(name: 'user_id') int userId,
       int amount,
       String description,
       @JsonKey(name: 'create_time') String createTime});
@@ -646,12 +1042,17 @@ class __$$PointsHistoryDTOImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? userId = null,
     Object? amount = null,
     Object? description = null,
     Object? createTime = null,
   }) {
     return _then(_$PointsHistoryDTOImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -676,7 +1077,8 @@ class __$$PointsHistoryDTOImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PointsHistoryDTOImpl implements _PointsHistoryDTO {
   const _$PointsHistoryDTOImpl(
-      {@JsonKey(name: 'user_id') required this.userId,
+      {required this.id,
+      @JsonKey(name: 'user_id') required this.userId,
       required this.amount,
       required this.description,
       @JsonKey(name: 'create_time') required this.createTime});
@@ -684,6 +1086,8 @@ class _$PointsHistoryDTOImpl implements _PointsHistoryDTO {
   factory _$PointsHistoryDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$PointsHistoryDTOImplFromJson(json);
 
+  @override
+  final int id;
   @override
   @JsonKey(name: 'user_id')
   final int userId;
@@ -697,7 +1101,7 @@ class _$PointsHistoryDTOImpl implements _PointsHistoryDTO {
 
   @override
   String toString() {
-    return 'PointsHistoryDTO(userId: $userId, amount: $amount, description: $description, createTime: $createTime)';
+    return 'PointsHistoryDTO(id: $id, userId: $userId, amount: $amount, description: $description, createTime: $createTime)';
   }
 
   @override
@@ -705,6 +1109,7 @@ class _$PointsHistoryDTOImpl implements _PointsHistoryDTO {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PointsHistoryDTOImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.description, description) ||
@@ -716,7 +1121,7 @@ class _$PointsHistoryDTOImpl implements _PointsHistoryDTO {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, userId, amount, description, createTime);
+      Object.hash(runtimeType, id, userId, amount, description, createTime);
 
   /// Create a copy of PointsHistoryDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -737,7 +1142,8 @@ class _$PointsHistoryDTOImpl implements _PointsHistoryDTO {
 
 abstract class _PointsHistoryDTO implements PointsHistoryDTO {
   const factory _PointsHistoryDTO(
-          {@JsonKey(name: 'user_id') required final int userId,
+          {required final int id,
+          @JsonKey(name: 'user_id') required final int userId,
           required final int amount,
           required final String description,
           @JsonKey(name: 'create_time') required final String createTime}) =
@@ -746,6 +1152,8 @@ abstract class _PointsHistoryDTO implements PointsHistoryDTO {
   factory _PointsHistoryDTO.fromJson(Map<String, dynamic> json) =
       _$PointsHistoryDTOImpl.fromJson;
 
+  @override
+  int get id;
   @override
   @JsonKey(name: 'user_id')
   int get userId;
