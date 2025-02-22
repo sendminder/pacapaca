@@ -1,8 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../services/point_service.dart';
-import '../models/dto/point_dto.dart';
+import 'package:pacapaca/services/point_service.dart';
+import 'package:pacapaca/models/dto/point_dto.dart';
 import 'package:get_it/get_it.dart';
-
+import 'package:pacapaca/models/dto/user_dto.dart';
 part 'point_provider.g.dart';
 
 // 포인트 잔액 provider
@@ -30,7 +30,7 @@ class PointHistories extends _$PointHistories {
   static const int _pageSize = 20;
 
   @override
-  FutureOr<List<PointHistoryDTO>?> build() async {
+  FutureOr<List<PointsHistoryDTO>?> build() async {
     _lastPagingUserId = null;
     _lastPagingAmount = null;
     return _pointService.getHistories(limit: _pageSize);
@@ -76,7 +76,7 @@ class PointRankings extends _$PointRankings {
   static const _cacheValidDuration = Duration(minutes: 5);
 
   @override
-  FutureOr<List<PointRankingDTO>?> build() async {
+  FutureOr<List<DisplayUserDTO>?> build() async {
     // 캐시가 유효한 경우 기존 데이터 반환
     if (state.hasValue &&
         state.value != null &&

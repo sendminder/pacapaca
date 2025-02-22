@@ -6,77 +6,59 @@ part of 'point_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PointRankingResponseImpl _$$PointRankingResponseImplFromJson(
+_$ResponseGetTopPointUsersImpl _$$ResponseGetTopPointUsersImplFromJson(
         Map<String, dynamic> json) =>
-    _$PointRankingResponseImpl(
+    _$ResponseGetTopPointUsersImpl(
       topUsers: (json['top_users'] as List<dynamic>)
-          .map((e) => PointRankingDTO.fromJson(e as Map<String, dynamic>))
+          .map((e) => DisplayUserDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$PointRankingResponseImplToJson(
-        _$PointRankingResponseImpl instance) =>
+Map<String, dynamic> _$$ResponseGetTopPointUsersImplToJson(
+        _$ResponseGetTopPointUsersImpl instance) =>
     <String, dynamic>{
       'top_users': instance.topUsers,
     };
 
-_$PointHistoryResponseImpl _$$PointHistoryResponseImplFromJson(
+_$ResponseGetPointsHistoryImpl _$$ResponseGetPointsHistoryImplFromJson(
         Map<String, dynamic> json) =>
-    _$PointHistoryResponseImpl(
+    _$ResponseGetPointsHistoryImpl(
       histories: (json['histories'] as List<dynamic>)
-          .map((e) => PointHistoryDTO.fromJson(e as Map<String, dynamic>))
+          .map((e) => PointsHistoryDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$PointHistoryResponseImplToJson(
-        _$PointHistoryResponseImpl instance) =>
+Map<String, dynamic> _$$ResponseGetPointsHistoryImplToJson(
+        _$ResponseGetPointsHistoryImpl instance) =>
     <String, dynamic>{
       'histories': instance.histories,
     };
 
-_$PointBalanceResponseImpl _$$PointBalanceResponseImplFromJson(
+_$ResponseGetPointBalanceImpl _$$ResponseGetPointBalanceImplFromJson(
         Map<String, dynamic> json) =>
-    _$PointBalanceResponseImpl(
+    _$ResponseGetPointBalanceImpl(
       userId: (json['user_id'] as num).toInt(),
       balance: (json['balance'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$PointBalanceResponseImplToJson(
-        _$PointBalanceResponseImpl instance) =>
+Map<String, dynamic> _$$ResponseGetPointBalanceImplToJson(
+        _$ResponseGetPointBalanceImpl instance) =>
     <String, dynamic>{
       'user_id': instance.userId,
       'balance': instance.balance,
     };
 
-_$PointRankingDTOImpl _$$PointRankingDTOImplFromJson(
+_$PointsHistoryDTOImpl _$$PointsHistoryDTOImplFromJson(
         Map<String, dynamic> json) =>
-    _$PointRankingDTOImpl(
-      userId: (json['user_id'] as num).toInt(),
-      nickname: json['nickname'] as String,
-      profileUrl: json['profile_url'] as String?,
-      balance: (json['balance'] as num).toInt(),
-    );
-
-Map<String, dynamic> _$$PointRankingDTOImplToJson(
-        _$PointRankingDTOImpl instance) =>
-    <String, dynamic>{
-      'user_id': instance.userId,
-      'nickname': instance.nickname,
-      'profile_url': instance.profileUrl,
-      'balance': instance.balance,
-    };
-
-_$PointHistoryDTOImpl _$$PointHistoryDTOImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PointHistoryDTOImpl(
+    _$PointsHistoryDTOImpl(
       userId: (json['user_id'] as num).toInt(),
       amount: (json['amount'] as num).toInt(),
       description: json['description'] as String,
       createTime: json['create_time'] as String,
     );
 
-Map<String, dynamic> _$$PointHistoryDTOImplToJson(
-        _$PointHistoryDTOImpl instance) =>
+Map<String, dynamic> _$$PointsHistoryDTOImplToJson(
+        _$PointsHistoryDTOImpl instance) =>
     <String, dynamic>{
       'user_id': instance.userId,
       'amount': instance.amount,

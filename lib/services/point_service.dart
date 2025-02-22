@@ -4,13 +4,14 @@ import 'package:logger/logger.dart';
 import 'package:pacapaca/models/dto/point_dto.dart';
 import 'package:pacapaca/models/dto/common_dto.dart';
 import 'package:pacapaca/services/dio_service.dart';
+import 'package:pacapaca/models/dto/user_dto.dart';
 
 class PointService {
   final Dio _dio = DioService.instance;
   final logger = GetIt.instance<Logger>();
 
   // 포인트 랭킹 조회
-  Future<List<PointRankingDTO>?> getRankings({
+  Future<List<DisplayUserDTO>?> getRankings({
     int? limit = 20,
   }) async {
     try {
@@ -29,7 +30,7 @@ class PointService {
 
       if (responseRest.response != null) {
         final List<dynamic> rankings = responseRest.response!['top_users'];
-        return rankings.map((json) => PointRankingDTO.fromJson(json)).toList();
+        return rankings.map((json) => DisplayUserDTO.fromJson(json)).toList();
       }
       return null;
     } catch (e, stackTrace) {
@@ -59,7 +60,7 @@ class PointService {
   }
 
   // 포인트 내역 조회
-  Future<List<PointHistoryDTO>?> getHistories({
+  Future<List<PointsHistoryDTO>?> getHistories({
     required int limit,
     int? pagingUserID,
     int? pagingAmount,
@@ -83,7 +84,9 @@ class PointService {
 
       if (responseRest.response != null) {
         final List<dynamic> histories = responseRest.response!['histories'];
-        return histories.map((json) => PointHistoryDTO.fromJson(json)).toList();
+        return histories
+            .map((json) => PointsHistoryDTO.fromJson(json))
+            .toList();
       }
       return null;
     } catch (e, stackTrace) {

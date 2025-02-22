@@ -21,12 +21,12 @@ final pointBalanceProvider =
 );
 
 typedef _$PointBalance = AutoDisposeAsyncNotifier<int?>;
-String _$pointHistoriesHash() => r'abcb4db366c0494d05b8fa894dc5f2dce5a208a7';
+String _$pointHistoriesHash() => r'06edac7efc44c752a7df2592f99dc19ac44f6028';
 
 /// See also [PointHistories].
 @ProviderFor(PointHistories)
 final pointHistoriesProvider = AutoDisposeAsyncNotifierProvider<PointHistories,
-    List<PointHistoryDTO>?>.internal(
+    List<PointsHistoryDTO>?>.internal(
   PointHistories.new,
   name: r'pointHistoriesProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -36,13 +36,13 @@ final pointHistoriesProvider = AutoDisposeAsyncNotifierProvider<PointHistories,
   allTransitiveDependencies: null,
 );
 
-typedef _$PointHistories = AutoDisposeAsyncNotifier<List<PointHistoryDTO>?>;
-String _$pointRankingsHash() => r'c37074932bbf3c43e390fcf924db4a4483b596ad';
+typedef _$PointHistories = AutoDisposeAsyncNotifier<List<PointsHistoryDTO>?>;
+String _$pointRankingsHash() => r'72c707c8d5266db725a7b5764166014fec5a655d';
 
 /// See also [PointRankings].
 @ProviderFor(PointRankings)
 final pointRankingsProvider = AutoDisposeAsyncNotifierProvider<PointRankings,
-    List<PointRankingDTO>?>.internal(
+    List<DisplayUserDTO>?>.internal(
   PointRankings.new,
   name: r'pointRankingsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -52,6 +52,6 @@ final pointRankingsProvider = AutoDisposeAsyncNotifierProvider<PointRankings,
   allTransitiveDependencies: null,
 );
 
-typedef _$PointRankings = AutoDisposeAsyncNotifier<List<PointRankingDTO>?>;
+typedef _$PointRankings = AutoDisposeAsyncNotifier<List<DisplayUserDTO>?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

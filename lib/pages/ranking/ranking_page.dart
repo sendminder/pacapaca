@@ -35,8 +35,8 @@ class RankingPage extends ConsumerWidget {
                     .map((rank) => RankingListItem(
                           rank: rankings!.indexOf(rank) + 1,
                           nickname: rank.nickname,
-                          profileImageUrl: rank.profileUrl,
-                          score: NumberFormat.compact().format(rank.balance),
+                          profileImageUrl: rank.profileImageUrl,
+                          score: NumberFormat.compact().format(rank.points),
                         ))
                     .toList(),
                 onViewMore: () => _showRankingDetail(
