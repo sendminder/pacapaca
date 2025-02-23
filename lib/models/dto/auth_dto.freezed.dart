@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-LoginRequest _$LoginRequestFromJson(Map<String, dynamic> json) {
-  return _LoginRequest.fromJson(json);
+RequestLogin _$RequestLoginFromJson(Map<String, dynamic> json) {
+  return _RequestLogin.fromJson(json);
 }
 
 /// @nodoc
-mixin _$LoginRequest {
+mixin _$RequestLogin {
   @JsonKey(name: 'id_token')
   String get idToken => throw _privateConstructorUsedError;
   @JsonKey(name: 'push_token')
@@ -27,21 +27,21 @@ mixin _$LoginRequest {
   @JsonKey(name: 'auth_provider')
   String get authProvider => throw _privateConstructorUsedError;
 
-  /// Serializes this LoginRequest to a JSON map.
+  /// Serializes this RequestLogin to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of LoginRequest
+  /// Create a copy of RequestLogin
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $LoginRequestCopyWith<LoginRequest> get copyWith =>
+  $RequestLoginCopyWith<RequestLogin> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $LoginRequestCopyWith<$Res> {
-  factory $LoginRequestCopyWith(
-          LoginRequest value, $Res Function(LoginRequest) then) =
-      _$LoginRequestCopyWithImpl<$Res, LoginRequest>;
+abstract class $RequestLoginCopyWith<$Res> {
+  factory $RequestLoginCopyWith(
+          RequestLogin value, $Res Function(RequestLogin) then) =
+      _$RequestLoginCopyWithImpl<$Res, RequestLogin>;
   @useResult
   $Res call(
       {@JsonKey(name: 'id_token') String idToken,
@@ -50,16 +50,16 @@ abstract class $LoginRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$LoginRequestCopyWithImpl<$Res, $Val extends LoginRequest>
-    implements $LoginRequestCopyWith<$Res> {
-  _$LoginRequestCopyWithImpl(this._value, this._then);
+class _$RequestLoginCopyWithImpl<$Res, $Val extends RequestLogin>
+    implements $RequestLoginCopyWith<$Res> {
+  _$RequestLoginCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of LoginRequest
+  /// Create a copy of RequestLogin
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -86,11 +86,11 @@ class _$LoginRequestCopyWithImpl<$Res, $Val extends LoginRequest>
 }
 
 /// @nodoc
-abstract class _$$LoginRequestImplCopyWith<$Res>
-    implements $LoginRequestCopyWith<$Res> {
-  factory _$$LoginRequestImplCopyWith(
-          _$LoginRequestImpl value, $Res Function(_$LoginRequestImpl) then) =
-      __$$LoginRequestImplCopyWithImpl<$Res>;
+abstract class _$$RequestLoginImplCopyWith<$Res>
+    implements $RequestLoginCopyWith<$Res> {
+  factory _$$RequestLoginImplCopyWith(
+          _$RequestLoginImpl value, $Res Function(_$RequestLoginImpl) then) =
+      __$$RequestLoginImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -100,14 +100,14 @@ abstract class _$$LoginRequestImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$LoginRequestImplCopyWithImpl<$Res>
-    extends _$LoginRequestCopyWithImpl<$Res, _$LoginRequestImpl>
-    implements _$$LoginRequestImplCopyWith<$Res> {
-  __$$LoginRequestImplCopyWithImpl(
-      _$LoginRequestImpl _value, $Res Function(_$LoginRequestImpl) _then)
+class __$$RequestLoginImplCopyWithImpl<$Res>
+    extends _$RequestLoginCopyWithImpl<$Res, _$RequestLoginImpl>
+    implements _$$RequestLoginImplCopyWith<$Res> {
+  __$$RequestLoginImplCopyWithImpl(
+      _$RequestLoginImpl _value, $Res Function(_$RequestLoginImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LoginRequest
+  /// Create a copy of RequestLogin
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -116,7 +116,7 @@ class __$$LoginRequestImplCopyWithImpl<$Res>
     Object? pushToken = null,
     Object? authProvider = null,
   }) {
-    return _then(_$LoginRequestImpl(
+    return _then(_$RequestLoginImpl(
       idToken: null == idToken
           ? _value.idToken
           : idToken // ignore: cast_nullable_to_non_nullable
@@ -135,14 +135,14 @@ class __$$LoginRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$LoginRequestImpl implements _LoginRequest {
-  const _$LoginRequestImpl(
+class _$RequestLoginImpl implements _RequestLogin {
+  const _$RequestLoginImpl(
       {@JsonKey(name: 'id_token') required this.idToken,
       @JsonKey(name: 'push_token') required this.pushToken,
       @JsonKey(name: 'auth_provider') required this.authProvider});
 
-  factory _$LoginRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$LoginRequestImplFromJson(json);
+  factory _$RequestLoginImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestLoginImplFromJson(json);
 
   @override
   @JsonKey(name: 'id_token')
@@ -156,14 +156,14 @@ class _$LoginRequestImpl implements _LoginRequest {
 
   @override
   String toString() {
-    return 'LoginRequest(idToken: $idToken, pushToken: $pushToken, authProvider: $authProvider)';
+    return 'RequestLogin(idToken: $idToken, pushToken: $pushToken, authProvider: $authProvider)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoginRequestImpl &&
+            other is _$RequestLoginImpl &&
             (identical(other.idToken, idToken) || other.idToken == idToken) &&
             (identical(other.pushToken, pushToken) ||
                 other.pushToken == pushToken) &&
@@ -176,31 +176,31 @@ class _$LoginRequestImpl implements _LoginRequest {
   int get hashCode =>
       Object.hash(runtimeType, idToken, pushToken, authProvider);
 
-  /// Create a copy of LoginRequest
+  /// Create a copy of RequestLogin
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoginRequestImplCopyWith<_$LoginRequestImpl> get copyWith =>
-      __$$LoginRequestImplCopyWithImpl<_$LoginRequestImpl>(this, _$identity);
+  _$$RequestLoginImplCopyWith<_$RequestLoginImpl> get copyWith =>
+      __$$RequestLoginImplCopyWithImpl<_$RequestLoginImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LoginRequestImplToJson(
+    return _$$RequestLoginImplToJson(
       this,
     );
   }
 }
 
-abstract class _LoginRequest implements LoginRequest {
-  const factory _LoginRequest(
+abstract class _RequestLogin implements RequestLogin {
+  const factory _RequestLogin(
           {@JsonKey(name: 'id_token') required final String idToken,
           @JsonKey(name: 'push_token') required final String pushToken,
           @JsonKey(name: 'auth_provider') required final String authProvider}) =
-      _$LoginRequestImpl;
+      _$RequestLoginImpl;
 
-  factory _LoginRequest.fromJson(Map<String, dynamic> json) =
-      _$LoginRequestImpl.fromJson;
+  factory _RequestLogin.fromJson(Map<String, dynamic> json) =
+      _$RequestLoginImpl.fromJson;
 
   @override
   @JsonKey(name: 'id_token')
@@ -212,53 +212,53 @@ abstract class _LoginRequest implements LoginRequest {
   @JsonKey(name: 'auth_provider')
   String get authProvider;
 
-  /// Create a copy of LoginRequest
+  /// Create a copy of RequestLogin
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoginRequestImplCopyWith<_$LoginRequestImpl> get copyWith =>
+  _$$RequestLoginImplCopyWith<_$RequestLoginImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-RefreshRequest _$RefreshRequestFromJson(Map<String, dynamic> json) {
-  return _RefreshRequest.fromJson(json);
+RequestRefresh _$RequestRefreshFromJson(Map<String, dynamic> json) {
+  return _RequestRefresh.fromJson(json);
 }
 
 /// @nodoc
-mixin _$RefreshRequest {
+mixin _$RequestRefresh {
   @JsonKey(name: 'refresh_token')
   String get refreshToken => throw _privateConstructorUsedError;
 
-  /// Serializes this RefreshRequest to a JSON map.
+  /// Serializes this RequestRefresh to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of RefreshRequest
+  /// Create a copy of RequestRefresh
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $RefreshRequestCopyWith<RefreshRequest> get copyWith =>
+  $RequestRefreshCopyWith<RequestRefresh> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RefreshRequestCopyWith<$Res> {
-  factory $RefreshRequestCopyWith(
-          RefreshRequest value, $Res Function(RefreshRequest) then) =
-      _$RefreshRequestCopyWithImpl<$Res, RefreshRequest>;
+abstract class $RequestRefreshCopyWith<$Res> {
+  factory $RequestRefreshCopyWith(
+          RequestRefresh value, $Res Function(RequestRefresh) then) =
+      _$RequestRefreshCopyWithImpl<$Res, RequestRefresh>;
   @useResult
   $Res call({@JsonKey(name: 'refresh_token') String refreshToken});
 }
 
 /// @nodoc
-class _$RefreshRequestCopyWithImpl<$Res, $Val extends RefreshRequest>
-    implements $RefreshRequestCopyWith<$Res> {
-  _$RefreshRequestCopyWithImpl(this._value, this._then);
+class _$RequestRefreshCopyWithImpl<$Res, $Val extends RequestRefresh>
+    implements $RequestRefreshCopyWith<$Res> {
+  _$RequestRefreshCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of RefreshRequest
+  /// Create a copy of RequestRefresh
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -275,32 +275,32 @@ class _$RefreshRequestCopyWithImpl<$Res, $Val extends RefreshRequest>
 }
 
 /// @nodoc
-abstract class _$$RefreshRequestImplCopyWith<$Res>
-    implements $RefreshRequestCopyWith<$Res> {
-  factory _$$RefreshRequestImplCopyWith(_$RefreshRequestImpl value,
-          $Res Function(_$RefreshRequestImpl) then) =
-      __$$RefreshRequestImplCopyWithImpl<$Res>;
+abstract class _$$RequestRefreshImplCopyWith<$Res>
+    implements $RequestRefreshCopyWith<$Res> {
+  factory _$$RequestRefreshImplCopyWith(_$RequestRefreshImpl value,
+          $Res Function(_$RequestRefreshImpl) then) =
+      __$$RequestRefreshImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({@JsonKey(name: 'refresh_token') String refreshToken});
 }
 
 /// @nodoc
-class __$$RefreshRequestImplCopyWithImpl<$Res>
-    extends _$RefreshRequestCopyWithImpl<$Res, _$RefreshRequestImpl>
-    implements _$$RefreshRequestImplCopyWith<$Res> {
-  __$$RefreshRequestImplCopyWithImpl(
-      _$RefreshRequestImpl _value, $Res Function(_$RefreshRequestImpl) _then)
+class __$$RequestRefreshImplCopyWithImpl<$Res>
+    extends _$RequestRefreshCopyWithImpl<$Res, _$RequestRefreshImpl>
+    implements _$$RequestRefreshImplCopyWith<$Res> {
+  __$$RequestRefreshImplCopyWithImpl(
+      _$RequestRefreshImpl _value, $Res Function(_$RequestRefreshImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of RefreshRequest
+  /// Create a copy of RequestRefresh
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? refreshToken = null,
   }) {
-    return _then(_$RefreshRequestImpl(
+    return _then(_$RequestRefreshImpl(
       refreshToken: null == refreshToken
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
@@ -311,12 +311,12 @@ class __$$RefreshRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$RefreshRequestImpl implements _RefreshRequest {
-  const _$RefreshRequestImpl(
+class _$RequestRefreshImpl implements _RequestRefresh {
+  const _$RequestRefreshImpl(
       {@JsonKey(name: 'refresh_token') required this.refreshToken});
 
-  factory _$RefreshRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RefreshRequestImplFromJson(json);
+  factory _$RequestRefreshImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestRefreshImplFromJson(json);
 
   @override
   @JsonKey(name: 'refresh_token')
@@ -324,14 +324,14 @@ class _$RefreshRequestImpl implements _RefreshRequest {
 
   @override
   String toString() {
-    return 'RefreshRequest(refreshToken: $refreshToken)';
+    return 'RequestRefresh(refreshToken: $refreshToken)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RefreshRequestImpl &&
+            other is _$RequestRefreshImpl &&
             (identical(other.refreshToken, refreshToken) ||
                 other.refreshToken == refreshToken));
   }
@@ -340,70 +340,70 @@ class _$RefreshRequestImpl implements _RefreshRequest {
   @override
   int get hashCode => Object.hash(runtimeType, refreshToken);
 
-  /// Create a copy of RefreshRequest
+  /// Create a copy of RequestRefresh
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RefreshRequestImplCopyWith<_$RefreshRequestImpl> get copyWith =>
-      __$$RefreshRequestImplCopyWithImpl<_$RefreshRequestImpl>(
+  _$$RequestRefreshImplCopyWith<_$RequestRefreshImpl> get copyWith =>
+      __$$RequestRefreshImplCopyWithImpl<_$RequestRefreshImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RefreshRequestImplToJson(
+    return _$$RequestRefreshImplToJson(
       this,
     );
   }
 }
 
-abstract class _RefreshRequest implements RefreshRequest {
-  const factory _RefreshRequest(
+abstract class _RequestRefresh implements RequestRefresh {
+  const factory _RequestRefresh(
       {@JsonKey(name: 'refresh_token')
-      required final String refreshToken}) = _$RefreshRequestImpl;
+      required final String refreshToken}) = _$RequestRefreshImpl;
 
-  factory _RefreshRequest.fromJson(Map<String, dynamic> json) =
-      _$RefreshRequestImpl.fromJson;
+  factory _RequestRefresh.fromJson(Map<String, dynamic> json) =
+      _$RequestRefreshImpl.fromJson;
 
   @override
   @JsonKey(name: 'refresh_token')
   String get refreshToken;
 
-  /// Create a copy of RefreshRequest
+  /// Create a copy of RequestRefresh
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RefreshRequestImplCopyWith<_$RefreshRequestImpl> get copyWith =>
+  _$$RequestRefreshImplCopyWith<_$RequestRefreshImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-SignUpResponse _$SignUpResponseFromJson(Map<String, dynamic> json) {
-  return _SignUpResponse.fromJson(json);
+ResponseSignUp _$ResponseSignUpFromJson(Map<String, dynamic> json) {
+  return _ResponseSignUp.fromJson(json);
 }
 
 /// @nodoc
-mixin _$SignUpResponse {
+mixin _$ResponseSignUp {
   UserDTO get user => throw _privateConstructorUsedError;
   @JsonKey(name: 'access_token')
   String get accessToken => throw _privateConstructorUsedError;
   @JsonKey(name: 'refresh_token')
   String get refreshToken => throw _privateConstructorUsedError;
 
-  /// Serializes this SignUpResponse to a JSON map.
+  /// Serializes this ResponseSignUp to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of SignUpResponse
+  /// Create a copy of ResponseSignUp
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SignUpResponseCopyWith<SignUpResponse> get copyWith =>
+  $ResponseSignUpCopyWith<ResponseSignUp> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SignUpResponseCopyWith<$Res> {
-  factory $SignUpResponseCopyWith(
-          SignUpResponse value, $Res Function(SignUpResponse) then) =
-      _$SignUpResponseCopyWithImpl<$Res, SignUpResponse>;
+abstract class $ResponseSignUpCopyWith<$Res> {
+  factory $ResponseSignUpCopyWith(
+          ResponseSignUp value, $Res Function(ResponseSignUp) then) =
+      _$ResponseSignUpCopyWithImpl<$Res, ResponseSignUp>;
   @useResult
   $Res call(
       {UserDTO user,
@@ -414,16 +414,16 @@ abstract class $SignUpResponseCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SignUpResponseCopyWithImpl<$Res, $Val extends SignUpResponse>
-    implements $SignUpResponseCopyWith<$Res> {
-  _$SignUpResponseCopyWithImpl(this._value, this._then);
+class _$ResponseSignUpCopyWithImpl<$Res, $Val extends ResponseSignUp>
+    implements $ResponseSignUpCopyWith<$Res> {
+  _$ResponseSignUpCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SignUpResponse
+  /// Create a copy of ResponseSignUp
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -448,7 +448,7 @@ class _$SignUpResponseCopyWithImpl<$Res, $Val extends SignUpResponse>
     ) as $Val);
   }
 
-  /// Create a copy of SignUpResponse
+  /// Create a copy of ResponseSignUp
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -460,11 +460,11 @@ class _$SignUpResponseCopyWithImpl<$Res, $Val extends SignUpResponse>
 }
 
 /// @nodoc
-abstract class _$$SignUpResponseImplCopyWith<$Res>
-    implements $SignUpResponseCopyWith<$Res> {
-  factory _$$SignUpResponseImplCopyWith(_$SignUpResponseImpl value,
-          $Res Function(_$SignUpResponseImpl) then) =
-      __$$SignUpResponseImplCopyWithImpl<$Res>;
+abstract class _$$ResponseSignUpImplCopyWith<$Res>
+    implements $ResponseSignUpCopyWith<$Res> {
+  factory _$$ResponseSignUpImplCopyWith(_$ResponseSignUpImpl value,
+          $Res Function(_$ResponseSignUpImpl) then) =
+      __$$ResponseSignUpImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -477,14 +477,14 @@ abstract class _$$SignUpResponseImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$SignUpResponseImplCopyWithImpl<$Res>
-    extends _$SignUpResponseCopyWithImpl<$Res, _$SignUpResponseImpl>
-    implements _$$SignUpResponseImplCopyWith<$Res> {
-  __$$SignUpResponseImplCopyWithImpl(
-      _$SignUpResponseImpl _value, $Res Function(_$SignUpResponseImpl) _then)
+class __$$ResponseSignUpImplCopyWithImpl<$Res>
+    extends _$ResponseSignUpCopyWithImpl<$Res, _$ResponseSignUpImpl>
+    implements _$$ResponseSignUpImplCopyWith<$Res> {
+  __$$ResponseSignUpImplCopyWithImpl(
+      _$ResponseSignUpImpl _value, $Res Function(_$ResponseSignUpImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SignUpResponse
+  /// Create a copy of ResponseSignUp
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -493,7 +493,7 @@ class __$$SignUpResponseImplCopyWithImpl<$Res>
     Object? accessToken = null,
     Object? refreshToken = null,
   }) {
-    return _then(_$SignUpResponseImpl(
+    return _then(_$ResponseSignUpImpl(
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -512,14 +512,14 @@ class __$$SignUpResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$SignUpResponseImpl implements _SignUpResponse {
-  const _$SignUpResponseImpl(
+class _$ResponseSignUpImpl implements _ResponseSignUp {
+  const _$ResponseSignUpImpl(
       {required this.user,
       @JsonKey(name: 'access_token') required this.accessToken,
       @JsonKey(name: 'refresh_token') required this.refreshToken});
 
-  factory _$SignUpResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SignUpResponseImplFromJson(json);
+  factory _$ResponseSignUpImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseSignUpImplFromJson(json);
 
   @override
   final UserDTO user;
@@ -532,14 +532,14 @@ class _$SignUpResponseImpl implements _SignUpResponse {
 
   @override
   String toString() {
-    return 'SignUpResponse(user: $user, accessToken: $accessToken, refreshToken: $refreshToken)';
+    return 'ResponseSignUp(user: $user, accessToken: $accessToken, refreshToken: $refreshToken)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SignUpResponseImpl &&
+            other is _$ResponseSignUpImpl &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.accessToken, accessToken) ||
                 other.accessToken == accessToken) &&
@@ -551,32 +551,32 @@ class _$SignUpResponseImpl implements _SignUpResponse {
   @override
   int get hashCode => Object.hash(runtimeType, user, accessToken, refreshToken);
 
-  /// Create a copy of SignUpResponse
+  /// Create a copy of ResponseSignUp
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$SignUpResponseImplCopyWith<_$SignUpResponseImpl> get copyWith =>
-      __$$SignUpResponseImplCopyWithImpl<_$SignUpResponseImpl>(
+  _$$ResponseSignUpImplCopyWith<_$ResponseSignUpImpl> get copyWith =>
+      __$$ResponseSignUpImplCopyWithImpl<_$ResponseSignUpImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SignUpResponseImplToJson(
+    return _$$ResponseSignUpImplToJson(
       this,
     );
   }
 }
 
-abstract class _SignUpResponse implements SignUpResponse {
-  const factory _SignUpResponse(
+abstract class _ResponseSignUp implements ResponseSignUp {
+  const factory _ResponseSignUp(
           {required final UserDTO user,
           @JsonKey(name: 'access_token') required final String accessToken,
           @JsonKey(name: 'refresh_token') required final String refreshToken}) =
-      _$SignUpResponseImpl;
+      _$ResponseSignUpImpl;
 
-  factory _SignUpResponse.fromJson(Map<String, dynamic> json) =
-      _$SignUpResponseImpl.fromJson;
+  factory _ResponseSignUp.fromJson(Map<String, dynamic> json) =
+      _$ResponseSignUpImpl.fromJson;
 
   @override
   UserDTO get user;
@@ -587,40 +587,40 @@ abstract class _SignUpResponse implements SignUpResponse {
   @JsonKey(name: 'refresh_token')
   String get refreshToken;
 
-  /// Create a copy of SignUpResponse
+  /// Create a copy of ResponseSignUp
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SignUpResponseImplCopyWith<_$SignUpResponseImpl> get copyWith =>
+  _$$ResponseSignUpImplCopyWith<_$ResponseSignUpImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-RefreshResponse _$RefreshResponseFromJson(Map<String, dynamic> json) {
-  return _RefreshResponse.fromJson(json);
+ResponseRefresh _$ResponseRefreshFromJson(Map<String, dynamic> json) {
+  return _ResponseRefresh.fromJson(json);
 }
 
 /// @nodoc
-mixin _$RefreshResponse {
+mixin _$ResponseRefresh {
   @JsonKey(name: 'access_token')
   String get accessToken => throw _privateConstructorUsedError;
   @JsonKey(name: 'refresh_token')
   String get refreshToken => throw _privateConstructorUsedError;
 
-  /// Serializes this RefreshResponse to a JSON map.
+  /// Serializes this ResponseRefresh to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of RefreshResponse
+  /// Create a copy of ResponseRefresh
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $RefreshResponseCopyWith<RefreshResponse> get copyWith =>
+  $ResponseRefreshCopyWith<ResponseRefresh> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RefreshResponseCopyWith<$Res> {
-  factory $RefreshResponseCopyWith(
-          RefreshResponse value, $Res Function(RefreshResponse) then) =
-      _$RefreshResponseCopyWithImpl<$Res, RefreshResponse>;
+abstract class $ResponseRefreshCopyWith<$Res> {
+  factory $ResponseRefreshCopyWith(
+          ResponseRefresh value, $Res Function(ResponseRefresh) then) =
+      _$ResponseRefreshCopyWithImpl<$Res, ResponseRefresh>;
   @useResult
   $Res call(
       {@JsonKey(name: 'access_token') String accessToken,
@@ -628,16 +628,16 @@ abstract class $RefreshResponseCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RefreshResponseCopyWithImpl<$Res, $Val extends RefreshResponse>
-    implements $RefreshResponseCopyWith<$Res> {
-  _$RefreshResponseCopyWithImpl(this._value, this._then);
+class _$ResponseRefreshCopyWithImpl<$Res, $Val extends ResponseRefresh>
+    implements $ResponseRefreshCopyWith<$Res> {
+  _$ResponseRefreshCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of RefreshResponse
+  /// Create a copy of ResponseRefresh
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -659,11 +659,11 @@ class _$RefreshResponseCopyWithImpl<$Res, $Val extends RefreshResponse>
 }
 
 /// @nodoc
-abstract class _$$RefreshResponseImplCopyWith<$Res>
-    implements $RefreshResponseCopyWith<$Res> {
-  factory _$$RefreshResponseImplCopyWith(_$RefreshResponseImpl value,
-          $Res Function(_$RefreshResponseImpl) then) =
-      __$$RefreshResponseImplCopyWithImpl<$Res>;
+abstract class _$$ResponseRefreshImplCopyWith<$Res>
+    implements $ResponseRefreshCopyWith<$Res> {
+  factory _$$ResponseRefreshImplCopyWith(_$ResponseRefreshImpl value,
+          $Res Function(_$ResponseRefreshImpl) then) =
+      __$$ResponseRefreshImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -672,14 +672,14 @@ abstract class _$$RefreshResponseImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$RefreshResponseImplCopyWithImpl<$Res>
-    extends _$RefreshResponseCopyWithImpl<$Res, _$RefreshResponseImpl>
-    implements _$$RefreshResponseImplCopyWith<$Res> {
-  __$$RefreshResponseImplCopyWithImpl(
-      _$RefreshResponseImpl _value, $Res Function(_$RefreshResponseImpl) _then)
+class __$$ResponseRefreshImplCopyWithImpl<$Res>
+    extends _$ResponseRefreshCopyWithImpl<$Res, _$ResponseRefreshImpl>
+    implements _$$ResponseRefreshImplCopyWith<$Res> {
+  __$$ResponseRefreshImplCopyWithImpl(
+      _$ResponseRefreshImpl _value, $Res Function(_$ResponseRefreshImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of RefreshResponse
+  /// Create a copy of ResponseRefresh
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -687,7 +687,7 @@ class __$$RefreshResponseImplCopyWithImpl<$Res>
     Object? accessToken = null,
     Object? refreshToken = null,
   }) {
-    return _then(_$RefreshResponseImpl(
+    return _then(_$ResponseRefreshImpl(
       accessToken: null == accessToken
           ? _value.accessToken
           : accessToken // ignore: cast_nullable_to_non_nullable
@@ -702,13 +702,13 @@ class __$$RefreshResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$RefreshResponseImpl implements _RefreshResponse {
-  const _$RefreshResponseImpl(
+class _$ResponseRefreshImpl implements _ResponseRefresh {
+  const _$ResponseRefreshImpl(
       {@JsonKey(name: 'access_token') required this.accessToken,
       @JsonKey(name: 'refresh_token') required this.refreshToken});
 
-  factory _$RefreshResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RefreshResponseImplFromJson(json);
+  factory _$ResponseRefreshImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseRefreshImplFromJson(json);
 
   @override
   @JsonKey(name: 'access_token')
@@ -719,14 +719,14 @@ class _$RefreshResponseImpl implements _RefreshResponse {
 
   @override
   String toString() {
-    return 'RefreshResponse(accessToken: $accessToken, refreshToken: $refreshToken)';
+    return 'ResponseRefresh(accessToken: $accessToken, refreshToken: $refreshToken)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RefreshResponseImpl &&
+            other is _$ResponseRefreshImpl &&
             (identical(other.accessToken, accessToken) ||
                 other.accessToken == accessToken) &&
             (identical(other.refreshToken, refreshToken) ||
@@ -737,31 +737,31 @@ class _$RefreshResponseImpl implements _RefreshResponse {
   @override
   int get hashCode => Object.hash(runtimeType, accessToken, refreshToken);
 
-  /// Create a copy of RefreshResponse
+  /// Create a copy of ResponseRefresh
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RefreshResponseImplCopyWith<_$RefreshResponseImpl> get copyWith =>
-      __$$RefreshResponseImplCopyWithImpl<_$RefreshResponseImpl>(
+  _$$ResponseRefreshImplCopyWith<_$ResponseRefreshImpl> get copyWith =>
+      __$$ResponseRefreshImplCopyWithImpl<_$ResponseRefreshImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RefreshResponseImplToJson(
+    return _$$ResponseRefreshImplToJson(
       this,
     );
   }
 }
 
-abstract class _RefreshResponse implements RefreshResponse {
-  const factory _RefreshResponse(
+abstract class _ResponseRefresh implements ResponseRefresh {
+  const factory _ResponseRefresh(
           {@JsonKey(name: 'access_token') required final String accessToken,
           @JsonKey(name: 'refresh_token') required final String refreshToken}) =
-      _$RefreshResponseImpl;
+      _$ResponseRefreshImpl;
 
-  factory _RefreshResponse.fromJson(Map<String, dynamic> json) =
-      _$RefreshResponseImpl.fromJson;
+  factory _ResponseRefresh.fromJson(Map<String, dynamic> json) =
+      _$ResponseRefreshImpl.fromJson;
 
   @override
   @JsonKey(name: 'access_token')
@@ -770,37 +770,37 @@ abstract class _RefreshResponse implements RefreshResponse {
   @JsonKey(name: 'refresh_token')
   String get refreshToken;
 
-  /// Create a copy of RefreshResponse
+  /// Create a copy of ResponseRefresh
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RefreshResponseImplCopyWith<_$RefreshResponseImpl> get copyWith =>
+  _$$ResponseRefreshImplCopyWith<_$ResponseRefreshImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-GetMeResponse _$GetMeResponseFromJson(Map<String, dynamic> json) {
-  return _GetMeResponse.fromJson(json);
+ResponseGetMe _$ResponseGetMeFromJson(Map<String, dynamic> json) {
+  return _ResponseGetMe.fromJson(json);
 }
 
 /// @nodoc
-mixin _$GetMeResponse {
+mixin _$ResponseGetMe {
   UserDTO get user => throw _privateConstructorUsedError;
 
-  /// Serializes this GetMeResponse to a JSON map.
+  /// Serializes this ResponseGetMe to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of GetMeResponse
+  /// Create a copy of ResponseGetMe
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $GetMeResponseCopyWith<GetMeResponse> get copyWith =>
+  $ResponseGetMeCopyWith<ResponseGetMe> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GetMeResponseCopyWith<$Res> {
-  factory $GetMeResponseCopyWith(
-          GetMeResponse value, $Res Function(GetMeResponse) then) =
-      _$GetMeResponseCopyWithImpl<$Res, GetMeResponse>;
+abstract class $ResponseGetMeCopyWith<$Res> {
+  factory $ResponseGetMeCopyWith(
+          ResponseGetMe value, $Res Function(ResponseGetMe) then) =
+      _$ResponseGetMeCopyWithImpl<$Res, ResponseGetMe>;
   @useResult
   $Res call({UserDTO user});
 
@@ -808,16 +808,16 @@ abstract class $GetMeResponseCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$GetMeResponseCopyWithImpl<$Res, $Val extends GetMeResponse>
-    implements $GetMeResponseCopyWith<$Res> {
-  _$GetMeResponseCopyWithImpl(this._value, this._then);
+class _$ResponseGetMeCopyWithImpl<$Res, $Val extends ResponseGetMe>
+    implements $ResponseGetMeCopyWith<$Res> {
+  _$ResponseGetMeCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of GetMeResponse
+  /// Create a copy of ResponseGetMe
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -832,7 +832,7 @@ class _$GetMeResponseCopyWithImpl<$Res, $Val extends GetMeResponse>
     ) as $Val);
   }
 
-  /// Create a copy of GetMeResponse
+  /// Create a copy of ResponseGetMe
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -844,11 +844,11 @@ class _$GetMeResponseCopyWithImpl<$Res, $Val extends GetMeResponse>
 }
 
 /// @nodoc
-abstract class _$$GetMeResponseImplCopyWith<$Res>
-    implements $GetMeResponseCopyWith<$Res> {
-  factory _$$GetMeResponseImplCopyWith(
-          _$GetMeResponseImpl value, $Res Function(_$GetMeResponseImpl) then) =
-      __$$GetMeResponseImplCopyWithImpl<$Res>;
+abstract class _$$ResponseGetMeImplCopyWith<$Res>
+    implements $ResponseGetMeCopyWith<$Res> {
+  factory _$$ResponseGetMeImplCopyWith(
+          _$ResponseGetMeImpl value, $Res Function(_$ResponseGetMeImpl) then) =
+      __$$ResponseGetMeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({UserDTO user});
@@ -858,21 +858,21 @@ abstract class _$$GetMeResponseImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$GetMeResponseImplCopyWithImpl<$Res>
-    extends _$GetMeResponseCopyWithImpl<$Res, _$GetMeResponseImpl>
-    implements _$$GetMeResponseImplCopyWith<$Res> {
-  __$$GetMeResponseImplCopyWithImpl(
-      _$GetMeResponseImpl _value, $Res Function(_$GetMeResponseImpl) _then)
+class __$$ResponseGetMeImplCopyWithImpl<$Res>
+    extends _$ResponseGetMeCopyWithImpl<$Res, _$ResponseGetMeImpl>
+    implements _$$ResponseGetMeImplCopyWith<$Res> {
+  __$$ResponseGetMeImplCopyWithImpl(
+      _$ResponseGetMeImpl _value, $Res Function(_$ResponseGetMeImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GetMeResponse
+  /// Create a copy of ResponseGetMe
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? user = null,
   }) {
-    return _then(_$GetMeResponseImpl(
+    return _then(_$ResponseGetMeImpl(
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -883,25 +883,25 @@ class __$$GetMeResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$GetMeResponseImpl implements _GetMeResponse {
-  const _$GetMeResponseImpl({required this.user});
+class _$ResponseGetMeImpl implements _ResponseGetMe {
+  const _$ResponseGetMeImpl({required this.user});
 
-  factory _$GetMeResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$GetMeResponseImplFromJson(json);
+  factory _$ResponseGetMeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseGetMeImplFromJson(json);
 
   @override
   final UserDTO user;
 
   @override
   String toString() {
-    return 'GetMeResponse(user: $user)';
+    return 'ResponseGetMe(user: $user)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GetMeResponseImpl &&
+            other is _$ResponseGetMeImpl &&
             (identical(other.user, user) || other.user == user));
   }
 
@@ -909,188 +909,226 @@ class _$GetMeResponseImpl implements _GetMeResponse {
   @override
   int get hashCode => Object.hash(runtimeType, user);
 
-  /// Create a copy of GetMeResponse
+  /// Create a copy of ResponseGetMe
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetMeResponseImplCopyWith<_$GetMeResponseImpl> get copyWith =>
-      __$$GetMeResponseImplCopyWithImpl<_$GetMeResponseImpl>(this, _$identity);
+  _$$ResponseGetMeImplCopyWith<_$ResponseGetMeImpl> get copyWith =>
+      __$$ResponseGetMeImplCopyWithImpl<_$ResponseGetMeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GetMeResponseImplToJson(
+    return _$$ResponseGetMeImplToJson(
       this,
     );
   }
 }
 
-abstract class _GetMeResponse implements GetMeResponse {
-  const factory _GetMeResponse({required final UserDTO user}) =
-      _$GetMeResponseImpl;
+abstract class _ResponseGetMe implements ResponseGetMe {
+  const factory _ResponseGetMe({required final UserDTO user}) =
+      _$ResponseGetMeImpl;
 
-  factory _GetMeResponse.fromJson(Map<String, dynamic> json) =
-      _$GetMeResponseImpl.fromJson;
+  factory _ResponseGetMe.fromJson(Map<String, dynamic> json) =
+      _$ResponseGetMeImpl.fromJson;
 
   @override
   UserDTO get user;
 
-  /// Create a copy of GetMeResponse
+  /// Create a copy of ResponseGetMe
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GetMeResponseImplCopyWith<_$GetMeResponseImpl> get copyWith =>
+  _$$ResponseGetMeImplCopyWith<_$ResponseGetMeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-UpdateMeRequest _$UpdateMeRequestFromJson(Map<String, dynamic> json) {
-  return _UpdateMeRequest.fromJson(json);
+RequestUpdateMe _$RequestUpdateMeFromJson(Map<String, dynamic> json) {
+  return _RequestUpdateMe.fromJson(json);
 }
 
 /// @nodoc
-mixin _$UpdateMeRequest {
-  String get nickname => throw _privateConstructorUsedError;
+mixin _$RequestUpdateMe {
+  String? get nickname => throw _privateConstructorUsedError;
+  String? get profileType => throw _privateConstructorUsedError;
+  String? get badgeType => throw _privateConstructorUsedError;
 
-  /// Serializes this UpdateMeRequest to a JSON map.
+  /// Serializes this RequestUpdateMe to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of UpdateMeRequest
+  /// Create a copy of RequestUpdateMe
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $UpdateMeRequestCopyWith<UpdateMeRequest> get copyWith =>
+  $RequestUpdateMeCopyWith<RequestUpdateMe> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UpdateMeRequestCopyWith<$Res> {
-  factory $UpdateMeRequestCopyWith(
-          UpdateMeRequest value, $Res Function(UpdateMeRequest) then) =
-      _$UpdateMeRequestCopyWithImpl<$Res, UpdateMeRequest>;
+abstract class $RequestUpdateMeCopyWith<$Res> {
+  factory $RequestUpdateMeCopyWith(
+          RequestUpdateMe value, $Res Function(RequestUpdateMe) then) =
+      _$RequestUpdateMeCopyWithImpl<$Res, RequestUpdateMe>;
   @useResult
-  $Res call({String nickname});
+  $Res call({String? nickname, String? profileType, String? badgeType});
 }
 
 /// @nodoc
-class _$UpdateMeRequestCopyWithImpl<$Res, $Val extends UpdateMeRequest>
-    implements $UpdateMeRequestCopyWith<$Res> {
-  _$UpdateMeRequestCopyWithImpl(this._value, this._then);
+class _$RequestUpdateMeCopyWithImpl<$Res, $Val extends RequestUpdateMe>
+    implements $RequestUpdateMeCopyWith<$Res> {
+  _$RequestUpdateMeCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of UpdateMeRequest
+  /// Create a copy of RequestUpdateMe
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? nickname = null,
+    Object? nickname = freezed,
+    Object? profileType = freezed,
+    Object? badgeType = freezed,
   }) {
     return _then(_value.copyWith(
-      nickname: null == nickname
+      nickname: freezed == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      profileType: freezed == profileType
+          ? _value.profileType
+          : profileType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      badgeType: freezed == badgeType
+          ? _value.badgeType
+          : badgeType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$UpdateMeRequestImplCopyWith<$Res>
-    implements $UpdateMeRequestCopyWith<$Res> {
-  factory _$$UpdateMeRequestImplCopyWith(_$UpdateMeRequestImpl value,
-          $Res Function(_$UpdateMeRequestImpl) then) =
-      __$$UpdateMeRequestImplCopyWithImpl<$Res>;
+abstract class _$$RequestUpdateMeImplCopyWith<$Res>
+    implements $RequestUpdateMeCopyWith<$Res> {
+  factory _$$RequestUpdateMeImplCopyWith(_$RequestUpdateMeImpl value,
+          $Res Function(_$RequestUpdateMeImpl) then) =
+      __$$RequestUpdateMeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String nickname});
+  $Res call({String? nickname, String? profileType, String? badgeType});
 }
 
 /// @nodoc
-class __$$UpdateMeRequestImplCopyWithImpl<$Res>
-    extends _$UpdateMeRequestCopyWithImpl<$Res, _$UpdateMeRequestImpl>
-    implements _$$UpdateMeRequestImplCopyWith<$Res> {
-  __$$UpdateMeRequestImplCopyWithImpl(
-      _$UpdateMeRequestImpl _value, $Res Function(_$UpdateMeRequestImpl) _then)
+class __$$RequestUpdateMeImplCopyWithImpl<$Res>
+    extends _$RequestUpdateMeCopyWithImpl<$Res, _$RequestUpdateMeImpl>
+    implements _$$RequestUpdateMeImplCopyWith<$Res> {
+  __$$RequestUpdateMeImplCopyWithImpl(
+      _$RequestUpdateMeImpl _value, $Res Function(_$RequestUpdateMeImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdateMeRequest
+  /// Create a copy of RequestUpdateMe
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? nickname = null,
+    Object? nickname = freezed,
+    Object? profileType = freezed,
+    Object? badgeType = freezed,
   }) {
-    return _then(_$UpdateMeRequestImpl(
-      nickname: null == nickname
+    return _then(_$RequestUpdateMeImpl(
+      nickname: freezed == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      profileType: freezed == profileType
+          ? _value.profileType
+          : profileType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      badgeType: freezed == badgeType
+          ? _value.badgeType
+          : badgeType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$UpdateMeRequestImpl implements _UpdateMeRequest {
-  const _$UpdateMeRequestImpl({required this.nickname});
+class _$RequestUpdateMeImpl implements _RequestUpdateMe {
+  const _$RequestUpdateMeImpl(
+      {this.nickname, this.profileType, this.badgeType});
 
-  factory _$UpdateMeRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UpdateMeRequestImplFromJson(json);
+  factory _$RequestUpdateMeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestUpdateMeImplFromJson(json);
 
   @override
-  final String nickname;
+  final String? nickname;
+  @override
+  final String? profileType;
+  @override
+  final String? badgeType;
 
   @override
   String toString() {
-    return 'UpdateMeRequest(nickname: $nickname)';
+    return 'RequestUpdateMe(nickname: $nickname, profileType: $profileType, badgeType: $badgeType)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UpdateMeRequestImpl &&
+            other is _$RequestUpdateMeImpl &&
             (identical(other.nickname, nickname) ||
-                other.nickname == nickname));
+                other.nickname == nickname) &&
+            (identical(other.profileType, profileType) ||
+                other.profileType == profileType) &&
+            (identical(other.badgeType, badgeType) ||
+                other.badgeType == badgeType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, nickname);
+  int get hashCode =>
+      Object.hash(runtimeType, nickname, profileType, badgeType);
 
-  /// Create a copy of UpdateMeRequest
+  /// Create a copy of RequestUpdateMe
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$UpdateMeRequestImplCopyWith<_$UpdateMeRequestImpl> get copyWith =>
-      __$$UpdateMeRequestImplCopyWithImpl<_$UpdateMeRequestImpl>(
+  _$$RequestUpdateMeImplCopyWith<_$RequestUpdateMeImpl> get copyWith =>
+      __$$RequestUpdateMeImplCopyWithImpl<_$RequestUpdateMeImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UpdateMeRequestImplToJson(
+    return _$$RequestUpdateMeImplToJson(
       this,
     );
   }
 }
 
-abstract class _UpdateMeRequest implements UpdateMeRequest {
-  const factory _UpdateMeRequest({required final String nickname}) =
-      _$UpdateMeRequestImpl;
+abstract class _RequestUpdateMe implements RequestUpdateMe {
+  const factory _RequestUpdateMe(
+      {final String? nickname,
+      final String? profileType,
+      final String? badgeType}) = _$RequestUpdateMeImpl;
 
-  factory _UpdateMeRequest.fromJson(Map<String, dynamic> json) =
-      _$UpdateMeRequestImpl.fromJson;
+  factory _RequestUpdateMe.fromJson(Map<String, dynamic> json) =
+      _$RequestUpdateMeImpl.fromJson;
 
   @override
-  String get nickname;
+  String? get nickname;
+  @override
+  String? get profileType;
+  @override
+  String? get badgeType;
 
-  /// Create a copy of UpdateMeRequest
+  /// Create a copy of RequestUpdateMe
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UpdateMeRequestImplCopyWith<_$UpdateMeRequestImpl> get copyWith =>
+  _$$RequestUpdateMeImplCopyWith<_$RequestUpdateMeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

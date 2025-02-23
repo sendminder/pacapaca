@@ -6,67 +6,69 @@ part 'auth_dto.g.dart';
 
 // Request DTOs
 @freezed
-class LoginRequest with _$LoginRequest {
-  const factory LoginRequest({
+class RequestLogin with _$RequestLogin {
+  const factory RequestLogin({
     @JsonKey(name: 'id_token') required String idToken,
     @JsonKey(name: 'push_token') required String pushToken,
     @JsonKey(name: 'auth_provider') required String authProvider,
-  }) = _LoginRequest;
+  }) = _RequestLogin;
 
-  factory LoginRequest.fromJson(Map<String, dynamic> json) =>
-      _$LoginRequestFromJson(json);
+  factory RequestLogin.fromJson(Map<String, dynamic> json) =>
+      _$RequestLoginFromJson(json);
 }
 
 @freezed
-class RefreshRequest with _$RefreshRequest {
-  const factory RefreshRequest({
+class RequestRefresh with _$RequestRefresh {
+  const factory RequestRefresh({
     @JsonKey(name: 'refresh_token') required String refreshToken,
-  }) = _RefreshRequest;
+  }) = _RequestRefresh;
 
-  factory RefreshRequest.fromJson(Map<String, dynamic> json) =>
-      _$RefreshRequestFromJson(json);
+  factory RequestRefresh.fromJson(Map<String, dynamic> json) =>
+      _$RequestRefreshFromJson(json);
 }
 
 // Response DTOs
 @freezed
-class SignUpResponse with _$SignUpResponse {
-  const factory SignUpResponse({
+class ResponseSignUp with _$ResponseSignUp {
+  const factory ResponseSignUp({
     required UserDTO user,
     @JsonKey(name: 'access_token') required String accessToken,
     @JsonKey(name: 'refresh_token') required String refreshToken,
-  }) = _SignUpResponse;
+  }) = _ResponseSignUp;
 
-  factory SignUpResponse.fromJson(Map<String, dynamic> json) =>
-      _$SignUpResponseFromJson(json);
+  factory ResponseSignUp.fromJson(Map<String, dynamic> json) =>
+      _$ResponseSignUpFromJson(json);
 }
 
 @freezed
-class RefreshResponse with _$RefreshResponse {
-  const factory RefreshResponse({
+class ResponseRefresh with _$ResponseRefresh {
+  const factory ResponseRefresh({
     @JsonKey(name: 'access_token') required String accessToken,
     @JsonKey(name: 'refresh_token') required String refreshToken,
-  }) = _RefreshResponse;
+  }) = _ResponseRefresh;
 
-  factory RefreshResponse.fromJson(Map<String, dynamic> json) =>
-      _$RefreshResponseFromJson(json);
+  factory ResponseRefresh.fromJson(Map<String, dynamic> json) =>
+      _$ResponseRefreshFromJson(json);
 }
 
 @freezed
-class GetMeResponse with _$GetMeResponse {
-  const factory GetMeResponse({
+class ResponseGetMe with _$ResponseGetMe {
+  const factory ResponseGetMe({
     required UserDTO user,
-  }) = _GetMeResponse;
+  }) = _ResponseGetMe;
 
-  factory GetMeResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMeResponseFromJson(json);
+  factory ResponseGetMe.fromJson(Map<String, dynamic> json) =>
+      _$ResponseGetMeFromJson(json);
 }
 
 @freezed
-class UpdateMeRequest with _$UpdateMeRequest {
-  const factory UpdateMeRequest({
-    required String nickname,
-  }) = _UpdateMeRequest;
+class RequestUpdateMe with _$RequestUpdateMe {
+  const factory RequestUpdateMe({
+    String? nickname,
+    String? profileType,
+    String? badgeType,
+  }) = _RequestUpdateMe;
 
-  factory UpdateMeRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateMeRequestFromJson(json);
+  factory RequestUpdateMe.fromJson(Map<String, dynamic> json) =>
+      _$RequestUpdateMeFromJson(json);
 }

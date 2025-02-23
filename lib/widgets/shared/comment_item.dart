@@ -193,7 +193,7 @@ class CommentItem extends ConsumerWidget {
 
                               if (confirmed == true) {
                                 await ref
-                                    .read(blockStateProvider.notifier)
+                                    .read(blocksProvider.notifier)
                                     .blockUser(
                                       userId: comment.userId,
                                       reason: 'block.from_comment'

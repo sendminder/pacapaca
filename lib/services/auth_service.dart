@@ -89,7 +89,7 @@ class AuthService {
       );
 
       if (responseRest.response != null) {
-        final getMeResponse = GetMeResponse.fromJson(responseRest.response!);
+        final getMeResponse = ResponseGetMe.fromJson(responseRest.response!);
         await _storageService.saveUser(getMeResponse.user);
         return getMeResponse.user;
       }
@@ -106,7 +106,7 @@ class AuthService {
       if (refreshToken == null) return null;
 
       String timestamp = DateTime.now().toUtc().toIso8601String();
-      final refreshRequest = RefreshRequest(refreshToken: refreshToken);
+      final refreshRequest = RequestRefresh(refreshToken: refreshToken);
       final body = jsonEncode(refreshRequest.toJson());
       String signature = _hmacUtil.generateHMACSignature(body, timestamp);
 
@@ -128,7 +128,7 @@ class AuthService {
 
       if (responseRest.response != null) {
         final refreshResponse =
-            RefreshResponse.fromJson(responseRest.response!);
+            ResponseRefresh.fromJson(responseRest.response!);
         await _storageService.saveTokens(
           accessToken: refreshResponse.accessToken,
           refreshToken: refreshResponse.refreshToken,
@@ -155,10 +155,10 @@ class AuthService {
 
       final userCredential = await _auth.signInWithCredential(oauthCredential);
 
-      final loginRequest = LoginRequest(
+      final loginRequest = RequestLogin(
         idToken: await userCredential.user?.getIdToken() ?? '',
         authProvider: 'apple',
-        pushToken: '', // 필요한 경우 푸시 토큰 추가
+        pushToken: '', // TODO: 푸시 토큰 추가
       );
 
       return await _serverLogin(loginRequest);
@@ -195,7 +195,7 @@ class AuthService {
     }
   }
 
-  Future<UserDTO?> _serverLogin(LoginRequest request) async {
+  Future<UserDTO?> _serverLogin(RequestLogin request) async {
     try {
       String timestamp = DateTime.now().toUtc().toIso8601String();
       String body = jsonEncode(request.toJson());
@@ -218,7 +218,7 @@ class AuthService {
       );
 
       if (responseRest.response != null) {
-        final signUpResponse = SignUpResponse.fromJson(responseRest.response!);
+        final signUpResponse = ResponseSignUp.fromJson(responseRest.response!);
         await Future.wait([
           _storageService.saveTokens(
             accessToken: signUpResponse.accessToken,
@@ -236,16 +236,14 @@ class AuthService {
     }
   }
 
-  Future<UserDTO?> updateNickname(String nickname) async {
+  Future<UserDTO?> updateMe(RequestUpdateMe request) async {
     try {
       final token = await _storageService.accessToken;
       if (token == null) return null;
 
-      final updateRequest = UpdateMeRequest(nickname: nickname);
-
       final response = await _dio.put(
         '/v1/me',
-        data: jsonEncode(updateRequest.toJson()),
+        data: jsonEncode(request.toJson()),
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -259,7 +257,7 @@ class AuthService {
       );
 
       if (responseRest.response != null) {
-        final getMeResponse = GetMeResponse.fromJson(responseRest.response!);
+        final getMeResponse = ResponseGetMe.fromJson(responseRest.response!);
         await _storageService.saveUser(getMeResponse.user);
         return getMeResponse.user;
       }
@@ -280,10 +278,10 @@ class AuthService {
         password: password,
       );
 
-      final loginRequest = LoginRequest(
+      final loginRequest = RequestLogin(
         idToken: await userCredential.user?.getIdToken() ?? '',
         authProvider: 'email',
-        pushToken: '', // 필요한 경우 푸시 토큰 추가
+        pushToken: '', // TODO: 푸시 토큰 추가
       );
 
       return await _serverLogin(loginRequest);
