@@ -21,6 +21,28 @@ class Article extends _$Article {
     return article;
   }
 
+  Future<void> updateArticleStatus(
+      bool isLiked, int likeCount, int viewCount, int? commentCount) async {
+    final currentArticle = state.value;
+    if (currentArticle == null) return;
+    final updatedArticle = currentArticle.copyWith(
+      isLiked: isLiked,
+      likeCount: likeCount,
+      viewCount: viewCount,
+      commentCount: commentCount ?? currentArticle.commentCount,
+    );
+    state = AsyncData(updatedArticle);
+  }
+
+  Future<void> addCommentCount() async {
+    final currentArticle = state.value;
+    if (currentArticle == null) return;
+    final updatedArticle = currentArticle.copyWith(
+      commentCount: currentArticle.commentCount + 1,
+    );
+    state = AsyncData(updatedArticle);
+  }
+
   Future<void> refresh() async {
     ref.invalidateSelf();
   }
@@ -143,6 +165,20 @@ class ArticleList extends _$ArticleList {
       return article;
     }).toList();
 
+    state = AsyncData(updatedArticles);
+  }
+
+  Future<void> addCommentCount(int articleId) async {
+    final currentArticles = state.value;
+    if (currentArticles == null) return;
+    final updatedArticles = currentArticles.map((article) {
+      if (article.id == articleId) {
+        return article.copyWith(
+          commentCount: article.commentCount + 1,
+        );
+      }
+      return article;
+    }).toList();
     state = AsyncData(updatedArticles);
   }
 

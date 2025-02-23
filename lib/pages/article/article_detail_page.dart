@@ -120,9 +120,10 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
               controller: _commentController,
               focusNode: _focusNode,
               onSubmit: (content) async {
-                await ref
+                final comment = await ref
                     .read(commentListProvider(widget.articleId).notifier)
                     .addComment(widget.articleId, content);
+
                 _commentController.clear();
                 FocusScope.of(context).unfocus();
               },
@@ -188,6 +189,15 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                       isLiked: response.isLiked,
                       likeCount: response.likeCount,
                       viewCount: article.viewCount,
+                    );
+                // 상세 페이지 상태 갱신
+                ref
+                    .read(articleProvider(articleId).notifier)
+                    .updateArticleStatus(
+                      response.isLiked,
+                      response.likeCount,
+                      article.viewCount,
+                      article.commentCount,
                     );
               }
             } catch (e) {

@@ -3,7 +3,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:pacapaca/services/comment_service.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:get_it/get_it.dart';
-
+import 'package:pacapaca/providers/article_provider.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 part 'comment_provider.g.dart';
 
 // 댓글 목록 provider
@@ -12,18 +13,21 @@ class CommentList extends _$CommentList {
   final _commentService = GetIt.instance<CommentService>();
 
   int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
-  String? _sort; // 댓글 정렬 기준 저장
+  String _sort = 'latest'; // 댓글 정렬 기준 저장
+  ArticleCategory _category = ArticleCategory.all;
 
   @override
   FutureOr<List<ArticleCommentDTO>?> build(int articleId) async {
     _lastPagingKey = null; // 초기화
     _sort = ref.watch(commentSortProvider);
+    _category = ref.watch(articleCategoryProvider);
+
     final comments =
         await _commentService.listComments(articleId, 20, 0, _sort);
     return comments;
   }
 
-  Future<void> addComment(int articleId, String content) async {
+  Future<ArticleCommentDTO?> addComment(int articleId, String content) async {
     state = const AsyncLoading();
     try {
       final request = RequestCreateComment(content: content);
@@ -43,9 +47,23 @@ class CommentList extends _$CommentList {
             newComment,
           ]);
         }
+
+        // 댓글 수 업데이트
+        ref.read(articleProvider(articleId).notifier).addCommentCount();
+
+        // 활성화된 게시글 목록 업데이트
+        ref
+            .read(articleListProvider(
+              limit: 20,
+              sortBy: _sort,
+              category: _category,
+            ).notifier)
+            .addCommentCount(articleId);
       }
+      return newComment;
     } catch (e, stack) {
       state = AsyncError(e, stack);
+      return null;
     }
   }
 

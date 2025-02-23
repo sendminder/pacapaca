@@ -6,7 +6,7 @@ part of 'article_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$articleHash() => r'b1f1f491ab1e93a5731d6c004c1c120f468d3e08';
+String _$articleHash() => r'eeb3095e146b70f79856cbb7af6de21578baba25';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -172,7 +172,7 @@ class _ArticleProviderElement
   int get articleId => (origin as ArticleProvider).articleId;
 }
 
-String _$articleListHash() => r'a168834b00e4784854d8ac1a4f8225bb46d6c156';
+String _$articleListHash() => r'c422ff613b2bd884844901ce89c07ee838cc7253';
 
 abstract class _$ArticleList
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {

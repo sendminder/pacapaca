@@ -28,6 +28,12 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     _scrollController.addListener(_onScroll);
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    ref.invalidate(articleListProvider);
+  }
+
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent * 0.8) {
