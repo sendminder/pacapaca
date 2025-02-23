@@ -41,6 +41,7 @@ mixin _$ArticleDTO {
   int get commentCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'view_count')
   int get viewCount => throw _privateConstructorUsedError; // 유저 정보
+  @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser =>
       throw _privateConstructorUsedError; // 현재 유저가 좋아요를 눌렀는지 여부
   @JsonKey(name: 'is_liked')
@@ -76,7 +77,7 @@ abstract class $ArticleDTOCopyWith<$Res> {
       @JsonKey(name: 'like_count') int likeCount,
       @JsonKey(name: 'comment_count') int commentCount,
       @JsonKey(name: 'view_count') int viewCount,
-      DisplayUserDTO displayUser,
+      @JsonKey(name: 'display_user') DisplayUserDTO displayUser,
       @JsonKey(name: 'is_liked') bool isLiked});
 
   $DisplayUserDTOCopyWith<$Res> get displayUser;
@@ -210,7 +211,7 @@ abstract class _$$ArticleDTOImplCopyWith<$Res>
       @JsonKey(name: 'like_count') int likeCount,
       @JsonKey(name: 'comment_count') int commentCount,
       @JsonKey(name: 'view_count') int viewCount,
-      DisplayUserDTO displayUser,
+      @JsonKey(name: 'display_user') DisplayUserDTO displayUser,
       @JsonKey(name: 'is_liked') bool isLiked});
 
   @override
@@ -328,7 +329,7 @@ class _$ArticleDTOImpl implements _ArticleDTO {
       @JsonKey(name: 'like_count') required this.likeCount,
       @JsonKey(name: 'comment_count') required this.commentCount,
       @JsonKey(name: 'view_count') required this.viewCount,
-      required this.displayUser,
+      @JsonKey(name: 'display_user') required this.displayUser,
       @JsonKey(name: 'is_liked') required this.isLiked})
       : _tags = tags;
 
@@ -379,6 +380,7 @@ class _$ArticleDTOImpl implements _ArticleDTO {
   final int viewCount;
 // 유저 정보
   @override
+  @JsonKey(name: 'display_user')
   final DisplayUserDTO displayUser;
 // 현재 유저가 좋아요를 눌렀는지 여부
   @override
@@ -459,22 +461,22 @@ class _$ArticleDTOImpl implements _ArticleDTO {
 
 abstract class _ArticleDTO implements ArticleDTO {
   const factory _ArticleDTO(
-          {required final int id,
-          @JsonKey(name: 'user_id') required final int userId,
-          required final String title,
-          required final String content,
-          @JsonKey(name: 'image_url') final String? imageUrl,
-          @JsonKey(name: 'thumbnail_url') final String? thumbnailUrl,
-          final List<String>? tags,
-          final String? category,
-          @JsonKey(name: 'create_time') required final String createTime,
-          @JsonKey(name: 'update_time') required final String updateTime,
-          @JsonKey(name: 'like_count') required final int likeCount,
-          @JsonKey(name: 'comment_count') required final int commentCount,
-          @JsonKey(name: 'view_count') required final int viewCount,
-          required final DisplayUserDTO displayUser,
-          @JsonKey(name: 'is_liked') required final bool isLiked}) =
-      _$ArticleDTOImpl;
+      {required final int id,
+      @JsonKey(name: 'user_id') required final int userId,
+      required final String title,
+      required final String content,
+      @JsonKey(name: 'image_url') final String? imageUrl,
+      @JsonKey(name: 'thumbnail_url') final String? thumbnailUrl,
+      final List<String>? tags,
+      final String? category,
+      @JsonKey(name: 'create_time') required final String createTime,
+      @JsonKey(name: 'update_time') required final String updateTime,
+      @JsonKey(name: 'like_count') required final int likeCount,
+      @JsonKey(name: 'comment_count') required final int commentCount,
+      @JsonKey(name: 'view_count') required final int viewCount,
+      @JsonKey(name: 'display_user') required final DisplayUserDTO displayUser,
+      @JsonKey(name: 'is_liked')
+      required final bool isLiked}) = _$ArticleDTOImpl;
 
   factory _ArticleDTO.fromJson(Map<String, dynamic> json) =
       _$ArticleDTOImpl.fromJson;
@@ -514,6 +516,7 @@ abstract class _ArticleDTO implements ArticleDTO {
   @JsonKey(name: 'view_count')
   int get viewCount; // 유저 정보
   @override
+  @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser; // 현재 유저가 좋아요를 눌렀는지 여부
   @override
   @JsonKey(name: 'is_liked')

@@ -22,7 +22,7 @@ class ArticleDTO with _$ArticleDTO {
     @JsonKey(name: 'view_count') required int viewCount,
 
     // 유저 정보
-    required DisplayUserDTO displayUser,
+    @JsonKey(name: 'display_user') required DisplayUserDTO displayUser,
 
     // 현재 유저가 좋아요를 눌렀는지 여부
     @JsonKey(name: 'is_liked') required bool isLiked,
