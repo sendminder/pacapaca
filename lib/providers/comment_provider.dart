@@ -1,5 +1,4 @@
 import 'package:pacapaca/models/dto/comment_dto.dart';
-import 'package:pacapaca/providers/article_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:pacapaca/services/comment_service.dart';
 import 'package:pacapaca/providers/settings_provider.dart';

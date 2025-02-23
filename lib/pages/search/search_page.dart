@@ -212,7 +212,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       article: article,
       onToggleLike: (articleId) async {
         final response = await ref
-            .read(articleServiceProvider)
+            .read(articleProvider(article.id).notifier)
             .toggleArticleLike(article.id);
         if (response != null) {
           ref

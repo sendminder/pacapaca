@@ -13,6 +13,8 @@ import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/providers/report_provider.dart';
 import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
+import 'package:pacapaca/models/dto/comment_dto.dart';
+import 'package:pacapaca/providers/comment_provider.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -58,7 +60,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
   Widget build(BuildContext context) {
     final provider = articleProvider(widget.articleId);
     final articleAsync = ref.watch(provider);
-    final commentsAsync = ref.watch(articleCommentsProvider(widget.articleId));
+    final commentsAsync = ref.watch(commentListProvider(widget.articleId));
     final currentUser = ref.watch(authProvider).value;
 
     // 게시글 상세 페이지에서 좋아요 버튼 클릭 시 목록 업데이트
@@ -84,15 +86,15 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
         child: RefreshIndicator(
           onRefresh: () async {
             ref.invalidate(provider);
-            ref.invalidate(articleCommentsProvider(widget.articleId));
+            ref.invalidate(commentListProvider(widget.articleId));
           },
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
               if (scrollInfo.metrics.pixels >=
                   scrollInfo.metrics.maxScrollExtent * 0.8) {
                 ref
-                    .read(articleCommentsProvider(widget.articleId).notifier)
-                    .loadMore();
+                    .read(commentListProvider(widget.articleId).notifier)
+                    .loadMore(widget.articleId);
               }
               return true;
             },
@@ -119,8 +121,8 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
               focusNode: _focusNode,
               onSubmit: (content) async {
                 await ref
-                    .read(articleCommentsProvider(widget.articleId).notifier)
-                    .addComment(content);
+                    .read(commentListProvider(widget.articleId).notifier)
+                    .addComment(widget.articleId, content);
                 _commentController.clear();
                 FocusScope.of(context).unfocus();
               },
@@ -172,17 +174,9 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
           onToggleLike: (articleId) async {
             try {
               final response = await ref
-                  .read(articleServiceProvider)
+                  .read(articleProvider(articleId).notifier)
                   .toggleArticleLike(articleId);
               if (response != null) {
-                // 상세 페이지 상태 업데이트
-                ref.read(articleProvider(articleId).notifier).state =
-                    AsyncValue.data(article.copyWith(
-                  isLiked: response.isLiked,
-                  likeCount: response.likeCount,
-                ));
-
-                // 현재 정렬 상태의 목록만 업데이트
                 ref
                     .read(articleListProvider(
                       sortBy: currentSortBy,
@@ -291,13 +285,13 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
               isWriter: articleAsync.value?.userId == currentUser?.id,
               onDelete: (commentId) async {
                 await ref
-                    .read(articleCommentsProvider(widget.articleId).notifier)
-                    .deleteComment(commentId);
+                    .read(commentListProvider(widget.articleId).notifier)
+                    .deleteComment(widget.articleId, commentId);
               },
               onUpdate: (commentId, content) async {
                 await ref
-                    .read(articleCommentsProvider(widget.articleId).notifier)
-                    .updateComment(commentId, content);
+                    .read(commentListProvider(widget.articleId).notifier)
+                    .updateComment(widget.articleId, commentId, content);
               },
             );
           },

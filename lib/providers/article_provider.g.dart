@@ -6,24 +6,7 @@ part of 'article_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$articleServiceHash() => r'dbb26e28bafdb152280ac179e5e13ec8a7451628';
-
-/// See also [articleService].
-@ProviderFor(articleService)
-final articleServiceProvider = AutoDisposeProvider<ArticleService>.internal(
-  articleService,
-  name: r'articleServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$articleServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ArticleServiceRef = AutoDisposeProviderRef<ArticleService>;
-String _$articleListHash() => r'dd562284281211c00830aaf0c9cea323797358d0';
+String _$articleHash() => r'b1f1f491ab1e93a5731d6c004c1c120f468d3e08';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -45,6 +28,151 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+abstract class _$Article
+    extends BuildlessAutoDisposeAsyncNotifier<ArticleDTO?> {
+  late final int articleId;
+
+  FutureOr<ArticleDTO?> build(
+    int articleId,
+  );
+}
+
+/// See also [Article].
+@ProviderFor(Article)
+const articleProvider = ArticleFamily();
+
+/// See also [Article].
+class ArticleFamily extends Family<AsyncValue<ArticleDTO?>> {
+  /// See also [Article].
+  const ArticleFamily();
+
+  /// See also [Article].
+  ArticleProvider call(
+    int articleId,
+  ) {
+    return ArticleProvider(
+      articleId,
+    );
+  }
+
+  @override
+  ArticleProvider getProviderOverride(
+    covariant ArticleProvider provider,
+  ) {
+    return call(
+      provider.articleId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'articleProvider';
+}
+
+/// See also [Article].
+class ArticleProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<Article, ArticleDTO?> {
+  /// See also [Article].
+  ArticleProvider(
+    int articleId,
+  ) : this._internal(
+          () => Article()..articleId = articleId,
+          from: articleProvider,
+          name: r'articleProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$articleHash,
+          dependencies: ArticleFamily._dependencies,
+          allTransitiveDependencies: ArticleFamily._allTransitiveDependencies,
+          articleId: articleId,
+        );
+
+  ArticleProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.articleId,
+  }) : super.internal();
+
+  final int articleId;
+
+  @override
+  FutureOr<ArticleDTO?> runNotifierBuild(
+    covariant Article notifier,
+  ) {
+    return notifier.build(
+      articleId,
+    );
+  }
+
+  @override
+  Override overrideWith(Article Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ArticleProvider._internal(
+        () => create()..articleId = articleId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        articleId: articleId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<Article, ArticleDTO?>
+      createElement() {
+    return _ArticleProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ArticleProvider && other.articleId == articleId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, articleId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin ArticleRef on AutoDisposeAsyncNotifierProviderRef<ArticleDTO?> {
+  /// The parameter `articleId` of this provider.
+  int get articleId;
+}
+
+class _ArticleProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<Article, ArticleDTO?>
+    with ArticleRef {
+  _ArticleProviderElement(super.provider);
+
+  @override
+  int get articleId => (origin as ArticleProvider).articleId;
+}
+
+String _$articleListHash() => r'960b0c332df2da2046efa3213ccfa1408c6b55b2';
 
 abstract class _$ArticleList
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
@@ -273,300 +401,7 @@ class _ArticleListProviderElement
   ArticleCategory? get category => (origin as ArticleListProvider).category;
 }
 
-String _$articleHash() => r'259cf70eaa3cc100fa0fc7997072c4dbc0eac25e';
-
-abstract class _$Article
-    extends BuildlessAutoDisposeAsyncNotifier<ArticleDTO?> {
-  late final int articleId;
-
-  FutureOr<ArticleDTO?> build(
-    int articleId,
-  );
-}
-
-/// See also [Article].
-@ProviderFor(Article)
-const articleProvider = ArticleFamily();
-
-/// See also [Article].
-class ArticleFamily extends Family<AsyncValue<ArticleDTO?>> {
-  /// See also [Article].
-  const ArticleFamily();
-
-  /// See also [Article].
-  ArticleProvider call(
-    int articleId,
-  ) {
-    return ArticleProvider(
-      articleId,
-    );
-  }
-
-  @override
-  ArticleProvider getProviderOverride(
-    covariant ArticleProvider provider,
-  ) {
-    return call(
-      provider.articleId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'articleProvider';
-}
-
-/// See also [Article].
-class ArticleProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<Article, ArticleDTO?> {
-  /// See also [Article].
-  ArticleProvider(
-    int articleId,
-  ) : this._internal(
-          () => Article()..articleId = articleId,
-          from: articleProvider,
-          name: r'articleProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$articleHash,
-          dependencies: ArticleFamily._dependencies,
-          allTransitiveDependencies: ArticleFamily._allTransitiveDependencies,
-          articleId: articleId,
-        );
-
-  ArticleProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.articleId,
-  }) : super.internal();
-
-  final int articleId;
-
-  @override
-  FutureOr<ArticleDTO?> runNotifierBuild(
-    covariant Article notifier,
-  ) {
-    return notifier.build(
-      articleId,
-    );
-  }
-
-  @override
-  Override overrideWith(Article Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: ArticleProvider._internal(
-        () => create()..articleId = articleId,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        articleId: articleId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderElement<Article, ArticleDTO?>
-      createElement() {
-    return _ArticleProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is ArticleProvider && other.articleId == articleId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, articleId.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin ArticleRef on AutoDisposeAsyncNotifierProviderRef<ArticleDTO?> {
-  /// The parameter `articleId` of this provider.
-  int get articleId;
-}
-
-class _ArticleProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<Article, ArticleDTO?>
-    with ArticleRef {
-  _ArticleProviderElement(super.provider);
-
-  @override
-  int get articleId => (origin as ArticleProvider).articleId;
-}
-
-String _$articleCommentsHash() => r'b9b3e42c8012ef5438f169075e67df4cb60d721b';
-
-abstract class _$ArticleComments
-    extends BuildlessAutoDisposeAsyncNotifier<List<ArticleCommentDTO>?> {
-  late final int articleId;
-
-  FutureOr<List<ArticleCommentDTO>?> build(
-    int articleId,
-  );
-}
-
-/// See also [ArticleComments].
-@ProviderFor(ArticleComments)
-const articleCommentsProvider = ArticleCommentsFamily();
-
-/// See also [ArticleComments].
-class ArticleCommentsFamily
-    extends Family<AsyncValue<List<ArticleCommentDTO>?>> {
-  /// See also [ArticleComments].
-  const ArticleCommentsFamily();
-
-  /// See also [ArticleComments].
-  ArticleCommentsProvider call(
-    int articleId,
-  ) {
-    return ArticleCommentsProvider(
-      articleId,
-    );
-  }
-
-  @override
-  ArticleCommentsProvider getProviderOverride(
-    covariant ArticleCommentsProvider provider,
-  ) {
-    return call(
-      provider.articleId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'articleCommentsProvider';
-}
-
-/// See also [ArticleComments].
-class ArticleCommentsProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    ArticleComments, List<ArticleCommentDTO>?> {
-  /// See also [ArticleComments].
-  ArticleCommentsProvider(
-    int articleId,
-  ) : this._internal(
-          () => ArticleComments()..articleId = articleId,
-          from: articleCommentsProvider,
-          name: r'articleCommentsProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$articleCommentsHash,
-          dependencies: ArticleCommentsFamily._dependencies,
-          allTransitiveDependencies:
-              ArticleCommentsFamily._allTransitiveDependencies,
-          articleId: articleId,
-        );
-
-  ArticleCommentsProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.articleId,
-  }) : super.internal();
-
-  final int articleId;
-
-  @override
-  FutureOr<List<ArticleCommentDTO>?> runNotifierBuild(
-    covariant ArticleComments notifier,
-  ) {
-    return notifier.build(
-      articleId,
-    );
-  }
-
-  @override
-  Override overrideWith(ArticleComments Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: ArticleCommentsProvider._internal(
-        () => create()..articleId = articleId,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        articleId: articleId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderElement<ArticleComments,
-      List<ArticleCommentDTO>?> createElement() {
-    return _ArticleCommentsProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is ArticleCommentsProvider && other.articleId == articleId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, articleId.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin ArticleCommentsRef
-    on AutoDisposeAsyncNotifierProviderRef<List<ArticleCommentDTO>?> {
-  /// The parameter `articleId` of this provider.
-  int get articleId;
-}
-
-class _ArticleCommentsProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<ArticleComments,
-        List<ArticleCommentDTO>?> with ArticleCommentsRef {
-  _ArticleCommentsProviderElement(super.provider);
-
-  @override
-  int get articleId => (origin as ArticleCommentsProvider).articleId;
-}
-
-String _$articleEditorHash() => r'747d259fca3c79daf6e7878736ed884929043ebe';
+String _$articleEditorHash() => r'794bdd7312c590daff616a7ead8563f654d26cd3';
 
 /// See also [ArticleEditor].
 @ProviderFor(ArticleEditor)
@@ -582,7 +417,7 @@ final articleEditorProvider =
 );
 
 typedef _$ArticleEditor = AutoDisposeAsyncNotifier<void>;
-String _$articleSearchHash() => r'6d4942aa4b4f91dbb3aa56c65235a425bbfed4fc';
+String _$articleSearchHash() => r'8b0ab9114f82e8427a60f70f383de2bd5b5a501f';
 
 abstract class _$ArticleSearch
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {

@@ -49,6 +49,11 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
   Widget build(BuildContext context) {
     final sortBy = ref.watch(articleSortProvider);
     final selectedCategory = ref.watch(articleCategoryProvider);
+    final articlesAsync = ref.watch(articleListProvider(
+      sortBy: sortBy,
+      category: selectedCategory,
+      limit: 20,
+    ));
 
     return Scaffold(
       appBar: PageTitle(
@@ -67,16 +72,15 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
           }
         },
         children: ArticleCategory.values.map((category) {
-          final provider = articleListProvider(
-            sortBy: sortBy,
-            category: category,
-            limit: 20,
-          );
-          final articlesAsync = ref.watch(provider);
-
           return RefreshIndicator(
             onRefresh: () async {
-              await ref.read(provider.notifier).forceRefresh(
+              await ref
+                  .read(articleListProvider(
+                    sortBy: sortBy,
+                    limit: 20,
+                    category: category,
+                  ).notifier)
+                  .forceRefresh(
                     sortBy: sortBy,
                     limit: 20,
                     category: category,
@@ -216,7 +220,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
             onToggleLike: (articleId) async {
               try {
                 final response = await ref
-                    .read(articleServiceProvider)
+                    .read(articleProvider(articleId).notifier)
                     .toggleArticleLike(articleId);
                 if (response != null) {
                   ref

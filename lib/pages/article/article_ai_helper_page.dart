@@ -155,13 +155,15 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
           content: content,
           onPost: () async {
             try {
-              final request = CreateArticleRequest(
+              final request = RequestCreateArticle(
                 title: title,
                 content: content,
                 category: ArticleCategory.daily.name, // 기본값으로 일상 카테고리 설정
               );
 
-              await ref.read(articleServiceProvider).createArticle(request);
+              await ref
+                  .read(articleEditorProvider.notifier)
+                  .createArticle(request);
 
               if (context.mounted) {
                 context.pop(); // 바텀시트 닫기

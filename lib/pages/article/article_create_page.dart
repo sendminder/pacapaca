@@ -118,13 +118,13 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
     }
 
     try {
-      final request = CreateArticleRequest(
+      final request = RequestCreateArticle(
         title: _titleController.text,
         content: _contentController.text,
         category: selectedCategory.name,
       );
 
-      await ref.read(articleServiceProvider).createArticle(request);
+      await ref.read(articleEditorProvider.notifier).createArticle(request);
       if (mounted) {
         context.pop();
         ref.invalidate(articleListProvider);

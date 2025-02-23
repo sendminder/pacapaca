@@ -2,11 +2,29 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/article_service.dart';
 import '../models/dto/article_dto.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
-import 'package:pacapaca/models/dto/comment_dto.dart';
 
 part 'article_provider.g.dart';
+
+// 게시글 상세 provider
+@riverpod
+class Article extends _$Article {
+  final _articleService = GetIt.instance<ArticleService>();
+
+  @override
+  FutureOr<ArticleDTO?> build(int articleId) async {
+    return _articleService.getArticle(articleId);
+  }
+
+  Future<ResponseArticleLike?> toggleArticleLike(int articleId) async {
+    final article = await _articleService.toggleArticleLike(articleId);
+    return article;
+  }
+
+  Future<void> refresh() async {
+    ref.invalidateSelf();
+  }
+}
 
 // 게시글 목록 provider
 @riverpod
@@ -26,6 +44,20 @@ class ArticleList extends _$ArticleList {
     int? pagingArticleId,
     ArticleCategory? category,
   }) async {
+    state = const AsyncLoading();
+
+    // 데이터 업데이트시 캐시 무효화
+    ref.listen(
+        articleListProvider(
+          sortBy: sortBy,
+          limit: limit,
+          category: category,
+        ), (previous, next) {
+      if (next.hasValue && next.value != null) {
+        _lastFetchTime = null;
+      }
+    });
+
     // 이미 데이터가 있고 캐시가 유효한 경우 기존 데이터 반환
     if (state.hasValue &&
         state.value != null &&
@@ -126,21 +158,6 @@ class ArticleList extends _$ArticleList {
     }).toList();
 
     state = AsyncData(updatedArticles);
-  }
-
-  Future<void> refresh() async {
-    ref.invalidateSelf();
-  }
-}
-
-// 게시글 상세 provider
-@riverpod
-class Article extends _$Article {
-  final _articleService = GetIt.instance<ArticleService>();
-
-  @override
-  FutureOr<ArticleDTO?> build(int articleId) async {
-    return _articleService.getArticle(articleId);
   }
 
   Future<void> refresh() async {

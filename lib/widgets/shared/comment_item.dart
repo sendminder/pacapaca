@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/widgets/shared/comment/comment_edit_dialog.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -8,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/providers/report_provider.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
+import 'package:pacapaca/models/dto/comment_dto.dart';
 
 class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
