@@ -126,8 +126,19 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
 
       await ref.read(articleEditorProvider.notifier).createArticle(request);
       if (mounted) {
+        final sortBy = ref.read(articleSortProvider);
         context.pop();
-        ref.invalidate(articleListProvider);
+        ref
+            .read(articleListProvider(
+              sortBy: sortBy,
+              category: selectedCategory,
+              limit: 20,
+            ).notifier)
+            .forceRefresh(
+              sortBy: sortBy,
+              category: selectedCategory,
+              limit: 20,
+            );
       }
     } catch (e) {
       if (mounted) {
