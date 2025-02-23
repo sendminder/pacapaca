@@ -8,6 +8,7 @@ import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/page_title.dart';
+import 'package:pacapaca/widgets/shared/article_skeleton_item.dart';
 
 class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});
@@ -93,7 +94,14 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
                     category: category,
                   );
             },
-            child: _buildArticleList(articlesAsync),
+            child: articlesAsync.when(
+              data: (articles) => _buildArticleList(articles ?? []),
+              error: (error, stackTrace) => const SizedBox.shrink(),
+              loading: () => ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) => const ArticleSkeletonItem(),
+              ),
+            ),
           );
         }).toList(),
       ),
@@ -199,79 +207,36 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     );
   }
 
-  Widget _buildArticleList(AsyncValue<List<ArticleDTO>?> articlesAsync) {
-    return articlesAsync.when(
-      data: (articles) {
-        if (articles == null || articles.isEmpty) {
-          return ListView(
-            controller: _scrollController,
-            physics: const AlwaysScrollableScrollPhysics(),
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height - 200,
-                child: Center(
-                  child: Text('article.no_articles'.tr()),
-                ),
-              ),
-            ],
-          );
-        }
-
-        return ListView.builder(
-          controller: _scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(top: 8),
-          itemCount: articles.length,
-          itemBuilder: (context, index) => ArticleCard(
-            article: articles[index],
-            onToggleLike: (articleId) async {
-              try {
-                final response = await ref
-                    .read(articleProvider(articleId).notifier)
-                    .toggleArticleLike(articleId);
-                if (response != null) {
-                  ref
-                      .read(articleListProvider(
-                        sortBy: _sortBy,
-                        category: _selectedCategory,
-                        limit: 20,
-                      ).notifier)
-                      .updateArticleStatus(
-                        articleId: articleId,
-                        isLiked: response.isLiked,
-                        likeCount: response.likeCount,
-                      );
-                }
-              } catch (e) {
-                rethrow;
-              }
-            },
-          ),
-        );
-      },
-      error: (error, stackTrace) => ListView(
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height - 200,
-            child: Center(
-              child: Text('article.error'.tr()),
-            ),
-          ),
-        ],
-      ),
-      loading: () => ListView(
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height - 200,
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        ],
+  Widget _buildArticleList(List<ArticleDTO> articles) {
+    return ListView.builder(
+      controller: _scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.only(top: 8),
+      itemCount: articles.length,
+      itemBuilder: (context, index) => ArticleCard(
+        article: articles[index],
+        onToggleLike: (articleId) async {
+          try {
+            final response = await ref
+                .read(articleProvider(articleId).notifier)
+                .toggleArticleLike(articleId);
+            if (response != null) {
+              ref
+                  .read(articleListProvider(
+                    sortBy: _sortBy,
+                    category: _selectedCategory,
+                    limit: 20,
+                  ).notifier)
+                  .updateArticleStatus(
+                    articleId: articleId,
+                    isLiked: response.isLiked,
+                    likeCount: response.likeCount,
+                  );
+            }
+          } catch (e) {
+            rethrow;
+          }
+        },
       ),
     );
   }

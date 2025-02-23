@@ -26,6 +26,7 @@ class ArticleCreatePage extends ConsumerStatefulWidget {
 class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -50,9 +51,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.surface,
         leading: TextButton(
-          onPressed: () {
-            context.pop();
-          },
+          onPressed: () => context.pop(),
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).colorScheme.onSurface,
           ),
@@ -80,14 +79,26 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               elevation: 1,
+              disabledBackgroundColor:
+                  Theme.of(context).colorScheme.primary.withOpacity(0.6),
+              disabledForegroundColor: Colors.white70,
             ),
-            child: Text(
-              'article.register'.tr(),
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+            child: _isLoading
+                ? SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  )
+                : Text(
+                    'article.register'.tr(),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
           ),
           const SizedBox(width: 12),
         ],
@@ -117,6 +128,8 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
       return;
     }
 
+    setState(() => _isLoading = true);
+
     try {
       final request = RequestCreateArticle(
         title: _titleController.text,
@@ -128,6 +141,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
       if (mounted) {
         final sortBy = ref.read(articleSortProvider);
         context.pop();
+        // force refresh로 글 등록후 새로고침
         ref
             .read(articleListProvider(
               sortBy: sortBy,
@@ -145,6 +159,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('article.error'.tr(args: [e.toString()]))),
         );
+        setState(() => _isLoading = false);
       }
     }
   }

@@ -75,7 +75,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                 _buildArticleActions(context, ref, article, currentUser),
             error: (error, _) =>
                 Text('article.error'.tr(args: [error.toString()])),
-            loading: () => const CircularProgressIndicator(),
+            loading: () => const SizedBox.shrink(),
           ),
         ],
       ),
@@ -209,7 +209,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
       error: (error, _) => Center(
         child: Text('article.error'.tr(args: [error.toString()])),
       ),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const SizedBox.shrink(),
     );
   }
 
