@@ -5,7 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
-import 'package:pacapaca/models/enums/pacapaca.dart';
+import 'package:pacapaca/models/dto/user_dto.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -13,6 +13,10 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authProvider).value;
+    final divider = Divider(
+      height: 30,
+      color: Theme.of(context).colorScheme.primary.withAlpha(50),
+    );
 
     return Scaffold(
       appBar: PageTitle(
@@ -25,22 +29,27 @@ class ProfilePage extends ConsumerWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: ListView(
         children: [
-          // 프로필 헤더
-          _buildProfileHeader(
-            context,
-            user?.displayUser.nickname ?? '',
-            user?.displayUser.profileType,
-          ),
+          divider,
 
-          const Divider(height: 32),
+          // 프로필 헤더
+          _buildProfileHeader(context, user),
+
+          divider,
 
           // 포인트 정보
-          _buildPointsSection(context),
+          _buildPointsSection(context, user),
 
-          const Divider(height: 32),
+          divider,
+
+          // 당근 정보
+          _buildCarrotSection(context, user),
+
+          divider,
 
           // 내 활동
-          _buildActivitySection(context),
+          _buildActivitySection(context, user),
+
+          divider,
         ],
       ),
     );
@@ -48,16 +57,15 @@ class ProfilePage extends ConsumerWidget {
 
   Widget _buildProfileHeader(
     BuildContext context,
-    String nickname,
-    String? profileType,
+    UserDTO? user,
   ) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
           UserAvatar(
-            imageUrl: '', // TODO: 사용자 이미지 URL 추가
-            profileType: profileType,
+            imageUrl: user?.displayUser.profileImageUrl ?? '',
+            profileType: user?.displayUser.profileType,
             radius: 40,
           ),
           const SizedBox(width: 16),
@@ -66,7 +74,7 @@ class ProfilePage extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  nickname,
+                  user?.displayUser.nickname ?? '',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 4),
@@ -84,7 +92,7 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildPointsSection(BuildContext context) {
+  Widget _buildPointsSection(BuildContext context, UserDTO? user) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -92,7 +100,9 @@ class ProfilePage extends ConsumerWidget {
         children: [
           Text(
             'profile.my_points'.tr(),
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
           ),
           const SizedBox(height: 16),
           Row(
@@ -104,9 +114,10 @@ class ProfilePage extends ConsumerWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                '1,234',
+                NumberFormat.compact().format(user?.displayUser.points ?? 0),
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w500,
                     ),
               ),
               Text(
@@ -120,7 +131,46 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildActivitySection(BuildContext context) {
+  Widget _buildCarrotSection(BuildContext context, UserDTO? user) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'profile.my_carrots'.tr(),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Image.asset(
+                'assets/icon/carrot.png',
+                width: 32,
+                height: 32,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                NumberFormat.compact().format(user?.displayUser.carrots ?? 0),
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w500,
+                    ),
+              ),
+              Text(
+                ' carrots',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActivitySection(BuildContext context, UserDTO? user) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -128,21 +178,43 @@ class ProfilePage extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             'profile.my_activity'.tr(),
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
           ),
         ),
         const SizedBox(height: 8),
         ListTile(
-          leading: const Icon(Icons.article),
-          title: Text('profile.my_posts'.tr()),
+          leading: Icon(
+            Icons.article,
+            color: Colors.grey,
+          ),
+          title: Text(
+            'profile.my_posts'.tr(),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             // TODO: 내가 쓴 게시글 목록으로 이동
           },
         ),
         ListTile(
-          leading: const Icon(Icons.favorite),
-          title: Text('profile.liked_posts'.tr()),
+          leading: Icon(
+            Icons.favorite,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          title: Text(
+            'profile.liked_posts'.tr(),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             // TODO: 좋아요한 게시글 목록으로 이동

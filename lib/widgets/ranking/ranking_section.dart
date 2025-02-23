@@ -10,7 +10,8 @@ class RankingSection extends StatelessWidget {
   final VoidCallback onViewMore;
   final bool isLoading;
   final String? errorMessage;
-  final IconData icon;
+  final IconData? icon;
+  final String? imagePath;
 
   const RankingSection({
     super.key,
@@ -19,7 +20,8 @@ class RankingSection extends StatelessWidget {
     required this.onViewMore,
     this.isLoading = false,
     this.errorMessage,
-    required this.icon,
+    this.icon,
+    this.imagePath,
   });
 
   @override
@@ -31,10 +33,17 @@ class RankingSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: [
-              Icon(
-                icon,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              if (imagePath != null)
+                Image.asset(
+                  imagePath!,
+                  width: 32,
+                  height: 32,
+                ),
+              if (icon != null)
+                Icon(
+                  icon,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               const SizedBox(width: 8),
               Text(
                 title,
