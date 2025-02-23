@@ -73,10 +73,10 @@ class PointRankings extends _$PointRankings {
 
   @override
   FutureOr<List<DisplayUserDTO>?> build() async {
-    return _pointService.getRankings(
-      pagingUserId: state.value?.last.id,
-      pagingAmount: state.value?.last.points,
-    );
+    final rankings = await _pointService.getRankings();
+    _lastPagingUserId = rankings?.last.id;
+    _lastPagingAmount = rankings?.last.points;
+    return rankings;
   }
 
   Future<void> loadMore() async {
