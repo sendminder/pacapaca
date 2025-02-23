@@ -40,13 +40,13 @@ class RankingListItem extends StatelessWidget {
           ? BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  Theme.of(context).colorScheme.primary.withAlpha(10),
                   Theme.of(context).colorScheme.surface,
                 ],
               ),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                color: Theme.of(context).colorScheme.primary.withAlpha(20),
                 width: 1,
               ),
             )
@@ -72,7 +72,6 @@ class RankingListItem extends StatelessWidget {
                   profileImageUrl != null && profileImageUrl!.isNotEmpty
                       ? NetworkImage(profileImageUrl!)
                       : AssetImage(defaultProfilePath) as ImageProvider,
-              child: profileImageUrl == null ? const Icon(Icons.person) : null,
             ),
           ],
         ),
@@ -87,7 +86,7 @@ class RankingListItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: isTopRank
-                ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                ? Theme.of(context).colorScheme.onSurface.withAlpha(5)
                 : null,
             borderRadius: BorderRadius.circular(20),
           ),

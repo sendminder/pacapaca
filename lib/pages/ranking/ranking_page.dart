@@ -17,23 +17,17 @@ class RankingPage extends ConsumerWidget {
     final pointRankings = ref.watch(pointRankingsProvider);
     final carrotRankings = ref.watch(carrotRankingsProvider);
 
+    final divider = Divider(
+      color: Theme.of(context).colorScheme.primary.withAlpha(50),
+      height: 2,
+    );
+
     return Scaffold(
       appBar: PageTitle(
         title: 'ranking.title'.tr(),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(4),
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  Theme.of(context).colorScheme.primary.withOpacity(0.05),
-                  Colors.transparent,
-                ],
-              ),
-            ),
-            height: 4,
-          ),
+          child: divider,
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -132,10 +126,7 @@ class RankingPage extends ConsumerWidget {
             ),
 
             const SizedBox(height: 16),
-            Divider(
-              color: Theme.of(context).colorScheme.onSurface.withAlpha(50),
-              height: 0.5,
-            ),
+            divider,
             const SizedBox(height: 16),
 
             // 당근 받은 순 랭킹
@@ -175,10 +166,7 @@ class RankingPage extends ConsumerWidget {
             ),
 
             const SizedBox(height: 16),
-            Divider(
-              color: Theme.of(context).colorScheme.onSurface.withAlpha(50),
-              height: 0.5,
-            ),
+            divider,
             const SizedBox(height: 16),
 
             // 당근 준 순 랭킹
