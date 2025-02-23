@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:pacapaca/widgets/shared/comment_item.dart';
@@ -9,13 +8,11 @@ import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
-import 'package:pacapaca/providers/block_provider.dart';
-import 'package:pacapaca/providers/report_provider.dart';
 import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
-import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
 import 'package:pacapaca/models/dto/comment_dto.dart';
 import 'package:pacapaca/providers/comment_provider.dart';
 import 'package:pacapaca/widgets/shared/article_skeleton_item.dart';
+import 'package:pacapaca/pages/article/widgets/article_action_menu.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -324,180 +321,9 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
   ) {
     if (article == null) return const SizedBox.shrink();
 
-    // 자신의 글이면 수정/삭제 메뉴
-    if (article.userId == currentUser?.id) {
-      return PopupMenuButton(
-        itemBuilder: (context) => [
-          PopupMenuItem(
-            child: Text('article.edit'.tr()),
-            onTap: () => context.push('/articles/${article.id}/edit'),
-          ),
-          PopupMenuItem(
-            child: Text(
-              'article.delete'.tr(),
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-            onTap: () async {
-              final confirmed = await showDialog<bool>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('article.delete_confirm'.tr()),
-                  content: Text('article.delete_confirm_desc'.tr()),
-                  actions: [
-                    TextButton(
-                      onPressed: () => context.pop(false),
-                      child: Text('article.cancel'.tr()),
-                    ),
-                    TextButton(
-                      onPressed: () => context.pop(true),
-                      child: Text(
-                        'article.delete'.tr(),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-
-              if (confirmed == true) {
-                await ref
-                    .read(articleEditorProvider.notifier)
-                    .deleteArticle(article.id);
-                if (context.mounted) {
-                  context.pop();
-                }
-              }
-            },
-          ),
-        ],
-      );
-    }
-
-    // 다른 사람의 글이면 차단/신고 메뉴
-    return PopupMenuButton(
-      itemBuilder: (context) => [
-        PopupMenuItem(
-          child: Text('carrot.send'.tr()),
-          onTap: () async {
-            await SendCarrotButton(
-              receiverId: article.userId,
-              receiverName: article.displayUser.nickname,
-              articleId: article.id,
-              description: 'carrot.for_article'.tr(args: [article.title]),
-            ).show(context, ref);
-          },
-        ),
-        PopupMenuItem(
-          child: Text(
-            'block.title'.tr(),
-            style: TextStyle(color: Theme.of(context).colorScheme.error),
-          ),
-          onTap: () async {
-            final confirmed = await showDialog<bool>(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text('block.title'.tr()),
-                content: Text('block.confirm'.tr()),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, false),
-                    child: Text('block.cancel'.tr()),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, true),
-                    child: Text(
-                      'block.submit'.tr(),
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-
-            if (confirmed == true) {
-              await ref.read(blocksProvider.notifier).blockUser(
-                    userId: article.userId,
-                    reason:
-                        'block.from_article'.tr(args: [article.id.toString()]),
-                    articleId: article.id,
-                  );
-              if (context.mounted) {
-                context.pop(); // 게시글 페이지 닫기
-              }
-            }
-          },
-        ),
-        PopupMenuItem(
-          child: Text(
-            'report.title'.tr(),
-            style: TextStyle(color: Theme.of(context).colorScheme.error),
-          ),
-          onTap: () async {
-            final reason = await showDialog<String>(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text('report.title'.tr()),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('report.reason'.tr()),
-                    const SizedBox(height: 16),
-                    TextField(
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                        hintText: 'report.reason_hint'.tr(),
-                        border: const OutlineInputBorder(),
-                      ),
-                      onSubmitted: (value) => Navigator.pop(context, value),
-                    ),
-                  ],
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text('report.cancel'.tr()),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      final textField =
-                          context.findRenderObject() as RenderBox?;
-                      if (textField != null) {
-                        Navigator.pop(context, textField.toString());
-                      }
-                    },
-                    child: Text(
-                      'report.submit'.tr(),
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-
-            if (reason != null && reason.isNotEmpty) {
-              await ref.read(userReportProvider.notifier).reportUser(
-                    userId: article.userId,
-                    reason: reason,
-                    articleId: article.id,
-                  );
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('report.submitted'.tr()),
-                    behavior: SnackBarBehavior.floating,
-                  ),
-                );
-              }
-            }
-          },
-        ),
-      ],
+    return ArticleActionMenu(
+      article: article,
+      currentUser: currentUser,
     );
   }
 }

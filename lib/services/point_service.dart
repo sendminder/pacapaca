@@ -49,7 +49,7 @@ class PointService {
   // 포인트 잔액 조회
   Future<int?> getBalance() async {
     try {
-      final response = await _dio.get('/v1/points/balance');
+      final response = await _dio.get('/v1/points');
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
         response.data,

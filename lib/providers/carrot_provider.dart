@@ -11,7 +11,7 @@ class CarrotBalance extends _$CarrotBalance {
   final _carrotService = GetIt.instance<CarrotService>();
 
   @override
-  FutureOr<ResponseCarrotBalance?> build() async {
+  FutureOr<int?> build() async {
     return _carrotService.getBalance();
   }
 

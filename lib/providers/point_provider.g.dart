@@ -37,7 +37,7 @@ final pointHistoriesProvider = AutoDisposeAsyncNotifierProvider<PointHistories,
 );
 
 typedef _$PointHistories = AutoDisposeAsyncNotifier<List<PointsHistoryDTO>?>;
-String _$pointRankingsHash() => r'a7ec541b3a9999daeb98dc2b650e517c6cbf997a';
+String _$pointRankingsHash() => r'33971afbdf884aeb4bf1fd52aa5b846b236809e8';
 
 /// See also [PointRankings].
 @ProviderFor(PointRankings)

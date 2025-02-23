@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:pacapaca/models/dto/carrot_dto.dart';
 import 'package:pacapaca/models/dto/common_dto.dart';
-import 'package:pacapaca/providers/carrot_provider.dart';
 import 'dart:convert';
 import 'package:pacapaca/services/dio_service.dart';
 
@@ -12,9 +11,9 @@ class CarrotService {
   final logger = GetIt.instance<Logger>();
 
   // 당근 잔액 조회
-  Future<ResponseCarrotBalance?> getBalance() async {
+  Future<int?> getBalance() async {
     try {
-      final response = await _dio.get('/v1/carrots/balance');
+      final response = await _dio.get('/v1/carrots');
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
         response.data,
@@ -22,7 +21,8 @@ class CarrotService {
       );
 
       if (responseRest.response != null) {
-        return ResponseCarrotBalance.fromJson(responseRest.response!);
+        final res = ResponseCarrotBalance.fromJson(responseRest.response!);
+        return res.balance;
       }
       return null;
     } catch (e, stackTrace) {
