@@ -3,7 +3,7 @@ import '../services/article_service.dart';
 import '../models/dto/article_dto.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
-
+import 'package:logger/logger.dart';
 part 'article_provider.g.dart';
 
 // 게시글 상세 provider
@@ -44,20 +44,6 @@ class ArticleList extends _$ArticleList {
     int? pagingArticleId,
     ArticleCategory? category,
   }) async {
-    state = const AsyncLoading();
-
-    // 데이터 업데이트시 캐시 무효화
-    ref.listen(
-        articleListProvider(
-          sortBy: sortBy,
-          limit: limit,
-          category: category,
-        ), (previous, next) {
-      if (next.hasValue && next.value != null) {
-        _lastFetchTime = null;
-      }
-    });
-
     // 이미 데이터가 있고 캐시가 유효한 경우 기존 데이터 반환
     if (state.hasValue &&
         state.value != null &&
@@ -169,44 +155,40 @@ class ArticleList extends _$ArticleList {
 @riverpod
 class ArticleEditor extends _$ArticleEditor {
   final _articleService = GetIt.instance<ArticleService>();
+  final logger = GetIt.instance<Logger>();
 
   @override
-  FutureOr<void> build() {}
+  FutureOr<void> build() {
+    return null;
+  }
 
-  Future<ArticleDTO?> createArticle(RequestCreateArticle request) async {
-    state = const AsyncLoading();
+  Future<void> createArticle(RequestCreateArticle request) async {
     try {
-      final article = await _articleService.createArticle(request);
-      state = const AsyncData(null);
-      return article;
+      await _articleService.createArticle(request);
     } catch (e, stack) {
-      state = AsyncError(e, stack);
-      return null;
+      logger.e('ArticleEditor createArticle error $e $stack');
+      rethrow;
     }
   }
 
-  Future<ArticleDTO?> updateArticle(
+  Future<void> updateArticle(
     int articleId,
     RequestUpdateArticle request,
   ) async {
-    state = const AsyncLoading();
     try {
-      final article = await _articleService.updateArticle(articleId, request);
-      state = const AsyncData(null);
-      return article;
+      await _articleService.updateArticle(articleId, request);
     } catch (e, stack) {
-      state = AsyncError(e, stack);
-      return null;
+      logger.e('ArticleEditor updateArticle error $e $stack');
+      rethrow;
     }
   }
 
   Future<void> deleteArticle(int articleId) async {
-    state = const AsyncLoading();
     try {
       await _articleService.deleteArticle(articleId);
-      state = const AsyncData(null);
     } catch (e, stack) {
-      state = AsyncError(e, stack);
+      logger.e('ArticleEditor deleteArticle error $e $stack');
+      rethrow;
     }
   }
 }

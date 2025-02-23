@@ -19,6 +19,8 @@ class ArticleListPage extends ConsumerStatefulWidget {
 class _ArticleListPageState extends ConsumerState<ArticleListPage> {
   final _pageController = PageController();
   final _scrollController = ScrollController();
+  late String _sortBy;
+  late ArticleCategory _selectedCategory;
 
   @override
   void initState() {
@@ -29,37 +31,30 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent * 0.8) {
-      final sortBy = ref.read(articleSortProvider);
-      final category = ref.read(articleCategoryProvider);
       ref
           .read(articleListProvider(
-            sortBy: sortBy,
-            category: category,
+            sortBy: _sortBy,
+            category: _selectedCategory,
             limit: 20,
           ).notifier)
           .loadMore(
-            sortBy: sortBy,
+            sortBy: _sortBy,
             limit: 20,
-            category: category,
+            category: _selectedCategory,
           );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final sortBy = ref.watch(articleSortProvider);
-    final selectedCategory = ref.watch(articleCategoryProvider);
-    final articlesAsync = ref.watch(articleListProvider(
-      sortBy: sortBy,
-      category: selectedCategory,
-      limit: 20,
-    ));
+    _sortBy = ref.watch(articleSortProvider);
+    _selectedCategory = ref.watch(articleCategoryProvider);
 
     return Scaffold(
       appBar: PageTitle(
         title: 'article.title'.tr(),
         trailing: _buildSortDropdown(),
-        bottom: _buildCategoryFilter(selectedCategory),
+        bottom: _buildCategoryFilter(),
       ),
       body: PageView(
         controller: _pageController,
@@ -67,21 +62,27 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
         clipBehavior: Clip.none,
         onPageChanged: (index) {
           final category = ArticleCategory.values[index];
-          if (category != ref.read(articleCategoryProvider)) {
+          if (category != _selectedCategory) {
             ref.read(articleCategoryProvider.notifier).setCategory(category);
           }
         },
         children: ArticleCategory.values.map((category) {
+          final articlesAsync = ref.watch(articleListProvider(
+            sortBy: _sortBy,
+            category: category,
+            limit: 20,
+          ));
+
           return RefreshIndicator(
             onRefresh: () async {
               await ref
                   .read(articleListProvider(
-                    sortBy: sortBy,
+                    sortBy: _sortBy,
                     limit: 20,
                     category: category,
                   ).notifier)
                   .forceRefresh(
-                    sortBy: sortBy,
+                    sortBy: _sortBy,
                     limit: 20,
                     category: category,
                   );
@@ -133,7 +134,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     );
   }
 
-  Widget _buildCategoryFilter(ArticleCategory selectedCategory) {
+  Widget _buildCategoryFilter() {
     final colorScheme = Theme.of(context).colorScheme;
 
     return SingleChildScrollView(
@@ -141,7 +142,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
       child: Row(
         children: ArticleCategory.values.map((category) {
-          final isSelected = category == selectedCategory;
+          final isSelected = category == _selectedCategory;
           return Padding(
             padding: const EdgeInsets.only(right: 8),
             child: Material(
@@ -225,8 +226,8 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
                 if (response != null) {
                   ref
                       .read(articleListProvider(
-                        sortBy: ref.read(articleSortProvider),
-                        category: ref.read(articleCategoryProvider),
+                        sortBy: _sortBy,
+                        category: _selectedCategory,
                         limit: 20,
                       ).notifier)
                       .updateArticleStatus(
