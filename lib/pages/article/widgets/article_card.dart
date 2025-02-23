@@ -61,15 +61,15 @@ class ArticleCard extends StatelessWidget {
     return Row(
       children: [
         UserAvatar(
-          imageUrl: article.profileImageUrl,
-          fallbackText: article.nickname,
+          imageUrl: article.displayUser.profileImageUrl ?? '',
+          fallbackText: article.displayUser.nickname,
         ),
         const SizedBox(width: 12),
         Expanded(
           child: Row(
             children: [
               Text(
-                article.nickname,
+                article.displayUser.nickname,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,

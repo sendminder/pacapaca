@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pacapaca/models/dto/user_dto.dart';
 
 part 'article_dto.freezed.dart';
 part 'article_dto.g.dart';
@@ -19,8 +20,11 @@ class ArticleDTO with _$ArticleDTO {
     @JsonKey(name: 'like_count') required int likeCount,
     @JsonKey(name: 'comment_count') required int commentCount,
     @JsonKey(name: 'view_count') required int viewCount,
-    required String nickname,
-    @JsonKey(name: 'profile_image_url') required String profileImageUrl,
+
+    // 유저 정보
+    required DisplayUserDTO displayUser,
+
+    // 현재 유저가 좋아요를 눌렀는지 여부
     @JsonKey(name: 'is_liked') required bool isLiked,
   }) = _ArticleDTO;
 

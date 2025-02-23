@@ -40,10 +40,9 @@ mixin _$ArticleDTO {
   @JsonKey(name: 'comment_count')
   int get commentCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'view_count')
-  int get viewCount => throw _privateConstructorUsedError;
-  String get nickname => throw _privateConstructorUsedError;
-  @JsonKey(name: 'profile_image_url')
-  String get profileImageUrl => throw _privateConstructorUsedError;
+  int get viewCount => throw _privateConstructorUsedError; // 유저 정보
+  DisplayUserDTO get displayUser =>
+      throw _privateConstructorUsedError; // 현재 유저가 좋아요를 눌렀는지 여부
   @JsonKey(name: 'is_liked')
   bool get isLiked => throw _privateConstructorUsedError;
 
@@ -77,9 +76,10 @@ abstract class $ArticleDTOCopyWith<$Res> {
       @JsonKey(name: 'like_count') int likeCount,
       @JsonKey(name: 'comment_count') int commentCount,
       @JsonKey(name: 'view_count') int viewCount,
-      String nickname,
-      @JsonKey(name: 'profile_image_url') String profileImageUrl,
+      DisplayUserDTO displayUser,
       @JsonKey(name: 'is_liked') bool isLiked});
+
+  $DisplayUserDTOCopyWith<$Res> get displayUser;
 }
 
 /// @nodoc
@@ -110,8 +110,7 @@ class _$ArticleDTOCopyWithImpl<$Res, $Val extends ArticleDTO>
     Object? likeCount = null,
     Object? commentCount = null,
     Object? viewCount = null,
-    Object? nickname = null,
-    Object? profileImageUrl = null,
+    Object? displayUser = null,
     Object? isLiked = null,
   }) {
     return _then(_value.copyWith(
@@ -167,19 +166,25 @@ class _$ArticleDTOCopyWithImpl<$Res, $Val extends ArticleDTO>
           ? _value.viewCount
           : viewCount // ignore: cast_nullable_to_non_nullable
               as int,
-      nickname: null == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImageUrl: null == profileImageUrl
-          ? _value.profileImageUrl
-          : profileImageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+      displayUser: null == displayUser
+          ? _value.displayUser
+          : displayUser // ignore: cast_nullable_to_non_nullable
+              as DisplayUserDTO,
       isLiked: null == isLiked
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
+  }
+
+  /// Create a copy of ArticleDTO
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DisplayUserDTOCopyWith<$Res> get displayUser {
+    return $DisplayUserDTOCopyWith<$Res>(_value.displayUser, (value) {
+      return _then(_value.copyWith(displayUser: value) as $Val);
+    });
   }
 }
 
@@ -205,9 +210,11 @@ abstract class _$$ArticleDTOImplCopyWith<$Res>
       @JsonKey(name: 'like_count') int likeCount,
       @JsonKey(name: 'comment_count') int commentCount,
       @JsonKey(name: 'view_count') int viewCount,
-      String nickname,
-      @JsonKey(name: 'profile_image_url') String profileImageUrl,
+      DisplayUserDTO displayUser,
       @JsonKey(name: 'is_liked') bool isLiked});
+
+  @override
+  $DisplayUserDTOCopyWith<$Res> get displayUser;
 }
 
 /// @nodoc
@@ -236,8 +243,7 @@ class __$$ArticleDTOImplCopyWithImpl<$Res>
     Object? likeCount = null,
     Object? commentCount = null,
     Object? viewCount = null,
-    Object? nickname = null,
-    Object? profileImageUrl = null,
+    Object? displayUser = null,
     Object? isLiked = null,
   }) {
     return _then(_$ArticleDTOImpl(
@@ -293,14 +299,10 @@ class __$$ArticleDTOImplCopyWithImpl<$Res>
           ? _value.viewCount
           : viewCount // ignore: cast_nullable_to_non_nullable
               as int,
-      nickname: null == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImageUrl: null == profileImageUrl
-          ? _value.profileImageUrl
-          : profileImageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+      displayUser: null == displayUser
+          ? _value.displayUser
+          : displayUser // ignore: cast_nullable_to_non_nullable
+              as DisplayUserDTO,
       isLiked: null == isLiked
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
@@ -326,8 +328,7 @@ class _$ArticleDTOImpl implements _ArticleDTO {
       @JsonKey(name: 'like_count') required this.likeCount,
       @JsonKey(name: 'comment_count') required this.commentCount,
       @JsonKey(name: 'view_count') required this.viewCount,
-      required this.nickname,
-      @JsonKey(name: 'profile_image_url') required this.profileImageUrl,
+      required this.displayUser,
       @JsonKey(name: 'is_liked') required this.isLiked})
       : _tags = tags;
 
@@ -376,18 +377,17 @@ class _$ArticleDTOImpl implements _ArticleDTO {
   @override
   @JsonKey(name: 'view_count')
   final int viewCount;
+// 유저 정보
   @override
-  final String nickname;
-  @override
-  @JsonKey(name: 'profile_image_url')
-  final String profileImageUrl;
+  final DisplayUserDTO displayUser;
+// 현재 유저가 좋아요를 눌렀는지 여부
   @override
   @JsonKey(name: 'is_liked')
   final bool isLiked;
 
   @override
   String toString() {
-    return 'ArticleDTO(id: $id, userId: $userId, title: $title, content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags, category: $category, createTime: $createTime, updateTime: $updateTime, likeCount: $likeCount, commentCount: $commentCount, viewCount: $viewCount, nickname: $nickname, profileImageUrl: $profileImageUrl, isLiked: $isLiked)';
+    return 'ArticleDTO(id: $id, userId: $userId, title: $title, content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags, category: $category, createTime: $createTime, updateTime: $updateTime, likeCount: $likeCount, commentCount: $commentCount, viewCount: $viewCount, displayUser: $displayUser, isLiked: $isLiked)';
   }
 
   @override
@@ -416,10 +416,8 @@ class _$ArticleDTOImpl implements _ArticleDTO {
                 other.commentCount == commentCount) &&
             (identical(other.viewCount, viewCount) ||
                 other.viewCount == viewCount) &&
-            (identical(other.nickname, nickname) ||
-                other.nickname == nickname) &&
-            (identical(other.profileImageUrl, profileImageUrl) ||
-                other.profileImageUrl == profileImageUrl) &&
+            (identical(other.displayUser, displayUser) ||
+                other.displayUser == displayUser) &&
             (identical(other.isLiked, isLiked) || other.isLiked == isLiked));
   }
 
@@ -440,8 +438,7 @@ class _$ArticleDTOImpl implements _ArticleDTO {
       likeCount,
       commentCount,
       viewCount,
-      nickname,
-      profileImageUrl,
+      displayUser,
       isLiked);
 
   /// Create a copy of ArticleDTO
@@ -462,23 +459,22 @@ class _$ArticleDTOImpl implements _ArticleDTO {
 
 abstract class _ArticleDTO implements ArticleDTO {
   const factory _ArticleDTO(
-      {required final int id,
-      @JsonKey(name: 'user_id') required final int userId,
-      required final String title,
-      required final String content,
-      @JsonKey(name: 'image_url') final String? imageUrl,
-      @JsonKey(name: 'thumbnail_url') final String? thumbnailUrl,
-      final List<String>? tags,
-      final String? category,
-      @JsonKey(name: 'create_time') required final String createTime,
-      @JsonKey(name: 'update_time') required final String updateTime,
-      @JsonKey(name: 'like_count') required final int likeCount,
-      @JsonKey(name: 'comment_count') required final int commentCount,
-      @JsonKey(name: 'view_count') required final int viewCount,
-      required final String nickname,
-      @JsonKey(name: 'profile_image_url') required final String profileImageUrl,
-      @JsonKey(name: 'is_liked')
-      required final bool isLiked}) = _$ArticleDTOImpl;
+          {required final int id,
+          @JsonKey(name: 'user_id') required final int userId,
+          required final String title,
+          required final String content,
+          @JsonKey(name: 'image_url') final String? imageUrl,
+          @JsonKey(name: 'thumbnail_url') final String? thumbnailUrl,
+          final List<String>? tags,
+          final String? category,
+          @JsonKey(name: 'create_time') required final String createTime,
+          @JsonKey(name: 'update_time') required final String updateTime,
+          @JsonKey(name: 'like_count') required final int likeCount,
+          @JsonKey(name: 'comment_count') required final int commentCount,
+          @JsonKey(name: 'view_count') required final int viewCount,
+          required final DisplayUserDTO displayUser,
+          @JsonKey(name: 'is_liked') required final bool isLiked}) =
+      _$ArticleDTOImpl;
 
   factory _ArticleDTO.fromJson(Map<String, dynamic> json) =
       _$ArticleDTOImpl.fromJson;
@@ -516,12 +512,9 @@ abstract class _ArticleDTO implements ArticleDTO {
   int get commentCount;
   @override
   @JsonKey(name: 'view_count')
-  int get viewCount;
+  int get viewCount; // 유저 정보
   @override
-  String get nickname;
-  @override
-  @JsonKey(name: 'profile_image_url')
-  String get profileImageUrl;
+  DisplayUserDTO get displayUser; // 현재 유저가 좋아요를 눌렀는지 여부
   @override
   @JsonKey(name: 'is_liked')
   bool get isLiked;

@@ -371,7 +371,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
           onTap: () async {
             await SendCarrotButton(
               receiverId: article.userId,
-              receiverName: article.nickname,
+              receiverName: article.displayUser.nickname,
               articleId: article.id,
               description: 'carrot.for_article'.tr(args: [article.title]),
             ).show(context, ref);
