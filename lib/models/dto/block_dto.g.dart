@@ -6,17 +6,17 @@ part of 'block_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CreateBlockRequestImpl _$$CreateBlockRequestImplFromJson(
+_$RequestCreateUserBlockImpl _$$RequestCreateUserBlockImplFromJson(
         Map<String, dynamic> json) =>
-    _$CreateBlockRequestImpl(
+    _$RequestCreateUserBlockImpl(
       reportedId: (json['reported_id'] as num).toInt(),
       reason: json['reason'] as String,
       commentId: (json['comment_id'] as num?)?.toInt(),
       articleId: (json['article_id'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$CreateBlockRequestImplToJson(
-        _$CreateBlockRequestImpl instance) =>
+Map<String, dynamic> _$$RequestCreateUserBlockImplToJson(
+        _$RequestCreateUserBlockImpl instance) =>
     <String, dynamic>{
       'reported_id': instance.reportedId,
       'reason': instance.reason,
@@ -50,28 +50,28 @@ Map<String, dynamic> _$$UserBlockDTOImplToJson(_$UserBlockDTOImpl instance) =>
       'update_time': instance.updateTime,
     };
 
-_$GetBlockResponseImpl _$$GetBlockResponseImplFromJson(
+_$ResponseUserBlockImpl _$$ResponseUserBlockImplFromJson(
         Map<String, dynamic> json) =>
-    _$GetBlockResponseImpl(
+    _$ResponseUserBlockImpl(
       block: UserBlockDTO.fromJson(json['block'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$GetBlockResponseImplToJson(
-        _$GetBlockResponseImpl instance) =>
+Map<String, dynamic> _$$ResponseUserBlockImplToJson(
+        _$ResponseUserBlockImpl instance) =>
     <String, dynamic>{
       'block': instance.block,
     };
 
-_$GetBlocksResponseImpl _$$GetBlocksResponseImplFromJson(
+_$ResponseUserBlocksImpl _$$ResponseUserBlocksImplFromJson(
         Map<String, dynamic> json) =>
-    _$GetBlocksResponseImpl(
+    _$ResponseUserBlocksImpl(
       blocks: (json['blocks'] as List<dynamic>)
           .map((e) => UserBlockDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$GetBlocksResponseImplToJson(
-        _$GetBlocksResponseImpl instance) =>
+Map<String, dynamic> _$$ResponseUserBlocksImplToJson(
+        _$ResponseUserBlocksImpl instance) =>
     <String, dynamic>{
       'blocks': instance.blocks,
     };

@@ -8,7 +8,7 @@ class BlockedUsersPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final blockedUsers = ref.watch(blockStateProvider);
+    final blockedUsers = ref.watch(blocksProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -21,7 +21,7 @@ class BlockedUsersPage extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
-              ref.read(blockStateProvider.notifier).refreshBlocks();
+              ref.read(blocksProvider.notifier).refreshBlocks();
             },
           ),
         ],
@@ -79,7 +79,7 @@ class BlockedUsersPage extends ConsumerWidget {
                       false;
                 },
                 onDismissed: (direction) {
-                  ref.read(blockStateProvider.notifier).unblockUser(block.id);
+                  ref.read(blocksProvider.notifier).unblockUser(block.id);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('block.unblocked'.tr()),
@@ -132,9 +132,7 @@ class BlockedUsersPage extends ConsumerWidget {
                       );
 
                       if (confirmed == true) {
-                        ref
-                            .read(blockStateProvider.notifier)
-                            .unblockUser(block.id);
+                        ref.read(blocksProvider.notifier).unblockUser(block.id);
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

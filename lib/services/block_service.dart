@@ -11,7 +11,7 @@ class BlockService {
   final logger = GetIt.instance<Logger>();
 
   /// 사용자 차단하기
-  Future<UserBlockDTO?> createBlock(CreateBlockRequest request) async {
+  Future<UserBlockDTO?> createBlock(RequestCreateUserBlock request) async {
     try {
       final response = await _dio.post(
         '/v1/blocks',
@@ -24,7 +24,8 @@ class BlockService {
       );
 
       if (responseRest.response != null) {
-        final blockResponse = GetBlockResponse.fromJson(responseRest.response!);
+        final blockResponse =
+            ResponseUserBlock.fromJson(responseRest.response!);
         return blockResponse.block;
       }
       return null;
@@ -55,10 +56,9 @@ class BlockService {
       );
 
       if (responseRest.response != null) {
-        final blocks = (responseRest.response!['blocks'] as List)
-            .map((item) => UserBlockDTO.fromJson(item as Map<String, dynamic>))
-            .toList();
-        return blocks;
+        final blocksResponse =
+            ResponseUserBlocks.fromJson(responseRest.response!);
+        return blocksResponse.blocks;
       }
       return null;
     } catch (e, stackTrace) {

@@ -413,7 +413,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
             );
 
             if (confirmed == true) {
-              await ref.read(blockStateProvider.notifier).blockUser(
+              await ref.read(blocksProvider.notifier).blockUser(
                     userId: article.userId,
                     reason:
                         'block.from_article'.tr(args: [article.id.toString()]),

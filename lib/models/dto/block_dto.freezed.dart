@@ -14,12 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-CreateBlockRequest _$CreateBlockRequestFromJson(Map<String, dynamic> json) {
-  return _CreateBlockRequest.fromJson(json);
+RequestCreateUserBlock _$RequestCreateUserBlockFromJson(
+    Map<String, dynamic> json) {
+  return _RequestCreateUserBlock.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CreateBlockRequest {
+mixin _$RequestCreateUserBlock {
   @JsonKey(name: 'reported_id')
   int get reportedId => throw _privateConstructorUsedError;
   String get reason => throw _privateConstructorUsedError;
@@ -28,21 +29,21 @@ mixin _$CreateBlockRequest {
   @JsonKey(name: 'article_id')
   int? get articleId => throw _privateConstructorUsedError;
 
-  /// Serializes this CreateBlockRequest to a JSON map.
+  /// Serializes this RequestCreateUserBlock to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of CreateBlockRequest
+  /// Create a copy of RequestCreateUserBlock
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CreateBlockRequestCopyWith<CreateBlockRequest> get copyWith =>
+  $RequestCreateUserBlockCopyWith<RequestCreateUserBlock> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CreateBlockRequestCopyWith<$Res> {
-  factory $CreateBlockRequestCopyWith(
-          CreateBlockRequest value, $Res Function(CreateBlockRequest) then) =
-      _$CreateBlockRequestCopyWithImpl<$Res, CreateBlockRequest>;
+abstract class $RequestCreateUserBlockCopyWith<$Res> {
+  factory $RequestCreateUserBlockCopyWith(RequestCreateUserBlock value,
+          $Res Function(RequestCreateUserBlock) then) =
+      _$RequestCreateUserBlockCopyWithImpl<$Res, RequestCreateUserBlock>;
   @useResult
   $Res call(
       {@JsonKey(name: 'reported_id') int reportedId,
@@ -52,16 +53,17 @@ abstract class $CreateBlockRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CreateBlockRequestCopyWithImpl<$Res, $Val extends CreateBlockRequest>
-    implements $CreateBlockRequestCopyWith<$Res> {
-  _$CreateBlockRequestCopyWithImpl(this._value, this._then);
+class _$RequestCreateUserBlockCopyWithImpl<$Res,
+        $Val extends RequestCreateUserBlock>
+    implements $RequestCreateUserBlockCopyWith<$Res> {
+  _$RequestCreateUserBlockCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CreateBlockRequest
+  /// Create a copy of RequestCreateUserBlock
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -93,11 +95,12 @@ class _$CreateBlockRequestCopyWithImpl<$Res, $Val extends CreateBlockRequest>
 }
 
 /// @nodoc
-abstract class _$$CreateBlockRequestImplCopyWith<$Res>
-    implements $CreateBlockRequestCopyWith<$Res> {
-  factory _$$CreateBlockRequestImplCopyWith(_$CreateBlockRequestImpl value,
-          $Res Function(_$CreateBlockRequestImpl) then) =
-      __$$CreateBlockRequestImplCopyWithImpl<$Res>;
+abstract class _$$RequestCreateUserBlockImplCopyWith<$Res>
+    implements $RequestCreateUserBlockCopyWith<$Res> {
+  factory _$$RequestCreateUserBlockImplCopyWith(
+          _$RequestCreateUserBlockImpl value,
+          $Res Function(_$RequestCreateUserBlockImpl) then) =
+      __$$RequestCreateUserBlockImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -108,14 +111,16 @@ abstract class _$$CreateBlockRequestImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$CreateBlockRequestImplCopyWithImpl<$Res>
-    extends _$CreateBlockRequestCopyWithImpl<$Res, _$CreateBlockRequestImpl>
-    implements _$$CreateBlockRequestImplCopyWith<$Res> {
-  __$$CreateBlockRequestImplCopyWithImpl(_$CreateBlockRequestImpl _value,
-      $Res Function(_$CreateBlockRequestImpl) _then)
+class __$$RequestCreateUserBlockImplCopyWithImpl<$Res>
+    extends _$RequestCreateUserBlockCopyWithImpl<$Res,
+        _$RequestCreateUserBlockImpl>
+    implements _$$RequestCreateUserBlockImplCopyWith<$Res> {
+  __$$RequestCreateUserBlockImplCopyWithImpl(
+      _$RequestCreateUserBlockImpl _value,
+      $Res Function(_$RequestCreateUserBlockImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CreateBlockRequest
+  /// Create a copy of RequestCreateUserBlock
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -125,7 +130,7 @@ class __$$CreateBlockRequestImplCopyWithImpl<$Res>
     Object? commentId = freezed,
     Object? articleId = freezed,
   }) {
-    return _then(_$CreateBlockRequestImpl(
+    return _then(_$RequestCreateUserBlockImpl(
       reportedId: null == reportedId
           ? _value.reportedId
           : reportedId // ignore: cast_nullable_to_non_nullable
@@ -148,15 +153,15 @@ class __$$CreateBlockRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateBlockRequestImpl implements _CreateBlockRequest {
-  const _$CreateBlockRequestImpl(
+class _$RequestCreateUserBlockImpl implements _RequestCreateUserBlock {
+  const _$RequestCreateUserBlockImpl(
       {@JsonKey(name: 'reported_id') required this.reportedId,
       required this.reason,
       @JsonKey(name: 'comment_id') this.commentId,
       @JsonKey(name: 'article_id') this.articleId});
 
-  factory _$CreateBlockRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CreateBlockRequestImplFromJson(json);
+  factory _$RequestCreateUserBlockImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestCreateUserBlockImplFromJson(json);
 
   @override
   @JsonKey(name: 'reported_id')
@@ -172,14 +177,14 @@ class _$CreateBlockRequestImpl implements _CreateBlockRequest {
 
   @override
   String toString() {
-    return 'CreateBlockRequest(reportedId: $reportedId, reason: $reason, commentId: $commentId, articleId: $articleId)';
+    return 'RequestCreateUserBlock(reportedId: $reportedId, reason: $reason, commentId: $commentId, articleId: $articleId)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreateBlockRequestImpl &&
+            other is _$RequestCreateUserBlockImpl &&
             (identical(other.reportedId, reportedId) ||
                 other.reportedId == reportedId) &&
             (identical(other.reason, reason) || other.reason == reason) &&
@@ -194,33 +199,33 @@ class _$CreateBlockRequestImpl implements _CreateBlockRequest {
   int get hashCode =>
       Object.hash(runtimeType, reportedId, reason, commentId, articleId);
 
-  /// Create a copy of CreateBlockRequest
+  /// Create a copy of RequestCreateUserBlock
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateBlockRequestImplCopyWith<_$CreateBlockRequestImpl> get copyWith =>
-      __$$CreateBlockRequestImplCopyWithImpl<_$CreateBlockRequestImpl>(
-          this, _$identity);
+  _$$RequestCreateUserBlockImplCopyWith<_$RequestCreateUserBlockImpl>
+      get copyWith => __$$RequestCreateUserBlockImplCopyWithImpl<
+          _$RequestCreateUserBlockImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateBlockRequestImplToJson(
+    return _$$RequestCreateUserBlockImplToJson(
       this,
     );
   }
 }
 
-abstract class _CreateBlockRequest implements CreateBlockRequest {
-  const factory _CreateBlockRequest(
+abstract class _RequestCreateUserBlock implements RequestCreateUserBlock {
+  const factory _RequestCreateUserBlock(
           {@JsonKey(name: 'reported_id') required final int reportedId,
           required final String reason,
           @JsonKey(name: 'comment_id') final int? commentId,
           @JsonKey(name: 'article_id') final int? articleId}) =
-      _$CreateBlockRequestImpl;
+      _$RequestCreateUserBlockImpl;
 
-  factory _CreateBlockRequest.fromJson(Map<String, dynamic> json) =
-      _$CreateBlockRequestImpl.fromJson;
+  factory _RequestCreateUserBlock.fromJson(Map<String, dynamic> json) =
+      _$RequestCreateUserBlockImpl.fromJson;
 
   @override
   @JsonKey(name: 'reported_id')
@@ -234,12 +239,12 @@ abstract class _CreateBlockRequest implements CreateBlockRequest {
   @JsonKey(name: 'article_id')
   int? get articleId;
 
-  /// Create a copy of CreateBlockRequest
+  /// Create a copy of RequestCreateUserBlock
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CreateBlockRequestImplCopyWith<_$CreateBlockRequestImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$RequestCreateUserBlockImplCopyWith<_$RequestCreateUserBlockImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 UserBlockDTO _$UserBlockDTOFromJson(Map<String, dynamic> json) {
@@ -581,29 +586,29 @@ abstract class _UserBlockDTO implements UserBlockDTO {
       throw _privateConstructorUsedError;
 }
 
-GetBlockResponse _$GetBlockResponseFromJson(Map<String, dynamic> json) {
-  return _GetBlockResponse.fromJson(json);
+ResponseUserBlock _$ResponseUserBlockFromJson(Map<String, dynamic> json) {
+  return _ResponseUserBlock.fromJson(json);
 }
 
 /// @nodoc
-mixin _$GetBlockResponse {
+mixin _$ResponseUserBlock {
   UserBlockDTO get block => throw _privateConstructorUsedError;
 
-  /// Serializes this GetBlockResponse to a JSON map.
+  /// Serializes this ResponseUserBlock to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of GetBlockResponse
+  /// Create a copy of ResponseUserBlock
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $GetBlockResponseCopyWith<GetBlockResponse> get copyWith =>
+  $ResponseUserBlockCopyWith<ResponseUserBlock> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GetBlockResponseCopyWith<$Res> {
-  factory $GetBlockResponseCopyWith(
-          GetBlockResponse value, $Res Function(GetBlockResponse) then) =
-      _$GetBlockResponseCopyWithImpl<$Res, GetBlockResponse>;
+abstract class $ResponseUserBlockCopyWith<$Res> {
+  factory $ResponseUserBlockCopyWith(
+          ResponseUserBlock value, $Res Function(ResponseUserBlock) then) =
+      _$ResponseUserBlockCopyWithImpl<$Res, ResponseUserBlock>;
   @useResult
   $Res call({UserBlockDTO block});
 
@@ -611,16 +616,16 @@ abstract class $GetBlockResponseCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$GetBlockResponseCopyWithImpl<$Res, $Val extends GetBlockResponse>
-    implements $GetBlockResponseCopyWith<$Res> {
-  _$GetBlockResponseCopyWithImpl(this._value, this._then);
+class _$ResponseUserBlockCopyWithImpl<$Res, $Val extends ResponseUserBlock>
+    implements $ResponseUserBlockCopyWith<$Res> {
+  _$ResponseUserBlockCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of GetBlockResponse
+  /// Create a copy of ResponseUserBlock
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -635,7 +640,7 @@ class _$GetBlockResponseCopyWithImpl<$Res, $Val extends GetBlockResponse>
     ) as $Val);
   }
 
-  /// Create a copy of GetBlockResponse
+  /// Create a copy of ResponseUserBlock
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -647,11 +652,11 @@ class _$GetBlockResponseCopyWithImpl<$Res, $Val extends GetBlockResponse>
 }
 
 /// @nodoc
-abstract class _$$GetBlockResponseImplCopyWith<$Res>
-    implements $GetBlockResponseCopyWith<$Res> {
-  factory _$$GetBlockResponseImplCopyWith(_$GetBlockResponseImpl value,
-          $Res Function(_$GetBlockResponseImpl) then) =
-      __$$GetBlockResponseImplCopyWithImpl<$Res>;
+abstract class _$$ResponseUserBlockImplCopyWith<$Res>
+    implements $ResponseUserBlockCopyWith<$Res> {
+  factory _$$ResponseUserBlockImplCopyWith(_$ResponseUserBlockImpl value,
+          $Res Function(_$ResponseUserBlockImpl) then) =
+      __$$ResponseUserBlockImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({UserBlockDTO block});
@@ -661,21 +666,21 @@ abstract class _$$GetBlockResponseImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$GetBlockResponseImplCopyWithImpl<$Res>
-    extends _$GetBlockResponseCopyWithImpl<$Res, _$GetBlockResponseImpl>
-    implements _$$GetBlockResponseImplCopyWith<$Res> {
-  __$$GetBlockResponseImplCopyWithImpl(_$GetBlockResponseImpl _value,
-      $Res Function(_$GetBlockResponseImpl) _then)
+class __$$ResponseUserBlockImplCopyWithImpl<$Res>
+    extends _$ResponseUserBlockCopyWithImpl<$Res, _$ResponseUserBlockImpl>
+    implements _$$ResponseUserBlockImplCopyWith<$Res> {
+  __$$ResponseUserBlockImplCopyWithImpl(_$ResponseUserBlockImpl _value,
+      $Res Function(_$ResponseUserBlockImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GetBlockResponse
+  /// Create a copy of ResponseUserBlock
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? block = null,
   }) {
-    return _then(_$GetBlockResponseImpl(
+    return _then(_$ResponseUserBlockImpl(
       block: null == block
           ? _value.block
           : block // ignore: cast_nullable_to_non_nullable
@@ -686,25 +691,25 @@ class __$$GetBlockResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$GetBlockResponseImpl implements _GetBlockResponse {
-  const _$GetBlockResponseImpl({required this.block});
+class _$ResponseUserBlockImpl implements _ResponseUserBlock {
+  const _$ResponseUserBlockImpl({required this.block});
 
-  factory _$GetBlockResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$GetBlockResponseImplFromJson(json);
+  factory _$ResponseUserBlockImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseUserBlockImplFromJson(json);
 
   @override
   final UserBlockDTO block;
 
   @override
   String toString() {
-    return 'GetBlockResponse(block: $block)';
+    return 'ResponseUserBlock(block: $block)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GetBlockResponseImpl &&
+            other is _$ResponseUserBlockImpl &&
             (identical(other.block, block) || other.block == block));
   }
 
@@ -712,79 +717,79 @@ class _$GetBlockResponseImpl implements _GetBlockResponse {
   @override
   int get hashCode => Object.hash(runtimeType, block);
 
-  /// Create a copy of GetBlockResponse
+  /// Create a copy of ResponseUserBlock
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetBlockResponseImplCopyWith<_$GetBlockResponseImpl> get copyWith =>
-      __$$GetBlockResponseImplCopyWithImpl<_$GetBlockResponseImpl>(
+  _$$ResponseUserBlockImplCopyWith<_$ResponseUserBlockImpl> get copyWith =>
+      __$$ResponseUserBlockImplCopyWithImpl<_$ResponseUserBlockImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GetBlockResponseImplToJson(
+    return _$$ResponseUserBlockImplToJson(
       this,
     );
   }
 }
 
-abstract class _GetBlockResponse implements GetBlockResponse {
-  const factory _GetBlockResponse({required final UserBlockDTO block}) =
-      _$GetBlockResponseImpl;
+abstract class _ResponseUserBlock implements ResponseUserBlock {
+  const factory _ResponseUserBlock({required final UserBlockDTO block}) =
+      _$ResponseUserBlockImpl;
 
-  factory _GetBlockResponse.fromJson(Map<String, dynamic> json) =
-      _$GetBlockResponseImpl.fromJson;
+  factory _ResponseUserBlock.fromJson(Map<String, dynamic> json) =
+      _$ResponseUserBlockImpl.fromJson;
 
   @override
   UserBlockDTO get block;
 
-  /// Create a copy of GetBlockResponse
+  /// Create a copy of ResponseUserBlock
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GetBlockResponseImplCopyWith<_$GetBlockResponseImpl> get copyWith =>
+  _$$ResponseUserBlockImplCopyWith<_$ResponseUserBlockImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-GetBlocksResponse _$GetBlocksResponseFromJson(Map<String, dynamic> json) {
-  return _GetBlocksResponse.fromJson(json);
+ResponseUserBlocks _$ResponseUserBlocksFromJson(Map<String, dynamic> json) {
+  return _ResponseUserBlocks.fromJson(json);
 }
 
 /// @nodoc
-mixin _$GetBlocksResponse {
+mixin _$ResponseUserBlocks {
   List<UserBlockDTO> get blocks => throw _privateConstructorUsedError;
 
-  /// Serializes this GetBlocksResponse to a JSON map.
+  /// Serializes this ResponseUserBlocks to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of GetBlocksResponse
+  /// Create a copy of ResponseUserBlocks
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $GetBlocksResponseCopyWith<GetBlocksResponse> get copyWith =>
+  $ResponseUserBlocksCopyWith<ResponseUserBlocks> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GetBlocksResponseCopyWith<$Res> {
-  factory $GetBlocksResponseCopyWith(
-          GetBlocksResponse value, $Res Function(GetBlocksResponse) then) =
-      _$GetBlocksResponseCopyWithImpl<$Res, GetBlocksResponse>;
+abstract class $ResponseUserBlocksCopyWith<$Res> {
+  factory $ResponseUserBlocksCopyWith(
+          ResponseUserBlocks value, $Res Function(ResponseUserBlocks) then) =
+      _$ResponseUserBlocksCopyWithImpl<$Res, ResponseUserBlocks>;
   @useResult
   $Res call({List<UserBlockDTO> blocks});
 }
 
 /// @nodoc
-class _$GetBlocksResponseCopyWithImpl<$Res, $Val extends GetBlocksResponse>
-    implements $GetBlocksResponseCopyWith<$Res> {
-  _$GetBlocksResponseCopyWithImpl(this._value, this._then);
+class _$ResponseUserBlocksCopyWithImpl<$Res, $Val extends ResponseUserBlocks>
+    implements $ResponseUserBlocksCopyWith<$Res> {
+  _$ResponseUserBlocksCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of GetBlocksResponse
+  /// Create a copy of ResponseUserBlocks
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -801,32 +806,32 @@ class _$GetBlocksResponseCopyWithImpl<$Res, $Val extends GetBlocksResponse>
 }
 
 /// @nodoc
-abstract class _$$GetBlocksResponseImplCopyWith<$Res>
-    implements $GetBlocksResponseCopyWith<$Res> {
-  factory _$$GetBlocksResponseImplCopyWith(_$GetBlocksResponseImpl value,
-          $Res Function(_$GetBlocksResponseImpl) then) =
-      __$$GetBlocksResponseImplCopyWithImpl<$Res>;
+abstract class _$$ResponseUserBlocksImplCopyWith<$Res>
+    implements $ResponseUserBlocksCopyWith<$Res> {
+  factory _$$ResponseUserBlocksImplCopyWith(_$ResponseUserBlocksImpl value,
+          $Res Function(_$ResponseUserBlocksImpl) then) =
+      __$$ResponseUserBlocksImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<UserBlockDTO> blocks});
 }
 
 /// @nodoc
-class __$$GetBlocksResponseImplCopyWithImpl<$Res>
-    extends _$GetBlocksResponseCopyWithImpl<$Res, _$GetBlocksResponseImpl>
-    implements _$$GetBlocksResponseImplCopyWith<$Res> {
-  __$$GetBlocksResponseImplCopyWithImpl(_$GetBlocksResponseImpl _value,
-      $Res Function(_$GetBlocksResponseImpl) _then)
+class __$$ResponseUserBlocksImplCopyWithImpl<$Res>
+    extends _$ResponseUserBlocksCopyWithImpl<$Res, _$ResponseUserBlocksImpl>
+    implements _$$ResponseUserBlocksImplCopyWith<$Res> {
+  __$$ResponseUserBlocksImplCopyWithImpl(_$ResponseUserBlocksImpl _value,
+      $Res Function(_$ResponseUserBlocksImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GetBlocksResponse
+  /// Create a copy of ResponseUserBlocks
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? blocks = null,
   }) {
-    return _then(_$GetBlocksResponseImpl(
+    return _then(_$ResponseUserBlocksImpl(
       blocks: null == blocks
           ? _value._blocks
           : blocks // ignore: cast_nullable_to_non_nullable
@@ -837,12 +842,12 @@ class __$$GetBlocksResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$GetBlocksResponseImpl implements _GetBlocksResponse {
-  const _$GetBlocksResponseImpl({required final List<UserBlockDTO> blocks})
+class _$ResponseUserBlocksImpl implements _ResponseUserBlocks {
+  const _$ResponseUserBlocksImpl({required final List<UserBlockDTO> blocks})
       : _blocks = blocks;
 
-  factory _$GetBlocksResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$GetBlocksResponseImplFromJson(json);
+  factory _$ResponseUserBlocksImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseUserBlocksImplFromJson(json);
 
   final List<UserBlockDTO> _blocks;
   @override
@@ -854,14 +859,14 @@ class _$GetBlocksResponseImpl implements _GetBlocksResponse {
 
   @override
   String toString() {
-    return 'GetBlocksResponse(blocks: $blocks)';
+    return 'ResponseUserBlocks(blocks: $blocks)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GetBlocksResponseImpl &&
+            other is _$ResponseUserBlocksImpl &&
             const DeepCollectionEquality().equals(other._blocks, _blocks));
   }
 
@@ -870,37 +875,37 @@ class _$GetBlocksResponseImpl implements _GetBlocksResponse {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_blocks));
 
-  /// Create a copy of GetBlocksResponse
+  /// Create a copy of ResponseUserBlocks
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetBlocksResponseImplCopyWith<_$GetBlocksResponseImpl> get copyWith =>
-      __$$GetBlocksResponseImplCopyWithImpl<_$GetBlocksResponseImpl>(
+  _$$ResponseUserBlocksImplCopyWith<_$ResponseUserBlocksImpl> get copyWith =>
+      __$$ResponseUserBlocksImplCopyWithImpl<_$ResponseUserBlocksImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GetBlocksResponseImplToJson(
+    return _$$ResponseUserBlocksImplToJson(
       this,
     );
   }
 }
 
-abstract class _GetBlocksResponse implements GetBlocksResponse {
-  const factory _GetBlocksResponse({required final List<UserBlockDTO> blocks}) =
-      _$GetBlocksResponseImpl;
+abstract class _ResponseUserBlocks implements ResponseUserBlocks {
+  const factory _ResponseUserBlocks(
+      {required final List<UserBlockDTO> blocks}) = _$ResponseUserBlocksImpl;
 
-  factory _GetBlocksResponse.fromJson(Map<String, dynamic> json) =
-      _$GetBlocksResponseImpl.fromJson;
+  factory _ResponseUserBlocks.fromJson(Map<String, dynamic> json) =
+      _$ResponseUserBlocksImpl.fromJson;
 
   @override
   List<UserBlockDTO> get blocks;
 
-  /// Create a copy of GetBlocksResponse
+  /// Create a copy of ResponseUserBlocks
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GetBlocksResponseImplCopyWith<_$GetBlocksResponseImpl> get copyWith =>
+  _$$ResponseUserBlocksImplCopyWith<_$ResponseUserBlocksImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

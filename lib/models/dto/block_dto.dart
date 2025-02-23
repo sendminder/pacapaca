@@ -4,16 +4,16 @@ part 'block_dto.freezed.dart';
 part 'block_dto.g.dart';
 
 @freezed
-class CreateBlockRequest with _$CreateBlockRequest {
-  const factory CreateBlockRequest({
+class RequestCreateUserBlock with _$RequestCreateUserBlock {
+  const factory RequestCreateUserBlock({
     @JsonKey(name: 'reported_id') required int reportedId,
     required String reason,
     @JsonKey(name: 'comment_id') int? commentId,
     @JsonKey(name: 'article_id') int? articleId,
-  }) = _CreateBlockRequest;
+  }) = _RequestCreateUserBlock;
 
-  factory CreateBlockRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateBlockRequestFromJson(json);
+  factory RequestCreateUserBlock.fromJson(Map<String, dynamic> json) =>
+      _$RequestCreateUserBlockFromJson(json);
 }
 
 @freezed
@@ -35,21 +35,21 @@ class UserBlockDTO with _$UserBlockDTO {
 }
 
 @freezed
-class GetBlockResponse with _$GetBlockResponse {
-  const factory GetBlockResponse({
+class ResponseUserBlock with _$ResponseUserBlock {
+  const factory ResponseUserBlock({
     required UserBlockDTO block,
-  }) = _GetBlockResponse;
+  }) = _ResponseUserBlock;
 
-  factory GetBlockResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetBlockResponseFromJson(json);
+  factory ResponseUserBlock.fromJson(Map<String, dynamic> json) =>
+      _$ResponseUserBlockFromJson(json);
 }
 
 @freezed
-class GetBlocksResponse with _$GetBlocksResponse {
-  const factory GetBlocksResponse({
+class ResponseUserBlocks with _$ResponseUserBlocks {
+  const factory ResponseUserBlocks({
     required List<UserBlockDTO> blocks,
-  }) = _GetBlocksResponse;
+  }) = _ResponseUserBlocks;
 
-  factory GetBlocksResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetBlocksResponseFromJson(json);
+  factory ResponseUserBlocks.fromJson(Map<String, dynamic> json) =>
+      _$ResponseUserBlocksFromJson(json);
 }
