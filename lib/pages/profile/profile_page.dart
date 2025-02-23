@@ -8,15 +8,24 @@ import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/providers/point_provider.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
-import 'package:pacapaca/models/dto/carrot_dto.dart';
-import 'package:pacapaca/models/dto/point_dto.dart';
 
-class ProfilePage extends ConsumerWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authProvider);
+  ConsumerState<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends ConsumerState<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => ref.read(authProvider.notifier).getMe());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final asyncUser = ref.watch(authProvider);
     final carrotBalance = ref.watch(carrotBalanceProvider);
     final pointBalance = ref.watch(pointBalanceProvider);
     final divider = Divider(
@@ -33,71 +42,81 @@ class ProfilePage extends ConsumerWidget {
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
-      body: ListView(
-        children: [
-          divider,
-
-          // 프로필 헤더
-          _buildProfileHeader(context, user),
-
-          divider,
-
-          // 포인트 정보
-          _buildPointsSection(context, pointBalance),
-
-          divider,
-
-          // 당근 정보
-          _buildCarrotSection(context, carrotBalance),
-
-          divider,
-
-          // 내 활동
-          _buildActivitySection(context, user),
-
-          divider,
-        ],
+      body: asyncUser.when(
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        error: (error, stackTrace) => Center(
+          child: Text(
+            'profile.error_loading'.tr(),
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
+        ),
+        data: (user) => ListView(
+          children: [
+            divider,
+            _buildProfileHeader(context, user),
+            divider,
+            _buildPointsSection(context, pointBalance),
+            divider,
+            _buildCarrotSection(context, carrotBalance),
+            divider,
+            _buildActivitySection(context, user),
+            divider,
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildProfileHeader(
     BuildContext context,
-    AsyncValue<UserDTO?> asyncUser,
+    UserDTO? user,
   ) {
+    if (user == null) {
+      return const SizedBox.shrink();
+    }
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: asyncUser.when(
-        data: (user) => Row(
-          children: [
-            UserAvatar(
-              imageUrl: user?.displayUser.profileImageUrl ?? '',
-              profileType: user?.displayUser.profileType,
-              radius: 40,
+      child: Row(
+        children: [
+          UserAvatar(
+            imageUrl: user.displayUser.profileImageUrl ?? '',
+            profileType: user.displayUser.profileType,
+            radius: 40,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.displayUser.nickname,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'profile.member_since'.tr(args: ['2024.03']),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                ),
+              ],
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    user?.displayUser.nickname ?? '',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'profile.member_since'.tr(args: ['2024.03']),
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                  ),
-                ],
-              ),
+          ),
+          const SizedBox(width: 16),
+          IconButton(
+            onPressed: () {
+              ref.read(authProvider.notifier).getMe();
+              ref.invalidate(carrotBalanceProvider);
+              ref.invalidate(pointBalanceProvider);
+            },
+            icon: Icon(
+              Icons.refresh,
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(100),
             ),
-          ],
-        ),
-        error: (error, _) => const SizedBox.shrink(),
-        loading: () => const SizedBox.shrink(),
+          ),
+        ],
       ),
     );
   }
@@ -196,62 +215,61 @@ class ProfilePage extends ConsumerWidget {
 
   Widget _buildActivitySection(
     BuildContext context,
-    AsyncValue<UserDTO?> asyncUser,
+    UserDTO? user,
   ) {
-    return asyncUser.when(
-      data: (user) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              'profile.my_activity'.tr(),
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-            ),
+    if (user == null) {
+      return const SizedBox.shrink();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'profile.my_activity'.tr(),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
           ),
-          const SizedBox(height: 8),
-          ListTile(
-            leading: Icon(
-              Icons.article,
-              color: Colors.grey,
-            ),
-            title: Text(
-              'profile.my_posts'.tr(),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontWeight: FontWeight.w500,
-                  ),
-            ),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {
-              // TODO: 내가 쓴 게시글 목록으로 이동
-            },
+        ),
+        const SizedBox(height: 8),
+        ListTile(
+          leading: Icon(
+            Icons.article,
+            color: Colors.grey,
           ),
-          ListTile(
-            leading: Icon(
-              Icons.favorite,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            title: Text(
-              'profile.liked_posts'.tr(),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontWeight: FontWeight.w500,
-                  ),
-            ),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {
-              // TODO: 좋아요한 게시글 목록으로 이동
-            },
+          title: Text(
+            'profile.my_posts'.tr(),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.w500,
+                ),
           ),
-        ],
-      ),
-      error: (error, _) => const SizedBox.shrink(),
-      loading: () => const SizedBox.shrink(),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () {
+            // TODO: 내가 쓴 게시글 목록으로 이동
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.favorite,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          title: Text(
+            'profile.liked_posts'.tr(),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () {
+            // TODO: 좋아요한 게시글 목록으로 이동
+          },
+        ),
+      ],
     );
   }
 }
