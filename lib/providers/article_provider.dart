@@ -4,17 +4,15 @@ import '../models/dto/article_dto.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
+import 'package:pacapaca/models/dto/comment_dto.dart';
 
 part 'article_provider.g.dart';
-
-@riverpod
-ArticleService articleService(ArticleServiceRef ref) {
-  return GetIt.instance<ArticleService>();
-}
 
 // 게시글 목록 provider
 @riverpod
 class ArticleList extends _$ArticleList {
+  final _articleService = GetIt.instance<ArticleService>();
+
   int? _lastPagingViewCount; // 마지막으로 요청한 페이징 키 저장
   int? _lastPagingArticleId; // 마지막으로 요청한 페이징 키 저장
   DateTime? _lastFetchTime;
@@ -38,8 +36,7 @@ class ArticleList extends _$ArticleList {
 
     _lastPagingViewCount = null; // 초기화
     _lastPagingArticleId = null; // 초기화
-    final articleService = ref.watch(articleServiceProvider);
-    final articles = await articleService.getArticles(
+    final articles = await _articleService.getArticles(
       sortBy: sortBy,
       limit: limit,
       pagingViewCount: pagingViewCount,
@@ -60,9 +57,8 @@ class ArticleList extends _$ArticleList {
     state = const AsyncLoading();
     _lastFetchTime = null; // 캐시 무효화
 
-    final articleService = ref.read(articleServiceProvider);
     try {
-      final articles = await articleService.getArticles(
+      final articles = await _articleService.getArticles(
         sortBy: sortBy,
         limit: limit,
         category: category,
@@ -92,8 +88,7 @@ class ArticleList extends _$ArticleList {
     try {
       _lastPagingViewCount = pagingViewCount; // 현재 페이징 키 저장
       _lastPagingArticleId = pagingArticleId; // 현재 페이징 키 저장
-      final articleService = ref.read(articleServiceProvider);
-      final moreArticles = await articleService.getArticles(
+      final moreArticles = await _articleService.getArticles(
         sortBy: sortBy,
         limit: limit,
         pagingViewCount: pagingViewCount,
@@ -141,119 +136,11 @@ class ArticleList extends _$ArticleList {
 // 게시글 상세 provider
 @riverpod
 class Article extends _$Article {
+  final _articleService = GetIt.instance<ArticleService>();
+
   @override
   FutureOr<ArticleDTO?> build(int articleId) async {
-    final articleService = ref.watch(articleServiceProvider);
-    return articleService.getArticle(articleId);
-  }
-
-  Future<void> refresh() async {
-    ref.invalidateSelf();
-  }
-}
-
-// 댓글 목록 provider
-@riverpod
-class ArticleComments extends _$ArticleComments {
-  int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
-  String? _sort; // 댓글 정렬 기준 저장
-
-  @override
-  FutureOr<List<ArticleCommentDTO>?> build(int articleId) async {
-    _lastPagingKey = null; // 초기화
-    _sort = ref.watch(commentSortProvider);
-    final articleService = ref.watch(articleServiceProvider);
-    return articleService.listComments(articleId, 20, 0, _sort);
-  }
-
-  Future<void> addComment(String content) async {
-    state = const AsyncLoading();
-    try {
-      final articleService = ref.read(articleServiceProvider);
-      final request = CreateCommentRequest(content: content);
-      final newComment = await articleService.createComment(articleId, request);
-
-      if (newComment != null) {
-        final currentComments = state.value ?? [];
-        if (_sort == 'latest') {
-          state = AsyncData([
-            newComment,
-            ...currentComments,
-          ]);
-        } else {
-          state = AsyncData([
-            ...currentComments,
-            newComment,
-          ]);
-        }
-      }
-    } catch (e, stack) {
-      state = AsyncError(e, stack);
-    }
-  }
-
-  Future<void> updateComment(int commentId, String content) async {
-    state = const AsyncLoading();
-    try {
-      final articleService = ref.read(articleServiceProvider);
-      final request = UpdateCommentRequest(content: content);
-      final updatedComment = await articleService.updateComment(
-        articleId,
-        commentId,
-        request,
-      );
-
-      if (updatedComment != null) {
-        final currentComments = state.value ?? [];
-        final updatedComments = currentComments.map((comment) {
-          return comment.id == commentId ? updatedComment : comment;
-        }).toList();
-        state = AsyncData(updatedComments);
-      }
-    } catch (e, stack) {
-      state = AsyncError(e, stack);
-    }
-  }
-
-  Future<void> deleteComment(int commentId) async {
-    state = const AsyncLoading();
-    try {
-      final articleService = ref.read(articleServiceProvider);
-      await articleService.deleteComment(articleId, commentId);
-
-      final currentComments = state.value ?? [];
-      final updatedComments =
-          currentComments.where((comment) => comment.id != commentId).toList();
-      state = AsyncData(updatedComments);
-    } catch (e, stack) {
-      state = AsyncError(e, stack);
-    }
-  }
-
-  Future<void> loadMore() async {
-    final currentComments = state.value ?? [];
-    if (currentComments.isEmpty) return;
-
-    final lastComment = currentComments.last;
-    // 이전과 같은 페이징 키면 요청하지 않음
-    if (lastComment.id == _lastPagingKey) return;
-
-    try {
-      _lastPagingKey = lastComment.id; // 현재 페이징 키 저장
-      final articleService = ref.read(articleServiceProvider);
-      final newComments = await articleService.listComments(
-        articleId,
-        20,
-        lastComment.id,
-        _sort,
-      );
-
-      if (newComments == null || newComments.isEmpty) return;
-
-      state = AsyncData([...currentComments, ...newComments]);
-    } catch (e, stack) {
-      state = AsyncError(e, stack);
-    }
+    return _articleService.getArticle(articleId);
   }
 
   Future<void> refresh() async {
@@ -264,14 +151,15 @@ class ArticleComments extends _$ArticleComments {
 // 게시글 작성/수정 provider
 @riverpod
 class ArticleEditor extends _$ArticleEditor {
+  final _articleService = GetIt.instance<ArticleService>();
+
   @override
   FutureOr<void> build() {}
 
-  Future<ArticleDTO?> createArticle(CreateArticleRequest request) async {
+  Future<ArticleDTO?> createArticle(RequestCreateArticle request) async {
     state = const AsyncLoading();
     try {
-      final articleService = ref.read(articleServiceProvider);
-      final article = await articleService.createArticle(request);
+      final article = await _articleService.createArticle(request);
       state = const AsyncData(null);
       return article;
     } catch (e, stack) {
@@ -282,12 +170,11 @@ class ArticleEditor extends _$ArticleEditor {
 
   Future<ArticleDTO?> updateArticle(
     int articleId,
-    UpdateArticleRequest request,
+    RequestUpdateArticle request,
   ) async {
     state = const AsyncLoading();
     try {
-      final articleService = ref.read(articleServiceProvider);
-      final article = await articleService.updateArticle(articleId, request);
+      final article = await _articleService.updateArticle(articleId, request);
       state = const AsyncData(null);
       return article;
     } catch (e, stack) {
@@ -299,8 +186,7 @@ class ArticleEditor extends _$ArticleEditor {
   Future<void> deleteArticle(int articleId) async {
     state = const AsyncLoading();
     try {
-      final articleService = ref.read(articleServiceProvider);
-      await articleService.deleteArticle(articleId);
+      await _articleService.deleteArticle(articleId);
       state = const AsyncData(null);
     } catch (e, stack) {
       state = AsyncError(e, stack);
@@ -311,18 +197,19 @@ class ArticleEditor extends _$ArticleEditor {
 // 게시글 검색 provider
 @riverpod
 class ArticleSearch extends _$ArticleSearch {
+  final _articleService = GetIt.instance<ArticleService>();
+
   int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
 
   @override
   FutureOr<List<ArticleDTO>?> build(String query) async {
     if (query.isEmpty) return null;
-
     _lastPagingKey = null; // 초기화
-    final articleService = ref.watch(articleServiceProvider);
-    return articleService.searchArticles(
+    final articles = await _articleService.searchArticles(
       query: query,
       limit: 20,
     );
+    return articles;
   }
 
   Future<void> loadMore(String query) async {
@@ -337,8 +224,7 @@ class ArticleSearch extends _$ArticleSearch {
 
     try {
       _lastPagingKey = lastArticle.id; // 현재 페이징 키 저장
-      final articleService = ref.read(articleServiceProvider);
-      final moreArticles = await articleService.searchArticles(
+      final moreArticles = await _articleService.searchArticles(
         query: query,
         limit: 20,
         pagingKey: lastArticle.id,

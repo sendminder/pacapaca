@@ -46,37 +46,9 @@ Map<String, dynamic> _$$ArticleDTOImplToJson(_$ArticleDTOImpl instance) =>
       'is_liked': instance.isLiked,
     };
 
-_$ArticleCommentDTOImpl _$$ArticleCommentDTOImplFromJson(
+_$RequestCreateArticleImpl _$$RequestCreateArticleImplFromJson(
         Map<String, dynamic> json) =>
-    _$ArticleCommentDTOImpl(
-      id: (json['id'] as num).toInt(),
-      articleId: (json['article_id'] as num).toInt(),
-      userId: (json['user_id'] as num).toInt(),
-      content: json['content'] as String,
-      createTime: json['create_time'] as String,
-      updateTime: json['update_time'] as String,
-      deleteTime: json['delete_time'] as String?,
-      nickname: json['nickname'] as String,
-      profileImageUrl: json['profile_image_url'] as String,
-    );
-
-Map<String, dynamic> _$$ArticleCommentDTOImplToJson(
-        _$ArticleCommentDTOImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'article_id': instance.articleId,
-      'user_id': instance.userId,
-      'content': instance.content,
-      'create_time': instance.createTime,
-      'update_time': instance.updateTime,
-      'delete_time': instance.deleteTime,
-      'nickname': instance.nickname,
-      'profile_image_url': instance.profileImageUrl,
-    };
-
-_$CreateArticleRequestImpl _$$CreateArticleRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateArticleRequestImpl(
+    _$RequestCreateArticleImpl(
       title: json['title'] as String,
       content: json['content'] as String,
       imageUrl: json['image_url'] as String?,
@@ -85,8 +57,8 @@ _$CreateArticleRequestImpl _$$CreateArticleRequestImplFromJson(
       category: json['category'] as String?,
     );
 
-Map<String, dynamic> _$$CreateArticleRequestImplToJson(
-        _$CreateArticleRequestImpl instance) =>
+Map<String, dynamic> _$$RequestCreateArticleImplToJson(
+        _$RequestCreateArticleImpl instance) =>
     <String, dynamic>{
       'title': instance.title,
       'content': instance.content,
@@ -96,9 +68,9 @@ Map<String, dynamic> _$$CreateArticleRequestImplToJson(
       'category': instance.category,
     };
 
-_$UpdateArticleRequestImpl _$$UpdateArticleRequestImplFromJson(
+_$RequestUpdateArticleImpl _$$RequestUpdateArticleImplFromJson(
         Map<String, dynamic> json) =>
-    _$UpdateArticleRequestImpl(
+    _$RequestUpdateArticleImpl(
       title: json['title'] as String?,
       content: json['content'] as String?,
       imageUrl: json['image_url'] as String?,
@@ -107,8 +79,8 @@ _$UpdateArticleRequestImpl _$$UpdateArticleRequestImplFromJson(
       category: json['category'] as String?,
     );
 
-Map<String, dynamic> _$$UpdateArticleRequestImplToJson(
-        _$UpdateArticleRequestImpl instance) =>
+Map<String, dynamic> _$$RequestUpdateArticleImplToJson(
+        _$RequestUpdateArticleImpl instance) =>
     <String, dynamic>{
       'title': instance.title,
       'content': instance.content,
@@ -118,33 +90,9 @@ Map<String, dynamic> _$$UpdateArticleRequestImplToJson(
       'category': instance.category,
     };
 
-_$CreateCommentRequestImpl _$$CreateCommentRequestImplFromJson(
+_$RequestListArticlesImpl _$$RequestListArticlesImplFromJson(
         Map<String, dynamic> json) =>
-    _$CreateCommentRequestImpl(
-      content: json['content'] as String,
-    );
-
-Map<String, dynamic> _$$CreateCommentRequestImplToJson(
-        _$CreateCommentRequestImpl instance) =>
-    <String, dynamic>{
-      'content': instance.content,
-    };
-
-_$UpdateCommentRequestImpl _$$UpdateCommentRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$UpdateCommentRequestImpl(
-      content: json['content'] as String,
-    );
-
-Map<String, dynamic> _$$UpdateCommentRequestImplToJson(
-        _$UpdateCommentRequestImpl instance) =>
-    <String, dynamic>{
-      'content': instance.content,
-    };
-
-_$ListArticlesRequestImpl _$$ListArticlesRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ListArticlesRequestImpl(
+    _$RequestListArticlesImpl(
       sortBy: json['sort_by'] as String,
       limit: (json['limit'] as num).toInt(),
       pagingViewCount: (json['paging_view_count'] as num?)?.toInt(),
@@ -152,8 +100,8 @@ _$ListArticlesRequestImpl _$$ListArticlesRequestImplFromJson(
       category: json['category'] as String?,
     );
 
-Map<String, dynamic> _$$ListArticlesRequestImplToJson(
-        _$ListArticlesRequestImpl instance) =>
+Map<String, dynamic> _$$RequestListArticlesImplToJson(
+        _$RequestListArticlesImpl instance) =>
     <String, dynamic>{
       'sort_by': instance.sortBy,
       'limit': instance.limit,
@@ -162,101 +110,60 @@ Map<String, dynamic> _$$ListArticlesRequestImplToJson(
       'category': instance.category,
     };
 
-_$GetArticleResponseImpl _$$GetArticleResponseImplFromJson(
+_$ResponseGetArticleImpl _$$ResponseGetArticleImplFromJson(
         Map<String, dynamic> json) =>
-    _$GetArticleResponseImpl(
+    _$ResponseGetArticleImpl(
       article: ArticleDTO.fromJson(json['article'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$GetArticleResponseImplToJson(
-        _$GetArticleResponseImpl instance) =>
+Map<String, dynamic> _$$ResponseGetArticleImplToJson(
+        _$ResponseGetArticleImpl instance) =>
     <String, dynamic>{
       'article': instance.article,
     };
 
-_$ListArticlesResponseImpl _$$ListArticlesResponseImplFromJson(
+_$ResponseListArticlesImpl _$$ResponseListArticlesImplFromJson(
         Map<String, dynamic> json) =>
-    _$ListArticlesResponseImpl(
+    _$ResponseListArticlesImpl(
       articles: (json['articles'] as List<dynamic>)
           .map((e) => ArticleDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$ListArticlesResponseImplToJson(
-        _$ListArticlesResponseImpl instance) =>
+Map<String, dynamic> _$$ResponseListArticlesImplToJson(
+        _$ResponseListArticlesImpl instance) =>
     <String, dynamic>{
       'articles': instance.articles,
     };
 
-_$ArticleCommentsResponseImpl _$$ArticleCommentsResponseImplFromJson(
+_$ResponseArticleLikeImpl _$$ResponseArticleLikeImplFromJson(
         Map<String, dynamic> json) =>
-    _$ArticleCommentsResponseImpl(
-      comments: (json['comments'] as List<dynamic>)
-          .map((e) => ArticleCommentDTO.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$$ArticleCommentsResponseImplToJson(
-        _$ArticleCommentsResponseImpl instance) =>
-    <String, dynamic>{
-      'comments': instance.comments,
-    };
-
-_$GetCommentResponseImpl _$$GetCommentResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$GetCommentResponseImpl(
-      comment:
-          ArticleCommentDTO.fromJson(json['comment'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$GetCommentResponseImplToJson(
-        _$GetCommentResponseImpl instance) =>
-    <String, dynamic>{
-      'comment': instance.comment,
-    };
-
-_$ArticleLikeResponseImpl _$$ArticleLikeResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ArticleLikeResponseImpl(
+    _$ResponseArticleLikeImpl(
       articleId: (json['article_id'] as num).toInt(),
       likeCount: (json['like_count'] as num).toInt(),
       isLiked: json['is_liked'] as bool,
     );
 
-Map<String, dynamic> _$$ArticleLikeResponseImplToJson(
-        _$ArticleLikeResponseImpl instance) =>
+Map<String, dynamic> _$$ResponseArticleLikeImplToJson(
+        _$ResponseArticleLikeImpl instance) =>
     <String, dynamic>{
       'article_id': instance.articleId,
       'like_count': instance.likeCount,
       'is_liked': instance.isLiked,
     };
 
-_$SearchArticlesRequestImpl _$$SearchArticlesRequestImplFromJson(
+_$RequestSearchArticlesImpl _$$RequestSearchArticlesImplFromJson(
         Map<String, dynamic> json) =>
-    _$SearchArticlesRequestImpl(
+    _$RequestSearchArticlesImpl(
       query: json['query'] as String,
       pagingKey: (json['paging_key'] as num?)?.toInt(),
       limit: (json['limit'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$SearchArticlesRequestImplToJson(
-        _$SearchArticlesRequestImpl instance) =>
+Map<String, dynamic> _$$RequestSearchArticlesImplToJson(
+        _$RequestSearchArticlesImpl instance) =>
     <String, dynamic>{
       'query': instance.query,
       'paging_key': instance.pagingKey,
       'limit': instance.limit,
-    };
-
-_$SearchArticlesResponseImpl _$$SearchArticlesResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$SearchArticlesResponseImpl(
-      articles: (json['articles'] as List<dynamic>)
-          .map((e) => ArticleDTO.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$$SearchArticlesResponseImplToJson(
-        _$SearchArticlesResponseImpl instance) =>
-    <String, dynamic>{
-      'articles': instance.articles,
     };

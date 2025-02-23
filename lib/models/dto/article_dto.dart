@@ -28,160 +28,92 @@ class ArticleDTO with _$ArticleDTO {
       _$ArticleDTOFromJson(json);
 }
 
-@freezed
-class ArticleCommentDTO with _$ArticleCommentDTO {
-  const factory ArticleCommentDTO({
-    required int id,
-    @JsonKey(name: 'article_id') required int articleId,
-    @JsonKey(name: 'user_id') required int userId,
-    required String content,
-    @JsonKey(name: 'create_time') required String createTime,
-    @JsonKey(name: 'update_time') required String updateTime,
-    @JsonKey(name: 'delete_time') String? deleteTime,
-    required String nickname,
-    @JsonKey(name: 'profile_image_url') required String profileImageUrl,
-  }) = _ArticleCommentDTO;
-
-  factory ArticleCommentDTO.fromJson(Map<String, dynamic> json) =>
-      _$ArticleCommentDTOFromJson(json);
-}
-
 // Request DTOs
 @freezed
-class CreateArticleRequest with _$CreateArticleRequest {
-  const factory CreateArticleRequest({
+class RequestCreateArticle with _$RequestCreateArticle {
+  const factory RequestCreateArticle({
     required String title,
     required String content,
     @JsonKey(name: 'image_url') String? imageUrl,
     @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
     List<String>? tags,
     String? category,
-  }) = _CreateArticleRequest;
+  }) = _RequestCreateArticle;
 
-  factory CreateArticleRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateArticleRequestFromJson(json);
+  factory RequestCreateArticle.fromJson(Map<String, dynamic> json) =>
+      _$RequestCreateArticleFromJson(json);
 }
 
 @freezed
-class UpdateArticleRequest with _$UpdateArticleRequest {
-  const factory UpdateArticleRequest({
+class RequestUpdateArticle with _$RequestUpdateArticle {
+  const factory RequestUpdateArticle({
     String? title,
     String? content,
     @JsonKey(name: 'image_url') String? imageUrl,
     @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
     List<String>? tags,
     String? category,
-  }) = _UpdateArticleRequest;
+  }) = _RequestUpdateArticle;
 
-  factory UpdateArticleRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateArticleRequestFromJson(json);
+  factory RequestUpdateArticle.fromJson(Map<String, dynamic> json) =>
+      _$RequestUpdateArticleFromJson(json);
 }
 
 @freezed
-class CreateCommentRequest with _$CreateCommentRequest {
-  const factory CreateCommentRequest({
-    required String content,
-  }) = _CreateCommentRequest;
-
-  factory CreateCommentRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateCommentRequestFromJson(json);
-}
-
-@freezed
-class UpdateCommentRequest with _$UpdateCommentRequest {
-  const factory UpdateCommentRequest({
-    required String content,
-  }) = _UpdateCommentRequest;
-
-  factory UpdateCommentRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateCommentRequestFromJson(json);
-}
-
-@freezed
-class ListArticlesRequest with _$ListArticlesRequest {
-  const factory ListArticlesRequest({
+class RequestListArticles with _$RequestListArticles {
+  const factory RequestListArticles({
     @JsonKey(name: 'sort_by') required String sortBy,
     required int limit,
     @JsonKey(name: 'paging_view_count') int? pagingViewCount,
     @JsonKey(name: 'paging_article_id') int? pagingArticleId,
     String? category,
-  }) = _ListArticlesRequest;
+  }) = _RequestListArticles;
 
-  factory ListArticlesRequest.fromJson(Map<String, dynamic> json) =>
-      _$ListArticlesRequestFromJson(json);
+  factory RequestListArticles.fromJson(Map<String, dynamic> json) =>
+      _$RequestListArticlesFromJson(json);
 }
 
 // Response DTOs
 @freezed
-class GetArticleResponse with _$GetArticleResponse {
-  const factory GetArticleResponse({
+class ResponseGetArticle with _$ResponseGetArticle {
+  const factory ResponseGetArticle({
     required ArticleDTO article,
-  }) = _GetArticleResponse;
+  }) = _ResponseGetArticle;
 
-  factory GetArticleResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetArticleResponseFromJson(json);
+  factory ResponseGetArticle.fromJson(Map<String, dynamic> json) =>
+      _$ResponseGetArticleFromJson(json);
 }
 
 @freezed
-class ListArticlesResponse with _$ListArticlesResponse {
-  const factory ListArticlesResponse({
+class ResponseListArticles with _$ResponseListArticles {
+  const factory ResponseListArticles({
     required List<ArticleDTO> articles,
-  }) = _ListArticlesResponse;
+  }) = _ResponseListArticles;
 
-  factory ListArticlesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListArticlesResponseFromJson(json);
+  factory ResponseListArticles.fromJson(Map<String, dynamic> json) =>
+      _$ResponseListArticlesFromJson(json);
 }
 
 @freezed
-class ArticleCommentsResponse with _$ArticleCommentsResponse {
-  const factory ArticleCommentsResponse({
-    required List<ArticleCommentDTO> comments,
-  }) = _ArticleCommentsResponse;
-
-  factory ArticleCommentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ArticleCommentsResponseFromJson(json);
-}
-
-@freezed
-class GetCommentResponse with _$GetCommentResponse {
-  const factory GetCommentResponse({
-    required ArticleCommentDTO comment,
-  }) = _GetCommentResponse;
-
-  factory GetCommentResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCommentResponseFromJson(json);
-}
-
-@freezed
-class ArticleLikeResponse with _$ArticleLikeResponse {
-  const factory ArticleLikeResponse({
+class ResponseArticleLike with _$ResponseArticleLike {
+  const factory ResponseArticleLike({
     @JsonKey(name: 'article_id') required int articleId,
     @JsonKey(name: 'like_count') required int likeCount,
     @JsonKey(name: 'is_liked') required bool isLiked,
-  }) = _ArticleLikeResponse;
+  }) = _ResponseArticleLike;
 
-  factory ArticleLikeResponse.fromJson(Map<String, dynamic> json) =>
-      _$ArticleLikeResponseFromJson(json);
+  factory ResponseArticleLike.fromJson(Map<String, dynamic> json) =>
+      _$ResponseArticleLikeFromJson(json);
 }
 
 @freezed
-class SearchArticlesRequest with _$SearchArticlesRequest {
-  const factory SearchArticlesRequest({
+class RequestSearchArticles with _$RequestSearchArticles {
+  const factory RequestSearchArticles({
     required String query,
     @JsonKey(name: 'paging_key') int? pagingKey,
     required int limit,
-  }) = _SearchArticlesRequest;
+  }) = _RequestSearchArticles;
 
-  factory SearchArticlesRequest.fromJson(Map<String, dynamic> json) =>
-      _$SearchArticlesRequestFromJson(json);
-}
-
-@freezed
-class SearchArticlesResponse with _$SearchArticlesResponse {
-  const factory SearchArticlesResponse({
-    required List<ArticleDTO> articles,
-  }) = _SearchArticlesResponse;
-
-  factory SearchArticlesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchArticlesResponseFromJson(json);
+  factory RequestSearchArticles.fromJson(Map<String, dynamic> json) =>
+      _$RequestSearchArticlesFromJson(json);
 }

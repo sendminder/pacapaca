@@ -3,9 +3,9 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/dto/common_dto.dart';
-import 'dart:convert';
 import 'package:pacapaca/services/dio_service.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
+import 'dart:convert';
 
 class ArticleService {
   final Dio _dio = DioService.instance;
@@ -25,7 +25,7 @@ class ArticleService {
         categoryString = category.name;
       }
 
-      final request = ListArticlesRequest(
+      final request = RequestListArticles(
         sortBy: sortBy,
         limit: limit,
         pagingViewCount: pagingViewCount,
@@ -45,7 +45,7 @@ class ArticleService {
 
       if (responseRest.response != null) {
         final articlesResponse =
-            ListArticlesResponse.fromJson(responseRest.response!);
+            ResponseListArticles.fromJson(responseRest.response!);
         return articlesResponse.articles;
       }
       return null;
@@ -67,7 +67,7 @@ class ArticleService {
 
       if (responseRest.response != null) {
         final articleResponse =
-            GetArticleResponse.fromJson(responseRest.response!);
+            ResponseGetArticle.fromJson(responseRest.response!);
         return articleResponse.article;
       }
       return null;
@@ -78,7 +78,7 @@ class ArticleService {
   }
 
   // 게시글 작성
-  Future<ArticleDTO?> createArticle(CreateArticleRequest request) async {
+  Future<ArticleDTO?> createArticle(RequestCreateArticle request) async {
     try {
       final response = await _dio.post(
         '/v1/articles',
@@ -92,7 +92,7 @@ class ArticleService {
 
       if (responseRest.response != null) {
         final articleResponse =
-            GetArticleResponse.fromJson(responseRest.response!);
+            ResponseGetArticle.fromJson(responseRest.response!);
         return articleResponse.article;
       }
       return null;
@@ -105,7 +105,7 @@ class ArticleService {
   // 게시글 수정
   Future<ArticleDTO?> updateArticle(
     int articleId,
-    UpdateArticleRequest request,
+    RequestUpdateArticle request,
   ) async {
     try {
       final response = await _dio.put(
@@ -120,7 +120,7 @@ class ArticleService {
 
       if (responseRest.response != null) {
         final articleResponse =
-            GetArticleResponse.fromJson(responseRest.response!);
+            ResponseGetArticle.fromJson(responseRest.response!);
         return articleResponse.article;
       }
       return null;
@@ -140,132 +140,8 @@ class ArticleService {
     }
   }
 
-  // 댓글 목록 조회
-  Future<List<ArticleCommentDTO>?> getComments(int articleId) async {
-    try {
-      final response = await _dio.get('/v1/articles/$articleId/comments');
-
-      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
-        response.data,
-        (json) => json as Map<String, dynamic>,
-      );
-
-      if (responseRest.response != null) {
-        final commentsResponse =
-            ArticleCommentsResponse.fromJson(responseRest.response!);
-        return commentsResponse.comments;
-      }
-      return null;
-    } catch (e, stackTrace) {
-      logger.e('get comments', error: e, stackTrace: stackTrace);
-      rethrow;
-    }
-  }
-
-  // 댓글 목록 조회 paging 이용
-  Future<List<ArticleCommentDTO>?> listComments(
-    int articleId,
-    int limit,
-    int pagingKey,
-    String? sortBy,
-  ) async {
-    try {
-      final response = await _dio.get(
-        '/v1/articles/$articleId/comments',
-        queryParameters: {
-          'limit': limit,
-          'paging_key': pagingKey,
-          'sort_by': sortBy,
-        },
-      );
-
-      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
-        response.data,
-        (json) => json as Map<String, dynamic>,
-      );
-
-      if (responseRest.response != null) {
-        final commentsResponse =
-            ArticleCommentsResponse.fromJson(responseRest.response!);
-        return commentsResponse.comments;
-      }
-      return null;
-    } catch (e, stackTrace) {
-      logger.e('list comments', error: e, stackTrace: stackTrace);
-      rethrow;
-    }
-  }
-
-  // 댓글 작성
-  Future<ArticleCommentDTO?> createComment(
-    int articleId,
-    CreateCommentRequest request,
-  ) async {
-    try {
-      final response = await _dio.post(
-        '/v1/articles/$articleId/comments',
-        data: jsonEncode(request.toJson()),
-      );
-
-      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
-        response.data,
-        (json) => json as Map<String, dynamic>,
-      );
-
-      if (responseRest.response != null) {
-        // 응답에서 단일 댓글 파싱
-        final getCommentResponse =
-            GetCommentResponse.fromJson(responseRest.response!);
-        return getCommentResponse.comment;
-      }
-      return null;
-    } catch (e, stackTrace) {
-      logger.e('create comment', error: e, stackTrace: stackTrace);
-      rethrow;
-    }
-  }
-
-  // 댓글 수정
-  Future<ArticleCommentDTO?> updateComment(
-    int articleId,
-    int commentId,
-    UpdateCommentRequest request,
-  ) async {
-    try {
-      final response = await _dio.put(
-        '/v1/articles/$articleId/comments/$commentId',
-        data: jsonEncode(request.toJson()),
-      );
-
-      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
-        response.data,
-        (json) => json as Map<String, dynamic>,
-      );
-
-      if (responseRest.response != null) {
-        final getCommentResponse =
-            GetCommentResponse.fromJson(responseRest.response!);
-        return getCommentResponse.comment;
-      }
-      return null;
-    } catch (e, stackTrace) {
-      logger.e('update comment', error: e, stackTrace: stackTrace);
-      rethrow;
-    }
-  }
-
-  // 댓글 삭제
-  Future<void> deleteComment(int articleId, int commentId) async {
-    try {
-      await _dio.delete('/v1/articles/$articleId/comments/$commentId');
-    } catch (e, stackTrace) {
-      logger.e('delete comment', error: e, stackTrace: stackTrace);
-      rethrow;
-    }
-  }
-
   // 좋아요 추가
-  Future<ArticleLikeResponse?> toggleArticleLike(int articleId) async {
+  Future<ResponseArticleLike?> toggleArticleLike(int articleId) async {
     try {
       final response = await _dio.post('/v1/articles/$articleId/like');
 
@@ -276,7 +152,7 @@ class ArticleService {
 
       if (responseRest.response != null) {
         final articleResponse =
-            ArticleLikeResponse.fromJson(responseRest.response!);
+            ResponseArticleLike.fromJson(responseRest.response!);
         return articleResponse;
       }
       return null;
@@ -293,7 +169,7 @@ class ArticleService {
     int? pagingKey,
   }) async {
     try {
-      final request = SearchArticlesRequest(
+      final request = RequestSearchArticles(
         query: query,
         limit: limit,
         pagingKey: pagingKey,
@@ -311,7 +187,7 @@ class ArticleService {
 
       if (responseRest.response != null) {
         final searchResponse =
-            SearchArticlesResponse.fromJson(responseRest.response!);
+            ResponseListArticles.fromJson(responseRest.response!);
         return searchResponse.articles;
       }
       return null;

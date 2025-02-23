@@ -21,6 +21,7 @@ import 'package:pacapaca/services/block_service.dart';
 import 'package:pacapaca/services/report_service.dart';
 import 'package:pacapaca/services/carrot_service.dart';
 import 'package:pacapaca/services/point_service.dart';
+import 'package:pacapaca/services/comment_service.dart';
 
 void main() async {
   // 앱 초기화
@@ -99,5 +100,6 @@ void _setupServiceLocator() {
   getIt.registerSingleton<ReportService>(ReportService());
   getIt.registerSingleton<CarrotService>(CarrotService());
   getIt.registerSingleton<PointService>(PointService());
+  getIt.registerSingleton<CommentService>(CommentService());
   getIt.registerSingleton<DioService>(DioService());
 }
