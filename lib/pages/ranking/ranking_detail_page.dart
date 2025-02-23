@@ -50,6 +50,7 @@ class RankingDetailPage extends ConsumerWidget {
                           rank: data.indexOf(rank) + 1,
                           nickname: rank.nickname,
                           profileImageUrl: rank.profileImageUrl,
+                          profileType: rank.profileType,
                           score: NumberFormat.compact().format(rank.points),
                         ))
                     .toList() ??
@@ -70,6 +71,7 @@ class RankingDetailPage extends ConsumerWidget {
                           rank: data.topReceivers!.indexOf(ranker) + 1,
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
+                          profileType: ranker.profileType,
                           score: NumberFormat.compact().format(ranker.carrots),
                         ))
                     .toList() ??
@@ -90,6 +92,7 @@ class RankingDetailPage extends ConsumerWidget {
                           rank: data.topSenders!.indexOf(ranker) + 1,
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
+                          profileType: ranker.profileType,
                           score: NumberFormat.compact().format(ranker.carrots),
                         ))
                     .toList() ??
@@ -113,7 +116,10 @@ class RankingDetailPage extends ConsumerWidget {
     return ListView.separated(
       padding: const EdgeInsets.symmetric(vertical: 8),
       itemCount: items.length,
-      separatorBuilder: (context, index) => const Divider(),
+      separatorBuilder: (context, index) => Divider(
+        height: 30,
+        color: Theme.of(context).colorScheme.primary.withAlpha(50),
+      ),
       itemBuilder: (context, index) => items[index],
     );
   }

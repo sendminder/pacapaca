@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pacapaca/models/enums/profile_type.dart';
 
 class RankingListItem extends StatelessWidget {
   final int rank;
   final String nickname;
   final String? profileImageUrl;
+  final String? profileType;
   final String score;
   final VoidCallback? onTap;
   final bool isTopRank;
@@ -14,6 +16,7 @@ class RankingListItem extends StatelessWidget {
     required this.rank,
     required this.nickname,
     this.profileImageUrl,
+    this.profileType,
     required this.score,
     this.onTap,
     this.isTopRank = false,
@@ -68,10 +71,7 @@ class RankingListItem extends StatelessWidget {
             const SizedBox(width: 8),
             CircleAvatar(
               radius: isTopRank ? 24 : 20,
-              backgroundImage:
-                  profileImageUrl != null && profileImageUrl!.isNotEmpty
-                      ? NetworkImage(profileImageUrl!)
-                      : AssetImage(defaultProfilePath) as ImageProvider,
+              backgroundImage: getProfileImage(profileImageUrl, profileType),
             ),
           ],
         ),
@@ -101,5 +101,18 @@ class RankingListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  ImageProvider getProfileImage(String? profileImageUrl, String? profileType) {
+    if (profileImageUrl != null && profileImageUrl.isNotEmpty) {
+      return NetworkImage(profileImageUrl);
+    }
+    if (profileType == PacapacaProfileType.pacappi.value) {
+      return AssetImage('assets/profiles/pacappi.jpeg') as ImageProvider;
+    }
+    if (profileType == PacapacaProfileType.pacappu.value) {
+      return AssetImage('assets/profiles/pacappu.jpeg') as ImageProvider;
+    }
+    return AssetImage(defaultProfilePath) as ImageProvider;
   }
 }

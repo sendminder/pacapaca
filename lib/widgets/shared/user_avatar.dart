@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pacapaca/models/enums/pacapaca.dart';
+import 'package:pacapaca/models/enums/profile_type.dart';
 
 class UserAvatar extends StatelessWidget {
   final String imageUrl;

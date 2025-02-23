@@ -98,6 +98,7 @@ class RankingPage extends ConsumerWidget {
                           rank: rankings!.indexOf(rank) + 1,
                           nickname: rank.nickname,
                           profileImageUrl: rank.profileImageUrl,
+                          profileType: rank.profileType,
                           score: NumberFormat.compact().format(rank.points),
                           isTopRank: rankings.indexOf(rank) < 3,
                         ))
@@ -138,6 +139,7 @@ class RankingPage extends ConsumerWidget {
                           rank: rankings!.topReceivers!.indexOf(ranker) + 1,
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
+                          profileType: ranker.profileType,
                           score: NumberFormat.compact().format(ranker.carrots),
                           isTopRank: rankings.topReceivers!.indexOf(ranker) < 3,
                         ))
@@ -178,6 +180,7 @@ class RankingPage extends ConsumerWidget {
                           rank: rankings!.topSenders!.indexOf(ranker) + 1,
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
+                          profileType: ranker.profileType,
                           score: NumberFormat.compact().format(ranker.carrots),
                           isTopRank: rankings.topSenders!.indexOf(ranker) < 3,
                         ))

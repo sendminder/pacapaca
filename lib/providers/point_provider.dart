@@ -71,24 +71,12 @@ class PointRankings extends _$PointRankings {
   int? _lastPagingUserId;
   int? _lastPagingAmount;
 
-  DateTime? _lastFetchTime;
-  static const _cacheValidDuration = Duration(minutes: 5);
-
   @override
   FutureOr<List<DisplayUserDTO>?> build() async {
-    if (_lastFetchTime != null &&
-        DateTime.now().difference(_lastFetchTime!) < _cacheValidDuration) {
-      return state.value;
-    }
-
-    final rankings = await _pointService.getRankings(
+    return _pointService.getRankings(
       pagingUserId: state.value?.last.id,
       pagingAmount: state.value?.last.points,
     );
-    _lastPagingUserId = rankings?.last.id;
-    _lastPagingAmount = rankings?.last.points;
-    _lastFetchTime = DateTime.now();
-    return rankings;
   }
 
   Future<void> loadMore() async {
@@ -119,7 +107,6 @@ class PointRankings extends _$PointRankings {
   }
 
   Future<void> refresh() async {
-    _lastFetchTime = null;
     ref.invalidateSelf();
   }
 }

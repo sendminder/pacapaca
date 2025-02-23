@@ -72,26 +72,13 @@ class CarrotTransactions extends _$CarrotTransactions {
 @riverpod
 class CarrotRankings extends _$CarrotRankings {
   final _carrotService = GetIt.instance<CarrotService>();
-  DateTime? _lastFetchTime;
-  static const _cacheValidDuration = Duration(minutes: 5);
 
   @override
   FutureOr<ResponseCarrotRankings?> build() async {
-    // 캐시가 유효한 경우 기존 데이터 반환
-    if (state.hasValue &&
-        state.value != null &&
-        _lastFetchTime != null &&
-        DateTime.now().difference(_lastFetchTime!) < _cacheValidDuration) {
-      return state.value;
-    }
-
-    final rankings = await _carrotService.getRankings();
-    _lastFetchTime = DateTime.now();
-    return rankings;
+    return _carrotService.getRankings();
   }
 
   Future<void> refresh() async {
-    _lastFetchTime = null;
     ref.invalidateSelf();
   }
 }
