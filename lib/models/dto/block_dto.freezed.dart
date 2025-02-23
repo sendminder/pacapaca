@@ -758,7 +758,7 @@ ResponseUserBlocks _$ResponseUserBlocksFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ResponseUserBlocks {
-  List<UserBlockDTO> get blocks => throw _privateConstructorUsedError;
+  List<UserBlockDTO>? get blocks => throw _privateConstructorUsedError;
 
   /// Serializes this ResponseUserBlocks to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -776,7 +776,7 @@ abstract class $ResponseUserBlocksCopyWith<$Res> {
           ResponseUserBlocks value, $Res Function(ResponseUserBlocks) then) =
       _$ResponseUserBlocksCopyWithImpl<$Res, ResponseUserBlocks>;
   @useResult
-  $Res call({List<UserBlockDTO> blocks});
+  $Res call({List<UserBlockDTO>? blocks});
 }
 
 /// @nodoc
@@ -794,13 +794,13 @@ class _$ResponseUserBlocksCopyWithImpl<$Res, $Val extends ResponseUserBlocks>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? blocks = null,
+    Object? blocks = freezed,
   }) {
     return _then(_value.copyWith(
-      blocks: null == blocks
+      blocks: freezed == blocks
           ? _value.blocks
           : blocks // ignore: cast_nullable_to_non_nullable
-              as List<UserBlockDTO>,
+              as List<UserBlockDTO>?,
     ) as $Val);
   }
 }
@@ -813,7 +813,7 @@ abstract class _$$ResponseUserBlocksImplCopyWith<$Res>
       __$$ResponseUserBlocksImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<UserBlockDTO> blocks});
+  $Res call({List<UserBlockDTO>? blocks});
 }
 
 /// @nodoc
@@ -829,13 +829,13 @@ class __$$ResponseUserBlocksImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? blocks = null,
+    Object? blocks = freezed,
   }) {
     return _then(_$ResponseUserBlocksImpl(
-      blocks: null == blocks
+      blocks: freezed == blocks
           ? _value._blocks
           : blocks // ignore: cast_nullable_to_non_nullable
-              as List<UserBlockDTO>,
+              as List<UserBlockDTO>?,
     ));
   }
 }
@@ -843,18 +843,20 @@ class __$$ResponseUserBlocksImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ResponseUserBlocksImpl implements _ResponseUserBlocks {
-  const _$ResponseUserBlocksImpl({required final List<UserBlockDTO> blocks})
+  const _$ResponseUserBlocksImpl({final List<UserBlockDTO>? blocks})
       : _blocks = blocks;
 
   factory _$ResponseUserBlocksImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResponseUserBlocksImplFromJson(json);
 
-  final List<UserBlockDTO> _blocks;
+  final List<UserBlockDTO>? _blocks;
   @override
-  List<UserBlockDTO> get blocks {
+  List<UserBlockDTO>? get blocks {
+    final value = _blocks;
+    if (value == null) return null;
     if (_blocks is EqualUnmodifiableListView) return _blocks;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_blocks);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -893,14 +895,14 @@ class _$ResponseUserBlocksImpl implements _ResponseUserBlocks {
 }
 
 abstract class _ResponseUserBlocks implements ResponseUserBlocks {
-  const factory _ResponseUserBlocks(
-      {required final List<UserBlockDTO> blocks}) = _$ResponseUserBlocksImpl;
+  const factory _ResponseUserBlocks({final List<UserBlockDTO>? blocks}) =
+      _$ResponseUserBlocksImpl;
 
   factory _ResponseUserBlocks.fromJson(Map<String, dynamic> json) =
       _$ResponseUserBlocksImpl.fromJson;
 
   @override
-  List<UserBlockDTO> get blocks;
+  List<UserBlockDTO>? get blocks;
 
   /// Create a copy of ResponseUserBlocks
   /// with the given fields replaced by the non-null parameter values.

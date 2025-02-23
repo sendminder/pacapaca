@@ -146,7 +146,14 @@
         "my_likes": "My Likes",
         "my_scraps": "My Scraps",
         "my_points": "My Points",
-        "liked_posts": "Liked Posts"
+        "liked_posts": "Liked Posts",
+        "choose_type": "Choose Profile Type",
+        "question": "What is your style?",
+        "empathy": "Empathy Style",
+        "empathy_description": "I prefer to empathize with others and share stories.",
+        "solution": "Solution Style",
+        "solution_description": "I prefer to provide solutions to problems.",
+        "error": "Failed to set profile type."
     },
     "ranking": {
         "title": "Ranking",

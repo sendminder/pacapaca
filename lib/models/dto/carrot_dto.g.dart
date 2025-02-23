@@ -100,8 +100,8 @@ Map<String, dynamic> _$$ResponseCarrotTransactionImplToJson(
 _$ResponseCarrotTransactionsImpl _$$ResponseCarrotTransactionsImplFromJson(
         Map<String, dynamic> json) =>
     _$ResponseCarrotTransactionsImpl(
-      transactions: (json['transactions'] as List<dynamic>)
-          .map((e) => CarrotTransactionDTO.fromJson(e as Map<String, dynamic>))
+      transactions: (json['transactions'] as List<dynamic>?)
+          ?.map((e) => CarrotTransactionDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -114,11 +114,11 @@ Map<String, dynamic> _$$ResponseCarrotTransactionsImplToJson(
 _$ResponseCarrotRankingsImpl _$$ResponseCarrotRankingsImplFromJson(
         Map<String, dynamic> json) =>
     _$ResponseCarrotRankingsImpl(
-      topReceivers: (json['top_receivers'] as List<dynamic>)
-          .map((e) => DisplayUserDTO.fromJson(e as Map<String, dynamic>))
+      topReceivers: (json['top_receivers'] as List<dynamic>?)
+          ?.map((e) => DisplayUserDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
-      topSenders: (json['top_senders'] as List<dynamic>)
-          .map((e) => DisplayUserDTO.fromJson(e as Map<String, dynamic>))
+      topSenders: (json['top_senders'] as List<dynamic>?)
+          ?.map((e) => DisplayUserDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

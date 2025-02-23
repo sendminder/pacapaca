@@ -91,7 +91,7 @@ class ResponseGetArticle with _$ResponseGetArticle {
 @freezed
 class ResponseListArticles with _$ResponseListArticles {
   const factory ResponseListArticles({
-    required List<ArticleDTO> articles,
+    List<ArticleDTO>? articles,
   }) = _ResponseListArticles;
 
   factory ResponseListArticles.fromJson(Map<String, dynamic> json) =>

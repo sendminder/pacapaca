@@ -39,8 +39,8 @@ Map<String, dynamic> _$$RequestListPointsHistoryImplToJson(
 _$ResponseGetTopPointUsersImpl _$$ResponseGetTopPointUsersImplFromJson(
         Map<String, dynamic> json) =>
     _$ResponseGetTopPointUsersImpl(
-      topUsers: (json['top_users'] as List<dynamic>)
-          .map((e) => DisplayUserDTO.fromJson(e as Map<String, dynamic>))
+      topUsers: (json['top_users'] as List<dynamic>?)
+          ?.map((e) => DisplayUserDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -53,8 +53,8 @@ Map<String, dynamic> _$$ResponseGetTopPointUsersImplToJson(
 _$ResponseGetPointsHistoryImpl _$$ResponseGetPointsHistoryImplFromJson(
         Map<String, dynamic> json) =>
     _$ResponseGetPointsHistoryImpl(
-      histories: (json['histories'] as List<dynamic>)
-          .map((e) => PointsHistoryDTO.fromJson(e as Map<String, dynamic>))
+      histories: (json['histories'] as List<dynamic>?)
+          ?.map((e) => PointsHistoryDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

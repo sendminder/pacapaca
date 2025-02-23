@@ -124,8 +124,8 @@ Map<String, dynamic> _$$ResponseGetArticleImplToJson(
 _$ResponseListArticlesImpl _$$ResponseListArticlesImplFromJson(
         Map<String, dynamic> json) =>
     _$ResponseListArticlesImpl(
-      articles: (json['articles'] as List<dynamic>)
-          .map((e) => ArticleDTO.fromJson(e as Map<String, dynamic>))
+      articles: (json['articles'] as List<dynamic>?)
+          ?.map((e) => ArticleDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

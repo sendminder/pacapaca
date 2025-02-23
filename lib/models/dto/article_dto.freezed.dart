@@ -1496,7 +1496,7 @@ ResponseListArticles _$ResponseListArticlesFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ResponseListArticles {
-  List<ArticleDTO> get articles => throw _privateConstructorUsedError;
+  List<ArticleDTO>? get articles => throw _privateConstructorUsedError;
 
   /// Serializes this ResponseListArticles to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1514,7 +1514,7 @@ abstract class $ResponseListArticlesCopyWith<$Res> {
           $Res Function(ResponseListArticles) then) =
       _$ResponseListArticlesCopyWithImpl<$Res, ResponseListArticles>;
   @useResult
-  $Res call({List<ArticleDTO> articles});
+  $Res call({List<ArticleDTO>? articles});
 }
 
 /// @nodoc
@@ -1533,13 +1533,13 @@ class _$ResponseListArticlesCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? articles = null,
+    Object? articles = freezed,
   }) {
     return _then(_value.copyWith(
-      articles: null == articles
+      articles: freezed == articles
           ? _value.articles
           : articles // ignore: cast_nullable_to_non_nullable
-              as List<ArticleDTO>,
+              as List<ArticleDTO>?,
     ) as $Val);
   }
 }
@@ -1552,7 +1552,7 @@ abstract class _$$ResponseListArticlesImplCopyWith<$Res>
       __$$ResponseListArticlesImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<ArticleDTO> articles});
+  $Res call({List<ArticleDTO>? articles});
 }
 
 /// @nodoc
@@ -1568,13 +1568,13 @@ class __$$ResponseListArticlesImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? articles = null,
+    Object? articles = freezed,
   }) {
     return _then(_$ResponseListArticlesImpl(
-      articles: null == articles
+      articles: freezed == articles
           ? _value._articles
           : articles // ignore: cast_nullable_to_non_nullable
-              as List<ArticleDTO>,
+              as List<ArticleDTO>?,
     ));
   }
 }
@@ -1582,18 +1582,20 @@ class __$$ResponseListArticlesImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ResponseListArticlesImpl implements _ResponseListArticles {
-  const _$ResponseListArticlesImpl({required final List<ArticleDTO> articles})
+  const _$ResponseListArticlesImpl({final List<ArticleDTO>? articles})
       : _articles = articles;
 
   factory _$ResponseListArticlesImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResponseListArticlesImplFromJson(json);
 
-  final List<ArticleDTO> _articles;
+  final List<ArticleDTO>? _articles;
   @override
-  List<ArticleDTO> get articles {
+  List<ArticleDTO>? get articles {
+    final value = _articles;
+    if (value == null) return null;
     if (_articles is EqualUnmodifiableListView) return _articles;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_articles);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -1633,14 +1635,14 @@ class _$ResponseListArticlesImpl implements _ResponseListArticles {
 }
 
 abstract class _ResponseListArticles implements ResponseListArticles {
-  const factory _ResponseListArticles(
-      {required final List<ArticleDTO> articles}) = _$ResponseListArticlesImpl;
+  const factory _ResponseListArticles({final List<ArticleDTO>? articles}) =
+      _$ResponseListArticlesImpl;
 
   factory _ResponseListArticles.fromJson(Map<String, dynamic> json) =
       _$ResponseListArticlesImpl.fromJson;
 
   @override
-  List<ArticleDTO> get articles;
+  List<ArticleDTO>? get articles;
 
   /// Create a copy of ResponseListArticles
   /// with the given fields replaced by the non-null parameter values.

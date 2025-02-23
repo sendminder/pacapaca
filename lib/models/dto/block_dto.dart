@@ -47,7 +47,7 @@ class ResponseUserBlock with _$ResponseUserBlock {
 @freezed
 class ResponseUserBlocks with _$ResponseUserBlocks {
   const factory ResponseUserBlocks({
-    required List<UserBlockDTO> blocks,
+    List<UserBlockDTO>? blocks,
   }) = _ResponseUserBlocks;
 
   factory ResponseUserBlocks.fromJson(Map<String, dynamic> json) =>

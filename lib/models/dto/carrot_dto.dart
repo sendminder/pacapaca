@@ -76,7 +76,7 @@ class ResponseCarrotTransaction with _$ResponseCarrotTransaction {
 @freezed
 class ResponseCarrotTransactions with _$ResponseCarrotTransactions {
   const factory ResponseCarrotTransactions({
-    required List<CarrotTransactionDTO> transactions,
+    List<CarrotTransactionDTO>? transactions,
   }) = _ResponseCarrotTransactions;
 
   factory ResponseCarrotTransactions.fromJson(Map<String, dynamic> json) =>
@@ -86,8 +86,8 @@ class ResponseCarrotTransactions with _$ResponseCarrotTransactions {
 @freezed
 class ResponseCarrotRankings with _$ResponseCarrotRankings {
   const factory ResponseCarrotRankings({
-    @JsonKey(name: 'top_receivers') required List<DisplayUserDTO> topReceivers,
-    @JsonKey(name: 'top_senders') required List<DisplayUserDTO> topSenders,
+    @JsonKey(name: 'top_receivers') List<DisplayUserDTO>? topReceivers,
+    @JsonKey(name: 'top_senders') List<DisplayUserDTO>? topSenders,
   }) = _ResponseCarrotRankings;
 
   factory ResponseCarrotRankings.fromJson(Map<String, dynamic> json) =>

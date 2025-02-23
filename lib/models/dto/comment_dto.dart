@@ -34,7 +34,7 @@ class ResponseGetComment with _$ResponseGetComment {
 @freezed
 class ResponseListComments with _$ResponseListComments {
   const factory ResponseListComments({
-    required List<ArticleCommentDTO> comments,
+    List<ArticleCommentDTO>? comments,
   }) = _ResponseListComments;
 
   factory ResponseListComments.fromJson(Map<String, dynamic> json) =>

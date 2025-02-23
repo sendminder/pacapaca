@@ -65,7 +65,7 @@ class RankingPage extends ConsumerWidget {
                 title: 'ranking.received_carrots'.tr(),
                 items: (rankings?.topReceivers ?? [])
                     .map((ranker) => RankingListItem(
-                          rank: rankings!.topReceivers.indexOf(ranker) + 1,
+                          rank: rankings!.topReceivers!.indexOf(ranker) + 1,
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
                           score: NumberFormat.compact().format(ranker.carrots),
@@ -97,7 +97,7 @@ class RankingPage extends ConsumerWidget {
                 title: 'ranking.sent_carrots'.tr(),
                 items: (rankings?.topSenders ?? [])
                     .map((ranker) => RankingListItem(
-                          rank: rankings!.topSenders.indexOf(ranker) + 1,
+                          rank: rankings!.topSenders!.indexOf(ranker) + 1,
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
                           score: NumberFormat.compact().format(ranker.carrots),

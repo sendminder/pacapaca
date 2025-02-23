@@ -66,8 +66,8 @@ class RankingDetailPage extends ConsumerWidget {
         return rankings.when(
           data: (data) => _buildListView(
             items: data?.topReceivers
-                    .map((ranker) => RankingListItem(
-                          rank: data.topReceivers.indexOf(ranker) + 1,
+                    ?.map((ranker) => RankingListItem(
+                          rank: data.topReceivers!.indexOf(ranker) + 1,
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
                           score: NumberFormat.compact().format(ranker.carrots),
@@ -86,8 +86,8 @@ class RankingDetailPage extends ConsumerWidget {
         return rankings.when(
           data: (data) => _buildListView(
             items: data?.topSenders
-                    .map((ranker) => RankingListItem(
-                          rank: data.topSenders.indexOf(ranker) + 1,
+                    ?.map((ranker) => RankingListItem(
+                          rank: data.topSenders!.indexOf(ranker) + 1,
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
                           score: NumberFormat.compact().format(ranker.carrots),

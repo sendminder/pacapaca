@@ -50,8 +50,8 @@ Map<String, dynamic> _$$ResponseGetCommentImplToJson(
 _$ResponseListCommentsImpl _$$ResponseListCommentsImplFromJson(
         Map<String, dynamic> json) =>
     _$ResponseListCommentsImpl(
-      comments: (json['comments'] as List<dynamic>)
-          .map((e) => ArticleCommentDTO.fromJson(e as Map<String, dynamic>))
+      comments: (json['comments'] as List<dynamic>?)
+          ?.map((e) => ArticleCommentDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

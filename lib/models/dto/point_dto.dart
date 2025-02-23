@@ -29,7 +29,7 @@ class RequestListPointsHistory with _$RequestListPointsHistory {
 @freezed
 class ResponseGetTopPointUsers with _$ResponseGetTopPointUsers {
   const factory ResponseGetTopPointUsers({
-    @JsonKey(name: 'top_users') required List<DisplayUserDTO> topUsers,
+    @JsonKey(name: 'top_users') List<DisplayUserDTO>? topUsers,
   }) = _ResponseGetTopPointUsers;
 
   factory ResponseGetTopPointUsers.fromJson(Map<String, dynamic> json) =>
@@ -39,7 +39,7 @@ class ResponseGetTopPointUsers with _$ResponseGetTopPointUsers {
 @freezed
 class ResponseGetPointsHistory with _$ResponseGetPointsHistory {
   const factory ResponseGetPointsHistory({
-    @JsonKey(name: 'histories') required List<PointsHistoryDTO> histories,
+    @JsonKey(name: 'histories') List<PointsHistoryDTO>? histories,
   }) = _ResponseGetPointsHistory;
 
   factory ResponseGetPointsHistory.fromJson(Map<String, dynamic> json) =>

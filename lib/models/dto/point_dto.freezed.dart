@@ -410,7 +410,7 @@ ResponseGetTopPointUsers _$ResponseGetTopPointUsersFromJson(
 /// @nodoc
 mixin _$ResponseGetTopPointUsers {
   @JsonKey(name: 'top_users')
-  List<DisplayUserDTO> get topUsers => throw _privateConstructorUsedError;
+  List<DisplayUserDTO>? get topUsers => throw _privateConstructorUsedError;
 
   /// Serializes this ResponseGetTopPointUsers to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -428,7 +428,7 @@ abstract class $ResponseGetTopPointUsersCopyWith<$Res> {
           $Res Function(ResponseGetTopPointUsers) then) =
       _$ResponseGetTopPointUsersCopyWithImpl<$Res, ResponseGetTopPointUsers>;
   @useResult
-  $Res call({@JsonKey(name: 'top_users') List<DisplayUserDTO> topUsers});
+  $Res call({@JsonKey(name: 'top_users') List<DisplayUserDTO>? topUsers});
 }
 
 /// @nodoc
@@ -447,13 +447,13 @@ class _$ResponseGetTopPointUsersCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? topUsers = null,
+    Object? topUsers = freezed,
   }) {
     return _then(_value.copyWith(
-      topUsers: null == topUsers
+      topUsers: freezed == topUsers
           ? _value.topUsers
           : topUsers // ignore: cast_nullable_to_non_nullable
-              as List<DisplayUserDTO>,
+              as List<DisplayUserDTO>?,
     ) as $Val);
   }
 }
@@ -467,7 +467,7 @@ abstract class _$$ResponseGetTopPointUsersImplCopyWith<$Res>
       __$$ResponseGetTopPointUsersImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'top_users') List<DisplayUserDTO> topUsers});
+  $Res call({@JsonKey(name: 'top_users') List<DisplayUserDTO>? topUsers});
 }
 
 /// @nodoc
@@ -485,13 +485,13 @@ class __$$ResponseGetTopPointUsersImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? topUsers = null,
+    Object? topUsers = freezed,
   }) {
     return _then(_$ResponseGetTopPointUsersImpl(
-      topUsers: null == topUsers
+      topUsers: freezed == topUsers
           ? _value._topUsers
           : topUsers // ignore: cast_nullable_to_non_nullable
-              as List<DisplayUserDTO>,
+              as List<DisplayUserDTO>?,
     ));
   }
 }
@@ -500,20 +500,21 @@ class __$$ResponseGetTopPointUsersImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ResponseGetTopPointUsersImpl implements _ResponseGetTopPointUsers {
   const _$ResponseGetTopPointUsersImpl(
-      {@JsonKey(name: 'top_users')
-      required final List<DisplayUserDTO> topUsers})
+      {@JsonKey(name: 'top_users') final List<DisplayUserDTO>? topUsers})
       : _topUsers = topUsers;
 
   factory _$ResponseGetTopPointUsersImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResponseGetTopPointUsersImplFromJson(json);
 
-  final List<DisplayUserDTO> _topUsers;
+  final List<DisplayUserDTO>? _topUsers;
   @override
   @JsonKey(name: 'top_users')
-  List<DisplayUserDTO> get topUsers {
+  List<DisplayUserDTO>? get topUsers {
+    final value = _topUsers;
+    if (value == null) return null;
     if (_topUsers is EqualUnmodifiableListView) return _topUsers;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_topUsers);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -553,8 +554,7 @@ class _$ResponseGetTopPointUsersImpl implements _ResponseGetTopPointUsers {
 
 abstract class _ResponseGetTopPointUsers implements ResponseGetTopPointUsers {
   const factory _ResponseGetTopPointUsers(
-          {@JsonKey(name: 'top_users')
-          required final List<DisplayUserDTO> topUsers}) =
+          {@JsonKey(name: 'top_users') final List<DisplayUserDTO>? topUsers}) =
       _$ResponseGetTopPointUsersImpl;
 
   factory _ResponseGetTopPointUsers.fromJson(Map<String, dynamic> json) =
@@ -562,7 +562,7 @@ abstract class _ResponseGetTopPointUsers implements ResponseGetTopPointUsers {
 
   @override
   @JsonKey(name: 'top_users')
-  List<DisplayUserDTO> get topUsers;
+  List<DisplayUserDTO>? get topUsers;
 
   /// Create a copy of ResponseGetTopPointUsers
   /// with the given fields replaced by the non-null parameter values.
@@ -580,7 +580,7 @@ ResponseGetPointsHistory _$ResponseGetPointsHistoryFromJson(
 /// @nodoc
 mixin _$ResponseGetPointsHistory {
   @JsonKey(name: 'histories')
-  List<PointsHistoryDTO> get histories => throw _privateConstructorUsedError;
+  List<PointsHistoryDTO>? get histories => throw _privateConstructorUsedError;
 
   /// Serializes this ResponseGetPointsHistory to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -598,7 +598,7 @@ abstract class $ResponseGetPointsHistoryCopyWith<$Res> {
           $Res Function(ResponseGetPointsHistory) then) =
       _$ResponseGetPointsHistoryCopyWithImpl<$Res, ResponseGetPointsHistory>;
   @useResult
-  $Res call({@JsonKey(name: 'histories') List<PointsHistoryDTO> histories});
+  $Res call({@JsonKey(name: 'histories') List<PointsHistoryDTO>? histories});
 }
 
 /// @nodoc
@@ -617,13 +617,13 @@ class _$ResponseGetPointsHistoryCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? histories = null,
+    Object? histories = freezed,
   }) {
     return _then(_value.copyWith(
-      histories: null == histories
+      histories: freezed == histories
           ? _value.histories
           : histories // ignore: cast_nullable_to_non_nullable
-              as List<PointsHistoryDTO>,
+              as List<PointsHistoryDTO>?,
     ) as $Val);
   }
 }
@@ -637,7 +637,7 @@ abstract class _$$ResponseGetPointsHistoryImplCopyWith<$Res>
       __$$ResponseGetPointsHistoryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'histories') List<PointsHistoryDTO> histories});
+  $Res call({@JsonKey(name: 'histories') List<PointsHistoryDTO>? histories});
 }
 
 /// @nodoc
@@ -655,13 +655,13 @@ class __$$ResponseGetPointsHistoryImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? histories = null,
+    Object? histories = freezed,
   }) {
     return _then(_$ResponseGetPointsHistoryImpl(
-      histories: null == histories
+      histories: freezed == histories
           ? _value._histories
           : histories // ignore: cast_nullable_to_non_nullable
-              as List<PointsHistoryDTO>,
+              as List<PointsHistoryDTO>?,
     ));
   }
 }
@@ -670,20 +670,21 @@ class __$$ResponseGetPointsHistoryImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ResponseGetPointsHistoryImpl implements _ResponseGetPointsHistory {
   const _$ResponseGetPointsHistoryImpl(
-      {@JsonKey(name: 'histories')
-      required final List<PointsHistoryDTO> histories})
+      {@JsonKey(name: 'histories') final List<PointsHistoryDTO>? histories})
       : _histories = histories;
 
   factory _$ResponseGetPointsHistoryImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResponseGetPointsHistoryImplFromJson(json);
 
-  final List<PointsHistoryDTO> _histories;
+  final List<PointsHistoryDTO>? _histories;
   @override
   @JsonKey(name: 'histories')
-  List<PointsHistoryDTO> get histories {
+  List<PointsHistoryDTO>? get histories {
+    final value = _histories;
+    if (value == null) return null;
     if (_histories is EqualUnmodifiableListView) return _histories;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_histories);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -725,7 +726,7 @@ class _$ResponseGetPointsHistoryImpl implements _ResponseGetPointsHistory {
 abstract class _ResponseGetPointsHistory implements ResponseGetPointsHistory {
   const factory _ResponseGetPointsHistory(
           {@JsonKey(name: 'histories')
-          required final List<PointsHistoryDTO> histories}) =
+          final List<PointsHistoryDTO>? histories}) =
       _$ResponseGetPointsHistoryImpl;
 
   factory _ResponseGetPointsHistory.fromJson(Map<String, dynamic> json) =
@@ -733,7 +734,7 @@ abstract class _ResponseGetPointsHistory implements ResponseGetPointsHistory {
 
   @override
   @JsonKey(name: 'histories')
-  List<PointsHistoryDTO> get histories;
+  List<PointsHistoryDTO>? get histories;
 
   /// Create a copy of ResponseGetPointsHistory
   /// with the given fields replaced by the non-null parameter values.

@@ -65,8 +65,8 @@ Map<String, dynamic> _$$ResponseUserBlockImplToJson(
 _$ResponseUserBlocksImpl _$$ResponseUserBlocksImplFromJson(
         Map<String, dynamic> json) =>
     _$ResponseUserBlocksImpl(
-      blocks: (json['blocks'] as List<dynamic>)
-          .map((e) => UserBlockDTO.fromJson(e as Map<String, dynamic>))
+      blocks: (json['blocks'] as List<dynamic>?)
+          ?.map((e) => UserBlockDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

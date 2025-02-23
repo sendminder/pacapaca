@@ -526,7 +526,7 @@ ResponseListComments _$ResponseListCommentsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ResponseListComments {
-  List<ArticleCommentDTO> get comments => throw _privateConstructorUsedError;
+  List<ArticleCommentDTO>? get comments => throw _privateConstructorUsedError;
 
   /// Serializes this ResponseListComments to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -544,7 +544,7 @@ abstract class $ResponseListCommentsCopyWith<$Res> {
           $Res Function(ResponseListComments) then) =
       _$ResponseListCommentsCopyWithImpl<$Res, ResponseListComments>;
   @useResult
-  $Res call({List<ArticleCommentDTO> comments});
+  $Res call({List<ArticleCommentDTO>? comments});
 }
 
 /// @nodoc
@@ -563,13 +563,13 @@ class _$ResponseListCommentsCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? comments = null,
+    Object? comments = freezed,
   }) {
     return _then(_value.copyWith(
-      comments: null == comments
+      comments: freezed == comments
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
-              as List<ArticleCommentDTO>,
+              as List<ArticleCommentDTO>?,
     ) as $Val);
   }
 }
@@ -582,7 +582,7 @@ abstract class _$$ResponseListCommentsImplCopyWith<$Res>
       __$$ResponseListCommentsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<ArticleCommentDTO> comments});
+  $Res call({List<ArticleCommentDTO>? comments});
 }
 
 /// @nodoc
@@ -598,13 +598,13 @@ class __$$ResponseListCommentsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? comments = null,
+    Object? comments = freezed,
   }) {
     return _then(_$ResponseListCommentsImpl(
-      comments: null == comments
+      comments: freezed == comments
           ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
-              as List<ArticleCommentDTO>,
+              as List<ArticleCommentDTO>?,
     ));
   }
 }
@@ -612,19 +612,20 @@ class __$$ResponseListCommentsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ResponseListCommentsImpl implements _ResponseListComments {
-  const _$ResponseListCommentsImpl(
-      {required final List<ArticleCommentDTO> comments})
+  const _$ResponseListCommentsImpl({final List<ArticleCommentDTO>? comments})
       : _comments = comments;
 
   factory _$ResponseListCommentsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResponseListCommentsImplFromJson(json);
 
-  final List<ArticleCommentDTO> _comments;
+  final List<ArticleCommentDTO>? _comments;
   @override
-  List<ArticleCommentDTO> get comments {
+  List<ArticleCommentDTO>? get comments {
+    final value = _comments;
+    if (value == null) return null;
     if (_comments is EqualUnmodifiableListView) return _comments;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_comments);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -665,14 +666,13 @@ class _$ResponseListCommentsImpl implements _ResponseListComments {
 
 abstract class _ResponseListComments implements ResponseListComments {
   const factory _ResponseListComments(
-          {required final List<ArticleCommentDTO> comments}) =
-      _$ResponseListCommentsImpl;
+      {final List<ArticleCommentDTO>? comments}) = _$ResponseListCommentsImpl;
 
   factory _ResponseListComments.fromJson(Map<String, dynamic> json) =
       _$ResponseListCommentsImpl.fromJson;
 
   @override
-  List<ArticleCommentDTO> get comments;
+  List<ArticleCommentDTO>? get comments;
 
   /// Create a copy of ResponseListComments
   /// with the given fields replaced by the non-null parameter values.

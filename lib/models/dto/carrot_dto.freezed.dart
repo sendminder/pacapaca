@@ -1166,7 +1166,7 @@ ResponseCarrotTransactions _$ResponseCarrotTransactionsFromJson(
 
 /// @nodoc
 mixin _$ResponseCarrotTransactions {
-  List<CarrotTransactionDTO> get transactions =>
+  List<CarrotTransactionDTO>? get transactions =>
       throw _privateConstructorUsedError;
 
   /// Serializes this ResponseCarrotTransactions to a JSON map.
@@ -1186,7 +1186,7 @@ abstract class $ResponseCarrotTransactionsCopyWith<$Res> {
       _$ResponseCarrotTransactionsCopyWithImpl<$Res,
           ResponseCarrotTransactions>;
   @useResult
-  $Res call({List<CarrotTransactionDTO> transactions});
+  $Res call({List<CarrotTransactionDTO>? transactions});
 }
 
 /// @nodoc
@@ -1205,13 +1205,13 @@ class _$ResponseCarrotTransactionsCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? transactions = null,
+    Object? transactions = freezed,
   }) {
     return _then(_value.copyWith(
-      transactions: null == transactions
+      transactions: freezed == transactions
           ? _value.transactions
           : transactions // ignore: cast_nullable_to_non_nullable
-              as List<CarrotTransactionDTO>,
+              as List<CarrotTransactionDTO>?,
     ) as $Val);
   }
 }
@@ -1225,7 +1225,7 @@ abstract class _$$ResponseCarrotTransactionsImplCopyWith<$Res>
       __$$ResponseCarrotTransactionsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<CarrotTransactionDTO> transactions});
+  $Res call({List<CarrotTransactionDTO>? transactions});
 }
 
 /// @nodoc
@@ -1243,13 +1243,13 @@ class __$$ResponseCarrotTransactionsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? transactions = null,
+    Object? transactions = freezed,
   }) {
     return _then(_$ResponseCarrotTransactionsImpl(
-      transactions: null == transactions
+      transactions: freezed == transactions
           ? _value._transactions
           : transactions // ignore: cast_nullable_to_non_nullable
-              as List<CarrotTransactionDTO>,
+              as List<CarrotTransactionDTO>?,
     ));
   }
 }
@@ -1258,19 +1258,21 @@ class __$$ResponseCarrotTransactionsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ResponseCarrotTransactionsImpl implements _ResponseCarrotTransactions {
   const _$ResponseCarrotTransactionsImpl(
-      {required final List<CarrotTransactionDTO> transactions})
+      {final List<CarrotTransactionDTO>? transactions})
       : _transactions = transactions;
 
   factory _$ResponseCarrotTransactionsImpl.fromJson(
           Map<String, dynamic> json) =>
       _$$ResponseCarrotTransactionsImplFromJson(json);
 
-  final List<CarrotTransactionDTO> _transactions;
+  final List<CarrotTransactionDTO>? _transactions;
   @override
-  List<CarrotTransactionDTO> get transactions {
+  List<CarrotTransactionDTO>? get transactions {
+    final value = _transactions;
+    if (value == null) return null;
     if (_transactions is EqualUnmodifiableListView) return _transactions;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_transactions);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -1312,14 +1314,14 @@ class _$ResponseCarrotTransactionsImpl implements _ResponseCarrotTransactions {
 abstract class _ResponseCarrotTransactions
     implements ResponseCarrotTransactions {
   const factory _ResponseCarrotTransactions(
-          {required final List<CarrotTransactionDTO> transactions}) =
+          {final List<CarrotTransactionDTO>? transactions}) =
       _$ResponseCarrotTransactionsImpl;
 
   factory _ResponseCarrotTransactions.fromJson(Map<String, dynamic> json) =
       _$ResponseCarrotTransactionsImpl.fromJson;
 
   @override
-  List<CarrotTransactionDTO> get transactions;
+  List<CarrotTransactionDTO>? get transactions;
 
   /// Create a copy of ResponseCarrotTransactions
   /// with the given fields replaced by the non-null parameter values.
@@ -1337,9 +1339,9 @@ ResponseCarrotRankings _$ResponseCarrotRankingsFromJson(
 /// @nodoc
 mixin _$ResponseCarrotRankings {
   @JsonKey(name: 'top_receivers')
-  List<DisplayUserDTO> get topReceivers => throw _privateConstructorUsedError;
+  List<DisplayUserDTO>? get topReceivers => throw _privateConstructorUsedError;
   @JsonKey(name: 'top_senders')
-  List<DisplayUserDTO> get topSenders => throw _privateConstructorUsedError;
+  List<DisplayUserDTO>? get topSenders => throw _privateConstructorUsedError;
 
   /// Serializes this ResponseCarrotRankings to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1358,8 +1360,8 @@ abstract class $ResponseCarrotRankingsCopyWith<$Res> {
       _$ResponseCarrotRankingsCopyWithImpl<$Res, ResponseCarrotRankings>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'top_receivers') List<DisplayUserDTO> topReceivers,
-      @JsonKey(name: 'top_senders') List<DisplayUserDTO> topSenders});
+      {@JsonKey(name: 'top_receivers') List<DisplayUserDTO>? topReceivers,
+      @JsonKey(name: 'top_senders') List<DisplayUserDTO>? topSenders});
 }
 
 /// @nodoc
@@ -1378,18 +1380,18 @@ class _$ResponseCarrotRankingsCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? topReceivers = null,
-    Object? topSenders = null,
+    Object? topReceivers = freezed,
+    Object? topSenders = freezed,
   }) {
     return _then(_value.copyWith(
-      topReceivers: null == topReceivers
+      topReceivers: freezed == topReceivers
           ? _value.topReceivers
           : topReceivers // ignore: cast_nullable_to_non_nullable
-              as List<DisplayUserDTO>,
-      topSenders: null == topSenders
+              as List<DisplayUserDTO>?,
+      topSenders: freezed == topSenders
           ? _value.topSenders
           : topSenders // ignore: cast_nullable_to_non_nullable
-              as List<DisplayUserDTO>,
+              as List<DisplayUserDTO>?,
     ) as $Val);
   }
 }
@@ -1404,8 +1406,8 @@ abstract class _$$ResponseCarrotRankingsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'top_receivers') List<DisplayUserDTO> topReceivers,
-      @JsonKey(name: 'top_senders') List<DisplayUserDTO> topSenders});
+      {@JsonKey(name: 'top_receivers') List<DisplayUserDTO>? topReceivers,
+      @JsonKey(name: 'top_senders') List<DisplayUserDTO>? topSenders});
 }
 
 /// @nodoc
@@ -1423,18 +1425,18 @@ class __$$ResponseCarrotRankingsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? topReceivers = null,
-    Object? topSenders = null,
+    Object? topReceivers = freezed,
+    Object? topSenders = freezed,
   }) {
     return _then(_$ResponseCarrotRankingsImpl(
-      topReceivers: null == topReceivers
+      topReceivers: freezed == topReceivers
           ? _value._topReceivers
           : topReceivers // ignore: cast_nullable_to_non_nullable
-              as List<DisplayUserDTO>,
-      topSenders: null == topSenders
+              as List<DisplayUserDTO>?,
+      topSenders: freezed == topSenders
           ? _value._topSenders
           : topSenders // ignore: cast_nullable_to_non_nullable
-              as List<DisplayUserDTO>,
+              as List<DisplayUserDTO>?,
     ));
   }
 }
@@ -1443,32 +1445,34 @@ class __$$ResponseCarrotRankingsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ResponseCarrotRankingsImpl implements _ResponseCarrotRankings {
   const _$ResponseCarrotRankingsImpl(
-      {@JsonKey(name: 'top_receivers')
-      required final List<DisplayUserDTO> topReceivers,
-      @JsonKey(name: 'top_senders')
-      required final List<DisplayUserDTO> topSenders})
+      {@JsonKey(name: 'top_receivers') final List<DisplayUserDTO>? topReceivers,
+      @JsonKey(name: 'top_senders') final List<DisplayUserDTO>? topSenders})
       : _topReceivers = topReceivers,
         _topSenders = topSenders;
 
   factory _$ResponseCarrotRankingsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResponseCarrotRankingsImplFromJson(json);
 
-  final List<DisplayUserDTO> _topReceivers;
+  final List<DisplayUserDTO>? _topReceivers;
   @override
   @JsonKey(name: 'top_receivers')
-  List<DisplayUserDTO> get topReceivers {
+  List<DisplayUserDTO>? get topReceivers {
+    final value = _topReceivers;
+    if (value == null) return null;
     if (_topReceivers is EqualUnmodifiableListView) return _topReceivers;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_topReceivers);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<DisplayUserDTO> _topSenders;
+  final List<DisplayUserDTO>? _topSenders;
   @override
   @JsonKey(name: 'top_senders')
-  List<DisplayUserDTO> get topSenders {
+  List<DisplayUserDTO>? get topSenders {
+    final value = _topSenders;
+    if (value == null) return null;
     if (_topSenders is EqualUnmodifiableListView) return _topSenders;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_topSenders);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -1513,21 +1517,19 @@ class _$ResponseCarrotRankingsImpl implements _ResponseCarrotRankings {
 
 abstract class _ResponseCarrotRankings implements ResponseCarrotRankings {
   const factory _ResponseCarrotRankings(
-          {@JsonKey(name: 'top_receivers')
-          required final List<DisplayUserDTO> topReceivers,
-          @JsonKey(name: 'top_senders')
-          required final List<DisplayUserDTO> topSenders}) =
-      _$ResponseCarrotRankingsImpl;
+      {@JsonKey(name: 'top_receivers') final List<DisplayUserDTO>? topReceivers,
+      @JsonKey(name: 'top_senders')
+      final List<DisplayUserDTO>? topSenders}) = _$ResponseCarrotRankingsImpl;
 
   factory _ResponseCarrotRankings.fromJson(Map<String, dynamic> json) =
       _$ResponseCarrotRankingsImpl.fromJson;
 
   @override
   @JsonKey(name: 'top_receivers')
-  List<DisplayUserDTO> get topReceivers;
+  List<DisplayUserDTO>? get topReceivers;
   @override
   @JsonKey(name: 'top_senders')
-  List<DisplayUserDTO> get topSenders;
+  List<DisplayUserDTO>? get topSenders;
 
   /// Create a copy of ResponseCarrotRankings
   /// with the given fields replaced by the non-null parameter values.

@@ -155,7 +155,14 @@
         "my_likes": "내 좋아요",
         "my_scraps": "내 스크랩",
         "my_points": "내 포인트",
-        "liked_posts": "좋아요 누른 게시글"
+        "liked_posts": "좋아요 누른 게시글",
+        "choose_type": "프로필 타입 선택",
+        "question": "당신은 어떤 스타일인가요?",
+        "empathy": "공감하는 스타일",
+        "empathy_description": "고민에 공감하고 함께 이야기를 나누는 것을 선호해요",
+        "solution": "해결하는 스타일",
+        "solution_description": "고민에 대한 해결책을 제시하는 것을 선호해요",
+        "error": "프로필 타입 설정에 실패했어요."
     },
     "ranking": {
         "title": "랭킹",
