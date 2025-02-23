@@ -259,7 +259,7 @@ class CommentItem extends ConsumerWidget {
 
                               if (reason != null && reason.isNotEmpty) {
                                 await ref
-                                    .read(reportStateProvider.notifier)
+                                    .read(userReportProvider.notifier)
                                     .reportUser(
                                       userId: comment.userId,
                                       reason: reason,

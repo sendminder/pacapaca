@@ -49,15 +49,3 @@ Map<String, dynamic> _$$UserReportDTOImplToJson(_$UserReportDTOImpl instance) =>
       'create_time': instance.createTime,
       'update_time': instance.updateTime,
     };
-
-_$GetReportResponseImpl _$$GetReportResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$GetReportResponseImpl(
-      report: UserReportDTO.fromJson(json['report'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$GetReportResponseImplToJson(
-        _$GetReportResponseImpl instance) =>
-    <String, dynamic>{
-      'report': instance.report,
-    };

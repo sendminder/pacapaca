@@ -14,12 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-CreateReportRequest _$CreateReportRequestFromJson(Map<String, dynamic> json) {
+RequestCreateUserReport _$RequestCreateUserReportFromJson(
+    Map<String, dynamic> json) {
   return _CreateReportRequest.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CreateReportRequest {
+mixin _$RequestCreateUserReport {
   @JsonKey(name: 'reported_id')
   int get reportedId => throw _privateConstructorUsedError;
   String get reason => throw _privateConstructorUsedError;
@@ -28,21 +29,21 @@ mixin _$CreateReportRequest {
   @JsonKey(name: 'article_id')
   int? get articleId => throw _privateConstructorUsedError;
 
-  /// Serializes this CreateReportRequest to a JSON map.
+  /// Serializes this RequestCreateUserReport to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of CreateReportRequest
+  /// Create a copy of RequestCreateUserReport
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CreateReportRequestCopyWith<CreateReportRequest> get copyWith =>
+  $RequestCreateUserReportCopyWith<RequestCreateUserReport> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CreateReportRequestCopyWith<$Res> {
-  factory $CreateReportRequestCopyWith(
-          CreateReportRequest value, $Res Function(CreateReportRequest) then) =
-      _$CreateReportRequestCopyWithImpl<$Res, CreateReportRequest>;
+abstract class $RequestCreateUserReportCopyWith<$Res> {
+  factory $RequestCreateUserReportCopyWith(RequestCreateUserReport value,
+          $Res Function(RequestCreateUserReport) then) =
+      _$RequestCreateUserReportCopyWithImpl<$Res, RequestCreateUserReport>;
   @useResult
   $Res call(
       {@JsonKey(name: 'reported_id') int reportedId,
@@ -52,16 +53,17 @@ abstract class $CreateReportRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CreateReportRequestCopyWithImpl<$Res, $Val extends CreateReportRequest>
-    implements $CreateReportRequestCopyWith<$Res> {
-  _$CreateReportRequestCopyWithImpl(this._value, this._then);
+class _$RequestCreateUserReportCopyWithImpl<$Res,
+        $Val extends RequestCreateUserReport>
+    implements $RequestCreateUserReportCopyWith<$Res> {
+  _$RequestCreateUserReportCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CreateReportRequest
+  /// Create a copy of RequestCreateUserReport
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -94,7 +96,7 @@ class _$CreateReportRequestCopyWithImpl<$Res, $Val extends CreateReportRequest>
 
 /// @nodoc
 abstract class _$$CreateReportRequestImplCopyWith<$Res>
-    implements $CreateReportRequestCopyWith<$Res> {
+    implements $RequestCreateUserReportCopyWith<$Res> {
   factory _$$CreateReportRequestImplCopyWith(_$CreateReportRequestImpl value,
           $Res Function(_$CreateReportRequestImpl) then) =
       __$$CreateReportRequestImplCopyWithImpl<$Res>;
@@ -109,13 +111,14 @@ abstract class _$$CreateReportRequestImplCopyWith<$Res>
 
 /// @nodoc
 class __$$CreateReportRequestImplCopyWithImpl<$Res>
-    extends _$CreateReportRequestCopyWithImpl<$Res, _$CreateReportRequestImpl>
+    extends _$RequestCreateUserReportCopyWithImpl<$Res,
+        _$CreateReportRequestImpl>
     implements _$$CreateReportRequestImplCopyWith<$Res> {
   __$$CreateReportRequestImplCopyWithImpl(_$CreateReportRequestImpl _value,
       $Res Function(_$CreateReportRequestImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CreateReportRequest
+  /// Create a copy of RequestCreateUserReport
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -172,7 +175,7 @@ class _$CreateReportRequestImpl implements _CreateReportRequest {
 
   @override
   String toString() {
-    return 'CreateReportRequest(reportedId: $reportedId, reason: $reason, commentId: $commentId, articleId: $articleId)';
+    return 'RequestCreateUserReport(reportedId: $reportedId, reason: $reason, commentId: $commentId, articleId: $articleId)';
   }
 
   @override
@@ -194,7 +197,7 @@ class _$CreateReportRequestImpl implements _CreateReportRequest {
   int get hashCode =>
       Object.hash(runtimeType, reportedId, reason, commentId, articleId);
 
-  /// Create a copy of CreateReportRequest
+  /// Create a copy of RequestCreateUserReport
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -211,7 +214,7 @@ class _$CreateReportRequestImpl implements _CreateReportRequest {
   }
 }
 
-abstract class _CreateReportRequest implements CreateReportRequest {
+abstract class _CreateReportRequest implements RequestCreateUserReport {
   const factory _CreateReportRequest(
           {@JsonKey(name: 'reported_id') required final int reportedId,
           required final String reason,
@@ -234,7 +237,7 @@ abstract class _CreateReportRequest implements CreateReportRequest {
   @JsonKey(name: 'article_id')
   int? get articleId;
 
-  /// Create a copy of CreateReportRequest
+  /// Create a copy of RequestCreateUserReport
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -578,171 +581,5 @@ abstract class _UserReportDTO implements UserReportDTO {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserReportDTOImplCopyWith<_$UserReportDTOImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-GetReportResponse _$GetReportResponseFromJson(Map<String, dynamic> json) {
-  return _GetReportResponse.fromJson(json);
-}
-
-/// @nodoc
-mixin _$GetReportResponse {
-  UserReportDTO get report => throw _privateConstructorUsedError;
-
-  /// Serializes this GetReportResponse to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of GetReportResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $GetReportResponseCopyWith<GetReportResponse> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $GetReportResponseCopyWith<$Res> {
-  factory $GetReportResponseCopyWith(
-          GetReportResponse value, $Res Function(GetReportResponse) then) =
-      _$GetReportResponseCopyWithImpl<$Res, GetReportResponse>;
-  @useResult
-  $Res call({UserReportDTO report});
-
-  $UserReportDTOCopyWith<$Res> get report;
-}
-
-/// @nodoc
-class _$GetReportResponseCopyWithImpl<$Res, $Val extends GetReportResponse>
-    implements $GetReportResponseCopyWith<$Res> {
-  _$GetReportResponseCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of GetReportResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? report = null,
-  }) {
-    return _then(_value.copyWith(
-      report: null == report
-          ? _value.report
-          : report // ignore: cast_nullable_to_non_nullable
-              as UserReportDTO,
-    ) as $Val);
-  }
-
-  /// Create a copy of GetReportResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $UserReportDTOCopyWith<$Res> get report {
-    return $UserReportDTOCopyWith<$Res>(_value.report, (value) {
-      return _then(_value.copyWith(report: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$GetReportResponseImplCopyWith<$Res>
-    implements $GetReportResponseCopyWith<$Res> {
-  factory _$$GetReportResponseImplCopyWith(_$GetReportResponseImpl value,
-          $Res Function(_$GetReportResponseImpl) then) =
-      __$$GetReportResponseImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({UserReportDTO report});
-
-  @override
-  $UserReportDTOCopyWith<$Res> get report;
-}
-
-/// @nodoc
-class __$$GetReportResponseImplCopyWithImpl<$Res>
-    extends _$GetReportResponseCopyWithImpl<$Res, _$GetReportResponseImpl>
-    implements _$$GetReportResponseImplCopyWith<$Res> {
-  __$$GetReportResponseImplCopyWithImpl(_$GetReportResponseImpl _value,
-      $Res Function(_$GetReportResponseImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of GetReportResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? report = null,
-  }) {
-    return _then(_$GetReportResponseImpl(
-      report: null == report
-          ? _value.report
-          : report // ignore: cast_nullable_to_non_nullable
-              as UserReportDTO,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$GetReportResponseImpl implements _GetReportResponse {
-  const _$GetReportResponseImpl({required this.report});
-
-  factory _$GetReportResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$GetReportResponseImplFromJson(json);
-
-  @override
-  final UserReportDTO report;
-
-  @override
-  String toString() {
-    return 'GetReportResponse(report: $report)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GetReportResponseImpl &&
-            (identical(other.report, report) || other.report == report));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, report);
-
-  /// Create a copy of GetReportResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$GetReportResponseImplCopyWith<_$GetReportResponseImpl> get copyWith =>
-      __$$GetReportResponseImplCopyWithImpl<_$GetReportResponseImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$GetReportResponseImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _GetReportResponse implements GetReportResponse {
-  const factory _GetReportResponse({required final UserReportDTO report}) =
-      _$GetReportResponseImpl;
-
-  factory _GetReportResponse.fromJson(Map<String, dynamic> json) =
-      _$GetReportResponseImpl.fromJson;
-
-  @override
-  UserReportDTO get report;
-
-  /// Create a copy of GetReportResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GetReportResponseImplCopyWith<_$GetReportResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

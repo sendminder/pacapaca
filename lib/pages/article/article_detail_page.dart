@@ -475,7 +475,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
             );
 
             if (reason != null && reason.isNotEmpty) {
-              await ref.read(reportStateProvider.notifier).reportUser(
+              await ref.read(userReportProvider.notifier).reportUser(
                     userId: article.userId,
                     reason: reason,
                     articleId: article.id,

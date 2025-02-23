@@ -4,16 +4,16 @@ part 'report_dto.freezed.dart';
 part 'report_dto.g.dart';
 
 @freezed
-class CreateReportRequest with _$CreateReportRequest {
-  const factory CreateReportRequest({
+class RequestCreateUserReport with _$RequestCreateUserReport {
+  const factory RequestCreateUserReport({
     @JsonKey(name: 'reported_id') required int reportedId,
     required String reason,
     @JsonKey(name: 'comment_id') int? commentId,
     @JsonKey(name: 'article_id') int? articleId,
   }) = _CreateReportRequest;
 
-  factory CreateReportRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateReportRequestFromJson(json);
+  factory RequestCreateUserReport.fromJson(Map<String, dynamic> json) =>
+      _$RequestCreateUserReportFromJson(json);
 }
 
 @freezed
@@ -32,14 +32,4 @@ class UserReportDTO with _$UserReportDTO {
 
   factory UserReportDTO.fromJson(Map<String, dynamic> json) =>
       _$UserReportDTOFromJson(json);
-}
-
-@freezed
-class GetReportResponse with _$GetReportResponse {
-  const factory GetReportResponse({
-    required UserReportDTO report,
-  }) = _GetReportResponse;
-
-  factory GetReportResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetReportResponseFromJson(json);
 }
