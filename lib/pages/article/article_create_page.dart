@@ -113,7 +113,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
               ? ArticleCategory.daily // 카테고리가 전체일때는 일상으로 설정
               : selectedCategory,
           onCategoryChanged: (category) {
-            ref.read(articleCategoryProvider.notifier).state = category;
+            ref.read(articleCategoryProvider.notifier).setCategory(category);
           },
         ),
       ),

@@ -119,7 +119,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
             },
             style: TextButton.styleFrom(
               foregroundColor:
-                  Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+                  Theme.of(context).colorScheme.onSurface.withAlpha(128),
             ),
             child: Text('search.clear'.tr()),
           ),
@@ -176,7 +176,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       icon: Icon(
         Icons.close,
         size: 18,
-        color: Theme.of(context).colorScheme.onBackground.withOpacity(0.3),
+        color: Theme.of(context).colorScheme.onSurface.withAlpha(30),
       ),
       onPressed: () {
         ref.read(recentSearchesProvider.notifier).removeSearch(query);
@@ -235,16 +235,13 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           Icon(
             Icons.search_off,
             size: 80,
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(20),
           ),
           const SizedBox(height: 16),
           Text(
             'search.no_results'.tr(),
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onBackground
-                      .withOpacity(0.5),
+                  color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
                 ),
           ),
         ],

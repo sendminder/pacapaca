@@ -122,7 +122,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
               controller: _commentController,
               focusNode: _focusNode,
               onSubmit: (content) async {
-                final comment = await ref
+                ref
                     .read(commentListProvider(widget.articleId).notifier)
                     .addComment(widget.articleId, content);
 

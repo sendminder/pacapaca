@@ -28,8 +28,7 @@ class AppTheme {
         error: errorColor,
         surface: Colors.white,
         surfaceContainerLow: Colors.grey.shade100,
-        background: backgroundColor,
-        onBackground: Colors.black87,
+        onSurface: Colors.black87,
       ),
 
       // AppBar 테마
@@ -109,7 +108,6 @@ class AppTheme {
   // 다크 테마
   static ThemeData get darkTheme {
     return ThemeData.dark().copyWith(
-      useMaterial3: true,
       brightness: Brightness.dark,
 
       // 컬러 스킴
@@ -119,8 +117,6 @@ class AppTheme {
         error: errorColor,
         surface: darkSurfaceColor,
         surfaceContainerLow: Colors.grey.shade900,
-        background: darkBackgroundColor,
-        onBackground: darkTextColor,
         onSurface: darkTextColor,
         onPrimary: Colors.black, // 버튼 텍스트 등
         onSecondary: Colors.black,

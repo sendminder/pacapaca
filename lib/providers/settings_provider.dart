@@ -113,7 +113,7 @@ class ArticleSortNotifier extends StateNotifier<String> {
 }
 
 class ArticleCategoryNotifier extends StateNotifier<ArticleCategory> {
-  ArticleCategoryNotifier() : super(ArticleCategory.all) {}
+  ArticleCategoryNotifier() : super(ArticleCategory.all);
   void setCategory(ArticleCategory category) {
     state = category;
   }

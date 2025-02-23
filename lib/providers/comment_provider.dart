@@ -27,7 +27,7 @@ class CommentList extends _$CommentList {
     return comments;
   }
 
-  Future<ArticleCommentDTO?> addComment(int articleId, String content) async {
+  Future<void> addComment(int articleId, String content) async {
     state = const AsyncLoading();
     try {
       final request = RequestCreateComment(content: content);
@@ -60,10 +60,8 @@ class CommentList extends _$CommentList {
             ).notifier)
             .addCommentCount(articleId);
       }
-      return newComment;
     } catch (e, stack) {
       state = AsyncError(e, stack);
-      return null;
     }
   }
 

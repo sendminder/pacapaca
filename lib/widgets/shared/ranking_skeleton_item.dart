@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 class RankingSkeletonItem extends StatelessWidget {
   const RankingSkeletonItem({super.key});

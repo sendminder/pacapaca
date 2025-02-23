@@ -4,9 +4,9 @@ import 'package:pacapaca/models/enums/profile_type.dart';
 class UserAvatar extends StatelessWidget {
   final String imageUrl;
   final double radius;
-  String? profileType;
+  final String? profileType;
 
-  UserAvatar({
+  const UserAvatar({
     super.key,
     required this.imageUrl,
     this.profileType,
@@ -15,7 +15,7 @@ class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    profileType ??= PacapacaProfileType.pacappi.value;
+    final profileType = this.profileType ?? PacapacaProfileType.pacappi.value;
 
     return CircleAvatar(
       radius: radius,

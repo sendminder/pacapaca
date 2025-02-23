@@ -34,7 +34,7 @@ class ArticleCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeader(context),
-              if (article.title.isNotEmpty ?? false) ...[
+              if (article.title.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 _buildTitle(context),
               ],

@@ -30,7 +30,6 @@ class CommentItem extends ConsumerWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // TODO comment에 profileType 추가
         UserAvatar(
           imageUrl: comment.displayUser.profileImageUrl ?? '',
           profileType: comment.displayUser.profileType,
