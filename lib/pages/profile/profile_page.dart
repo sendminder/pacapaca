@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
+import 'package:pacapaca/models/enums/pacapaca.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -25,7 +26,11 @@ class ProfilePage extends ConsumerWidget {
       body: ListView(
         children: [
           // 프로필 헤더
-          _buildProfileHeader(context, user?.displayUser.nickname ?? ''),
+          _buildProfileHeader(
+            context,
+            user?.displayUser.nickname ?? '',
+            user?.displayUser.profileType,
+          ),
 
           const Divider(height: 32),
 
@@ -41,14 +46,18 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildProfileHeader(BuildContext context, String nickname) {
+  Widget _buildProfileHeader(
+    BuildContext context,
+    String nickname,
+    String? profileType,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
           UserAvatar(
             imageUrl: '', // TODO: 사용자 이미지 URL 추가
-            fallbackText: nickname.isEmpty ? '?' : nickname,
+            profileType: profileType,
             radius: 40,
           ),
           const SizedBox(width: 16),

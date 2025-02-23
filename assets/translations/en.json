@@ -166,5 +166,9 @@
     },
     "error": {
         "common": "An error occurred: {}"
+    },
+    "pacapaca": {
+        "pacappi": "Pacappi",
+        "pacappu": "Pacappu"
     }
 }

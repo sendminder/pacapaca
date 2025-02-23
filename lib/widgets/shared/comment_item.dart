@@ -30,9 +30,10 @@ class CommentItem extends ConsumerWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        // TODO comment에 profileType 추가
         UserAvatar(
-          imageUrl: comment.profileImageUrl,
-          fallbackText: comment.nickname,
+          imageUrl: comment.displayUser.profileImageUrl ?? '',
+          profileType: comment.displayUser.profileType,
           radius: 18,
         ),
         const SizedBox(width: 8),
@@ -54,7 +55,7 @@ class CommentItem extends ConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      comment.nickname,
+                      comment.displayUser.nickname,
                       style: isWriter
                           ? Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.w700,
@@ -149,7 +150,7 @@ class CommentItem extends ConsumerWidget {
                             onTap: () async {
                               await SendCarrotButton(
                                 receiverId: comment.userId,
-                                receiverName: comment.nickname,
+                                receiverName: comment.displayUser.nickname,
                                 commentId: comment.id,
                                 description: 'carrot.for_comment'.tr(
                                   args: [comment.content],

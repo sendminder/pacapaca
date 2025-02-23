@@ -46,7 +46,7 @@ class RankingPage extends ConsumerWidget {
                 ),
               ),
               loading: () => RankingSection(
-                title: 'ranking.point_ranking',
+                title: 'ranking.point_ranking'.tr(),
                 items: [],
                 onViewMore: () {},
                 isLoading: true,
@@ -78,7 +78,7 @@ class RankingPage extends ConsumerWidget {
                 ),
               ),
               loading: () => RankingSection(
-                title: 'ranking.received_carrots',
+                title: 'ranking.received_carrots'.tr(),
                 items: [],
                 onViewMore: () {},
                 isLoading: true,
@@ -110,7 +110,7 @@ class RankingPage extends ConsumerWidget {
                 ),
               ),
               loading: () => RankingSection(
-                title: 'ranking.sent_carrots',
+                title: 'ranking.sent_carrots'.tr(),
                 items: [],
                 onViewMore: () {},
                 isLoading: true,

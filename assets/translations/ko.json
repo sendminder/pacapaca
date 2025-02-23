@@ -175,5 +175,9 @@
     },
     "error": {
         "common": "오류가 발생했어요: {}"
+    },
+    "pacapaca": {
+        "pacappi": "파카삐",
+        "pacappu": "파카뿌"
     }
 }

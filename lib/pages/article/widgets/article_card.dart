@@ -62,7 +62,7 @@ class ArticleCard extends StatelessWidget {
       children: [
         UserAvatar(
           imageUrl: article.displayUser.profileImageUrl ?? '',
-          fallbackText: article.displayUser.nickname,
+          profileType: article.displayUser.profileType,
         ),
         const SizedBox(width: 12),
         Expanded(

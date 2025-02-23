@@ -32,9 +32,8 @@ mixin _$ArticleCommentDTO {
   String get updateTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'delete_time')
   String? get deleteTime => throw _privateConstructorUsedError;
-  String get nickname => throw _privateConstructorUsedError;
-  @JsonKey(name: 'profile_image_url')
-  String get profileImageUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'display_user')
+  DisplayUserDTO get displayUser => throw _privateConstructorUsedError;
 
   /// Serializes this ArticleCommentDTO to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -60,8 +59,9 @@ abstract class $ArticleCommentDTOCopyWith<$Res> {
       @JsonKey(name: 'create_time') String createTime,
       @JsonKey(name: 'update_time') String updateTime,
       @JsonKey(name: 'delete_time') String? deleteTime,
-      String nickname,
-      @JsonKey(name: 'profile_image_url') String profileImageUrl});
+      @JsonKey(name: 'display_user') DisplayUserDTO displayUser});
+
+  $DisplayUserDTOCopyWith<$Res> get displayUser;
 }
 
 /// @nodoc
@@ -86,8 +86,7 @@ class _$ArticleCommentDTOCopyWithImpl<$Res, $Val extends ArticleCommentDTO>
     Object? createTime = null,
     Object? updateTime = null,
     Object? deleteTime = freezed,
-    Object? nickname = null,
-    Object? profileImageUrl = null,
+    Object? displayUser = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -118,15 +117,21 @@ class _$ArticleCommentDTOCopyWithImpl<$Res, $Val extends ArticleCommentDTO>
           ? _value.deleteTime
           : deleteTime // ignore: cast_nullable_to_non_nullable
               as String?,
-      nickname: null == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImageUrl: null == profileImageUrl
-          ? _value.profileImageUrl
-          : profileImageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+      displayUser: null == displayUser
+          ? _value.displayUser
+          : displayUser // ignore: cast_nullable_to_non_nullable
+              as DisplayUserDTO,
     ) as $Val);
+  }
+
+  /// Create a copy of ArticleCommentDTO
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DisplayUserDTOCopyWith<$Res> get displayUser {
+    return $DisplayUserDTOCopyWith<$Res>(_value.displayUser, (value) {
+      return _then(_value.copyWith(displayUser: value) as $Val);
+    });
   }
 }
 
@@ -146,8 +151,10 @@ abstract class _$$ArticleCommentDTOImplCopyWith<$Res>
       @JsonKey(name: 'create_time') String createTime,
       @JsonKey(name: 'update_time') String updateTime,
       @JsonKey(name: 'delete_time') String? deleteTime,
-      String nickname,
-      @JsonKey(name: 'profile_image_url') String profileImageUrl});
+      @JsonKey(name: 'display_user') DisplayUserDTO displayUser});
+
+  @override
+  $DisplayUserDTOCopyWith<$Res> get displayUser;
 }
 
 /// @nodoc
@@ -170,8 +177,7 @@ class __$$ArticleCommentDTOImplCopyWithImpl<$Res>
     Object? createTime = null,
     Object? updateTime = null,
     Object? deleteTime = freezed,
-    Object? nickname = null,
-    Object? profileImageUrl = null,
+    Object? displayUser = null,
   }) {
     return _then(_$ArticleCommentDTOImpl(
       id: null == id
@@ -202,14 +208,10 @@ class __$$ArticleCommentDTOImplCopyWithImpl<$Res>
           ? _value.deleteTime
           : deleteTime // ignore: cast_nullable_to_non_nullable
               as String?,
-      nickname: null == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImageUrl: null == profileImageUrl
-          ? _value.profileImageUrl
-          : profileImageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+      displayUser: null == displayUser
+          ? _value.displayUser
+          : displayUser // ignore: cast_nullable_to_non_nullable
+              as DisplayUserDTO,
     ));
   }
 }
@@ -225,8 +227,7 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
       @JsonKey(name: 'create_time') required this.createTime,
       @JsonKey(name: 'update_time') required this.updateTime,
       @JsonKey(name: 'delete_time') this.deleteTime,
-      required this.nickname,
-      @JsonKey(name: 'profile_image_url') required this.profileImageUrl});
+      @JsonKey(name: 'display_user') required this.displayUser});
 
   factory _$ArticleCommentDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$ArticleCommentDTOImplFromJson(json);
@@ -251,14 +252,12 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
   @JsonKey(name: 'delete_time')
   final String? deleteTime;
   @override
-  final String nickname;
-  @override
-  @JsonKey(name: 'profile_image_url')
-  final String profileImageUrl;
+  @JsonKey(name: 'display_user')
+  final DisplayUserDTO displayUser;
 
   @override
   String toString() {
-    return 'ArticleCommentDTO(id: $id, articleId: $articleId, userId: $userId, content: $content, createTime: $createTime, updateTime: $updateTime, deleteTime: $deleteTime, nickname: $nickname, profileImageUrl: $profileImageUrl)';
+    return 'ArticleCommentDTO(id: $id, articleId: $articleId, userId: $userId, content: $content, createTime: $createTime, updateTime: $updateTime, deleteTime: $deleteTime, displayUser: $displayUser)';
   }
 
   @override
@@ -277,16 +276,14 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
                 other.updateTime == updateTime) &&
             (identical(other.deleteTime, deleteTime) ||
                 other.deleteTime == deleteTime) &&
-            (identical(other.nickname, nickname) ||
-                other.nickname == nickname) &&
-            (identical(other.profileImageUrl, profileImageUrl) ||
-                other.profileImageUrl == profileImageUrl));
+            (identical(other.displayUser, displayUser) ||
+                other.displayUser == displayUser));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, articleId, userId, content,
-      createTime, updateTime, deleteTime, nickname, profileImageUrl);
+      createTime, updateTime, deleteTime, displayUser);
 
   /// Create a copy of ArticleCommentDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -314,9 +311,8 @@ abstract class _ArticleCommentDTO implements ArticleCommentDTO {
       @JsonKey(name: 'create_time') required final String createTime,
       @JsonKey(name: 'update_time') required final String updateTime,
       @JsonKey(name: 'delete_time') final String? deleteTime,
-      required final String nickname,
-      @JsonKey(name: 'profile_image_url')
-      required final String profileImageUrl}) = _$ArticleCommentDTOImpl;
+      @JsonKey(name: 'display_user')
+      required final DisplayUserDTO displayUser}) = _$ArticleCommentDTOImpl;
 
   factory _ArticleCommentDTO.fromJson(Map<String, dynamic> json) =
       _$ArticleCommentDTOImpl.fromJson;
@@ -341,10 +337,8 @@ abstract class _ArticleCommentDTO implements ArticleCommentDTO {
   @JsonKey(name: 'delete_time')
   String? get deleteTime;
   @override
-  String get nickname;
-  @override
-  @JsonKey(name: 'profile_image_url')
-  String get profileImageUrl;
+  @JsonKey(name: 'display_user')
+  DisplayUserDTO get displayUser;
 
   /// Create a copy of ArticleCommentDTO
   /// with the given fields replaced by the non-null parameter values.

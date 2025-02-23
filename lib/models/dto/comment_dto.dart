@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pacapaca/models/dto/user_dto.dart';
 
 part 'comment_dto.freezed.dart';
 part 'comment_dto.g.dart';
@@ -13,8 +14,7 @@ class ArticleCommentDTO with _$ArticleCommentDTO {
     @JsonKey(name: 'create_time') required String createTime,
     @JsonKey(name: 'update_time') required String updateTime,
     @JsonKey(name: 'delete_time') String? deleteTime,
-    required String nickname,
-    @JsonKey(name: 'profile_image_url') required String profileImageUrl,
+    @JsonKey(name: 'display_user') required DisplayUserDTO displayUser,
   }) = _ArticleCommentDTO;
 
   factory ArticleCommentDTO.fromJson(Map<String, dynamic> json) =>

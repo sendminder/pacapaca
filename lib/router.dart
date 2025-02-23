@@ -65,52 +65,42 @@ class RouterNotifier extends ChangeNotifier {
   String? _redirectLogic(BuildContext context, GoRouterState state) {
     return _lastKnownState.when(
       data: (user) {
-        logger.d('Redirect logic with user: $user');
+        logger.d(
+            'Redirect logic with user: $user, current location: ${state.matchedLocation}');
 
+        // 스플래시 페이지는 항상 허용
         if (state.matchedLocation == '/splash') return null;
 
-        final isLoggingIn = state.matchedLocation == '/login';
-        final isSettingNickname = state.matchedLocation == '/set-nickname';
-        final isSettingProfileType =
-            state.matchedLocation == '/set-profile-type';
-        final needAuth = !state.matchedLocation.startsWith('/login') &&
-            !state.matchedLocation.startsWith('/splash');
+        // 로그인되지 않은 경우
+        if (user == null) {
+          return state.matchedLocation == '/login' ? null : '/login';
+        }
 
-        if (needAuth && user == null) return '/login';
+        // 로그인된 경우의 리다이렉션 로직
+        if (user.displayUser.nickname.isEmpty) {
+          return state.matchedLocation == '/set-nickname'
+              ? null
+              : '/set-nickname';
+        }
 
-        if (isLoggingIn && user != null) {
-          if (user.displayUser.nickname.isEmpty) {
-            return '/set-nickname';
-          }
-          if (user.displayUser.profileType == null) {
-            return '/set-profile-type';
-          }
+        if (user.displayUser.profileType == null) {
+          return state.matchedLocation == '/set-profile-type'
+              ? null
+              : '/set-profile-type';
+        }
+
+        // 모든 정보가 설정된 경우
+        if (state.matchedLocation == '/login' ||
+            state.matchedLocation == '/set-nickname' ||
+            state.matchedLocation == '/set-profile-type') {
           return '/articles';
         }
 
-        if (user != null &&
-            user.displayUser.nickname.isEmpty &&
-            !isSettingNickname) {
-          return '/set-nickname';
-        }
-
-        if (user != null &&
-            user.displayUser.profileType == null &&
-            !isSettingProfileType) {
-          return '/set-profile-type';
-        }
-
-        if (isSettingNickname &&
-            user != null &&
-            user.displayUser.nickname.isNotEmpty &&
-            user.displayUser.profileType != null) {
-          return '/articles';
-        }
-
+        // 그 외의 경우는 현재 위치 유지
         return null;
       },
-      loading: () => null, // 로딩 중에는 리다이렉트하지 않음
-      error: (_, __) => '/login', // 에러 발생 시 로그인 페이지로
+      loading: () => null,
+      error: (_, __) => '/login',
     );
   }
 

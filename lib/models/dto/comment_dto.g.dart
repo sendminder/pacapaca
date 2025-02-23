@@ -16,8 +16,8 @@ _$ArticleCommentDTOImpl _$$ArticleCommentDTOImplFromJson(
       createTime: json['create_time'] as String,
       updateTime: json['update_time'] as String,
       deleteTime: json['delete_time'] as String?,
-      nickname: json['nickname'] as String,
-      profileImageUrl: json['profile_image_url'] as String,
+      displayUser:
+          DisplayUserDTO.fromJson(json['display_user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ArticleCommentDTOImplToJson(
@@ -30,8 +30,7 @@ Map<String, dynamic> _$$ArticleCommentDTOImplToJson(
       'create_time': instance.createTime,
       'update_time': instance.updateTime,
       'delete_time': instance.deleteTime,
-      'nickname': instance.nickname,
-      'profile_image_url': instance.profileImageUrl,
+      'display_user': instance.displayUser,
     };
 
 _$ResponseGetCommentImpl _$$ResponseGetCommentImplFromJson(

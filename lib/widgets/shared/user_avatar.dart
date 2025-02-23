@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:pacapaca/models/enums/pacapaca.dart';
 
 class UserAvatar extends StatelessWidget {
   final String imageUrl;
-  final String fallbackText;
   final double radius;
+  String? profileType;
 
-  const UserAvatar({
+  UserAvatar({
     super.key,
     required this.imageUrl,
-    required this.fallbackText,
+    this.profileType,
     this.radius = 16,
   });
 
   @override
   Widget build(BuildContext context) {
+    profileType ??= PacapacaProfileType.pacappi.value;
+
     return CircleAvatar(
       radius: radius,
       backgroundImage: imageUrl.isNotEmpty
           ? NetworkImage(imageUrl)
-          : const AssetImage('assets/profiles/pacappu.jpeg') as ImageProvider,
+          : AssetImage('assets/profiles/$profileType.jpeg') as ImageProvider,
     );
   }
 }

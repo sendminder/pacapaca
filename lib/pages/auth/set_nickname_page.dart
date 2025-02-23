@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -9,18 +8,6 @@ class SetNicknamePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(authProvider, (prev, next) {
-      if (next is AsyncData) {
-        context.go('/articles');
-      } else if (next is AsyncError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-                  'nickname.nickname_error'.tr(args: [next.error.toString()]))),
-        );
-      }
-    });
-
     return Scaffold(
       appBar: AppBar(
         title: Text('nickname.set_nickname'.tr()),
@@ -36,9 +23,7 @@ class SetNicknamePage extends ConsumerWidget {
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 20),
-            _NicknameInput(
-              isLoading: ref.watch(authProvider).isLoading,
-            ),
+            _NicknameInput(),
           ],
         ),
       ),
@@ -47,9 +32,7 @@ class SetNicknamePage extends ConsumerWidget {
 }
 
 class _NicknameInput extends ConsumerStatefulWidget {
-  final bool isLoading;
-
-  const _NicknameInput({required this.isLoading});
+  const _NicknameInput();
 
   @override
   ConsumerState<_NicknameInput> createState() => _NicknameInputState();
@@ -83,20 +66,13 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
             hintText: 'nickname.nickname_hint'.tr(),
             helperText: 'nickname.nickname_rule'.tr(),
           ),
-          enabled: !widget.isLoading,
         ),
         const SizedBox(height: 20),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: widget.isLoading ? null : _submit,
-            child: widget.isLoading
-                ? const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text('complete'.tr()),
+            onPressed: _submit,
+            child: Text('complete'.tr()),
           ),
         ),
       ],
