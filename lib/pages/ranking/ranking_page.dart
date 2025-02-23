@@ -18,7 +18,24 @@ class RankingPage extends ConsumerWidget {
     final carrotRankings = ref.watch(carrotRankingsProvider);
 
     return Scaffold(
-      appBar: PageTitle(title: 'ranking.title'.tr()),
+      appBar: PageTitle(
+        title: 'ranking.title'.tr(),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(4),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                  Colors.transparent,
+                ],
+              ),
+            ),
+            height: 4,
+          ),
+        ),
+      ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: RefreshIndicator(
         onRefresh: () async {
@@ -26,7 +43,58 @@ class RankingPage extends ConsumerWidget {
           ref.invalidate(carrotRankingsProvider);
         },
         child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 16),
           children: [
+            // 상단 장식
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Theme.of(context).colorScheme.primary.withAlpha(20),
+                      Theme.of(context).colorScheme.primary.withAlpha(20),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.emoji_events_outlined,
+                      size: 32,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ranking.description_title'.tr(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'ranking.description'.tr(),
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
             // 포인트 랭킹
             pointRankings.when(
               data: (rankings) => RankingSection(
@@ -37,6 +105,7 @@ class RankingPage extends ConsumerWidget {
                           nickname: rank.nickname,
                           profileImageUrl: rank.profileImageUrl,
                           score: NumberFormat.compact().format(rank.points),
+                          isTopRank: rankings.indexOf(rank) < 3,
                         ))
                     .toList(),
                 onViewMore: () => _showRankingDetail(
@@ -44,20 +113,30 @@ class RankingPage extends ConsumerWidget {
                   'ranking.point_ranking'.tr(),
                   RankingType.point,
                 ),
+                icon: Icons.stars_outlined,
               ),
               loading: () => RankingSection(
                 title: 'ranking.point_ranking'.tr(),
                 items: [],
                 onViewMore: () {},
                 isLoading: true,
+                icon: Icons.stars_outlined,
               ),
               error: (error, _) => RankingSection(
                 title: 'ranking.point_ranking'.tr(),
                 items: [],
                 onViewMore: () {},
                 errorMessage: error.toString(),
+                icon: Icons.stars_outlined,
               ),
             ),
+
+            const SizedBox(height: 16),
+            Divider(
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(50),
+              height: 0.5,
+            ),
+            const SizedBox(height: 16),
 
             // 당근 받은 순 랭킹
             carrotRankings.when(
@@ -69,6 +148,7 @@ class RankingPage extends ConsumerWidget {
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
                           score: NumberFormat.compact().format(ranker.carrots),
+                          isTopRank: rankings.topReceivers!.indexOf(ranker) < 3,
                         ))
                     .toList(),
                 onViewMore: () => _showRankingDetail(
@@ -76,20 +156,30 @@ class RankingPage extends ConsumerWidget {
                   'ranking.received_carrots'.tr(),
                   RankingType.receivedCarrots,
                 ),
+                icon: Icons.card_giftcard,
               ),
               loading: () => RankingSection(
                 title: 'ranking.received_carrots'.tr(),
                 items: [],
                 onViewMore: () {},
                 isLoading: true,
+                icon: Icons.favorite_outline,
               ),
               error: (error, _) => RankingSection(
                 title: 'ranking.received_carrots'.tr(),
                 items: [],
                 onViewMore: () {},
                 errorMessage: error.toString(),
+                icon: Icons.favorite_outline,
               ),
             ),
+
+            const SizedBox(height: 16),
+            Divider(
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(50),
+              height: 0.5,
+            ),
+            const SizedBox(height: 16),
 
             // 당근 준 순 랭킹
             carrotRankings.when(
@@ -101,6 +191,7 @@ class RankingPage extends ConsumerWidget {
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
                           score: NumberFormat.compact().format(ranker.carrots),
+                          isTopRank: rankings.topSenders!.indexOf(ranker) < 3,
                         ))
                     .toList(),
                 onViewMore: () => _showRankingDetail(
@@ -108,18 +199,21 @@ class RankingPage extends ConsumerWidget {
                   'ranking.sent_carrots'.tr(),
                   RankingType.sentCarrots,
                 ),
+                icon: Icons.volunteer_activism_outlined,
               ),
               loading: () => RankingSection(
                 title: 'ranking.sent_carrots'.tr(),
                 items: [],
                 onViewMore: () {},
                 isLoading: true,
+                icon: Icons.volunteer_activism_outlined,
               ),
               error: (error, _) => RankingSection(
                 title: 'ranking.sent_carrots'.tr(),
                 items: [],
                 onViewMore: () {},
                 errorMessage: error.toString(),
+                icon: Icons.volunteer_activism_outlined,
               ),
             ),
           ],

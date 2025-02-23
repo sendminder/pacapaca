@@ -15,6 +15,7 @@ import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
 import 'package:pacapaca/models/dto/comment_dto.dart';
 import 'package:pacapaca/providers/comment_provider.dart';
+import 'package:pacapaca/widgets/shared/article_skeleton_item.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -79,41 +80,45 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
           ),
         ],
       ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: RefreshIndicator(
-          onRefresh: () async {
-            ref.invalidate(provider);
-            ref.invalidate(commentListProvider(widget.articleId));
+      body: articleAsync.when(
+        data: (article) => GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
           },
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (ScrollNotification scrollInfo) {
-              if (scrollInfo.metrics.pixels >=
-                  scrollInfo.metrics.maxScrollExtent * 0.8) {
-                ref
-                    .read(commentListProvider(widget.articleId).notifier)
-                    .loadMore(widget.articleId);
-              }
-              return true;
+          child: RefreshIndicator(
+            onRefresh: () async {
+              ref.invalidate(provider);
+              ref.invalidate(commentListProvider(widget.articleId));
             },
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildArticleContent(ref, articleAsync),
-                  Divider(
-                    height: 0.5,
-                    color:
-                        Theme.of(context).colorScheme.onSurface.withAlpha(10),
-                  ),
-                  _buildCommentSection(
-                      context, ref, commentsAsync, currentUser, articleAsync),
-                ],
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (ScrollNotification scrollInfo) {
+                if (scrollInfo.metrics.pixels >=
+                    scrollInfo.metrics.maxScrollExtent * 0.8) {
+                  ref
+                      .read(commentListProvider(widget.articleId).notifier)
+                      .loadMore(widget.articleId);
+                }
+                return true;
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _buildArticleContent(ref, article),
+                    Divider(
+                      height: 0.5,
+                      color:
+                          Theme.of(context).colorScheme.onSurface.withAlpha(10),
+                    ),
+                    _buildCommentSection(
+                        context, ref, commentsAsync, currentUser, article),
+                  ],
+                ),
               ),
             ),
           ),
         ),
+        error: (error, stack) => const SizedBox.shrink(),
+        loading: () => const ArticleSkeletonItem(),
       ),
       bottomSheet: currentUser != null
           ? ChatInput(
@@ -160,56 +165,46 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
 
   Widget _buildArticleContent(
     WidgetRef ref,
-    AsyncValue<ArticleDTO?> articleAsync,
+    ArticleDTO? article,
   ) {
-    return articleAsync.when(
-      data: (article) {
-        if (article == null) {
-          return Center(child: Text('article.not_found'.tr()));
-        }
-        final currentSortBy = ref.read(articleSortProvider);
-        final selectedCategory = ref.read(articleCategoryProvider);
+    if (article == null) {
+      return Center(child: Text('article.not_found'.tr()));
+    }
+    final currentSortBy = ref.read(articleSortProvider);
+    final selectedCategory = ref.read(articleCategoryProvider);
 
-        return ArticleDetailContent(
-          article: article,
-          onToggleLike: (articleId) async {
-            try {
-              final response = await ref
-                  .read(articleProvider(articleId).notifier)
-                  .toggleArticleLike(articleId);
-              if (response != null) {
-                ref
-                    .read(articleListProvider(
-                      sortBy: currentSortBy,
-                      category: selectedCategory,
-                      limit: 20,
-                    ).notifier)
-                    .updateArticleStatus(
-                      articleId: articleId,
-                      isLiked: response.isLiked,
-                      likeCount: response.likeCount,
-                      viewCount: article.viewCount,
-                    );
-                // 상세 페이지 상태 갱신
-                ref
-                    .read(articleProvider(articleId).notifier)
-                    .updateArticleStatus(
-                      response.isLiked,
-                      response.likeCount,
-                      article.viewCount,
-                      article.commentCount,
-                    );
-              }
-            } catch (e) {
-              rethrow;
-            }
-          },
-        );
+    return ArticleDetailContent(
+      article: article,
+      onToggleLike: (articleId) async {
+        try {
+          final response = await ref
+              .read(articleProvider(articleId).notifier)
+              .toggleArticleLike(articleId);
+          if (response != null) {
+            ref
+                .read(articleListProvider(
+                  sortBy: currentSortBy,
+                  category: selectedCategory,
+                  limit: 20,
+                ).notifier)
+                .updateArticleStatus(
+                  articleId: articleId,
+                  isLiked: response.isLiked,
+                  likeCount: response.likeCount,
+                  viewCount: article.viewCount,
+                );
+            // 상세 페이지 상태 갱신
+            ref.read(articleProvider(articleId).notifier).updateArticleStatus(
+                  response.isLiked,
+                  response.likeCount,
+                  article.viewCount,
+                  article.commentCount,
+                );
+          }
+        } catch (e) {
+          rethrow;
+        }
       },
-      error: (error, _) => Center(
-        child: Text('article.error'.tr(args: [error.toString()])),
-      ),
-      loading: () => const SizedBox.shrink(),
     );
   }
 
@@ -218,8 +213,11 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     WidgetRef ref,
     AsyncValue<List<ArticleCommentDTO>?> commentsAsync,
     UserDTO? currentUser,
-    AsyncValue<ArticleDTO?> articleAsync,
+    ArticleDTO? article,
   ) {
+    if (article == null) {
+      return const SizedBox.shrink();
+    }
     final commentSort = ref.watch(commentSortProvider);
 
     return Padding(
@@ -263,7 +261,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
             ],
           ),
           const SizedBox(height: 12),
-          _buildCommentList(ref, commentsAsync, currentUser, articleAsync),
+          _buildCommentList(ref, commentsAsync, currentUser, article),
           if (currentUser != null) const SizedBox(height: 70),
         ],
       ),
@@ -274,8 +272,12 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     WidgetRef ref,
     AsyncValue<List<ArticleCommentDTO>?> commentsAsync,
     UserDTO? currentUser,
-    AsyncValue<ArticleDTO?> articleAsync,
+    ArticleDTO? article,
   ) {
+    if (article == null) {
+      return const SizedBox.shrink();
+    }
+
     return commentsAsync.when(
       data: (comments) {
         if (comments == null || comments.isEmpty) {
@@ -292,7 +294,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
             return CommentItem(
               comment: comment,
               isOwner: comment.userId == currentUser?.id,
-              isWriter: articleAsync.value?.userId == currentUser?.id,
+              isWriter: article.userId == currentUser?.id,
               onDelete: (commentId) async {
                 await ref
                     .read(commentListProvider(widget.articleId).notifier)

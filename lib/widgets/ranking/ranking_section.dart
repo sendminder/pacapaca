@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'ranking_list_item.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:pacapaca/widgets/shared/ranking_skeleton_item.dart';
 
 class RankingSection extends StatelessWidget {
   final String title;
@@ -8,6 +10,7 @@ class RankingSection extends StatelessWidget {
   final VoidCallback onViewMore;
   final bool isLoading;
   final String? errorMessage;
+  final IconData icon;
 
   const RankingSection({
     super.key,
@@ -16,44 +19,71 @@ class RankingSection extends StatelessWidget {
     required this.onViewMore,
     this.isLoading = false,
     this.errorMessage,
+    required this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleLarge,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+              ),
+              const Spacer(),
+              TextButton.icon(
+                onPressed: isLoading ? null : onViewMore,
+                icon: const Icon(Icons.arrow_forward),
+                label: Text('ranking.view_more'.tr()),
+                style: TextButton.styleFrom(
+                  foregroundColor: Theme.of(context).colorScheme.primary,
                 ),
-                TextButton(
-                  onPressed: onViewMore,
-                  child: Text('ranking.view_more'.tr()),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-          if (isLoading)
-            const Center(child: CircularProgressIndicator())
-          else if (errorMessage != null)
-            Center(child: Text(errorMessage!))
-          else
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: items.length,
-              itemBuilder: (context, index) => items[index],
+        ),
+        const SizedBox(height: 8),
+        if (isLoading)
+          Shimmer.fromColors(
+            baseColor: Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey[800]!
+                : Colors.grey[300]!,
+            highlightColor: Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey[700]!
+                : Colors.grey[100]!,
+            period: const Duration(milliseconds: 1500),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Column(
+                children: List.generate(
+                  3,
+                  (index) => const RankingSkeletonItem(),
+                ),
+              ),
             ),
-        ],
-      ),
+          )
+        else if (errorMessage != null)
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(errorMessage!),
+            ),
+          )
+        else
+          ...items,
+      ],
     );
   }
 }

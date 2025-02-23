@@ -162,7 +162,9 @@
         "sent_carrots": "Sent Carrots",
         "error": "An error occurred: {}",
         "no_data": "No data",
-        "view_more": "View More"
+        "view_more": "View More",
+        "description_title": "Ranking Introduction",
+        "description": "Ranking is a feature that shows the most active users in the PacaPaca service in order. The ranking is divided into three types: points, received carrots, and sent carrots."
     },
     "error": {
         "common": "An error occurred: {}"

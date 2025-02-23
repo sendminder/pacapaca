@@ -6,6 +6,7 @@ class RankingListItem extends StatelessWidget {
   final String? profileImageUrl;
   final String score;
   final VoidCallback? onTap;
+  final bool isTopRank;
   final String defaultProfilePath = "assets/profiles/pacappu.jpeg";
 
   const RankingListItem({
@@ -15,6 +16,7 @@ class RankingListItem extends StatelessWidget {
     this.profileImageUrl,
     required this.score,
     this.onTap,
+    this.isTopRank = false,
   });
 
   String get _rankEmoji {
@@ -32,29 +34,72 @@ class RankingListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      leading: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            _rankEmoji,
-            style: const TextStyle(fontSize: 24),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      decoration: isTopRank
+          ? BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  Theme.of(context).colorScheme.surface,
+                ],
+              ),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                width: 1,
+              ),
+            )
+          : null,
+      child: ListTile(
+        onTap: onTap,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        leading: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              _rankEmoji,
+              style: TextStyle(
+                fontSize: isTopRank ? 28 : 24,
+              ),
+            ),
+            const SizedBox(width: 8),
+            CircleAvatar(
+              radius: isTopRank ? 24 : 20,
+              backgroundImage:
+                  profileImageUrl != null && profileImageUrl!.isNotEmpty
+                      ? NetworkImage(profileImageUrl!)
+                      : AssetImage(defaultProfilePath) as ImageProvider,
+              child: profileImageUrl == null ? const Icon(Icons.person) : null,
+            ),
+          ],
+        ),
+        title: Text(
+          nickname,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: isTopRank ? FontWeight.w700 : FontWeight.w600,
+                color: isTopRank ? Theme.of(context).colorScheme.primary : null,
+              ),
+        ),
+        trailing: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: isTopRank
+                ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                : null,
+            borderRadius: BorderRadius.circular(20),
           ),
-          const SizedBox(width: 8),
-          CircleAvatar(
-            backgroundImage:
-                profileImageUrl != null && profileImageUrl!.isNotEmpty
-                    ? NetworkImage(profileImageUrl!)
-                    : AssetImage(defaultProfilePath) as ImageProvider,
-            child: profileImageUrl == null ? const Icon(Icons.person) : null,
+          child: Text(
+            score,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: isTopRank ? FontWeight.w700 : FontWeight.w600,
+                  color:
+                      isTopRank ? Theme.of(context).colorScheme.primary : null,
+                ),
           ),
-        ],
-      ),
-      title: Text(nickname),
-      trailing: Text(
-        score,
-        style: Theme.of(context).textTheme.titleMedium,
+        ),
       ),
     );
   }
