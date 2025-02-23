@@ -238,17 +238,9 @@ class AuthService {
 
   Future<UserDTO?> updateMe(RequestUpdateMe request) async {
     try {
-      final token = await _storageService.accessToken;
-      if (token == null) return null;
-
       final response = await _dio.put(
         '/v1/me',
         data: jsonEncode(request.toJson()),
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
       );
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(

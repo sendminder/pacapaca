@@ -64,9 +64,9 @@ class ResponseGetMe with _$ResponseGetMe {
 @freezed
 class RequestUpdateMe with _$RequestUpdateMe {
   const factory RequestUpdateMe({
-    String? nickname,
-    String? profileType,
-    String? badgeType,
+    @JsonKey(name: 'nickname') String? nickname,
+    @JsonKey(name: 'profile_type') String? profileType,
+    @JsonKey(name: 'badge_type') String? badgeType,
   }) = _RequestUpdateMe;
 
   factory RequestUpdateMe.fromJson(Map<String, dynamic> json) =>

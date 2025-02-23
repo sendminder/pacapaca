@@ -3,12 +3,13 @@ import 'package:pacapaca/services/auth_service.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/models/dto/auth_dto.dart';
+import 'package:logger/logger.dart';
 part 'auth_provider.g.dart';
 
 @riverpod
 class Auth extends _$Auth {
   final _authService = GetIt.instance<AuthService>();
-
+  final logger = GetIt.instance<Logger>();
   @override
   FutureOr<UserDTO?> build() {
     return _authService.currentUser;

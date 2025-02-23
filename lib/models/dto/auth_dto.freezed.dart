@@ -949,8 +949,11 @@ RequestUpdateMe _$RequestUpdateMeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RequestUpdateMe {
+  @JsonKey(name: 'nickname')
   String? get nickname => throw _privateConstructorUsedError;
+  @JsonKey(name: 'profile_type')
   String? get profileType => throw _privateConstructorUsedError;
+  @JsonKey(name: 'badge_type')
   String? get badgeType => throw _privateConstructorUsedError;
 
   /// Serializes this RequestUpdateMe to a JSON map.
@@ -969,7 +972,10 @@ abstract class $RequestUpdateMeCopyWith<$Res> {
           RequestUpdateMe value, $Res Function(RequestUpdateMe) then) =
       _$RequestUpdateMeCopyWithImpl<$Res, RequestUpdateMe>;
   @useResult
-  $Res call({String? nickname, String? profileType, String? badgeType});
+  $Res call(
+      {@JsonKey(name: 'nickname') String? nickname,
+      @JsonKey(name: 'profile_type') String? profileType,
+      @JsonKey(name: 'badge_type') String? badgeType});
 }
 
 /// @nodoc
@@ -1016,7 +1022,10 @@ abstract class _$$RequestUpdateMeImplCopyWith<$Res>
       __$$RequestUpdateMeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? nickname, String? profileType, String? badgeType});
+  $Res call(
+      {@JsonKey(name: 'nickname') String? nickname,
+      @JsonKey(name: 'profile_type') String? profileType,
+      @JsonKey(name: 'badge_type') String? badgeType});
 }
 
 /// @nodoc
@@ -1057,16 +1066,21 @@ class __$$RequestUpdateMeImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RequestUpdateMeImpl implements _RequestUpdateMe {
   const _$RequestUpdateMeImpl(
-      {this.nickname, this.profileType, this.badgeType});
+      {@JsonKey(name: 'nickname') this.nickname,
+      @JsonKey(name: 'profile_type') this.profileType,
+      @JsonKey(name: 'badge_type') this.badgeType});
 
   factory _$RequestUpdateMeImpl.fromJson(Map<String, dynamic> json) =>
       _$$RequestUpdateMeImplFromJson(json);
 
   @override
+  @JsonKey(name: 'nickname')
   final String? nickname;
   @override
+  @JsonKey(name: 'profile_type')
   final String? profileType;
   @override
+  @JsonKey(name: 'badge_type')
   final String? badgeType;
 
   @override
@@ -1111,18 +1125,22 @@ class _$RequestUpdateMeImpl implements _RequestUpdateMe {
 
 abstract class _RequestUpdateMe implements RequestUpdateMe {
   const factory _RequestUpdateMe(
-      {final String? nickname,
-      final String? profileType,
-      final String? badgeType}) = _$RequestUpdateMeImpl;
+          {@JsonKey(name: 'nickname') final String? nickname,
+          @JsonKey(name: 'profile_type') final String? profileType,
+          @JsonKey(name: 'badge_type') final String? badgeType}) =
+      _$RequestUpdateMeImpl;
 
   factory _RequestUpdateMe.fromJson(Map<String, dynamic> json) =
       _$RequestUpdateMeImpl.fromJson;
 
   @override
+  @JsonKey(name: 'nickname')
   String? get nickname;
   @override
+  @JsonKey(name: 'profile_type')
   String? get profileType;
   @override
+  @JsonKey(name: 'badge_type')
   String? get badgeType;
 
   /// Create a copy of RequestUpdateMe

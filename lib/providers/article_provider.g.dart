@@ -172,7 +172,7 @@ class _ArticleProviderElement
   int get articleId => (origin as ArticleProvider).articleId;
 }
 
-String _$articleListHash() => r'960b0c332df2da2046efa3213ccfa1408c6b55b2';
+String _$articleListHash() => r'a168834b00e4784854d8ac1a4f8225bb46d6c156';
 
 abstract class _$ArticleList
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
@@ -401,7 +401,7 @@ class _ArticleListProviderElement
   ArticleCategory? get category => (origin as ArticleListProvider).category;
 }
 
-String _$articleEditorHash() => r'794bdd7312c590daff616a7ead8563f654d26cd3';
+String _$articleEditorHash() => r'78e196f41d36d9a8010d4d4fa1816a94afa745f5';
 
 /// See also [ArticleEditor].
 @ProviderFor(ArticleEditor)

@@ -74,14 +74,14 @@ _$RequestUpdateMeImpl _$$RequestUpdateMeImplFromJson(
         Map<String, dynamic> json) =>
     _$RequestUpdateMeImpl(
       nickname: json['nickname'] as String?,
-      profileType: json['profileType'] as String?,
-      badgeType: json['badgeType'] as String?,
+      profileType: json['profile_type'] as String?,
+      badgeType: json['badge_type'] as String?,
     );
 
 Map<String, dynamic> _$$RequestUpdateMeImplToJson(
         _$RequestUpdateMeImpl instance) =>
     <String, dynamic>{
       'nickname': instance.nickname,
-      'profileType': instance.profileType,
-      'badgeType': instance.badgeType,
+      'profile_type': instance.profileType,
+      'badge_type': instance.badgeType,
     };

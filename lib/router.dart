@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pacapaca/pages/auth/set_profile_type_page.dart';
 import 'providers/auth_provider.dart';
 import 'models/dto/user_dto.dart';
 // 페이지 임포트
@@ -70,6 +71,8 @@ class RouterNotifier extends ChangeNotifier {
 
         final isLoggingIn = state.matchedLocation == '/login';
         final isSettingNickname = state.matchedLocation == '/set-nickname';
+        final isSettingProfileType =
+            state.matchedLocation == '/set-profile-type';
         final needAuth = !state.matchedLocation.startsWith('/login') &&
             !state.matchedLocation.startsWith('/splash');
 
@@ -78,6 +81,9 @@ class RouterNotifier extends ChangeNotifier {
         if (isLoggingIn && user != null) {
           if (user.displayUser.nickname.isEmpty) {
             return '/set-nickname';
+          }
+          if (user.displayUser.profileType == null) {
+            return '/set-profile-type';
           }
           return '/articles';
         }
@@ -88,9 +94,16 @@ class RouterNotifier extends ChangeNotifier {
           return '/set-nickname';
         }
 
+        if (user != null &&
+            user.displayUser.profileType == null &&
+            !isSettingProfileType) {
+          return '/set-profile-type';
+        }
+
         if (isSettingNickname &&
             user != null &&
-            user.displayUser.nickname.isNotEmpty) {
+            user.displayUser.nickname.isNotEmpty &&
+            user.displayUser.profileType != null) {
           return '/articles';
         }
 
@@ -122,6 +135,10 @@ class RouterNotifier extends ChangeNotifier {
         GoRoute(
           path: '/set-nickname',
           builder: (context, state) => const SetNicknamePage(),
+        ),
+        GoRoute(
+          path: '/set-profile-type',
+          builder: (context, state) => SetProfileTypePage(),
         ),
         GoRoute(
           path: '/articles/new',

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:logger/logger.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 class SetProfileTypePage extends ConsumerWidget {
-  const SetProfileTypePage({super.key});
+  SetProfileTypePage({super.key});
+  final logger = GetIt.instance<Logger>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(authProvider, (prev, next) {
-      if (next is AsyncData && next.value != null) {
+      if (next is AsyncData) {
         context.go('/articles');
       } else if (next is AsyncError) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -40,7 +43,6 @@ class SetProfileTypePage extends ConsumerWidget {
               description: 'profile.empathy_description'.tr(),
               imagePath: 'assets/profiles/pacappi.jpeg',
               onTap: () => _selectProfileType(ref, 'PACAPPI'),
-              isLoading: ref.watch(authProvider).isLoading,
             ),
             const SizedBox(height: 16),
             _ProfileTypeCard(
@@ -48,7 +50,6 @@ class SetProfileTypePage extends ConsumerWidget {
               description: 'profile.solution_description'.tr(),
               imagePath: 'assets/profiles/pacappu.jpeg',
               onTap: () => _selectProfileType(ref, 'PACAPPU'),
-              isLoading: ref.watch(authProvider).isLoading,
             ),
           ],
         ),
@@ -66,21 +67,19 @@ class _ProfileTypeCard extends StatelessWidget {
   final String description;
   final String imagePath;
   final VoidCallback onTap;
-  final bool isLoading;
 
   const _ProfileTypeCard({
     required this.title,
     required this.description,
     required this.imagePath,
     required this.onTap,
-    required this.isLoading,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: isLoading ? null : onTap,
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
