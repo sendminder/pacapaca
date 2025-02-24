@@ -66,7 +66,7 @@ class ChatInput extends StatelessWidget {
                   ),
                 ),
                 maxLines: null,
-                textInputAction: TextInputAction.send,
+                textInputAction: TextInputAction.newline,
                 onSubmitted: canSend ? (_) => onSubmit(controller.text) : null,
               ),
             ),
