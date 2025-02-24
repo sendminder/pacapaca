@@ -15,6 +15,11 @@ class ArticleCommentDTO with _$ArticleCommentDTO {
     @JsonKey(name: 'update_time') required String updateTime,
     @JsonKey(name: 'delete_time') String? deleteTime,
     @JsonKey(name: 'display_user') required DisplayUserDTO displayUser,
+    // 대댓글
+    @JsonKey(name: 'parent_id') int? parentId,
+    @JsonKey(name: 'replies') List<ArticleCommentDTO>? replies,
+    @JsonKey(name: 'reply_count') int? replyCount,
+    @JsonKey(name: 'has_more') bool? hasMore,
   }) = _ArticleCommentDTO;
 
   factory ArticleCommentDTO.fromJson(Map<String, dynamic> json) =>
@@ -55,8 +60,33 @@ class RequestUpdateComment with _$RequestUpdateComment {
 class RequestCreateComment with _$RequestCreateComment {
   const factory RequestCreateComment({
     required String content,
+    @JsonKey(name: 'parent_id') int? parentId,
   }) = _RequestCreateComment;
 
   factory RequestCreateComment.fromJson(Map<String, dynamic> json) =>
       _$RequestCreateCommentFromJson(json);
+}
+
+@freezed
+class RequestListReplies with _$RequestListReplies {
+  const factory RequestListReplies({
+    @JsonKey(name: 'sort_by') required String sortBy,
+    @JsonKey(name: 'limit') required int limit,
+    @JsonKey(name: 'paging_key') int? pagingKey,
+  }) = _RequestListReplies;
+
+  factory RequestListReplies.fromJson(Map<String, dynamic> json) =>
+      _$RequestListRepliesFromJson(json);
+}
+
+@freezed
+class RequestListComments with _$RequestListComments {
+  const factory RequestListComments({
+    @JsonKey(name: 'sort_by') required String sortBy,
+    @JsonKey(name: 'limit') required int limit,
+    @JsonKey(name: 'paging_key') int? pagingKey,
+  }) = _RequestListComments;
+
+  factory RequestListComments.fromJson(Map<String, dynamic> json) =>
+      _$RequestListCommentsFromJson(json);
 }

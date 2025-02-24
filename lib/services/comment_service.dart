@@ -40,13 +40,15 @@ class CommentService {
     String? sortBy,
   ) async {
     try {
+      final request = RequestListComments(
+        sortBy: sortBy ?? 'latest',
+        limit: limit,
+        pagingKey: pagingKey,
+      );
+
       final response = await _dio.get(
         '/v1/articles/$articleId/comments',
-        queryParameters: {
-          'limit': limit,
-          'paging_key': pagingKey,
-          'sort_by': sortBy,
-        },
+        queryParameters: request.toJson(),
       );
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
@@ -62,6 +64,43 @@ class CommentService {
       return null;
     } catch (e, stackTrace) {
       logger.e('list comments', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
+
+  // 대댓글 목록 조회
+  Future<List<ArticleCommentDTO>?> listReplies(
+    int articleId,
+    int commentId,
+    int limit,
+    int? pagingKey,
+    String? sortBy,
+  ) async {
+    try {
+      final request = RequestListReplies(
+        sortBy: sortBy ?? 'latest',
+        limit: limit,
+        pagingKey: pagingKey,
+      );
+
+      final response = await _dio.get(
+        '/v1/articles/$articleId/comments/$commentId/replies',
+        queryParameters: request.toJson(),
+      );
+
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
+
+      if (responseRest.response != null) {
+        final repliesResponse =
+            ResponseListComments.fromJson(responseRest.response!);
+        return repliesResponse.comments;
+      }
+      return null;
+    } catch (e, stackTrace) {
+      logger.e('list replies', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }

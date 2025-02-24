@@ -33,7 +33,15 @@ mixin _$ArticleCommentDTO {
   @JsonKey(name: 'delete_time')
   String? get deleteTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'display_user')
-  DisplayUserDTO get displayUser => throw _privateConstructorUsedError;
+  DisplayUserDTO get displayUser => throw _privateConstructorUsedError; // 대댓글
+  @JsonKey(name: 'parent_id')
+  int? get parentId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'replies')
+  List<ArticleCommentDTO>? get replies => throw _privateConstructorUsedError;
+  @JsonKey(name: 'reply_count')
+  int? get replyCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'has_more')
+  bool? get hasMore => throw _privateConstructorUsedError;
 
   /// Serializes this ArticleCommentDTO to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -59,7 +67,11 @@ abstract class $ArticleCommentDTOCopyWith<$Res> {
       @JsonKey(name: 'create_time') String createTime,
       @JsonKey(name: 'update_time') String updateTime,
       @JsonKey(name: 'delete_time') String? deleteTime,
-      @JsonKey(name: 'display_user') DisplayUserDTO displayUser});
+      @JsonKey(name: 'display_user') DisplayUserDTO displayUser,
+      @JsonKey(name: 'parent_id') int? parentId,
+      @JsonKey(name: 'replies') List<ArticleCommentDTO>? replies,
+      @JsonKey(name: 'reply_count') int? replyCount,
+      @JsonKey(name: 'has_more') bool? hasMore});
 
   $DisplayUserDTOCopyWith<$Res> get displayUser;
 }
@@ -87,6 +99,10 @@ class _$ArticleCommentDTOCopyWithImpl<$Res, $Val extends ArticleCommentDTO>
     Object? updateTime = null,
     Object? deleteTime = freezed,
     Object? displayUser = null,
+    Object? parentId = freezed,
+    Object? replies = freezed,
+    Object? replyCount = freezed,
+    Object? hasMore = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -121,6 +137,22 @@ class _$ArticleCommentDTOCopyWithImpl<$Res, $Val extends ArticleCommentDTO>
           ? _value.displayUser
           : displayUser // ignore: cast_nullable_to_non_nullable
               as DisplayUserDTO,
+      parentId: freezed == parentId
+          ? _value.parentId
+          : parentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      replies: freezed == replies
+          ? _value.replies
+          : replies // ignore: cast_nullable_to_non_nullable
+              as List<ArticleCommentDTO>?,
+      replyCount: freezed == replyCount
+          ? _value.replyCount
+          : replyCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      hasMore: freezed == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -151,7 +183,11 @@ abstract class _$$ArticleCommentDTOImplCopyWith<$Res>
       @JsonKey(name: 'create_time') String createTime,
       @JsonKey(name: 'update_time') String updateTime,
       @JsonKey(name: 'delete_time') String? deleteTime,
-      @JsonKey(name: 'display_user') DisplayUserDTO displayUser});
+      @JsonKey(name: 'display_user') DisplayUserDTO displayUser,
+      @JsonKey(name: 'parent_id') int? parentId,
+      @JsonKey(name: 'replies') List<ArticleCommentDTO>? replies,
+      @JsonKey(name: 'reply_count') int? replyCount,
+      @JsonKey(name: 'has_more') bool? hasMore});
 
   @override
   $DisplayUserDTOCopyWith<$Res> get displayUser;
@@ -178,6 +214,10 @@ class __$$ArticleCommentDTOImplCopyWithImpl<$Res>
     Object? updateTime = null,
     Object? deleteTime = freezed,
     Object? displayUser = null,
+    Object? parentId = freezed,
+    Object? replies = freezed,
+    Object? replyCount = freezed,
+    Object? hasMore = freezed,
   }) {
     return _then(_$ArticleCommentDTOImpl(
       id: null == id
@@ -212,6 +252,22 @@ class __$$ArticleCommentDTOImplCopyWithImpl<$Res>
           ? _value.displayUser
           : displayUser // ignore: cast_nullable_to_non_nullable
               as DisplayUserDTO,
+      parentId: freezed == parentId
+          ? _value.parentId
+          : parentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      replies: freezed == replies
+          ? _value._replies
+          : replies // ignore: cast_nullable_to_non_nullable
+              as List<ArticleCommentDTO>?,
+      replyCount: freezed == replyCount
+          ? _value.replyCount
+          : replyCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      hasMore: freezed == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -227,7 +283,12 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
       @JsonKey(name: 'create_time') required this.createTime,
       @JsonKey(name: 'update_time') required this.updateTime,
       @JsonKey(name: 'delete_time') this.deleteTime,
-      @JsonKey(name: 'display_user') required this.displayUser});
+      @JsonKey(name: 'display_user') required this.displayUser,
+      @JsonKey(name: 'parent_id') this.parentId,
+      @JsonKey(name: 'replies') final List<ArticleCommentDTO>? replies,
+      @JsonKey(name: 'reply_count') this.replyCount,
+      @JsonKey(name: 'has_more') this.hasMore})
+      : _replies = replies;
 
   factory _$ArticleCommentDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$ArticleCommentDTOImplFromJson(json);
@@ -254,10 +315,31 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
   @override
   @JsonKey(name: 'display_user')
   final DisplayUserDTO displayUser;
+// 대댓글
+  @override
+  @JsonKey(name: 'parent_id')
+  final int? parentId;
+  final List<ArticleCommentDTO>? _replies;
+  @override
+  @JsonKey(name: 'replies')
+  List<ArticleCommentDTO>? get replies {
+    final value = _replies;
+    if (value == null) return null;
+    if (_replies is EqualUnmodifiableListView) return _replies;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  @JsonKey(name: 'reply_count')
+  final int? replyCount;
+  @override
+  @JsonKey(name: 'has_more')
+  final bool? hasMore;
 
   @override
   String toString() {
-    return 'ArticleCommentDTO(id: $id, articleId: $articleId, userId: $userId, content: $content, createTime: $createTime, updateTime: $updateTime, deleteTime: $deleteTime, displayUser: $displayUser)';
+    return 'ArticleCommentDTO(id: $id, articleId: $articleId, userId: $userId, content: $content, createTime: $createTime, updateTime: $updateTime, deleteTime: $deleteTime, displayUser: $displayUser, parentId: $parentId, replies: $replies, replyCount: $replyCount, hasMore: $hasMore)';
   }
 
   @override
@@ -277,13 +359,31 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
             (identical(other.deleteTime, deleteTime) ||
                 other.deleteTime == deleteTime) &&
             (identical(other.displayUser, displayUser) ||
-                other.displayUser == displayUser));
+                other.displayUser == displayUser) &&
+            (identical(other.parentId, parentId) ||
+                other.parentId == parentId) &&
+            const DeepCollectionEquality().equals(other._replies, _replies) &&
+            (identical(other.replyCount, replyCount) ||
+                other.replyCount == replyCount) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, articleId, userId, content,
-      createTime, updateTime, deleteTime, displayUser);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      articleId,
+      userId,
+      content,
+      createTime,
+      updateTime,
+      deleteTime,
+      displayUser,
+      parentId,
+      const DeepCollectionEquality().hash(_replies),
+      replyCount,
+      hasMore);
 
   /// Create a copy of ArticleCommentDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -311,8 +411,12 @@ abstract class _ArticleCommentDTO implements ArticleCommentDTO {
       @JsonKey(name: 'create_time') required final String createTime,
       @JsonKey(name: 'update_time') required final String updateTime,
       @JsonKey(name: 'delete_time') final String? deleteTime,
-      @JsonKey(name: 'display_user')
-      required final DisplayUserDTO displayUser}) = _$ArticleCommentDTOImpl;
+      @JsonKey(name: 'display_user') required final DisplayUserDTO displayUser,
+      @JsonKey(name: 'parent_id') final int? parentId,
+      @JsonKey(name: 'replies') final List<ArticleCommentDTO>? replies,
+      @JsonKey(name: 'reply_count') final int? replyCount,
+      @JsonKey(name: 'has_more')
+      final bool? hasMore}) = _$ArticleCommentDTOImpl;
 
   factory _ArticleCommentDTO.fromJson(Map<String, dynamic> json) =
       _$ArticleCommentDTOImpl.fromJson;
@@ -338,7 +442,19 @@ abstract class _ArticleCommentDTO implements ArticleCommentDTO {
   String? get deleteTime;
   @override
   @JsonKey(name: 'display_user')
-  DisplayUserDTO get displayUser;
+  DisplayUserDTO get displayUser; // 대댓글
+  @override
+  @JsonKey(name: 'parent_id')
+  int? get parentId;
+  @override
+  @JsonKey(name: 'replies')
+  List<ArticleCommentDTO>? get replies;
+  @override
+  @JsonKey(name: 'reply_count')
+  int? get replyCount;
+  @override
+  @JsonKey(name: 'has_more')
+  bool? get hasMore;
 
   /// Create a copy of ArticleCommentDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -836,6 +952,8 @@ RequestCreateComment _$RequestCreateCommentFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RequestCreateComment {
   String get content => throw _privateConstructorUsedError;
+  @JsonKey(name: 'parent_id')
+  int? get parentId => throw _privateConstructorUsedError;
 
   /// Serializes this RequestCreateComment to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -853,7 +971,7 @@ abstract class $RequestCreateCommentCopyWith<$Res> {
           $Res Function(RequestCreateComment) then) =
       _$RequestCreateCommentCopyWithImpl<$Res, RequestCreateComment>;
   @useResult
-  $Res call({String content});
+  $Res call({String content, @JsonKey(name: 'parent_id') int? parentId});
 }
 
 /// @nodoc
@@ -873,12 +991,17 @@ class _$RequestCreateCommentCopyWithImpl<$Res,
   @override
   $Res call({
     Object? content = null,
+    Object? parentId = freezed,
   }) {
     return _then(_value.copyWith(
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      parentId: freezed == parentId
+          ? _value.parentId
+          : parentId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -891,7 +1014,7 @@ abstract class _$$RequestCreateCommentImplCopyWith<$Res>
       __$$RequestCreateCommentImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String content});
+  $Res call({String content, @JsonKey(name: 'parent_id') int? parentId});
 }
 
 /// @nodoc
@@ -908,12 +1031,17 @@ class __$$RequestCreateCommentImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? content = null,
+    Object? parentId = freezed,
   }) {
     return _then(_$RequestCreateCommentImpl(
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      parentId: freezed == parentId
+          ? _value.parentId
+          : parentId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -921,17 +1049,21 @@ class __$$RequestCreateCommentImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$RequestCreateCommentImpl implements _RequestCreateComment {
-  const _$RequestCreateCommentImpl({required this.content});
+  const _$RequestCreateCommentImpl(
+      {required this.content, @JsonKey(name: 'parent_id') this.parentId});
 
   factory _$RequestCreateCommentImpl.fromJson(Map<String, dynamic> json) =>
       _$$RequestCreateCommentImplFromJson(json);
 
   @override
   final String content;
+  @override
+  @JsonKey(name: 'parent_id')
+  final int? parentId;
 
   @override
   String toString() {
-    return 'RequestCreateComment(content: $content)';
+    return 'RequestCreateComment(content: $content, parentId: $parentId)';
   }
 
   @override
@@ -939,12 +1071,14 @@ class _$RequestCreateCommentImpl implements _RequestCreateComment {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RequestCreateCommentImpl &&
-            (identical(other.content, content) || other.content == content));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.parentId, parentId) ||
+                other.parentId == parentId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, content);
+  int get hashCode => Object.hash(runtimeType, content, parentId);
 
   /// Create a copy of RequestCreateComment
   /// with the given fields replaced by the non-null parameter values.
@@ -965,7 +1099,9 @@ class _$RequestCreateCommentImpl implements _RequestCreateComment {
 }
 
 abstract class _RequestCreateComment implements RequestCreateComment {
-  const factory _RequestCreateComment({required final String content}) =
+  const factory _RequestCreateComment(
+          {required final String content,
+          @JsonKey(name: 'parent_id') final int? parentId}) =
       _$RequestCreateCommentImpl;
 
   factory _RequestCreateComment.fromJson(Map<String, dynamic> json) =
@@ -973,6 +1109,9 @@ abstract class _RequestCreateComment implements RequestCreateComment {
 
   @override
   String get content;
+  @override
+  @JsonKey(name: 'parent_id')
+  int? get parentId;
 
   /// Create a copy of RequestCreateComment
   /// with the given fields replaced by the non-null parameter values.
@@ -980,4 +1119,414 @@ abstract class _RequestCreateComment implements RequestCreateComment {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RequestCreateCommentImplCopyWith<_$RequestCreateCommentImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+RequestListReplies _$RequestListRepliesFromJson(Map<String, dynamic> json) {
+  return _RequestListReplies.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RequestListReplies {
+  @JsonKey(name: 'sort_by')
+  String get sortBy => throw _privateConstructorUsedError;
+  @JsonKey(name: 'limit')
+  int get limit => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey => throw _privateConstructorUsedError;
+
+  /// Serializes this RequestListReplies to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RequestListReplies
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RequestListRepliesCopyWith<RequestListReplies> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RequestListRepliesCopyWith<$Res> {
+  factory $RequestListRepliesCopyWith(
+          RequestListReplies value, $Res Function(RequestListReplies) then) =
+      _$RequestListRepliesCopyWithImpl<$Res, RequestListReplies>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'sort_by') String sortBy,
+      @JsonKey(name: 'limit') int limit,
+      @JsonKey(name: 'paging_key') int? pagingKey});
+}
+
+/// @nodoc
+class _$RequestListRepliesCopyWithImpl<$Res, $Val extends RequestListReplies>
+    implements $RequestListRepliesCopyWith<$Res> {
+  _$RequestListRepliesCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RequestListReplies
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? sortBy = null,
+    Object? limit = null,
+    Object? pagingKey = freezed,
+  }) {
+    return _then(_value.copyWith(
+      sortBy: null == sortBy
+          ? _value.sortBy
+          : sortBy // ignore: cast_nullable_to_non_nullable
+              as String,
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RequestListRepliesImplCopyWith<$Res>
+    implements $RequestListRepliesCopyWith<$Res> {
+  factory _$$RequestListRepliesImplCopyWith(_$RequestListRepliesImpl value,
+          $Res Function(_$RequestListRepliesImpl) then) =
+      __$$RequestListRepliesImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'sort_by') String sortBy,
+      @JsonKey(name: 'limit') int limit,
+      @JsonKey(name: 'paging_key') int? pagingKey});
+}
+
+/// @nodoc
+class __$$RequestListRepliesImplCopyWithImpl<$Res>
+    extends _$RequestListRepliesCopyWithImpl<$Res, _$RequestListRepliesImpl>
+    implements _$$RequestListRepliesImplCopyWith<$Res> {
+  __$$RequestListRepliesImplCopyWithImpl(_$RequestListRepliesImpl _value,
+      $Res Function(_$RequestListRepliesImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RequestListReplies
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? sortBy = null,
+    Object? limit = null,
+    Object? pagingKey = freezed,
+  }) {
+    return _then(_$RequestListRepliesImpl(
+      sortBy: null == sortBy
+          ? _value.sortBy
+          : sortBy // ignore: cast_nullable_to_non_nullable
+              as String,
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RequestListRepliesImpl implements _RequestListReplies {
+  const _$RequestListRepliesImpl(
+      {@JsonKey(name: 'sort_by') required this.sortBy,
+      @JsonKey(name: 'limit') required this.limit,
+      @JsonKey(name: 'paging_key') this.pagingKey});
+
+  factory _$RequestListRepliesImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestListRepliesImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'sort_by')
+  final String sortBy;
+  @override
+  @JsonKey(name: 'limit')
+  final int limit;
+  @override
+  @JsonKey(name: 'paging_key')
+  final int? pagingKey;
+
+  @override
+  String toString() {
+    return 'RequestListReplies(sortBy: $sortBy, limit: $limit, pagingKey: $pagingKey)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestListRepliesImpl &&
+            (identical(other.sortBy, sortBy) || other.sortBy == sortBy) &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.pagingKey, pagingKey) ||
+                other.pagingKey == pagingKey));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, sortBy, limit, pagingKey);
+
+  /// Create a copy of RequestListReplies
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestListRepliesImplCopyWith<_$RequestListRepliesImpl> get copyWith =>
+      __$$RequestListRepliesImplCopyWithImpl<_$RequestListRepliesImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestListRepliesImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RequestListReplies implements RequestListReplies {
+  const factory _RequestListReplies(
+          {@JsonKey(name: 'sort_by') required final String sortBy,
+          @JsonKey(name: 'limit') required final int limit,
+          @JsonKey(name: 'paging_key') final int? pagingKey}) =
+      _$RequestListRepliesImpl;
+
+  factory _RequestListReplies.fromJson(Map<String, dynamic> json) =
+      _$RequestListRepliesImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'sort_by')
+  String get sortBy;
+  @override
+  @JsonKey(name: 'limit')
+  int get limit;
+  @override
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey;
+
+  /// Create a copy of RequestListReplies
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequestListRepliesImplCopyWith<_$RequestListRepliesImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RequestListComments _$RequestListCommentsFromJson(Map<String, dynamic> json) {
+  return _RequestListComments.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RequestListComments {
+  @JsonKey(name: 'sort_by')
+  String get sortBy => throw _privateConstructorUsedError;
+  @JsonKey(name: 'limit')
+  int get limit => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey => throw _privateConstructorUsedError;
+
+  /// Serializes this RequestListComments to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RequestListComments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RequestListCommentsCopyWith<RequestListComments> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RequestListCommentsCopyWith<$Res> {
+  factory $RequestListCommentsCopyWith(
+          RequestListComments value, $Res Function(RequestListComments) then) =
+      _$RequestListCommentsCopyWithImpl<$Res, RequestListComments>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'sort_by') String sortBy,
+      @JsonKey(name: 'limit') int limit,
+      @JsonKey(name: 'paging_key') int? pagingKey});
+}
+
+/// @nodoc
+class _$RequestListCommentsCopyWithImpl<$Res, $Val extends RequestListComments>
+    implements $RequestListCommentsCopyWith<$Res> {
+  _$RequestListCommentsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RequestListComments
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? sortBy = null,
+    Object? limit = null,
+    Object? pagingKey = freezed,
+  }) {
+    return _then(_value.copyWith(
+      sortBy: null == sortBy
+          ? _value.sortBy
+          : sortBy // ignore: cast_nullable_to_non_nullable
+              as String,
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RequestListCommentsImplCopyWith<$Res>
+    implements $RequestListCommentsCopyWith<$Res> {
+  factory _$$RequestListCommentsImplCopyWith(_$RequestListCommentsImpl value,
+          $Res Function(_$RequestListCommentsImpl) then) =
+      __$$RequestListCommentsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'sort_by') String sortBy,
+      @JsonKey(name: 'limit') int limit,
+      @JsonKey(name: 'paging_key') int? pagingKey});
+}
+
+/// @nodoc
+class __$$RequestListCommentsImplCopyWithImpl<$Res>
+    extends _$RequestListCommentsCopyWithImpl<$Res, _$RequestListCommentsImpl>
+    implements _$$RequestListCommentsImplCopyWith<$Res> {
+  __$$RequestListCommentsImplCopyWithImpl(_$RequestListCommentsImpl _value,
+      $Res Function(_$RequestListCommentsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RequestListComments
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? sortBy = null,
+    Object? limit = null,
+    Object? pagingKey = freezed,
+  }) {
+    return _then(_$RequestListCommentsImpl(
+      sortBy: null == sortBy
+          ? _value.sortBy
+          : sortBy // ignore: cast_nullable_to_non_nullable
+              as String,
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RequestListCommentsImpl implements _RequestListComments {
+  const _$RequestListCommentsImpl(
+      {@JsonKey(name: 'sort_by') required this.sortBy,
+      @JsonKey(name: 'limit') required this.limit,
+      @JsonKey(name: 'paging_key') this.pagingKey});
+
+  factory _$RequestListCommentsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestListCommentsImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'sort_by')
+  final String sortBy;
+  @override
+  @JsonKey(name: 'limit')
+  final int limit;
+  @override
+  @JsonKey(name: 'paging_key')
+  final int? pagingKey;
+
+  @override
+  String toString() {
+    return 'RequestListComments(sortBy: $sortBy, limit: $limit, pagingKey: $pagingKey)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestListCommentsImpl &&
+            (identical(other.sortBy, sortBy) || other.sortBy == sortBy) &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.pagingKey, pagingKey) ||
+                other.pagingKey == pagingKey));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, sortBy, limit, pagingKey);
+
+  /// Create a copy of RequestListComments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestListCommentsImplCopyWith<_$RequestListCommentsImpl> get copyWith =>
+      __$$RequestListCommentsImplCopyWithImpl<_$RequestListCommentsImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestListCommentsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RequestListComments implements RequestListComments {
+  const factory _RequestListComments(
+          {@JsonKey(name: 'sort_by') required final String sortBy,
+          @JsonKey(name: 'limit') required final int limit,
+          @JsonKey(name: 'paging_key') final int? pagingKey}) =
+      _$RequestListCommentsImpl;
+
+  factory _RequestListComments.fromJson(Map<String, dynamic> json) =
+      _$RequestListCommentsImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'sort_by')
+  String get sortBy;
+  @override
+  @JsonKey(name: 'limit')
+  int get limit;
+  @override
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey;
+
+  /// Create a copy of RequestListComments
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequestListCommentsImplCopyWith<_$RequestListCommentsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
