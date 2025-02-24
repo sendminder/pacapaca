@@ -64,10 +64,9 @@
         "delete_comment": "Delete Comment",
         "delete_confirm": "Are you sure you want to delete?",
         "delete": "Delete",
-        "block_user": "Block User",
-        "block_confirm": "Are you sure you want to block this user?",
-        "block": "Block",
-        "block_from_comment": "Blocked from comment {}"
+        "reply": "Reply",
+        "show_more_replies": "Show More",
+        "write_reply": "Write Reply"
     },
     "login": {
         "login": "Login",

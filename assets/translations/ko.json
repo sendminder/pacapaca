@@ -69,8 +69,8 @@
         "delete_comment": "댓글 삭제",
         "delete_confirm": "정말 삭제하시겠어요?",
         "delete": "삭제",
-        "reply": "답글",
-        "show_more_replies": "더보기",
+        "reply": "대댓글",
+        "show_more_replies": "{}개의 대댓글 더보기",
         "write_reply": "답글 작성"
     },
     "login": {
