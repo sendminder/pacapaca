@@ -13,16 +13,20 @@ class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
   final bool isOwner;
   final bool isWriter;
+  final bool isReply;
   final Function(int) onDelete;
   final Function(int, String) onUpdate;
+  final Function(int)? onReply;
 
   const CommentItem({
     super.key,
     required this.comment,
     required this.isOwner,
     required this.isWriter,
+    this.isReply = false,
     required this.onDelete,
     required this.onUpdate,
+    this.onReply,
   });
 
   @override
@@ -33,13 +37,18 @@ class CommentItem extends ConsumerWidget {
         UserAvatar(
           imageUrl: comment.displayUser.profileImageUrl ?? '',
           profileType: comment.displayUser.profileType,
-          radius: 18,
+          radius: isReply ? 16 : 18,
         ),
         const SizedBox(width: 8),
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary.withAlpha(25),
+              color: isReply
+                  ? Theme.of(context)
+                      .colorScheme
+                      .surfaceVariant
+                      .withOpacity(0.3)
+                  : Theme.of(context).colorScheme.primary.withAlpha(25),
               borderRadius: BorderRadius.circular(12),
             ),
             padding: const EdgeInsets.only(
@@ -82,6 +91,12 @@ class CommentItem extends ConsumerWidget {
                                 .withAlpha(128),
                           ),
                     ),
+                    if (!isReply && onReply != null) ...[
+                      TextButton(
+                        onPressed: () => onReply?.call(comment.id),
+                        child: Text('comment.reply'.tr()),
+                      ),
+                    ],
                     if (isOwner) ...[
                       const Spacer(),
                       PopupMenuButton(
@@ -284,7 +299,7 @@ class CommentItem extends ConsumerWidget {
                 Text(
                   comment.content,
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: isReply ? 14 : 15,
                     color: Theme.of(context).colorScheme.onSurface,
                     height: 1.4,
                   ),

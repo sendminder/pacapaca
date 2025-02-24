@@ -27,25 +27,41 @@ class CommentList extends _$CommentList {
     return comments;
   }
 
-  Future<void> addComment(int articleId, String content) async {
+  Future<void> addComment(int articleId, String content, int? parentId) async {
     state = const AsyncLoading();
     try {
-      final request = RequestCreateComment(content: content);
+      final request =
+          RequestCreateComment(content: content, parentId: parentId);
       final newComment =
           await _commentService.createComment(articleId, request);
 
       if (newComment != null) {
         final currentComments = state.value ?? [];
-        if (_sort == 'latest') {
-          state = AsyncData([
-            newComment,
-            ...currentComments,
-          ]);
+
+        if (parentId != null && parentId != 0) {
+          // 대댓글인 경우
+          final updatedComments = currentComments.map((comment) {
+            if (comment.id == parentId) {
+              // 부모 댓글 찾기
+              final currentReplies = comment.replies ?? [];
+              final updatedReplies = _sort == 'latest'
+                  ? [newComment, ...currentReplies] // 최신순
+                  : [...currentReplies, newComment]; // 오래된순
+
+              return comment.copyWith(
+                replies: updatedReplies,
+                replyCount: (comment.replyCount ?? 0) + 1,
+              );
+            }
+            return comment;
+          }).toList();
+
+          state = AsyncData(updatedComments);
         } else {
-          state = AsyncData([
-            ...currentComments,
-            newComment,
-          ]);
+          // 일반 댓글인 경우
+          state = AsyncData(_sort == 'latest'
+              ? [newComment, ...currentComments]
+              : [...currentComments, newComment]);
         }
 
         // 댓글 수 업데이트

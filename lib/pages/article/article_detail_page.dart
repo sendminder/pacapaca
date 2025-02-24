@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
-import 'package:pacapaca/widgets/shared/comment_item.dart';
 import 'package:pacapaca/pages/article/widgets/article_detail_content.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
@@ -13,6 +12,8 @@ import 'package:pacapaca/models/dto/comment_dto.dart';
 import 'package:pacapaca/providers/comment_provider.dart';
 import 'package:pacapaca/widgets/shared/article_skeleton_item.dart';
 import 'package:pacapaca/pages/article/widgets/article_action_menu.dart';
+import 'package:pacapaca/widgets/shared/comment/comment_list.dart';
+import 'package:pacapaca/widgets/shared/comment_item.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -30,6 +31,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
   final TextEditingController _commentController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   bool _canSend = false;
+  int? _replyingCommentId;
 
   @override
   void initState() {
@@ -122,12 +124,15 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
               controller: _commentController,
               focusNode: _focusNode,
               onSubmit: (content) async {
-                ref
+                await ref
                     .read(commentListProvider(widget.articleId).notifier)
-                    .addComment(widget.articleId, content);
+                    .addComment(widget.articleId, content, _replyingCommentId);
 
                 _commentController.clear();
                 FocusScope.of(context).unfocus();
+                setState(() {
+                  _replyingCommentId = null; // 답글 작성 완료 후 초기화
+                });
               },
               hintText: 'comment.hint'.tr(),
               canSend: _canSend,
@@ -281,28 +286,29 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
           return const SizedBox.shrink();
         }
 
-        return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: comments.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 16),
-          itemBuilder: (context, index) {
-            final comment = comments[index];
-            return CommentItem(
-              comment: comment,
-              isOwner: comment.userId == currentUser?.id,
-              isWriter: article.userId == currentUser?.id,
-              onDelete: (commentId) async {
-                await ref
-                    .read(commentListProvider(widget.articleId).notifier)
-                    .deleteComment(widget.articleId, commentId);
-              },
-              onUpdate: (commentId, content) async {
-                await ref
-                    .read(commentListProvider(widget.articleId).notifier)
-                    .updateComment(widget.articleId, commentId, content);
-              },
-            );
+        return CommentListWidget(
+          comments: comments,
+          currentUser: currentUser,
+          articleUserId: article.userId,
+          onDelete: (commentId) async {
+            await ref
+                .read(commentListProvider(widget.articleId).notifier)
+                .deleteComment(widget.articleId, commentId);
+          },
+          onUpdate: (commentId, content) async {
+            await ref
+                .read(commentListProvider(widget.articleId).notifier)
+                .updateComment(widget.articleId, commentId, content);
+          },
+          onLoadMoreReplies: (parentId) {
+            // TODO: 대댓글 더보기 로직 구현
+          },
+          onReply: (parentId) async {
+            // TODO: 대댓글 작성 로직 구현
+            setState(() {
+              _replyingCommentId = parentId;
+            });
+            _focusNode.requestFocus();
           },
         );
       },
