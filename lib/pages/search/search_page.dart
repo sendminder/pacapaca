@@ -7,6 +7,7 @@ import 'package:pacapaca/pages/article/widgets/article_card.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/page_title.dart';
+import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -257,7 +258,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
 
   Widget _buildLoading() {
     return const Center(
-      child: CircularProgressIndicator(),
+      child: RotatingPacaLoader(),
     );
   }
 

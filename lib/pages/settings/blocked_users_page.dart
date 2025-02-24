@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/providers/block_provider.dart';
+import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 
 class BlockedUsersPage extends ConsumerWidget {
   const BlockedUsersPage({super.key});
@@ -149,7 +150,7 @@ class BlockedUsersPage extends ConsumerWidget {
             },
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: RotatingPacaLoader()),
         error: (error, stack) => Center(
           child: Text(
             'block.error_loading'.tr(args: [error.toString()]),

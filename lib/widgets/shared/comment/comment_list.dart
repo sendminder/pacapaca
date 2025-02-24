@@ -13,6 +13,7 @@ class CommentListWidget extends ConsumerWidget {
   final Function(int, String) onUpdate;
   final Function(int) onLoadMoreReplies;
   final Function(int) onReply;
+  final bool isReplyView;
 
   const CommentListWidget({
     super.key,
@@ -23,6 +24,7 @@ class CommentListWidget extends ConsumerWidget {
     required this.onUpdate,
     required this.onLoadMoreReplies,
     required this.onReply,
+    this.isReplyView = false,
   });
 
   @override
@@ -44,6 +46,7 @@ class CommentListWidget extends ConsumerWidget {
               onDelete: onDelete,
               onUpdate: onUpdate,
               onReply: onReply,
+              isReply: isReplyView,
             ),
             if (comment.replies != null && comment.replies!.isNotEmpty)
               Padding(

@@ -5,6 +5,7 @@ import 'package:pacapaca/providers/point_provider.dart';
 import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/pages/ranking/ranking_type.dart';
 import 'package:flutter/material.dart';
+import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 
 class RankingDetailPage extends ConsumerWidget {
   final String title;
@@ -56,7 +57,7 @@ class RankingDetailPage extends ConsumerWidget {
                     .toList() ??
                 [],
           ),
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(child: RotatingPacaLoader()),
           error: (error, _) => Center(
             child: Text('ranking.error'.tr(args: [error.toString()])),
           ),
@@ -77,7 +78,7 @@ class RankingDetailPage extends ConsumerWidget {
                     .toList() ??
                 [],
           ),
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(child: RotatingPacaLoader()),
           error: (error, _) => Center(
             child: Text('ranking.error'.tr(args: [error.toString()])),
           ),
@@ -98,7 +99,7 @@ class RankingDetailPage extends ConsumerWidget {
                     .toList() ??
                 [],
           ),
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(child: RotatingPacaLoader()),
           error: (error, _) => Center(
             child: Text('ranking.error'.tr(args: [error.toString()])),
           ),

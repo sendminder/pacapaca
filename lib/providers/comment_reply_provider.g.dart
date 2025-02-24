@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'comment_provider.dart';
+part of 'comment_reply_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$commentListHash() => r'4e3aad9cc6844f11904ac5b7b891c60f1f611d24';
+String _$commentReplyListHash() => r'fdf8443e6bee461a350ba5d14d16daf20be978f5';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,39 +29,45 @@ class _SystemHash {
   }
 }
 
-abstract class _$CommentList
+abstract class _$CommentReplyList
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleCommentDTO>?> {
   late final int articleId;
+  late final int commentId;
 
   FutureOr<List<ArticleCommentDTO>?> build(
     int articleId,
+    int commentId,
   );
 }
 
-/// See also [CommentList].
-@ProviderFor(CommentList)
-const commentListProvider = CommentListFamily();
+/// See also [CommentReplyList].
+@ProviderFor(CommentReplyList)
+const commentReplyListProvider = CommentReplyListFamily();
 
-/// See also [CommentList].
-class CommentListFamily extends Family<AsyncValue<List<ArticleCommentDTO>?>> {
-  /// See also [CommentList].
-  const CommentListFamily();
+/// See also [CommentReplyList].
+class CommentReplyListFamily
+    extends Family<AsyncValue<List<ArticleCommentDTO>?>> {
+  /// See also [CommentReplyList].
+  const CommentReplyListFamily();
 
-  /// See also [CommentList].
-  CommentListProvider call(
+  /// See also [CommentReplyList].
+  CommentReplyListProvider call(
     int articleId,
+    int commentId,
   ) {
-    return CommentListProvider(
+    return CommentReplyListProvider(
       articleId,
+      commentId,
     );
   }
 
   @override
-  CommentListProvider getProviderOverride(
-    covariant CommentListProvider provider,
+  CommentReplyListProvider getProviderOverride(
+    covariant CommentReplyListProvider provider,
   ) {
     return call(
       provider.articleId,
+      provider.commentId,
     );
   }
 
@@ -77,30 +83,34 @@ class CommentListFamily extends Family<AsyncValue<List<ArticleCommentDTO>?>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'commentListProvider';
+  String? get name => r'commentReplyListProvider';
 }
 
-/// See also [CommentList].
-class CommentListProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    CommentList, List<ArticleCommentDTO>?> {
-  /// See also [CommentList].
-  CommentListProvider(
+/// See also [CommentReplyList].
+class CommentReplyListProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    CommentReplyList, List<ArticleCommentDTO>?> {
+  /// See also [CommentReplyList].
+  CommentReplyListProvider(
     int articleId,
+    int commentId,
   ) : this._internal(
-          () => CommentList()..articleId = articleId,
-          from: commentListProvider,
-          name: r'commentListProvider',
+          () => CommentReplyList()
+            ..articleId = articleId
+            ..commentId = commentId,
+          from: commentReplyListProvider,
+          name: r'commentReplyListProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$commentListHash,
-          dependencies: CommentListFamily._dependencies,
+                  : _$commentReplyListHash,
+          dependencies: CommentReplyListFamily._dependencies,
           allTransitiveDependencies:
-              CommentListFamily._allTransitiveDependencies,
+              CommentReplyListFamily._allTransitiveDependencies,
           articleId: articleId,
+          commentId: commentId,
         );
 
-  CommentListProvider._internal(
+  CommentReplyListProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -108,50 +118,59 @@ class CommentListProvider extends AutoDisposeAsyncNotifierProviderImpl<
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.articleId,
+    required this.commentId,
   }) : super.internal();
 
   final int articleId;
+  final int commentId;
 
   @override
   FutureOr<List<ArticleCommentDTO>?> runNotifierBuild(
-    covariant CommentList notifier,
+    covariant CommentReplyList notifier,
   ) {
     return notifier.build(
       articleId,
+      commentId,
     );
   }
 
   @override
-  Override overrideWith(CommentList Function() create) {
+  Override overrideWith(CommentReplyList Function() create) {
     return ProviderOverride(
       origin: this,
-      override: CommentListProvider._internal(
-        () => create()..articleId = articleId,
+      override: CommentReplyListProvider._internal(
+        () => create()
+          ..articleId = articleId
+          ..commentId = commentId,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         articleId: articleId,
+        commentId: commentId,
       ),
     );
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<CommentList, List<ArticleCommentDTO>?>
-      createElement() {
-    return _CommentListProviderElement(this);
+  AutoDisposeAsyncNotifierProviderElement<CommentReplyList,
+      List<ArticleCommentDTO>?> createElement() {
+    return _CommentReplyListProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is CommentListProvider && other.articleId == articleId;
+    return other is CommentReplyListProvider &&
+        other.articleId == articleId &&
+        other.commentId == commentId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, articleId.hashCode);
+    hash = _SystemHash.combine(hash, commentId.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -159,19 +178,24 @@ class CommentListProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin CommentListRef
+mixin CommentReplyListRef
     on AutoDisposeAsyncNotifierProviderRef<List<ArticleCommentDTO>?> {
   /// The parameter `articleId` of this provider.
   int get articleId;
+
+  /// The parameter `commentId` of this provider.
+  int get commentId;
 }
 
-class _CommentListProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<CommentList,
-        List<ArticleCommentDTO>?> with CommentListRef {
-  _CommentListProviderElement(super.provider);
+class _CommentReplyListProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<CommentReplyList,
+        List<ArticleCommentDTO>?> with CommentReplyListRef {
+  _CommentReplyListProviderElement(super.provider);
 
   @override
-  int get articleId => (origin as CommentListProvider).articleId;
+  int get articleId => (origin as CommentReplyListProvider).articleId;
+  @override
+  int get commentId => (origin as CommentReplyListProvider).commentId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

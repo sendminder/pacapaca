@@ -8,6 +8,7 @@ import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/providers/point_provider.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
+import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -44,7 +45,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: asyncUser.when(
         loading: () => const Center(
-          child: CircularProgressIndicator(),
+          child: RotatingPacaLoader(),
         ),
         error: (error, stackTrace) => Center(
           child: Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
+import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 
 class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
@@ -48,7 +49,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: RotatingPacaLoader(),
       ),
     );
   }

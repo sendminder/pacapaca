@@ -22,6 +22,7 @@ import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'pages/ranking/ranking_detail_page.dart';
 import 'pages/ranking/ranking_type.dart';
+import 'package:pacapaca/pages/article/comment_replies_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -193,6 +194,21 @@ class RouterNotifier extends ChangeNotifier {
                         final articleId =
                             int.parse(state.pathParameters['id']!);
                         return ArticleDetailPage(articleId: articleId);
+                      },
+                    ),
+                    GoRoute(
+                      path: ':id/comment/:parentId/replies',
+                      parentNavigatorKey: _rootNavigatorKey,
+                      builder: (context, state) {
+                        final articleId =
+                            int.parse(state.pathParameters['id']!);
+                        final commentId =
+                            int.parse(state.pathParameters['parentId']!);
+                        return CommentRepliesPage(
+                          articleId: articleId,
+                          commentId: commentId,
+                          articleUserId: 0,
+                        );
                       },
                     ),
                   ],

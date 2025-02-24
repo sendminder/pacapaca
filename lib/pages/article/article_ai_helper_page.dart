@@ -6,6 +6,7 @@ import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
+import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 
 class ArticleAiHelperPage extends ConsumerStatefulWidget {
   const ArticleAiHelperPage({super.key});
@@ -423,10 +424,7 @@ class ChatBubble extends StatelessWidget {
             SizedBox(
               width: 12,
               height: 12,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
-              ),
+              child: RotatingPacaLoader(),
             ),
           ],
         ],

@@ -10,9 +10,11 @@ import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
 import 'package:pacapaca/models/dto/comment_dto.dart';
 import 'package:pacapaca/providers/comment_provider.dart';
-import 'package:pacapaca/widgets/shared/article_skeleton_item.dart';
 import 'package:pacapaca/pages/article/widgets/article_action_menu.dart';
 import 'package:pacapaca/widgets/shared/comment/comment_list.dart';
+import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
+import 'package:pacapaca/pages/article/comment_replies_page.dart';
+import 'package:go_router/go_router.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -116,7 +118,9 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
           ),
         ),
         error: (error, stack) => const SizedBox.shrink(),
-        loading: () => const ArticleSkeletonItem(),
+        loading: () => Center(
+          child: RotatingPacaLoader(),
+        ),
       ),
       bottomSheet: currentUser != null
           ? ChatInput(
@@ -299,7 +303,11 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                 .read(commentListProvider(widget.articleId).notifier)
                 .updateComment(widget.articleId, commentId, content);
           },
-          onLoadMoreReplies: (parentId) {},
+          onLoadMoreReplies: (parentId) {
+            context.push(
+              '/articles/${widget.articleId}/comment/$parentId/replies',
+            );
+          },
           onReply: (parentId) async {
             setState(() {
               _replyingCommentId = parentId;
@@ -311,7 +319,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
       error: (error, _) => Center(
         child: Text('article.error'.tr(args: [error.toString()])),
       ),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const SizedBox.shrink(),
     );
   }
 
