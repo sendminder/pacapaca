@@ -13,7 +13,6 @@ import 'package:pacapaca/providers/comment_provider.dart';
 import 'package:pacapaca/widgets/shared/article_skeleton_item.dart';
 import 'package:pacapaca/pages/article/widgets/article_action_menu.dart';
 import 'package:pacapaca/widgets/shared/comment/comment_list.dart';
-import 'package:pacapaca/widgets/shared/comment_item.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -223,7 +222,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     final commentSort = ref.watch(commentSortProvider);
 
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 50),
+      padding: const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 50),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -300,11 +299,8 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                 .read(commentListProvider(widget.articleId).notifier)
                 .updateComment(widget.articleId, commentId, content);
           },
-          onLoadMoreReplies: (parentId) {
-            // TODO: 대댓글 더보기 로직 구현
-          },
+          onLoadMoreReplies: (parentId) {},
           onReply: (parentId) async {
-            // TODO: 대댓글 작성 로직 구현
             setState(() {
               _replyingCommentId = parentId;
             });

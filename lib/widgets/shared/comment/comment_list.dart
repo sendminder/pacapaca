@@ -64,10 +64,21 @@ class CommentListWidget extends ConsumerWidget {
                         )),
                     if (comment.hasMore == true)
                       Padding(
-                        padding: const EdgeInsets.only(top: 8),
+                        padding: const EdgeInsets.only(left: 32),
                         child: TextButton(
                           onPressed: () => onLoadMoreReplies(comment.id),
-                          child: Text('comment.show_more_replies'.tr()),
+                          child: Text(
+                            'comment.show_more_replies'.tr(
+                              args: [(comment.replyCount! - 3).toString()],
+                            ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withAlpha(128),
+                                    ),
+                          ),
                         ),
                       ),
                   ],

@@ -31,284 +31,328 @@ class CommentItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = Theme.of(context).colorScheme.brightness == Brightness.dark;
+    final backgroundColor = _getBackgroundColor(context, isDark);
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        UserAvatar(
-          imageUrl: comment.displayUser.profileImageUrl ?? '',
-          profileType: comment.displayUser.profileType,
-          radius: isReply ? 16 : 18,
-        ),
+        _buildAvatar(),
         const SizedBox(width: 8),
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: isReply
-                  ? Theme.of(context)
-                      .colorScheme
-                      .surfaceVariant
-                      .withOpacity(0.3)
-                  : Theme.of(context).colorScheme.primary.withAlpha(25),
+              color: backgroundColor,
               borderRadius: BorderRadius.circular(12),
             ),
             padding: const EdgeInsets.only(
               left: 12,
-              right: 0,
-              top: 0,
+              right: 12,
               bottom: 12,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      comment.displayUser.nickname,
-                      style: isWriter
-                          ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: Theme.of(context).colorScheme.primary,
-                              )
-                          : isOwner
-                              ? Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                  )
-                              : Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      timeago.format(
-                        DateTime.parse(comment.createTime),
-                        locale: 'ko',
-                      ),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withAlpha(128),
-                          ),
-                    ),
-                    if (!isReply && onReply != null) ...[
-                      TextButton(
-                        onPressed: () => onReply?.call(comment.id),
-                        child: Text('comment.reply'.tr()),
-                      ),
-                    ],
-                    if (isOwner) ...[
-                      const Spacer(),
-                      PopupMenuButton(
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: Text('comment.edit'.tr()),
-                            onTap: () async {
-                              Navigator.pop(context);
-                              final content = await showDialog<String>(
-                                context: context,
-                                builder: (context) => CommentEditDialog(
-                                  initialContent: comment.content,
-                                ),
-                              );
-                              if (content != null) {
-                                onUpdate(comment.id, content);
-                              }
-                            },
-                          ),
-                          PopupMenuItem(
-                            child: Text(
-                              'comment.delete'.tr(),
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.error),
-                            ),
-                            onTap: () async {
-                              Navigator.pop(context);
-                              final confirmed = await showDialog<bool>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text('comment.delete_comment'.tr()),
-                                  content: Text('comment.delete_confirm'.tr()),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, false),
-                                      child: Text('comment.cancel'.tr()),
-                                    ),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, true),
-                                      child: Text(
-                                        'comment.delete'.tr(),
-                                        style:
-                                            const TextStyle(color: Colors.red),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-
-                              if (confirmed == true) {
-                                onDelete(comment.id);
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ] else ...[
-                      const Spacer(),
-                      PopupMenuButton(
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: Text('carrot.send'.tr()),
-                            onTap: () async {
-                              await SendCarrotButton(
-                                receiverId: comment.userId,
-                                receiverName: comment.displayUser.nickname,
-                                commentId: comment.id,
-                                description: 'carrot.for_comment'.tr(
-                                  args: [comment.content],
-                                ),
-                              ).show(context, ref);
-                            },
-                          ),
-                          PopupMenuItem(
-                            child: Text(
-                              'block.title'.tr(),
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.error),
-                            ),
-                            onTap: () async {
-                              final confirmed = await showDialog<bool>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text('block.title'.tr()),
-                                  content: Text('block.confirm'.tr()),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, false),
-                                      child: Text('block.cancel'.tr()),
-                                    ),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, true),
-                                      child: Text(
-                                        'block.submit'.tr(),
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .error,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-
-                              if (confirmed == true) {
-                                await ref
-                                    .read(blocksProvider.notifier)
-                                    .blockUser(
-                                      userId: comment.userId,
-                                      reason: 'block.from_comment'
-                                          .tr(args: [comment.id.toString()]),
-                                      commentId: comment.id,
-                                    );
-                              }
-                            },
-                          ),
-                          PopupMenuItem(
-                            child: Text(
-                              'report.title'.tr(),
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.error),
-                            ),
-                            onTap: () async {
-                              final reason = await showDialog<String>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text('report.title'.tr()),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text('report.reason'.tr()),
-                                      const SizedBox(height: 16),
-                                      TextField(
-                                        maxLines: 3,
-                                        decoration: InputDecoration(
-                                          hintText: 'report.reason_hint'.tr(),
-                                          border: const OutlineInputBorder(),
-                                        ),
-                                        onSubmitted: (value) =>
-                                            Navigator.pop(context, value),
-                                      ),
-                                    ],
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Text('report.cancel'.tr()),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        final textField = context
-                                            .findRenderObject() as RenderBox?;
-                                        if (textField != null) {
-                                          Navigator.pop(
-                                              context, textField.toString());
-                                        }
-                                      },
-                                      child: Text(
-                                        'report.submit'.tr(),
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .error,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-
-                              if (reason != null && reason.isNotEmpty) {
-                                await ref
-                                    .read(userReportProvider.notifier)
-                                    .reportUser(
-                                      userId: comment.userId,
-                                      reason: reason,
-                                      commentId: comment.id,
-                                    );
-                                if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('report.submitted'.tr()),
-                                      behavior: SnackBarBehavior.floating,
-                                    ),
-                                  );
-                                }
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ],
-                ),
-                Text(
-                  comment.content,
-                  style: TextStyle(
-                    fontSize: isReply ? 14 : 15,
-                    color: Theme.of(context).colorScheme.onSurface,
-                    height: 1.4,
-                  ),
-                ),
+                _buildCommentHeader(context, ref),
+                _buildCommentContent(context),
+                const SizedBox(height: 4),
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Color _getBackgroundColor(BuildContext context, bool isDark) {
+    if (isReply) {
+      return isDark
+          ? Theme.of(context).colorScheme.onSurface.withAlpha(20)
+          : Theme.of(context).colorScheme.onSurface.withAlpha(10);
+    }
+    return Theme.of(context).colorScheme.primary.withAlpha(25);
+  }
+
+  Widget _buildAvatar() {
+    return UserAvatar(
+      imageUrl: comment.displayUser.profileImageUrl ?? '',
+      profileType: comment.displayUser.profileType,
+      radius: isReply ? 16 : 18,
+    );
+  }
+
+  Widget _buildCommentHeader(BuildContext context, WidgetRef ref) {
+    return Row(
+      children: [
+        _buildUserName(context),
+        const SizedBox(width: 8),
+        _buildTimeago(context),
+        const Spacer(),
+        if (!isReply && onReply != null) ...[
+          _buildReplyButton(context),
+        ],
+        _buildPopupMenu(context, ref),
+      ],
+    );
+  }
+
+  Widget _buildUserName(BuildContext context) {
+    TextStyle? style;
+    if (isWriter) {
+      style = Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w700,
+            color: Theme.of(context).colorScheme.primary,
+          );
+    } else if (isOwner) {
+      style = Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w700,
+          );
+    } else {
+      style = Theme.of(context).textTheme.bodyMedium;
+    }
+    return Text(comment.displayUser.nickname, style: style);
+  }
+
+  Widget _buildTimeago(BuildContext context) {
+    return Text(
+      timeago.format(DateTime.parse(comment.createTime), locale: 'ko'),
+      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
+          ),
+    );
+  }
+
+  Widget _buildReplyButton(BuildContext context) {
+    return InkWell(
+      onTap: () => onReply?.call(comment.id),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.chat_bubble_outline_rounded,
+            size: 16,
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            'comment.reply'.tr(),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCommentContent(BuildContext context) {
+    return Text(
+      comment.content,
+      style: TextStyle(
+        fontSize: isReply ? 14 : 15,
+        color: Theme.of(context).colorScheme.onSurface,
+        height: 1.4,
+      ),
+    );
+  }
+
+  Widget _buildPopupMenu(BuildContext context, WidgetRef ref) {
+    return PopupMenuButton(
+      itemBuilder: (context) => isOwner
+          ? _buildOwnerMenuItems(context)
+          : _buildUserMenuItems(context, ref),
+    );
+  }
+
+  List<PopupMenuItem> _buildOwnerMenuItems(BuildContext context) {
+    return [
+      _buildEditMenuItem(context),
+      _buildDeleteMenuItem(context),
+    ];
+  }
+
+  List<PopupMenuItem> _buildUserMenuItems(BuildContext context, WidgetRef ref) {
+    return [
+      _buildSendCarrotMenuItem(context, ref),
+      _buildBlockMenuItem(context, ref),
+      _buildReportMenuItem(context, ref),
+    ];
+  }
+
+  PopupMenuItem _buildEditMenuItem(BuildContext context) {
+    return PopupMenuItem(
+      child: Text('comment.edit'.tr()),
+      onTap: () async {
+        final content = await showDialog<String>(
+          context: context,
+          builder: (context) => CommentEditDialog(
+            initialContent: comment.content,
+          ),
+        );
+        if (content != null) {
+          onUpdate(comment.id, content);
+        }
+      },
+    );
+  }
+
+  PopupMenuItem _buildDeleteMenuItem(BuildContext context) {
+    return PopupMenuItem(
+      child: Text(
+        'comment.delete'.tr(),
+        style: TextStyle(color: Theme.of(context).colorScheme.error),
+      ),
+      onTap: () async {
+        final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('comment.delete_comment'.tr()),
+            content: Text('comment.delete_confirm'.tr()),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text('comment.cancel'.tr()),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(
+                  'comment.delete'.tr(),
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          ),
+        );
+
+        if (confirmed == true) {
+          onDelete(comment.id);
+        }
+      },
+    );
+  }
+
+  PopupMenuItem _buildSendCarrotMenuItem(BuildContext context, WidgetRef ref) {
+    return PopupMenuItem(
+      child: Text('carrot.send'.tr()),
+      onTap: () async {
+        await SendCarrotButton(
+          receiverId: comment.userId,
+          receiverName: comment.displayUser.nickname,
+          commentId: comment.id,
+          description: 'carrot.for_comment'.tr(
+            args: [comment.content],
+          ),
+        ).show(context, ref);
+      },
+    );
+  }
+
+  PopupMenuItem _buildBlockMenuItem(BuildContext context, WidgetRef ref) {
+    return PopupMenuItem(
+      child: Text(
+        'block.title'.tr(),
+        style: TextStyle(color: Theme.of(context).colorScheme.error),
+      ),
+      onTap: () async {
+        final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('block.title'.tr()),
+            content: Text('block.confirm'.tr()),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text('block.cancel'.tr()),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(
+                  'block.submit'.tr(),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+
+        if (confirmed == true) {
+          await ref.read(blocksProvider.notifier).blockUser(
+                userId: comment.userId,
+                reason: 'block.from_comment'.tr(args: [comment.id.toString()]),
+                commentId: comment.id,
+              );
+        }
+      },
+    );
+  }
+
+  PopupMenuItem _buildReportMenuItem(BuildContext context, WidgetRef ref) {
+    return PopupMenuItem(
+      child: Text(
+        'report.title'.tr(),
+        style: TextStyle(color: Theme.of(context).colorScheme.error),
+      ),
+      onTap: () async {
+        final reason = await showDialog<String>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('report.title'.tr()),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('report.reason'.tr()),
+                const SizedBox(height: 16),
+                TextField(
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                    hintText: 'report.reason_hint'.tr(),
+                    border: const OutlineInputBorder(),
+                  ),
+                  onSubmitted: (value) => Navigator.pop(context, value),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('report.cancel'.tr()),
+              ),
+              TextButton(
+                onPressed: () {
+                  final textField = context.findRenderObject() as RenderBox?;
+                  if (textField != null) {
+                    Navigator.pop(context, textField.toString());
+                  }
+                },
+                child: Text(
+                  'report.submit'.tr(),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+
+        if (reason != null && reason.isNotEmpty) {
+          await ref.read(userReportProvider.notifier).reportUser(
+                userId: comment.userId,
+                reason: reason,
+                commentId: comment.id,
+              );
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('report.submitted'.tr()),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+        }
+      },
     );
   }
 }

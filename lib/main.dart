@@ -22,10 +22,12 @@ import 'package:pacapaca/services/report_service.dart';
 import 'package:pacapaca/services/carrot_service.dart';
 import 'package:pacapaca/services/point_service.dart';
 import 'package:pacapaca/services/comment_service.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
   // 앱 초기화
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   // 설정 초기화
   await _initializeSettings();
@@ -50,6 +52,9 @@ void main() async {
 }
 
 Future<void> _initializeSettings() async {
+  await Future.delayed(const Duration(seconds: 1));
+  FlutterNativeSplash.remove();
+
   // 환경 변수 로드
   await dotenv.load(fileName: ".env");
 
