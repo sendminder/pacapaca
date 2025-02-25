@@ -50,9 +50,19 @@ class CommentReplyList extends _$CommentReplyList {
 
       if (newReplies == null || newReplies.isEmpty) return;
 
-      state = AsyncData([...currentReplies, ...newReplies]);
+      if (_sort == 'latest') {
+        state = AsyncData([...currentReplies, ...newReplies]);
+      } else {
+        state = AsyncData([...newReplies, ...currentReplies]);
+      }
     } catch (e, stack) {
       state = AsyncError(e, stack);
     }
+  }
+
+  Future<void> delete(int articleId, int commentId) async {
+    await _commentService.deleteComment(articleId, commentId);
+    state = AsyncData(
+        state.value?.where((reply) => reply.id != commentId).toList());
   }
 }

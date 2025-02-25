@@ -41,7 +41,7 @@ class CommentListWidget extends ConsumerWidget {
           children: [
             CommentItem(
               comment: comment,
-              isOwner: comment.userId == currentUser?.id,
+              isCurrentUser: comment.userId == currentUser?.id,
               isWriter: articleUserId == comment.userId,
               onDelete: onDelete,
               onUpdate: onUpdate,
@@ -50,7 +50,7 @@ class CommentListWidget extends ConsumerWidget {
             ),
             if (comment.replies != null && comment.replies!.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.only(left: 32, top: 8),
+                padding: const EdgeInsets.only(left: 16, top: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -58,7 +58,7 @@ class CommentListWidget extends ConsumerWidget {
                           padding: const EdgeInsets.only(top: 8),
                           child: CommentItem(
                             comment: reply,
-                            isOwner: reply.userId == currentUser?.id,
+                            isCurrentUser: reply.userId == currentUser?.id,
                             isWriter: articleUserId == reply.userId,
                             isReply: true,
                             onDelete: onDelete,

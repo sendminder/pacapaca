@@ -13,7 +13,6 @@ import 'package:pacapaca/providers/comment_provider.dart';
 import 'package:pacapaca/pages/article/widgets/article_action_menu.dart';
 import 'package:pacapaca/widgets/shared/comment/comment_list.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
-import 'package:pacapaca/pages/article/comment_replies_page.dart';
 import 'package:go_router/go_router.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
@@ -105,9 +104,9 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                   children: [
                     _buildArticleContent(ref, article),
                     Divider(
-                      height: 0.5,
+                      height: 1,
                       color:
-                          Theme.of(context).colorScheme.onSurface.withAlpha(10),
+                          Theme.of(context).colorScheme.onSurface.withAlpha(20),
                     ),
                     _buildCommentSection(
                         context, ref, commentsAsync, currentUser, article),
@@ -305,7 +304,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
           },
           onLoadMoreReplies: (parentId) {
             context.push(
-              '/articles/${widget.articleId}/comment/$parentId/replies',
+              '/articles/${widget.articleId}/comment/$parentId/replies/${article.userId}',
             );
           },
           onReply: (parentId) async {

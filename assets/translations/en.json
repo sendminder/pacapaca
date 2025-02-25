@@ -68,7 +68,8 @@
         "show_more_replies": "Show More",
         "write_reply": "Write Reply",
         "no_replies": "No replies",
-        "replies": "Replies"
+        "replies": "Replies",
+        "like": "Like"
     },
     "login": {
         "login": "Login",

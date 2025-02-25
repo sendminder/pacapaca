@@ -42,6 +42,10 @@ mixin _$ArticleCommentDTO {
   int? get replyCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'has_more')
   bool? get hasMore => throw _privateConstructorUsedError;
+  @JsonKey(name: 'like_count')
+  int get likeCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_liked')
+  bool get isLiked => throw _privateConstructorUsedError;
 
   /// Serializes this ArticleCommentDTO to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -71,7 +75,9 @@ abstract class $ArticleCommentDTOCopyWith<$Res> {
       @JsonKey(name: 'parent_id') int? parentId,
       @JsonKey(name: 'replies') List<ArticleCommentDTO>? replies,
       @JsonKey(name: 'reply_count') int? replyCount,
-      @JsonKey(name: 'has_more') bool? hasMore});
+      @JsonKey(name: 'has_more') bool? hasMore,
+      @JsonKey(name: 'like_count') int likeCount,
+      @JsonKey(name: 'is_liked') bool isLiked});
 
   $DisplayUserDTOCopyWith<$Res> get displayUser;
 }
@@ -103,6 +109,8 @@ class _$ArticleCommentDTOCopyWithImpl<$Res, $Val extends ArticleCommentDTO>
     Object? replies = freezed,
     Object? replyCount = freezed,
     Object? hasMore = freezed,
+    Object? likeCount = null,
+    Object? isLiked = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -153,6 +161,14 @@ class _$ArticleCommentDTOCopyWithImpl<$Res, $Val extends ArticleCommentDTO>
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
               as bool?,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -187,7 +203,9 @@ abstract class _$$ArticleCommentDTOImplCopyWith<$Res>
       @JsonKey(name: 'parent_id') int? parentId,
       @JsonKey(name: 'replies') List<ArticleCommentDTO>? replies,
       @JsonKey(name: 'reply_count') int? replyCount,
-      @JsonKey(name: 'has_more') bool? hasMore});
+      @JsonKey(name: 'has_more') bool? hasMore,
+      @JsonKey(name: 'like_count') int likeCount,
+      @JsonKey(name: 'is_liked') bool isLiked});
 
   @override
   $DisplayUserDTOCopyWith<$Res> get displayUser;
@@ -218,6 +236,8 @@ class __$$ArticleCommentDTOImplCopyWithImpl<$Res>
     Object? replies = freezed,
     Object? replyCount = freezed,
     Object? hasMore = freezed,
+    Object? likeCount = null,
+    Object? isLiked = null,
   }) {
     return _then(_$ArticleCommentDTOImpl(
       id: null == id
@@ -268,6 +288,14 @@ class __$$ArticleCommentDTOImplCopyWithImpl<$Res>
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
               as bool?,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -287,7 +315,9 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
       @JsonKey(name: 'parent_id') this.parentId,
       @JsonKey(name: 'replies') final List<ArticleCommentDTO>? replies,
       @JsonKey(name: 'reply_count') this.replyCount,
-      @JsonKey(name: 'has_more') this.hasMore})
+      @JsonKey(name: 'has_more') this.hasMore,
+      @JsonKey(name: 'like_count') required this.likeCount,
+      @JsonKey(name: 'is_liked') required this.isLiked})
       : _replies = replies;
 
   factory _$ArticleCommentDTOImpl.fromJson(Map<String, dynamic> json) =>
@@ -336,10 +366,16 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
   @override
   @JsonKey(name: 'has_more')
   final bool? hasMore;
+  @override
+  @JsonKey(name: 'like_count')
+  final int likeCount;
+  @override
+  @JsonKey(name: 'is_liked')
+  final bool isLiked;
 
   @override
   String toString() {
-    return 'ArticleCommentDTO(id: $id, articleId: $articleId, userId: $userId, content: $content, createTime: $createTime, updateTime: $updateTime, deleteTime: $deleteTime, displayUser: $displayUser, parentId: $parentId, replies: $replies, replyCount: $replyCount, hasMore: $hasMore)';
+    return 'ArticleCommentDTO(id: $id, articleId: $articleId, userId: $userId, content: $content, createTime: $createTime, updateTime: $updateTime, deleteTime: $deleteTime, displayUser: $displayUser, parentId: $parentId, replies: $replies, replyCount: $replyCount, hasMore: $hasMore, likeCount: $likeCount, isLiked: $isLiked)';
   }
 
   @override
@@ -365,7 +401,10 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
             const DeepCollectionEquality().equals(other._replies, _replies) &&
             (identical(other.replyCount, replyCount) ||
                 other.replyCount == replyCount) &&
-            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
+            (identical(other.likeCount, likeCount) ||
+                other.likeCount == likeCount) &&
+            (identical(other.isLiked, isLiked) || other.isLiked == isLiked));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -383,7 +422,9 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
       parentId,
       const DeepCollectionEquality().hash(_replies),
       replyCount,
-      hasMore);
+      hasMore,
+      likeCount,
+      isLiked);
 
   /// Create a copy of ArticleCommentDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -415,8 +456,10 @@ abstract class _ArticleCommentDTO implements ArticleCommentDTO {
       @JsonKey(name: 'parent_id') final int? parentId,
       @JsonKey(name: 'replies') final List<ArticleCommentDTO>? replies,
       @JsonKey(name: 'reply_count') final int? replyCount,
-      @JsonKey(name: 'has_more')
-      final bool? hasMore}) = _$ArticleCommentDTOImpl;
+      @JsonKey(name: 'has_more') final bool? hasMore,
+      @JsonKey(name: 'like_count') required final int likeCount,
+      @JsonKey(name: 'is_liked')
+      required final bool isLiked}) = _$ArticleCommentDTOImpl;
 
   factory _ArticleCommentDTO.fromJson(Map<String, dynamic> json) =
       _$ArticleCommentDTOImpl.fromJson;
@@ -455,6 +498,12 @@ abstract class _ArticleCommentDTO implements ArticleCommentDTO {
   @override
   @JsonKey(name: 'has_more')
   bool? get hasMore;
+  @override
+  @JsonKey(name: 'like_count')
+  int get likeCount;
+  @override
+  @JsonKey(name: 'is_liked')
+  bool get isLiked;
 
   /// Create a copy of ArticleCommentDTO
   /// with the given fields replaced by the non-null parameter values.

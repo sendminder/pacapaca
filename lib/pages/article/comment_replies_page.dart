@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:pacapaca/providers/comment_reply_provider.dart';
-import 'package:pacapaca/widgets/shared/comment/comment_list.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
 import 'package:pacapaca/providers/comment_provider.dart';
-import 'package:pacapaca/models/dto/comment_dto.dart';
+import 'package:pacapaca/widgets/shared/comment_item.dart';
 
 class CommentRepliesPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -69,97 +68,117 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
         child: Column(
           children: [
             Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  // 원본 댓글 표시 (replies 숨김)
-                  SliverToBoxAdapter(
-                    child: parentCommentAsync.when(
-                      data: (comments) {
-                        final parentComment = comments?.firstWhere(
-                          (comment) => comment.id == widget.commentId,
-                        );
-                        if (parentComment == null)
-                          return const SizedBox.shrink();
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (ScrollNotification scrollInfo) {
+                  if (scrollInfo.metrics.pixels >=
+                      scrollInfo.metrics.maxScrollExtent * 0.8) {
+                    ref
+                        .read(commentReplyListProvider(
+                                widget.articleId, widget.commentId)
+                            .notifier)
+                        .loadMore(widget.articleId, widget.commentId);
+                  }
+                  return true;
+                },
+                child: CustomScrollView(
+                  slivers: [
+                    // 원본 댓글 표시
+                    SliverToBoxAdapter(
+                      child: parentCommentAsync.when(
+                        data: (comments) {
+                          final parentComment = comments?.firstWhere(
+                            (comment) => comment.id == widget.commentId,
+                          );
+                          if (parentComment == null) return SizedBox.shrink();
 
-                        // replies를 제거한 새로운 댓글 객체 생성
-                        final commentWithoutReplies = parentComment.copyWith(
-                          replies: [],
-                          replyCount: 0,
-                          hasMore: false,
-                        );
+                          return Container(
+                            padding: const EdgeInsets.only(
+                              left: 12,
+                              right: 12,
+                              top: 12,
+                              bottom: 12,
+                            ),
+                            color: Theme.of(context).colorScheme.surface,
+                            child: CommentItem(
+                              comment: parentComment,
+                              isCurrentUser:
+                                  parentComment.userId == currentUser?.id,
+                              isWriter:
+                                  widget.articleUserId == parentComment.userId,
+                              onDelete: (commentId) {},
+                              onUpdate: (commentId, content) {},
+                              onReply: (commentId) {},
+                            ),
+                          );
+                        },
+                        error: (_, __) => const SizedBox.shrink(),
+                        loading: () =>
+                            const Center(child: RotatingPacaLoader()),
+                      ),
+                    ),
+                    // 구분선
+                    SliverToBoxAdapter(
+                      child: Divider(
+                        height: 1,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withAlpha(20),
+                      ),
+                    ),
+                    // 답글 목록
+                    repliesAsync.when(
+                      data: (replies) {
+                        if (replies == null || replies.isEmpty) {
+                          return const SliverFillRemaining(
+                            child: Center(
+                              child: Text('comment.no_replies'),
+                            ),
+                          );
+                        }
 
-                        return Container(
-                          padding: const EdgeInsets.all(16),
-                          color: Theme.of(context).colorScheme.surface,
-                          child: CommentListWidget(
-                            comments: [commentWithoutReplies],
-                            currentUser: currentUser,
-                            articleUserId: widget.articleUserId,
-                            onDelete: (commentId) {},
-                            onUpdate: (commentId, content) {},
-                            onLoadMoreReplies: (parentId) {},
-                            onReply: (parentId) {},
+                        return SliverPadding(
+                          padding: const EdgeInsets.only(left: 24, right: 12),
+                          sliver: SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                if (index == replies.length) {
+                                  return const SizedBox(height: 70); // 입력창 여백
+                                }
+                                final reply = replies[index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 12),
+                                  child: CommentItem(
+                                    comment: reply,
+                                    isCurrentUser:
+                                        reply.userId == currentUser?.id,
+                                    isWriter:
+                                        widget.articleUserId == reply.userId,
+                                    isReply: true,
+                                    onDelete: (commentId) {},
+                                    onUpdate: (commentId, content) {},
+                                    onReply: (commentId) {},
+                                  ),
+                                );
+                              },
+                              childCount: replies.length + 1,
+                            ),
                           ),
                         );
                       },
-                      error: (_, __) => const SizedBox.shrink(),
-                      loading: () => const Center(child: RotatingPacaLoader()),
-                    ),
-                  ),
-                  // 구분선
-                  const SliverToBoxAdapter(
-                    child: Divider(height: 1),
-                  ),
-                  // 답글 목록 (대댓글 스타일 통일)
-                  repliesAsync.when(
-                    data: (replies) {
-                      if (replies == null || replies.isEmpty) {
-                        return const SliverFillRemaining(
-                          child: Center(
-                            child: Text('comment.no_replies'),
-                          ),
-                        );
-                      }
-
-                      return SliverPadding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        sliver: SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              if (index == replies.length) {
-                                return const SizedBox(height: 70); // 입력창 여백
-                              }
-                              return Container(
-                                margin: const EdgeInsets.only(top: 16),
-                                child: CommentListWidget(
-                                  comments: [replies[index]],
-                                  currentUser: currentUser,
-                                  articleUserId: widget.articleUserId,
-                                  onDelete: (commentId) {},
-                                  onUpdate: (commentId, content) {},
-                                  onLoadMoreReplies: (parentId) {},
-                                  onReply: (parentId) {},
-                                  isReplyView: true,
-                                ),
-                              );
-                            },
-                            childCount: replies.length + 1,
-                          ),
+                      error: (error, _) => SliverFillRemaining(
+                        child: Center(
+                          child: Text('error.generic'.tr()),
                         ),
-                      );
-                    },
-                    error: (error, _) => SliverFillRemaining(
-                      child: Center(
-                        child: Text('error.generic'.tr()),
+                      ),
+                      loading: () => const SliverFillRemaining(
+                        child: Center(
+                          child: RotatingPacaLoader(),
+                        ),
                       ),
                     ),
-                    loading: () => const SliverFillRemaining(
-                      child: Center(
-                        child: RotatingPacaLoader(),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

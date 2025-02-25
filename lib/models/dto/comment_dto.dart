@@ -20,6 +20,8 @@ class ArticleCommentDTO with _$ArticleCommentDTO {
     @JsonKey(name: 'replies') List<ArticleCommentDTO>? replies,
     @JsonKey(name: 'reply_count') int? replyCount,
     @JsonKey(name: 'has_more') bool? hasMore,
+    @JsonKey(name: 'like_count') required int likeCount,
+    @JsonKey(name: 'is_liked') required bool isLiked,
   }) = _ArticleCommentDTO;
 
   factory ArticleCommentDTO.fromJson(Map<String, dynamic> json) =>

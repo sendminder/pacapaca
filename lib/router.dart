@@ -197,17 +197,19 @@ class RouterNotifier extends ChangeNotifier {
                       },
                     ),
                     GoRoute(
-                      path: ':id/comment/:parentId/replies',
+                      path: ':id/comment/:parentId/replies/:articleUserId',
                       parentNavigatorKey: _rootNavigatorKey,
                       builder: (context, state) {
                         final articleId =
                             int.parse(state.pathParameters['id']!);
                         final commentId =
                             int.parse(state.pathParameters['parentId']!);
+                        final articleUserId =
+                            int.parse(state.pathParameters['articleUserId']!);
                         return CommentRepliesPage(
                           articleId: articleId,
                           commentId: commentId,
-                          articleUserId: 0,
+                          articleUserId: articleUserId,
                         );
                       },
                     ),

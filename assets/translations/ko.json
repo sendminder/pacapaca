@@ -73,7 +73,8 @@
         "show_more_replies": "{}개의 대댓글 더보기",
         "write_reply": "답글 작성",
         "no_replies": "답글이 없어요",
-        "replies": "대댓글"
+        "replies": "대댓글",
+        "like": "좋아요"
     },
     "login": {
         "login":"로그인",

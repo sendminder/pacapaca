@@ -11,7 +11,7 @@ import 'package:pacapaca/models/dto/comment_dto.dart';
 
 class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
-  final bool isOwner;
+  final bool isCurrentUser;
   final bool isWriter;
   final bool isReply;
   final Function(int) onDelete;
@@ -21,7 +21,7 @@ class CommentItem extends ConsumerWidget {
   const CommentItem({
     super.key,
     required this.comment,
-    required this.isOwner,
+    required this.isCurrentUser,
     required this.isWriter,
     this.isReply = false,
     required this.onDelete,
@@ -55,7 +55,8 @@ class CommentItem extends ConsumerWidget {
               children: [
                 _buildCommentHeader(context, ref),
                 _buildCommentContent(context),
-                const SizedBox(height: 4),
+                const SizedBox(height: 20),
+                _buildActionButtons(context),
               ],
             ),
           ),
@@ -88,24 +89,62 @@ class CommentItem extends ConsumerWidget {
         const SizedBox(width: 8),
         _buildTimeago(context),
         const Spacer(),
-        if (!isReply && onReply != null) ...[
-          _buildReplyButton(context),
-        ],
         _buildPopupMenu(context, ref),
       ],
     );
   }
 
+  Widget _buildActionButtons(BuildContext context) {
+    return Row(
+      children: [
+        const SizedBox(width: 4),
+        _buildLikeButton(context),
+        const SizedBox(width: 20),
+        if (!isReply && onReply != null) _buildReplyButton(context),
+      ],
+    );
+  }
+
+  // 공식 계정에는 뱃지 붙이기
   Widget _buildUserName(BuildContext context) {
     TextStyle? style;
-    if (isWriter) {
+    if (comment.displayUser.isOfficial) {
+      // 공식 계정에는 뱃지 붙이기
+      style = Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).colorScheme.primary,
+          );
+      return Row(
+        children: [
+          Text(comment.displayUser.nickname, style: style),
+          const SizedBox(width: 4),
+          Icon(
+            Icons.verified_user_rounded,
+            color: Theme.of(context).colorScheme.primary,
+            size: 1,
+          ),
+        ],
+      );
+    } else if (isWriter) {
       style = Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w700,
             color: Theme.of(context).colorScheme.primary,
           );
-    } else if (isOwner) {
+      return Row(
+        children: [
+          Text(comment.displayUser.nickname, style: style),
+          const SizedBox(width: 4),
+          Icon(
+            Icons.create_rounded,
+            color: Theme.of(context).colorScheme.primary,
+            size: 13,
+          ),
+        ],
+      );
+    } else if (isCurrentUser) {
       style = Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w700,
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(200),
           );
     } else {
       style = Theme.of(context).textTheme.bodyMedium;
@@ -145,11 +184,51 @@ class CommentItem extends ConsumerWidget {
     );
   }
 
+  Widget _buildLikeButton(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        // 좋아요 기능 구현
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            comment.isLiked ? Icons.thumb_up_alt : Icons.thumb_up_outlined,
+            size: 14,
+            color: comment.isLiked
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurface.withAlpha(128),
+          ),
+          if (comment.likeCount > 0) ...[
+            const SizedBox(width: 4),
+            Text(
+              comment.likeCount.toString(),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color:
+                        Theme.of(context).colorScheme.onSurface.withAlpha(128),
+                  ),
+            ),
+          ],
+          if (comment.likeCount == 0) ...[
+            const SizedBox(width: 4),
+            Text(
+              'comment.like'.tr(),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color:
+                        Theme.of(context).colorScheme.onSurface.withAlpha(128),
+                  ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
   Widget _buildCommentContent(BuildContext context) {
     return Text(
       comment.content,
       style: TextStyle(
-        fontSize: isReply ? 14 : 15,
+        fontSize: 16,
         color: Theme.of(context).colorScheme.onSurface,
         height: 1.4,
       ),
@@ -158,7 +237,7 @@ class CommentItem extends ConsumerWidget {
 
   Widget _buildPopupMenu(BuildContext context, WidgetRef ref) {
     return PopupMenuButton(
-      itemBuilder: (context) => isOwner
+      itemBuilder: (context) => isCurrentUser
           ? _buildOwnerMenuItems(context)
           : _buildUserMenuItems(context, ref),
     );
