@@ -2,7 +2,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/models/dto/comment_dto.dart';
 import 'package:pacapaca/services/comment_service.dart';
-import 'package:pacapaca/providers/settings_provider.dart';
 
 part 'comment_reply_provider.g.dart';
 
@@ -11,27 +10,32 @@ class CommentReplyList extends _$CommentReplyList {
   final _commentService = GetIt.instance<CommentService>();
 
   int? _lastPagingKey;
-  String _sort = 'latest';
+  late String _sortBy;
 
   @override
   FutureOr<List<ArticleCommentDTO>?> build(
+    String sortBy,
     int articleId,
     int commentId,
   ) async {
     _lastPagingKey = null;
-    _sort = ref.watch(commentSortProvider);
+    _sortBy = sortBy;
 
     final replies = await _commentService.listReplies(
       articleId,
       commentId,
       20,
       null,
-      _sort,
+      _sortBy,
     );
     return replies;
   }
 
-  Future<void> loadMore(int articleId, int commentId) async {
+  Future<void> loadMore(
+    String sortBy,
+    int articleId,
+    int commentId,
+  ) async {
     final currentReplies = state.value ?? [];
     if (currentReplies.isEmpty) return;
 
@@ -45,16 +49,12 @@ class CommentReplyList extends _$CommentReplyList {
         commentId,
         20,
         lastReply.id,
-        _sort,
+        sortBy,
       );
 
       if (newReplies == null || newReplies.isEmpty) return;
 
-      if (_sort == 'latest') {
-        state = AsyncData([...currentReplies, ...newReplies]);
-      } else {
-        state = AsyncData([...newReplies, ...currentReplies]);
-      }
+      state = AsyncData([...currentReplies, ...newReplies]);
     } catch (e, stack) {
       state = AsyncError(e, stack);
     }
@@ -64,5 +64,28 @@ class CommentReplyList extends _$CommentReplyList {
     await _commentService.deleteComment(articleId, commentId);
     state = AsyncData(
         state.value?.where((reply) => reply.id != commentId).toList());
+  }
+
+  Future<void> addComment(
+    String sortBy,
+    int articleId,
+    int commentId,
+    String content,
+  ) async {
+    final comment = await _commentService.createComment(
+      articleId,
+      RequestCreateComment(
+        content: content,
+        parentId: commentId,
+      ),
+    );
+
+    if (comment == null) return;
+
+    if (sortBy == 'latest') {
+      state = AsyncData([comment, ...state.value ?? []]);
+    } else {
+      state = AsyncData([...state.value ?? [], comment]);
+    }
   }
 }

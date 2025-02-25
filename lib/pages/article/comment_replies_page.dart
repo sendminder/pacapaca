@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
@@ -7,6 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
 import 'package:pacapaca/providers/comment_provider.dart';
 import 'package:pacapaca/widgets/shared/comment_item.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
 
 class CommentRepliesPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -54,8 +57,9 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final repliesAsync =
-        ref.watch(commentReplyListProvider(widget.articleId, widget.commentId));
+    final sortBy = ref.watch(commentSortProvider);
+    final repliesAsync = ref.watch(
+        commentReplyListProvider(sortBy, widget.articleId, widget.commentId));
     final currentUser = ref.watch(authProvider).value;
     final parentCommentAsync = ref.watch(commentListProvider(widget.articleId));
 
@@ -74,9 +78,9 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
                       scrollInfo.metrics.maxScrollExtent * 0.8) {
                     ref
                         .read(commentReplyListProvider(
-                                widget.articleId, widget.commentId)
+                                sortBy, widget.articleId, widget.commentId)
                             .notifier)
-                        .loadMore(widget.articleId, widget.commentId);
+                        .loadMore(sortBy, widget.articleId, widget.commentId);
                   }
                   return true;
                 },
@@ -181,6 +185,7 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
                 ),
               ),
             ),
+            const SizedBox(height: 50),
           ],
         ),
       ),
@@ -189,9 +194,13 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
               controller: _commentController,
               focusNode: _focusNode,
               onSubmit: (content) async {
+                final sortBy = ref.read(commentSortProvider);
                 await ref
-                    .read(commentListProvider(widget.articleId).notifier)
-                    .addComment(widget.articleId, content, widget.commentId);
+                    .read(commentReplyListProvider(
+                            sortBy, widget.articleId, widget.commentId)
+                        .notifier)
+                    .addComment(
+                        sortBy, widget.articleId, widget.commentId, content);
 
                 _commentController.clear();
                 FocusScope.of(context).unfocus();

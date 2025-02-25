@@ -6,7 +6,7 @@ part of 'comment_reply_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$commentReplyListHash() => r'605093be92517aa689147fbb1f7d1147e2ccbfd4';
+String _$commentReplyListHash() => r'b66020382d4c294b4d9a920281ce462c1480b4ac';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,12 @@ class _SystemHash {
 
 abstract class _$CommentReplyList
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleCommentDTO>?> {
+  late final String sortBy;
   late final int articleId;
   late final int commentId;
 
   FutureOr<List<ArticleCommentDTO>?> build(
+    String sortBy,
     int articleId,
     int commentId,
   );
@@ -52,10 +54,12 @@ class CommentReplyListFamily
 
   /// See also [CommentReplyList].
   CommentReplyListProvider call(
+    String sortBy,
     int articleId,
     int commentId,
   ) {
     return CommentReplyListProvider(
+      sortBy,
       articleId,
       commentId,
     );
@@ -66,6 +70,7 @@ class CommentReplyListFamily
     covariant CommentReplyListProvider provider,
   ) {
     return call(
+      provider.sortBy,
       provider.articleId,
       provider.commentId,
     );
@@ -91,10 +96,12 @@ class CommentReplyListProvider extends AutoDisposeAsyncNotifierProviderImpl<
     CommentReplyList, List<ArticleCommentDTO>?> {
   /// See also [CommentReplyList].
   CommentReplyListProvider(
+    String sortBy,
     int articleId,
     int commentId,
   ) : this._internal(
           () => CommentReplyList()
+            ..sortBy = sortBy
             ..articleId = articleId
             ..commentId = commentId,
           from: commentReplyListProvider,
@@ -106,6 +113,7 @@ class CommentReplyListProvider extends AutoDisposeAsyncNotifierProviderImpl<
           dependencies: CommentReplyListFamily._dependencies,
           allTransitiveDependencies:
               CommentReplyListFamily._allTransitiveDependencies,
+          sortBy: sortBy,
           articleId: articleId,
           commentId: commentId,
         );
@@ -117,10 +125,12 @@ class CommentReplyListProvider extends AutoDisposeAsyncNotifierProviderImpl<
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
+    required this.sortBy,
     required this.articleId,
     required this.commentId,
   }) : super.internal();
 
+  final String sortBy;
   final int articleId;
   final int commentId;
 
@@ -129,6 +139,7 @@ class CommentReplyListProvider extends AutoDisposeAsyncNotifierProviderImpl<
     covariant CommentReplyList notifier,
   ) {
     return notifier.build(
+      sortBy,
       articleId,
       commentId,
     );
@@ -140,6 +151,7 @@ class CommentReplyListProvider extends AutoDisposeAsyncNotifierProviderImpl<
       origin: this,
       override: CommentReplyListProvider._internal(
         () => create()
+          ..sortBy = sortBy
           ..articleId = articleId
           ..commentId = commentId,
         from: from,
@@ -147,6 +159,7 @@ class CommentReplyListProvider extends AutoDisposeAsyncNotifierProviderImpl<
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
+        sortBy: sortBy,
         articleId: articleId,
         commentId: commentId,
       ),
@@ -162,6 +175,7 @@ class CommentReplyListProvider extends AutoDisposeAsyncNotifierProviderImpl<
   @override
   bool operator ==(Object other) {
     return other is CommentReplyListProvider &&
+        other.sortBy == sortBy &&
         other.articleId == articleId &&
         other.commentId == commentId;
   }
@@ -169,6 +183,7 @@ class CommentReplyListProvider extends AutoDisposeAsyncNotifierProviderImpl<
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, sortBy.hashCode);
     hash = _SystemHash.combine(hash, articleId.hashCode);
     hash = _SystemHash.combine(hash, commentId.hashCode);
 
@@ -180,6 +195,9 @@ class CommentReplyListProvider extends AutoDisposeAsyncNotifierProviderImpl<
 // ignore: unused_element
 mixin CommentReplyListRef
     on AutoDisposeAsyncNotifierProviderRef<List<ArticleCommentDTO>?> {
+  /// The parameter `sortBy` of this provider.
+  String get sortBy;
+
   /// The parameter `articleId` of this provider.
   int get articleId;
 
@@ -192,6 +210,8 @@ class _CommentReplyListProviderElement
         List<ArticleCommentDTO>?> with CommentReplyListRef {
   _CommentReplyListProviderElement(super.provider);
 
+  @override
+  String get sortBy => (origin as CommentReplyListProvider).sortBy;
   @override
   int get articleId => (origin as CommentReplyListProvider).articleId;
   @override
