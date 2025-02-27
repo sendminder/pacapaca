@@ -270,7 +270,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           heroTag: 'ai_helper',
           onPressed: () => context.push('/articles/ai-helper'),
           child: Image.asset(
-            'assets/profiles/pacappi_origin.png',
+            'assets/profiles/pacappiface.png',
             width: 40,
             height: 40,
           ),

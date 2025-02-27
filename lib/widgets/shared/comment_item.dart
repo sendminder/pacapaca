@@ -123,14 +123,14 @@ class CommentItem extends ConsumerWidget {
           Icon(
             Icons.verified_user_rounded,
             color: Theme.of(context).colorScheme.primary,
-            size: 1,
+            size: 13,
           ),
         ],
       );
     } else if (isWriter) {
       style = Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w700,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(200),
           );
       return Row(
         children: [
@@ -138,7 +138,7 @@ class CommentItem extends ConsumerWidget {
           const SizedBox(width: 4),
           Icon(
             Icons.create_rounded,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(200),
             size: 13,
           ),
         ],
@@ -155,8 +155,10 @@ class CommentItem extends ConsumerWidget {
   }
 
   Widget _buildTimeago(BuildContext context) {
+    final locale = context.locale;
     return Text(
-      timeago.format(DateTime.parse(comment.createTime), locale: 'ko'),
+      timeago.format(DateTime.parse(comment.createTime),
+          locale: locale.countryCode),
       style: Theme.of(context).textTheme.bodySmall?.copyWith(
             color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
           ),
