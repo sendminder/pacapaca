@@ -212,7 +212,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: AssetImage('assets/profiles/pacappiface.jpeg'),
+                    image: AssetImage('assets/profiles/pacappiface.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -257,7 +257,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
                                 borderRadius: BorderRadius.circular(20),
                                 image: DecorationImage(
                                   image: AssetImage(
-                                      'assets/profiles/pacappiface.jpeg'),
+                                      'assets/profiles/pacappiface.png'),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -306,7 +306,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
                                   borderRadius: BorderRadius.circular(20),
                                   image: DecorationImage(
                                     image: AssetImage(
-                                        'assets/profiles/pacappiface.jpeg'),
+                                        'assets/profiles/pacappiface.png'),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -467,7 +467,7 @@ class DraftPreviewBottomSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: AssetImage('assets/profiles/pacappiface.jpeg'),
+                    image: AssetImage('assets/profiles/pacappiface.png'),
                     fit: BoxFit.cover,
                   ),
                 ),

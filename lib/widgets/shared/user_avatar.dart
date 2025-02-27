@@ -19,9 +19,32 @@ class UserAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundImage: imageUrl.isNotEmpty
-          ? NetworkImage(imageUrl)
-          : AssetImage('assets/profiles/$profileType.jpeg') as ImageProvider,
+      child: ClipOval(
+        child: imageUrl.isNotEmpty
+            ? Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                width: radius * 2,
+                height: radius * 2,
+              )
+            : getProfileImage(profileType),
+      ),
+    );
+  }
+
+  Widget getProfileImage(String profileType) {
+    final bool isFaceType =
+        profileType == PacapacaProfileType.pacappiface.value ||
+            profileType == PacapacaProfileType.pacappuface.value;
+
+    final double size = isFaceType ? radius * 1.6 : radius * 2; // face 타입은 더 작게
+    final String extension = isFaceType ? 'png' : 'jpeg';
+
+    return Image.asset(
+      'assets/profiles/$profileType.$extension',
+      fit: isFaceType ? BoxFit.contain : BoxFit.cover,
+      width: size,
+      height: size,
     );
   }
 }

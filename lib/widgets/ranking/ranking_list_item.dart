@@ -114,10 +114,10 @@ class RankingListItem extends StatelessWidget {
       return AssetImage('assets/profiles/pacappu.jpeg') as ImageProvider;
     }
     if (profileType == PacapacaProfileType.pacappiface.value) {
-      return AssetImage('assets/profiles/pacappiface.jpeg') as ImageProvider;
+      return AssetImage('assets/profiles/pacappiface.png') as ImageProvider;
     }
     if (profileType == PacapacaProfileType.pacappuface.value) {
-      return AssetImage('assets/profiles/pacappuface.jpeg') as ImageProvider;
+      return AssetImage('assets/profiles/pacappuface.png') as ImageProvider;
     }
     return AssetImage(defaultProfilePath) as ImageProvider;
   }

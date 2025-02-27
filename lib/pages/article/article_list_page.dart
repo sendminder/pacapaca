@@ -249,9 +249,9 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
           heroTag: 'ai_helper',
           onPressed: () => context.push('/articles/ai-helper'),
           child: Image.asset(
-            'assets/profiles/pacappiface_origin.png',
-            width: 40,
-            height: 40,
+            'assets/profiles/pacappiface.png',
+            width: 36,
+            height: 36,
           ),
         ),
         const SizedBox(height: 8),
