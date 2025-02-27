@@ -13,7 +13,7 @@ class CommentList extends _$CommentList {
   final _commentService = GetIt.instance<CommentService>();
 
   int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
-  String _sort = 'latest'; // 댓글 정렬 기준 저장
+  String _sort = 'ordest'; // 댓글 정렬 기준 저장
   ArticleCategory _category = ArticleCategory.all;
 
   @override

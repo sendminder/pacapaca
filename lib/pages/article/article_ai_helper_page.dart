@@ -7,6 +7,8 @@ import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
+import 'package:pacapaca/providers/paca_helper_provider.dart';
+import 'package:pacapaca/models/dto/paca_helper.dart';
 
 class ArticleAiHelperPage extends ConsumerStatefulWidget {
   const ArticleAiHelperPage({super.key});
@@ -73,7 +75,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
       _isLoading = true;
     });
 
-    // 새 메시지가 추가된 후 스크롤을 부드럽게 아래로 이동
+    // 스크롤 로직
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
@@ -85,37 +87,39 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     });
 
     try {
-      // TODO: 서버 통신 구현
-      await Future.delayed(const Duration(seconds: 1));
+      // 채팅 기록을 Message 형식으로 변환
+      final messages = _chatHistory.map((msg) {
+        final role = msg.containsKey('user') ? 'user' : 'assistant';
+        final content = msg[role] ?? '';
+        return Message(role: role, content: content);
+      }).toList();
+
+      // PacaHelper 호출
+      final response =
+          await ref.read(pacaHelperProvider.notifier).defineProblems(
+                category: 'daily', // 기본 카테고리
+                messages: messages,
+              );
 
       if (!mounted) return;
 
-      if (_chatHistory.length >= 9) {
-        // 사용자 메시지 포함 총 10개가 되면
+      if (response?.done == true) {
         setState(() {
           _isLoading = false;
         });
 
-        // 임시 초안 데이터
-        final draftTitle = "helper.title".tr();
-        final draftContent = _chatHistory
-            .map((msg) => msg['user'] ?? msg['assistant'])
-            .join('\n\n');
-
-        _showDraftPreview(draftTitle, draftContent);
+        _showDraftPreview(
+          response?.title ?? 'helper.title'.tr(),
+          response?.answer ?? '',
+        );
       } else {
         setState(() {
-          String response;
-          if (_chatHistory.length >= 7) {
-            response = "이제 충분한 이야기를 나눈 것 같아요. 한 번 더 이야기를 나누면 글로 정리해드릴게요!";
-          } else {
-            response = "네, 자세히 말씀해 주세요. 어떤 상황이신가요?";
-          }
-          _chatHistory.add({'assistant': response});
+          _chatHistory
+              .add({'assistant': response?.answer ?? 'error.common'.tr()});
           _isLoading = false;
         });
 
-        // 응답 메시지가 추가된 후 다시 스크롤을 아래로 이동
+        // 응답 후 스크롤
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (_scrollController.hasClients) {
             _scrollController.animateTo(

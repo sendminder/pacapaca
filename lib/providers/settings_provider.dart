@@ -74,7 +74,7 @@ class LocaleNotifier extends StateNotifier<Locale> {
 
 // 댓글 정렬 상태를 위한 provider
 class CommentSortNotifier extends StateNotifier<String> {
-  CommentSortNotifier() : super('latest') {
+  CommentSortNotifier() : super('ordest') {
     _loadCommentSort();
   }
   final _storage = GetIt.instance<StorageService>();
