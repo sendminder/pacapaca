@@ -14,6 +14,8 @@ import 'package:pacapaca/pages/article/widgets/article_action_menu.dart';
 import 'package:pacapaca/widgets/shared/comment/comment_list.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:go_router/go_router.dart';
+import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -62,6 +64,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     final articleAsync = ref.watch(provider);
     final commentsAsync = ref.watch(commentListProvider(widget.articleId));
     final currentUser = ref.watch(authProvider).value;
+    final logger = GetIt.instance<Logger>();
 
     // 게시글 상세 페이지에서 좋아요 버튼 클릭 시 목록 업데이트
     _updateArticleList(ref, provider);
@@ -86,20 +89,24 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
           },
           child: RefreshIndicator(
             onRefresh: () async {
+              logger.d('onRefresh');
               ref.invalidate(provider);
               ref.invalidate(commentListProvider(widget.articleId));
+              return Future.delayed(const Duration(milliseconds: 1000));
             },
             child: NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification scrollInfo) {
+                // 스크롤이 80% 이상 내려가면 더 많은 댓글 로드
                 if (scrollInfo.metrics.pixels >=
                     scrollInfo.metrics.maxScrollExtent * 0.8) {
                   ref
                       .read(commentListProvider(widget.articleId).notifier)
                       .loadMore(widget.articleId);
                 }
-                return true;
+                return false; // RefreshIndicator가 작동하도록 false 반환
               },
               child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
                     _buildArticleContent(ref, article),

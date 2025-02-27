@@ -28,7 +28,6 @@ class CommentList extends _$CommentList {
   }
 
   Future<void> addComment(int articleId, String content, int? parentId) async {
-    state = const AsyncLoading();
     try {
       final request =
           RequestCreateComment(content: content, parentId: parentId);
