@@ -313,6 +313,11 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
             });
             _focusNode.requestFocus();
           },
+          onToggleLike: (commentId) async {
+            await ref
+                .read(commentListProvider(widget.articleId).notifier)
+                .toggleLike(commentId);
+          },
         );
       },
       error: (error, _) => Center(

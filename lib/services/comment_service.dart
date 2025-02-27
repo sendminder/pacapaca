@@ -74,11 +74,11 @@ class CommentService {
     int commentId,
     int limit,
     int? pagingKey,
-    String? sortBy,
+    String sortBy,
   ) async {
     try {
       final request = RequestListReplies(
-        sortBy: sortBy ?? 'latest',
+        sortBy: sortBy,
         limit: limit,
         pagingKey: pagingKey,
       );
@@ -169,6 +169,28 @@ class CommentService {
       await _dio.delete('/v1/articles/$articleId/comments/$commentId');
     } catch (e, stackTrace) {
       logger.e('delete comment', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
+
+  // 댓글 좋아요 토글
+  Future<ResponseLikeComment?> toggleLikeComment(int commentId) async {
+    try {
+      final response = await _dio.post('/v1/comments/$commentId/like');
+
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
+
+      if (responseRest.response != null) {
+        final likeCommentResponse =
+            ResponseLikeComment.fromJson(responseRest.response!);
+        return likeCommentResponse;
+      }
+      return null;
+    } catch (e, stackTrace) {
+      logger.e('toggle like comment', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }

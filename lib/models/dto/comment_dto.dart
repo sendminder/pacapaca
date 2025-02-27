@@ -92,3 +92,25 @@ class RequestListComments with _$RequestListComments {
   factory RequestListComments.fromJson(Map<String, dynamic> json) =>
       _$RequestListCommentsFromJson(json);
 }
+
+@freezed
+class RequestLikeComment with _$RequestLikeComment {
+  const factory RequestLikeComment({
+    @JsonKey(name: 'comment_id') required int commentId,
+  }) = _RequestLikeComment;
+
+  factory RequestLikeComment.fromJson(Map<String, dynamic> json) =>
+      _$RequestLikeCommentFromJson(json);
+}
+
+@freezed
+class ResponseLikeComment with _$ResponseLikeComment {
+  const factory ResponseLikeComment({
+    @JsonKey(name: 'comment_id') required int commentId,
+    @JsonKey(name: 'like_count') required int likeCount,
+    @JsonKey(name: 'is_liked') required bool isLiked,
+  }) = _ResponseLikeComment;
+
+  factory ResponseLikeComment.fromJson(Map<String, dynamic> json) =>
+      _$ResponseLikeCommentFromJson(json);
+}

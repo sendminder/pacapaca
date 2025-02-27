@@ -143,6 +143,43 @@ class CommentList extends _$CommentList {
     }
   }
 
+  Future<void> toggleLike(int commentId) async {
+    try {
+      final response = await _commentService.toggleLikeComment(commentId);
+      if (response == null) return;
+
+      final currentComments = state.value ?? [];
+      final updatedComments = currentComments.map((comment) {
+        // 메인 댓글 확인
+        if (comment.id == commentId) {
+          return comment.copyWith(
+            likeCount: response.likeCount,
+            isLiked: response.isLiked,
+          );
+        }
+
+        // 대댓글 확인
+        if (comment.replies != null && comment.replies!.isNotEmpty) {
+          final updatedReplies = comment.replies!.map((reply) {
+            return reply.id == commentId
+                ? reply.copyWith(
+                    likeCount: response.likeCount,
+                    isLiked: response.isLiked,
+                  )
+                : reply;
+          }).toList();
+          return comment.copyWith(replies: updatedReplies);
+        }
+
+        return comment;
+      }).toList();
+
+      state = AsyncData(updatedComments);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+    }
+  }
+
   Future<void> refresh() async {
     ref.invalidateSelf();
   }

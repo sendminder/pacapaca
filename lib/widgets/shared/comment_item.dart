@@ -17,6 +17,7 @@ class CommentItem extends ConsumerWidget {
   final Function(int) onDelete;
   final Function(int, String) onUpdate;
   final Function(int)? onReply;
+  final Function(int) onToggleLike;
 
   const CommentItem({
     super.key,
@@ -26,6 +27,7 @@ class CommentItem extends ConsumerWidget {
     this.isReply = false,
     required this.onDelete,
     required this.onUpdate,
+    required this.onToggleLike,
     this.onReply,
   });
 
@@ -187,7 +189,7 @@ class CommentItem extends ConsumerWidget {
   Widget _buildLikeButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        // 좋아요 기능 구현
+        onToggleLike(comment.id);
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,

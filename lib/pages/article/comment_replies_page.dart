@@ -10,6 +10,8 @@ import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
 import 'package:pacapaca/providers/comment_provider.dart';
 import 'package:pacapaca/widgets/shared/comment_item.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
+import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 class CommentRepliesPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -31,6 +33,7 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
   final TextEditingController _commentController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   bool _canSend = false;
+  final logger = GetIt.instance<Logger>();
 
   @override
   void initState() {
@@ -109,9 +112,24 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
                                   parentComment.userId == currentUser?.id,
                               isWriter:
                                   widget.articleUserId == parentComment.userId,
-                              onDelete: (commentId) {},
+                              onDelete: (commentId) {
+                                ref
+                                    .read(commentReplyListProvider(sortBy,
+                                            widget.articleId, widget.commentId)
+                                        .notifier)
+                                    .delete(widget.articleId, commentId);
+                              },
                               onUpdate: (commentId, content) {},
-                              onReply: (commentId) {},
+                              onReply: (commentId) {
+                                FocusScope.of(context).requestFocus(_focusNode);
+                              },
+                              onToggleLike: (commentId) {
+                                ref
+                                    .read(commentReplyListProvider(sortBy,
+                                            widget.articleId, widget.commentId)
+                                        .notifier)
+                                    .toggleLike(commentId);
+                              },
                             ),
                           );
                         },
@@ -128,6 +146,58 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
                             .colorScheme
                             .onSurface
                             .withAlpha(20),
+                      ),
+                    ),
+                    // 정렬 드롭다운 추가
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 12, right: 12, top: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            repliesAsync.when(
+                              data: (replies) => replies != null &&
+                                      replies.isNotEmpty
+                                  ? PopupMenuButton<String>(
+                                      child: Row(
+                                        children: [
+                                          if (sortBy == 'latest')
+                                            Text('article.sort.latest'.tr()),
+                                          if (sortBy == 'oldest')
+                                            Text('article.sort.oldest'.tr()),
+                                          const Icon(Icons.arrow_drop_down),
+                                        ],
+                                      ),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 'latest',
+                                          child:
+                                              Text('article.sort.latest'.tr()),
+                                        ),
+                                        PopupMenuItem(
+                                          value: 'oldest',
+                                          child:
+                                              Text('article.sort.oldest'.tr()),
+                                        ),
+                                      ],
+                                      onSelected: (value) {
+                                        ref
+                                            .read(commentSortProvider.notifier)
+                                            .setSort(value);
+                                        ref.invalidate(commentReplyListProvider(
+                                          value,
+                                          widget.articleId,
+                                          widget.commentId,
+                                        ));
+                                      },
+                                    )
+                                  : const SizedBox.shrink(),
+                              error: (_, __) => const SizedBox.shrink(),
+                              loading: () => const SizedBox.shrink(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     // 답글 목록
@@ -162,6 +232,15 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
                                     onDelete: (commentId) {},
                                     onUpdate: (commentId, content) {},
                                     onReply: (commentId) {},
+                                    onToggleLike: (commentId) {
+                                      ref
+                                          .read(commentReplyListProvider(
+                                                  sortBy,
+                                                  widget.articleId,
+                                                  widget.commentId)
+                                              .notifier)
+                                          .toggleLike(commentId);
+                                    },
                                   ),
                                 );
                               },
@@ -194,7 +273,6 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
               controller: _commentController,
               focusNode: _focusNode,
               onSubmit: (content) async {
-                final sortBy = ref.read(commentSortProvider);
                 await ref
                     .read(commentReplyListProvider(
                             sortBy, widget.articleId, widget.commentId)

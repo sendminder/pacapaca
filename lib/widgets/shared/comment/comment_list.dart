@@ -13,6 +13,7 @@ class CommentListWidget extends ConsumerWidget {
   final Function(int, String) onUpdate;
   final Function(int) onLoadMoreReplies;
   final Function(int) onReply;
+  final Function(int) onToggleLike;
   final bool isReplyView;
 
   const CommentListWidget({
@@ -24,6 +25,7 @@ class CommentListWidget extends ConsumerWidget {
     required this.onUpdate,
     required this.onLoadMoreReplies,
     required this.onReply,
+    required this.onToggleLike,
     this.isReplyView = false,
   });
 
@@ -46,6 +48,7 @@ class CommentListWidget extends ConsumerWidget {
               onDelete: onDelete,
               onUpdate: onUpdate,
               onReply: onReply,
+              onToggleLike: onToggleLike,
               isReply: isReplyView,
             ),
             if (comment.replies != null && comment.replies!.isNotEmpty)
@@ -63,6 +66,7 @@ class CommentListWidget extends ConsumerWidget {
                             isReply: true,
                             onDelete: onDelete,
                             onUpdate: onUpdate,
+                            onToggleLike: onToggleLike,
                           ),
                         )),
                     if (comment.hasMore == true)

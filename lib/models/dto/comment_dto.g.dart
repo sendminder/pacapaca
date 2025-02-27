@@ -131,3 +131,31 @@ Map<String, dynamic> _$$RequestListCommentsImplToJson(
       'limit': instance.limit,
       'paging_key': instance.pagingKey,
     };
+
+_$RequestLikeCommentImpl _$$RequestLikeCommentImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RequestLikeCommentImpl(
+      commentId: (json['comment_id'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$RequestLikeCommentImplToJson(
+        _$RequestLikeCommentImpl instance) =>
+    <String, dynamic>{
+      'comment_id': instance.commentId,
+    };
+
+_$ResponseLikeCommentImpl _$$ResponseLikeCommentImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseLikeCommentImpl(
+      commentId: (json['comment_id'] as num).toInt(),
+      likeCount: (json['like_count'] as num).toInt(),
+      isLiked: json['is_liked'] as bool,
+    );
+
+Map<String, dynamic> _$$ResponseLikeCommentImplToJson(
+        _$ResponseLikeCommentImpl instance) =>
+    <String, dynamic>{
+      'comment_id': instance.commentId,
+      'like_count': instance.likeCount,
+      'is_liked': instance.isLiked,
+    };

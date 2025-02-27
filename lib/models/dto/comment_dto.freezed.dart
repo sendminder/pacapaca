@@ -1579,3 +1579,366 @@ abstract class _RequestListComments implements RequestListComments {
   _$$RequestListCommentsImplCopyWith<_$RequestListCommentsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+RequestLikeComment _$RequestLikeCommentFromJson(Map<String, dynamic> json) {
+  return _RequestLikeComment.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RequestLikeComment {
+  @JsonKey(name: 'comment_id')
+  int get commentId => throw _privateConstructorUsedError;
+
+  /// Serializes this RequestLikeComment to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RequestLikeComment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RequestLikeCommentCopyWith<RequestLikeComment> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RequestLikeCommentCopyWith<$Res> {
+  factory $RequestLikeCommentCopyWith(
+          RequestLikeComment value, $Res Function(RequestLikeComment) then) =
+      _$RequestLikeCommentCopyWithImpl<$Res, RequestLikeComment>;
+  @useResult
+  $Res call({@JsonKey(name: 'comment_id') int commentId});
+}
+
+/// @nodoc
+class _$RequestLikeCommentCopyWithImpl<$Res, $Val extends RequestLikeComment>
+    implements $RequestLikeCommentCopyWith<$Res> {
+  _$RequestLikeCommentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RequestLikeComment
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? commentId = null,
+  }) {
+    return _then(_value.copyWith(
+      commentId: null == commentId
+          ? _value.commentId
+          : commentId // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RequestLikeCommentImplCopyWith<$Res>
+    implements $RequestLikeCommentCopyWith<$Res> {
+  factory _$$RequestLikeCommentImplCopyWith(_$RequestLikeCommentImpl value,
+          $Res Function(_$RequestLikeCommentImpl) then) =
+      __$$RequestLikeCommentImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'comment_id') int commentId});
+}
+
+/// @nodoc
+class __$$RequestLikeCommentImplCopyWithImpl<$Res>
+    extends _$RequestLikeCommentCopyWithImpl<$Res, _$RequestLikeCommentImpl>
+    implements _$$RequestLikeCommentImplCopyWith<$Res> {
+  __$$RequestLikeCommentImplCopyWithImpl(_$RequestLikeCommentImpl _value,
+      $Res Function(_$RequestLikeCommentImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RequestLikeComment
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? commentId = null,
+  }) {
+    return _then(_$RequestLikeCommentImpl(
+      commentId: null == commentId
+          ? _value.commentId
+          : commentId // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RequestLikeCommentImpl implements _RequestLikeComment {
+  const _$RequestLikeCommentImpl(
+      {@JsonKey(name: 'comment_id') required this.commentId});
+
+  factory _$RequestLikeCommentImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestLikeCommentImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'comment_id')
+  final int commentId;
+
+  @override
+  String toString() {
+    return 'RequestLikeComment(commentId: $commentId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestLikeCommentImpl &&
+            (identical(other.commentId, commentId) ||
+                other.commentId == commentId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, commentId);
+
+  /// Create a copy of RequestLikeComment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestLikeCommentImplCopyWith<_$RequestLikeCommentImpl> get copyWith =>
+      __$$RequestLikeCommentImplCopyWithImpl<_$RequestLikeCommentImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestLikeCommentImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RequestLikeComment implements RequestLikeComment {
+  const factory _RequestLikeComment(
+          {@JsonKey(name: 'comment_id') required final int commentId}) =
+      _$RequestLikeCommentImpl;
+
+  factory _RequestLikeComment.fromJson(Map<String, dynamic> json) =
+      _$RequestLikeCommentImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'comment_id')
+  int get commentId;
+
+  /// Create a copy of RequestLikeComment
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequestLikeCommentImplCopyWith<_$RequestLikeCommentImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ResponseLikeComment _$ResponseLikeCommentFromJson(Map<String, dynamic> json) {
+  return _ResponseLikeComment.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ResponseLikeComment {
+  @JsonKey(name: 'comment_id')
+  int get commentId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'like_count')
+  int get likeCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_liked')
+  bool get isLiked => throw _privateConstructorUsedError;
+
+  /// Serializes this ResponseLikeComment to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ResponseLikeComment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ResponseLikeCommentCopyWith<ResponseLikeComment> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ResponseLikeCommentCopyWith<$Res> {
+  factory $ResponseLikeCommentCopyWith(
+          ResponseLikeComment value, $Res Function(ResponseLikeComment) then) =
+      _$ResponseLikeCommentCopyWithImpl<$Res, ResponseLikeComment>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'comment_id') int commentId,
+      @JsonKey(name: 'like_count') int likeCount,
+      @JsonKey(name: 'is_liked') bool isLiked});
+}
+
+/// @nodoc
+class _$ResponseLikeCommentCopyWithImpl<$Res, $Val extends ResponseLikeComment>
+    implements $ResponseLikeCommentCopyWith<$Res> {
+  _$ResponseLikeCommentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ResponseLikeComment
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? commentId = null,
+    Object? likeCount = null,
+    Object? isLiked = null,
+  }) {
+    return _then(_value.copyWith(
+      commentId: null == commentId
+          ? _value.commentId
+          : commentId // ignore: cast_nullable_to_non_nullable
+              as int,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ResponseLikeCommentImplCopyWith<$Res>
+    implements $ResponseLikeCommentCopyWith<$Res> {
+  factory _$$ResponseLikeCommentImplCopyWith(_$ResponseLikeCommentImpl value,
+          $Res Function(_$ResponseLikeCommentImpl) then) =
+      __$$ResponseLikeCommentImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'comment_id') int commentId,
+      @JsonKey(name: 'like_count') int likeCount,
+      @JsonKey(name: 'is_liked') bool isLiked});
+}
+
+/// @nodoc
+class __$$ResponseLikeCommentImplCopyWithImpl<$Res>
+    extends _$ResponseLikeCommentCopyWithImpl<$Res, _$ResponseLikeCommentImpl>
+    implements _$$ResponseLikeCommentImplCopyWith<$Res> {
+  __$$ResponseLikeCommentImplCopyWithImpl(_$ResponseLikeCommentImpl _value,
+      $Res Function(_$ResponseLikeCommentImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ResponseLikeComment
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? commentId = null,
+    Object? likeCount = null,
+    Object? isLiked = null,
+  }) {
+    return _then(_$ResponseLikeCommentImpl(
+      commentId: null == commentId
+          ? _value.commentId
+          : commentId // ignore: cast_nullable_to_non_nullable
+              as int,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ResponseLikeCommentImpl implements _ResponseLikeComment {
+  const _$ResponseLikeCommentImpl(
+      {@JsonKey(name: 'comment_id') required this.commentId,
+      @JsonKey(name: 'like_count') required this.likeCount,
+      @JsonKey(name: 'is_liked') required this.isLiked});
+
+  factory _$ResponseLikeCommentImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseLikeCommentImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'comment_id')
+  final int commentId;
+  @override
+  @JsonKey(name: 'like_count')
+  final int likeCount;
+  @override
+  @JsonKey(name: 'is_liked')
+  final bool isLiked;
+
+  @override
+  String toString() {
+    return 'ResponseLikeComment(commentId: $commentId, likeCount: $likeCount, isLiked: $isLiked)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResponseLikeCommentImpl &&
+            (identical(other.commentId, commentId) ||
+                other.commentId == commentId) &&
+            (identical(other.likeCount, likeCount) ||
+                other.likeCount == likeCount) &&
+            (identical(other.isLiked, isLiked) || other.isLiked == isLiked));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, commentId, likeCount, isLiked);
+
+  /// Create a copy of ResponseLikeComment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ResponseLikeCommentImplCopyWith<_$ResponseLikeCommentImpl> get copyWith =>
+      __$$ResponseLikeCommentImplCopyWithImpl<_$ResponseLikeCommentImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ResponseLikeCommentImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ResponseLikeComment implements ResponseLikeComment {
+  const factory _ResponseLikeComment(
+          {@JsonKey(name: 'comment_id') required final int commentId,
+          @JsonKey(name: 'like_count') required final int likeCount,
+          @JsonKey(name: 'is_liked') required final bool isLiked}) =
+      _$ResponseLikeCommentImpl;
+
+  factory _ResponseLikeComment.fromJson(Map<String, dynamic> json) =
+      _$ResponseLikeCommentImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'comment_id')
+  int get commentId;
+  @override
+  @JsonKey(name: 'like_count')
+  int get likeCount;
+  @override
+  @JsonKey(name: 'is_liked')
+  bool get isLiked;
+
+  /// Create a copy of ResponseLikeComment
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ResponseLikeCommentImplCopyWith<_$ResponseLikeCommentImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

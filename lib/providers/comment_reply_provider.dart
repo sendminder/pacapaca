@@ -10,7 +10,6 @@ class CommentReplyList extends _$CommentReplyList {
   final _commentService = GetIt.instance<CommentService>();
 
   int? _lastPagingKey;
-  late String _sortBy;
 
   @override
   FutureOr<List<ArticleCommentDTO>?> build(
@@ -19,14 +18,13 @@ class CommentReplyList extends _$CommentReplyList {
     int commentId,
   ) async {
     _lastPagingKey = null;
-    _sortBy = sortBy;
 
     final replies = await _commentService.listReplies(
       articleId,
       commentId,
       20,
       null,
-      _sortBy,
+      sortBy,
     );
     return replies;
   }
@@ -86,6 +84,26 @@ class CommentReplyList extends _$CommentReplyList {
       state = AsyncData([comment, ...state.value ?? []]);
     } else {
       state = AsyncData([...state.value ?? [], comment]);
+    }
+  }
+
+  Future<void> toggleLike(int commentId) async {
+    try {
+      final response = await _commentService.toggleLikeComment(commentId);
+      if (response == null) return;
+
+      final currentReplies = state.value ?? [];
+      final updatedReplies = currentReplies.map((reply) {
+        return reply.id == commentId
+            ? reply.copyWith(
+                likeCount: response.likeCount,
+                isLiked: response.isLiked,
+              )
+            : reply;
+      }).toList();
+      state = AsyncData(updatedReplies);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
     }
   }
 }
