@@ -89,7 +89,6 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
           },
           child: RefreshIndicator(
             onRefresh: () async {
-              logger.d('onRefresh');
               ref.invalidate(provider);
               ref.invalidate(commentListProvider(widget.articleId));
               return Future.delayed(const Duration(milliseconds: 1000));
