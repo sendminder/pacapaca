@@ -271,8 +271,8 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           onPressed: () => context.push('/articles/ai-helper'),
           child: Image.asset(
             'assets/profiles/pacappiface.png',
-            width: 40,
-            height: 40,
+            width: 36,
+            height: 36,
           ),
         ),
       ],

@@ -17,18 +17,22 @@ class UserAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileType = this.profileType ?? PacapacaProfileType.pacappi.value;
 
-    return CircleAvatar(
-      radius: radius,
-      child: ClipOval(
-        child: imageUrl.isNotEmpty
-            ? Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                width: radius * 2,
-                height: radius * 2,
-              )
-            : getProfileImage(profileType),
+    return Container(
+      width: radius * 2,
+      height: radius * 2,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.transparent,
       ),
+      child: imageUrl.isNotEmpty
+          ? Image.network(
+              imageUrl,
+              fit: BoxFit.cover,
+              width: radius * 2,
+              height: radius * 2,
+            )
+          : getProfileImage(profileType),
     );
   }
 
@@ -37,14 +41,20 @@ class UserAvatar extends StatelessWidget {
         profileType == PacapacaProfileType.pacappiface.value ||
             profileType == PacapacaProfileType.pacappuface.value;
 
-    final double size = isFaceType ? radius * 1.6 : radius * 2; // face 타입은 더 작게
+    final double containerSize = radius * 2;
+    final double imageSize =
+        isFaceType ? containerSize * 0.75 : containerSize; // 컨테이너 크기 기준으로 계산
     final String extension = isFaceType ? 'png' : 'jpeg';
 
-    return Image.asset(
-      'assets/profiles/$profileType.$extension',
-      fit: isFaceType ? BoxFit.contain : BoxFit.cover,
-      width: size,
-      height: size,
+    return Center(
+      child: SizedBox(
+        width: imageSize,
+        height: imageSize,
+        child: Image.asset(
+          'assets/profiles/$profileType.$extension',
+          fit: isFaceType ? BoxFit.contain : BoxFit.cover,
+        ),
+      ),
     );
   }
 }

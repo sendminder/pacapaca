@@ -138,7 +138,7 @@ class CommentItem extends ConsumerWidget {
           const SizedBox(width: 4),
           Icon(
             Icons.create_rounded,
-            color: Theme.of(context).colorScheme.onSurface.withAlpha(200),
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
             size: 13,
           ),
         ],
