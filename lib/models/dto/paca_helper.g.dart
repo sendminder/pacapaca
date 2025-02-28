@@ -36,7 +36,7 @@ _$ResponseDefineProblemsImpl _$$ResponseDefineProblemsImplFromJson(
         Map<String, dynamic> json) =>
     _$ResponseDefineProblemsImpl(
       answer: json['answer'] as String,
-      done: json['done'] as bool,
+      done: json['done'] as bool?,
       title: json['title'] as String?,
       category: json['category'] as String?,
     );

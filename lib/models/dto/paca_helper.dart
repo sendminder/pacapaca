@@ -28,7 +28,7 @@ class RequestDefineProblems with _$RequestDefineProblems {
 class ResponseDefineProblems with _$ResponseDefineProblems {
   const factory ResponseDefineProblems({
     required String answer,
-    required bool done,
+    bool? done,
     String? title,
     String? category,
   }) = _ResponseDefineProblems;

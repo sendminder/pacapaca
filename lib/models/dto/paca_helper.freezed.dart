@@ -347,7 +347,7 @@ ResponseDefineProblems _$ResponseDefineProblemsFromJson(
 /// @nodoc
 mixin _$ResponseDefineProblems {
   String get answer => throw _privateConstructorUsedError;
-  bool get done => throw _privateConstructorUsedError;
+  bool? get done => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get category => throw _privateConstructorUsedError;
 
@@ -367,7 +367,7 @@ abstract class $ResponseDefineProblemsCopyWith<$Res> {
           $Res Function(ResponseDefineProblems) then) =
       _$ResponseDefineProblemsCopyWithImpl<$Res, ResponseDefineProblems>;
   @useResult
-  $Res call({String answer, bool done, String? title, String? category});
+  $Res call({String answer, bool? done, String? title, String? category});
 }
 
 /// @nodoc
@@ -387,7 +387,7 @@ class _$ResponseDefineProblemsCopyWithImpl<$Res,
   @override
   $Res call({
     Object? answer = null,
-    Object? done = null,
+    Object? done = freezed,
     Object? title = freezed,
     Object? category = freezed,
   }) {
@@ -396,10 +396,10 @@ class _$ResponseDefineProblemsCopyWithImpl<$Res,
           ? _value.answer
           : answer // ignore: cast_nullable_to_non_nullable
               as String,
-      done: null == done
+      done: freezed == done
           ? _value.done
           : done // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -421,7 +421,7 @@ abstract class _$$ResponseDefineProblemsImplCopyWith<$Res>
       __$$ResponseDefineProblemsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String answer, bool done, String? title, String? category});
+  $Res call({String answer, bool? done, String? title, String? category});
 }
 
 /// @nodoc
@@ -440,7 +440,7 @@ class __$$ResponseDefineProblemsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? answer = null,
-    Object? done = null,
+    Object? done = freezed,
     Object? title = freezed,
     Object? category = freezed,
   }) {
@@ -449,10 +449,10 @@ class __$$ResponseDefineProblemsImplCopyWithImpl<$Res>
           ? _value.answer
           : answer // ignore: cast_nullable_to_non_nullable
               as String,
-      done: null == done
+      done: freezed == done
           ? _value.done
           : done // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -469,7 +469,7 @@ class __$$ResponseDefineProblemsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ResponseDefineProblemsImpl implements _ResponseDefineProblems {
   const _$ResponseDefineProblemsImpl(
-      {required this.answer, required this.done, this.title, this.category});
+      {required this.answer, this.done, this.title, this.category});
 
   factory _$ResponseDefineProblemsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResponseDefineProblemsImplFromJson(json);
@@ -477,7 +477,7 @@ class _$ResponseDefineProblemsImpl implements _ResponseDefineProblems {
   @override
   final String answer;
   @override
-  final bool done;
+  final bool? done;
   @override
   final String? title;
   @override
@@ -524,7 +524,7 @@ class _$ResponseDefineProblemsImpl implements _ResponseDefineProblems {
 abstract class _ResponseDefineProblems implements ResponseDefineProblems {
   const factory _ResponseDefineProblems(
       {required final String answer,
-      required final bool done,
+      final bool? done,
       final String? title,
       final String? category}) = _$ResponseDefineProblemsImpl;
 
@@ -534,7 +534,7 @@ abstract class _ResponseDefineProblems implements ResponseDefineProblems {
   @override
   String get answer;
   @override
-  bool get done;
+  bool? get done;
   @override
   String? get title;
   @override
