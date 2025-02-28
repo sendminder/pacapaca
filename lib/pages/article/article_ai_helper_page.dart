@@ -109,7 +109,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
         _handleContinuedConversation(response);
       }
     } catch (e) {
-      _handleError();
+      _handleError(e.toString());
     }
   }
 
@@ -149,11 +149,11 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     _scrollToBottom();
   }
 
-  void _handleError() {
+  void _handleError(String error) {
     if (!mounted) return;
     setState(() => _isLoading = false);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('error.common'.tr())),
+      SnackBar(content: Text(error)),
     );
   }
 

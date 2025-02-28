@@ -23,6 +23,7 @@ import 'package:pacapaca/services/carrot_service.dart';
 import 'package:pacapaca/services/point_service.dart';
 import 'package:pacapaca/services/comment_service.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:pacapaca/services/paca_helper_service.dart';
 
 void main() async {
   // 앱 초기화
@@ -106,5 +107,6 @@ void _setupServiceLocator() {
   getIt.registerSingleton<CarrotService>(CarrotService());
   getIt.registerSingleton<PointService>(PointService());
   getIt.registerSingleton<CommentService>(CommentService());
+  getIt.registerSingleton<PacaHelperService>(PacaHelperService());
   getIt.registerSingleton<DioService>(DioService());
 }

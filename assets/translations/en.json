@@ -15,7 +15,7 @@
         "nickname_error": "Failed to set nickname: {}"
     },
     "helper": {
-        "first_message": "Hello! I'm Paca 🦙\n\nWhat's your topic of concern? \nI'll listen to your story and summarize it in an article!",
+        "first_message": "Hello! I'm Pacappi 🦙\nWhat's your topic of concern? \nI'll listen to your story and summarize it in an article!",
         "title": "Concern Counseling Result",
         "content_hint": "Enter the concern counseling result",
         "complete": "Complete",
