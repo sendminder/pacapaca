@@ -24,7 +24,8 @@
         "hint": "파카가 도와줄게요",
         "thinking": "생각하고 있어요...",
         "continue_chat": "더 얘기하기",
-        "post_draft": "이대로 올리기",
+        "continue_chat_text": "더 자세히 알려주실래요~?",
+        "post_draft": "등록하기",
         "edit_draft": "수정하기",
         "draft_preview": "파카삐가 정리한 글"
     },
@@ -186,7 +187,7 @@
         "description": "랭킹은 파카파카 서비스에서 가장 활동적인 사용자를 나타내는 순위에요. 활동 점수, 당근 받은 순, 당근 보낸 순 세 가지로 나뉘어요."
     },
     "error": {
-        "common": "오류가 발생했어요: {}"
+        "common": "오류가 발생했어요. 다시 시도해주세요."
     },
     "pacapaca": {
         "pacappi": "파카삐",

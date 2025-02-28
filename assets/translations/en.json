@@ -24,6 +24,7 @@
         "hint": "Paca will help you",
         "thinking": "Thinking...",
         "continue_chat": "Continue Chat",
+        "continue_chat_text": "Tell me more about it.",
         "post_draft": "Post Draft",
         "edit_draft": "Edit Draft",
         "draft_preview": "Pacappi's Summary"
@@ -173,7 +174,7 @@
         "description": "Ranking is a feature that shows the most active users in the PacaPaca service in order. The ranking is divided into three types: points, received carrots, and sent carrots."
     },
     "error": {
-        "common": "An error occurred: {}"
+        "common": "An error occurred. Please try again."
     },
     "pacapaca": {
         "pacappi": "Pacappi",

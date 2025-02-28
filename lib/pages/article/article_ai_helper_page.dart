@@ -99,8 +99,19 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     _messageController.clear();
     _addMessageToChat('user', message);
 
+    // API 호출은 즉시 시작 (백그라운드에서)
+    final responseFuture = _getAiResponse();
+
+    // 로딩 상태 표시는 지연시킴
+    await Future.delayed(const Duration(milliseconds: 800));
+
+    if (!mounted) return;
+    setState(() {
+      _isLoading = true;
+    });
+
     try {
-      final response = await _getAiResponse();
+      final response = await responseFuture; // 이미 진행 중인 API 호출 결과 기다림
       if (!mounted) return;
 
       if (response?.done == true) {
@@ -109,14 +120,13 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
         _handleContinuedConversation(response);
       }
     } catch (e) {
-      _handleError(e.toString());
+      _handleError();
     }
   }
 
   void _addMessageToChat(String role, String content) {
     setState(() {
       _chatHistory.add({role: content});
-      _isLoading = true;
     });
     _scrollToBottom();
   }
@@ -149,11 +159,11 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     _scrollToBottom();
   }
 
-  void _handleError(String error) {
+  void _handleError() {
     if (!mounted) return;
     setState(() => _isLoading = false);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(error)),
+      SnackBar(content: Text('error.common'.tr())),
     );
   }
 
@@ -170,7 +180,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
         onContinueChat: () {
           Navigator.pop(context);
           _messageController.text = '';
-          FocusScope.of(context).requestFocus(_focusNode);
+          _addMessageToChat('assistant', 'helper.continue_chat_text'.tr());
         },
       ),
     );

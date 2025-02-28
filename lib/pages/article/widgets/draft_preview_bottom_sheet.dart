@@ -84,11 +84,18 @@ class DraftPreviewBottomSheet extends StatelessWidget {
       children: [
         Expanded(
           child: OutlinedButton(
+            onPressed: onContinueChat,
+            child: Text('helper.continue_chat'.tr()),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: OutlinedButton(
             onPressed: onEdit,
             child: Text('helper.edit_draft'.tr()),
           ),
         ),
-        const SizedBox(width: 16),
+        const SizedBox(width: 8),
         Expanded(
           child: ElevatedButton(
             onPressed: onPost,
@@ -97,13 +104,6 @@ class DraftPreviewBottomSheet extends StatelessWidget {
               foregroundColor: Colors.white,
             ),
             child: Text('helper.post_draft'.tr()),
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: TextButton(
-            onPressed: onContinueChat,
-            child: Text('helper.continue_chat'.tr()),
           ),
         ),
       ],
