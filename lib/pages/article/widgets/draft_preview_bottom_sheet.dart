@@ -6,6 +6,7 @@ class DraftPreviewBottomSheet extends StatelessWidget {
   final String content;
   final VoidCallback onPost;
   final VoidCallback onEdit;
+  final VoidCallback onContinueChat;
 
   const DraftPreviewBottomSheet({
     super.key,
@@ -13,6 +14,7 @@ class DraftPreviewBottomSheet extends StatelessWidget {
     required this.content,
     required this.onPost,
     required this.onEdit,
+    required this.onContinueChat,
   });
 
   @override
@@ -54,7 +56,7 @@ class DraftPreviewBottomSheet extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(
-          '파카가 정리한 글'.tr(),
+          'helper.draft_preview'.tr(),
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ],
@@ -83,7 +85,7 @@ class DraftPreviewBottomSheet extends StatelessWidget {
         Expanded(
           child: OutlinedButton(
             onPressed: onEdit,
-            child: Text('수정하기'.tr()),
+            child: Text('helper.edit_draft'.tr()),
           ),
         ),
         const SizedBox(width: 16),
@@ -94,7 +96,14 @@ class DraftPreviewBottomSheet extends StatelessWidget {
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
             ),
-            child: Text('이대로 올리기'.tr()),
+            child: Text('helper.post_draft'.tr()),
+          ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: TextButton(
+            onPressed: onContinueChat,
+            child: Text('helper.continue_chat'.tr()),
           ),
         ),
       ],

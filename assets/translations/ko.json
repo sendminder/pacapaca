@@ -16,13 +16,17 @@
     },
     "helper": {
         "first_message": "안녕하세요! 저는 파카삐예요 🦙\n어떤 주제의 고민이 있으신가요? \n제가 이야기를 들어드리고 글로 정리해드릴게요!",
-        "title": "파카와 함께 고민 정리하기",
+        "title": "파카삐와 함께 고민 정리하기",
         "content_hint": "고민 상담 결과를 입력하세요",
         "complete": "완료",
         "edit": "수정",
         "delete": "삭제",
         "hint": "파카가 도와줄게요",
-        "thinking": "생각하고 있어요..."
+        "thinking": "생각하고 있어요...",
+        "continue_chat": "더 얘기하기",
+        "post_draft": "이대로 올리기",
+        "edit_draft": "수정하기",
+        "draft_preview": "파카삐가 정리한 글"
     },
     "complete": "완료",
     "article": {

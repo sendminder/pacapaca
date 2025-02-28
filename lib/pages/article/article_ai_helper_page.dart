@@ -167,6 +167,11 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
         content: content,
         onPost: () => _handlePostDraft(title, category, content),
         onEdit: () => _handleEditDraft(title, category, content),
+        onContinueChat: () {
+          Navigator.pop(context);
+          _messageController.text = '';
+          FocusScope.of(context).requestFocus(_focusNode);
+        },
       ),
     );
   }
@@ -247,8 +252,8 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
   }
 
   Widget _buildLoadingMessage() {
-    return const ChatMessageItem(
-      message: {'assistant': 'helper.thinking'},
+    return ChatMessageItem(
+      message: {'assistant': 'helper.thinking'.tr()},
       isUser: false,
       isLoading: true,
     );
