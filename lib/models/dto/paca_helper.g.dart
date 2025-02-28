@@ -21,7 +21,6 @@ Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
 _$RequestDefineProblemsImpl _$$RequestDefineProblemsImplFromJson(
         Map<String, dynamic> json) =>
     _$RequestDefineProblemsImpl(
-      category: json['category'] as String,
       messages: (json['messages'] as List<dynamic>)
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -30,7 +29,6 @@ _$RequestDefineProblemsImpl _$$RequestDefineProblemsImplFromJson(
 Map<String, dynamic> _$$RequestDefineProblemsImplToJson(
         _$RequestDefineProblemsImpl instance) =>
     <String, dynamic>{
-      'category': instance.category,
       'messages': instance.messages,
     };
 

@@ -6,9 +6,12 @@ import 'package:pacapaca/widgets/shared/chat/chat_input.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
-import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/providers/paca_helper_provider.dart';
 import 'package:pacapaca/models/dto/paca_helper.dart';
+import 'package:pacapaca/pages/article/widgets/chat_bubble.dart';
+import 'package:pacapaca/pages/article/widgets/draft_preview_bottom_sheet.dart';
+import 'package:pacapaca/pages/article/widgets/ai_helper_app_bar.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
 
 class ArticleAiHelperPage extends ConsumerStatefulWidget {
   const ArticleAiHelperPage({super.key});
@@ -21,335 +24,26 @@ class ArticleAiHelperPage extends ConsumerStatefulWidget {
 class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
   final TextEditingController _messageController = TextEditingController();
   final List<Map<String, String>> _chatHistory = [];
-  String? _draftTitle;
-  String? _draftContent;
-  bool _isLoading = false;
-  final FocusNode _focusNode = FocusNode();
-  bool _canSend = false;
   final ScrollController _scrollController = ScrollController();
+  final FocusNode _focusNode = FocusNode();
+
+  bool _isLoading = false;
+  bool _canSend = false;
 
   @override
   void initState() {
     super.initState();
-    _messageController.addListener(_updateCanSend);
-    _focusNode.addListener(_onFocusChange);
-    // 시작할 때 자동으로 첫 메시지 표시
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        _chatHistory.add({'assistant': 'helper.first_message'.tr()});
-      });
-    });
-  }
-
-  void _updateCanSend() {
-    final canSend = _messageController.text.isNotEmpty;
-    if (canSend != _canSend) {
-      setState(() {
-        _canSend = canSend;
-      });
-    }
-  }
-
-  void _onFocusChange() {
-    if (_focusNode.hasFocus) {
-      // 키보드가 올라올 때 스크롤을 아래로 이동
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (_scrollController.hasClients) {
-          _scrollController.animateTo(
-            _scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOut,
-          );
-        }
-      });
-    }
-  }
-
-  Future<void> _sendMessage(String message) async {
-    if (message.trim().isEmpty) return;
-
-    _messageController.clear();
-
-    setState(() {
-      _chatHistory.add({'user': message});
-      _isLoading = true;
-    });
-
-    // 스크롤 로직
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
-
-    try {
-      // 채팅 기록을 Message 형식으로 변환
-      final messages = _chatHistory.map((msg) {
-        final role = msg.containsKey('user') ? 'user' : 'assistant';
-        final content = msg[role] ?? '';
-        return Message(role: role, content: content);
-      }).toList();
-
-      // PacaHelper 호출
-      final response =
-          await ref.read(pacaHelperProvider.notifier).defineProblems(
-                category: 'daily', // 기본 카테고리
-                messages: messages,
-              );
-
-      if (!mounted) return;
-
-      if (response?.done == true) {
-        setState(() {
-          _isLoading = false;
-        });
-
-        _showDraftPreview(
-          response?.title ?? 'helper.title'.tr(),
-          response?.answer ?? '',
-        );
-      } else {
-        setState(() {
-          _chatHistory
-              .add({'assistant': response?.answer ?? 'error.common'.tr()});
-          _isLoading = false;
-        });
-
-        // 응답 후 스크롤
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (_scrollController.hasClients) {
-            _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOut,
-            );
-          }
-        });
-      }
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('error.common'.tr())),
-      );
-    }
-  }
-
-  void _showDraftPreview(String title, String content) {
-    setState(() {
-      _draftTitle = title;
-      _draftContent = content;
-    });
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: DraftPreviewBottomSheet(
-          title: title,
-          content: content,
-          onPost: () async {
-            try {
-              final request = RequestCreateArticle(
-                title: title,
-                content: content,
-                category: ArticleCategory.daily.name, // 기본값으로 일상 카테고리 설정
-              );
-
-              await ref
-                  .read(articleEditorProvider.notifier)
-                  .createArticle(request);
-
-              if (context.mounted) {
-                context.pop(); // 바텀시트 닫기
-                context.pop(); // AI 헬퍼 페이지 닫기
-                ref.invalidate(articleListProvider); // 글 목록 새로고침
-              }
-            } catch (e) {
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content: Text('article.error'.tr(args: [e.toString()]))),
-                );
-              }
-            }
-          },
-          onEdit: () async {
-            // 먼저 바텀시트를 닫고
-            context.pop();
-            // 그 다음 AI 헬퍼 페이지를 새 페이지로 교체
-            if (context.mounted) {
-              context.pushReplacement('/articles/new', extra: <String, String>{
-                'title': title,
-                'content': content,
-              });
-            }
-          },
-        ),
-      ),
-    );
+    _setupListeners();
+    _showInitialMessage();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                    image: AssetImage('assets/profiles/pacappiface.png'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text('helper.title'.tr()),
-            ],
-          ),
-          leading: IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () => context.pop(),
-          ),
-        ),
-        body: Container(
-          padding: const EdgeInsets.only(bottom: 100),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withAlpha(30),
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    bottom: 16,
-                  ),
-                  itemCount: _chatHistory.length + (_isLoading ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (index == _chatHistory.length && _isLoading) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 35,
-                              height: 35,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/profiles/pacappiface.png'),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ChatBubble(
-                                    message: 'helper.thinking'.tr(),
-                                    isUser: false,
-                                    isLoading: true,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 40),
-                          ],
-                        ),
-                      );
-                    }
-
-                    final message = _chatHistory[index];
-                    final isUser = message.containsKey('user');
-                    final isFirstMessage = index == 0;
-                    final isLastMessage = index == _chatHistory.length - 1;
-
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: isLastMessage ? 16.0 : 12.0,
-                        top: isFirstMessage ? 8.0 : 0.0,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: isUser
-                            ? MainAxisAlignment.end
-                            : MainAxisAlignment.start,
-                        children: [
-                          if (!isUser) ...[
-                            Container(
-                              margin: const EdgeInsets.only(right: 8),
-                              child: Container(
-                                width: 35,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/profiles/pacappiface.png'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ChatBubble(
-                                    message: message[
-                                            isUser ? 'user' : 'assistant'] ??
-                                        '',
-                                    isUser: isUser,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 40),
-                          ] else ...[
-                            const SizedBox(width: 50),
-                            Flexible(
-                              child: ChatBubble(
-                                message:
-                                    message[isUser ? 'user' : 'assistant'] ??
-                                        '',
-                                isUser: isUser,
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
+        appBar: const AiHelperAppBar(),
+        body: _buildChatBody(),
         bottomSheet: ChatInput(
           controller: _messageController,
           focusNode: _focusNode,
@@ -361,6 +55,205 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     );
   }
 
+  void _setupListeners() {
+    _messageController.addListener(_updateCanSend);
+    _focusNode.addListener(_onFocusChange);
+  }
+
+  void _showInitialMessage() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _chatHistory.add({'assistant': 'helper.first_message'.tr()});
+      });
+    });
+  }
+
+  void _updateCanSend() {
+    final canSend = _messageController.text.isNotEmpty;
+    if (canSend != _canSend) {
+      setState(() => _canSend = canSend);
+    }
+  }
+
+  void _onFocusChange() {
+    if (_focusNode.hasFocus) {
+      _scrollToBottom();
+    }
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  Future<void> _sendMessage(String message) async {
+    if (message.trim().isEmpty) return;
+
+    _messageController.clear();
+    _addMessageToChat('user', message);
+
+    try {
+      final response = await _getAiResponse();
+      if (!mounted) return;
+
+      if (response?.done == true) {
+        _handleCompletedDraft(response!);
+      } else {
+        _handleContinuedConversation(response);
+      }
+    } catch (e) {
+      _handleError();
+    }
+  }
+
+  void _addMessageToChat(String role, String content) {
+    setState(() {
+      _chatHistory.add({role: content});
+      _isLoading = true;
+    });
+    _scrollToBottom();
+  }
+
+  Future<ResponseDefineProblems?> _getAiResponse() async {
+    final messages = _chatHistory.map((msg) {
+      final role = msg.containsKey('user') ? 'user' : 'assistant';
+      return Message(role: role, content: msg[role] ?? '');
+    }).toList();
+
+    return await ref.read(pacaHelperProvider.notifier).defineProblems(
+          messages: messages,
+        );
+  }
+
+  void _handleCompletedDraft(ResponseDefineProblems response) {
+    setState(() => _isLoading = false);
+    _showDraftPreview(
+      response.title ?? 'helper.title'.tr(),
+      response.category ?? ArticleCategory.daily.name,
+      response.answer,
+    );
+  }
+
+  void _handleContinuedConversation(ResponseDefineProblems? response) {
+    setState(() {
+      _chatHistory.add({'assistant': response?.answer ?? 'error.common'.tr()});
+      _isLoading = false;
+    });
+    _scrollToBottom();
+  }
+
+  void _handleError() {
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('error.common'.tr())),
+    );
+  }
+
+  void _showDraftPreview(String title, String category, String content) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => DraftPreviewBottomSheet(
+        title: title,
+        content: content,
+        onPost: () => _handlePostDraft(title, category, content),
+        onEdit: () => _handleEditDraft(title, category, content),
+      ),
+    );
+  }
+
+  Future<void> _handlePostDraft(
+    String title,
+    String category,
+    String content,
+  ) async {
+    try {
+      final request = RequestCreateArticle(
+        title: title,
+        content: content,
+        category: category,
+      );
+
+      await ref.read(articleEditorProvider.notifier).createArticle(request);
+
+      if (mounted) {
+        context.pop(); // 바텀시트 닫기
+        context.pop(); // AI 헬퍼 페이지 닫기
+        ref.invalidate(articleListProvider);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('article.error'.tr(args: [e.toString()]))),
+        );
+      }
+    }
+  }
+
+  void _handleEditDraft(String title, String category, String content) {
+    context.pop();
+    if (mounted) {
+      ref
+          .read(articleCategoryProvider.notifier)
+          .setCategory(ArticleCategory.values.byName(category));
+      context.pushReplacement('/articles/new', extra: <String, String>{
+        'title': title,
+        'category': category,
+        'content': content,
+      });
+    }
+  }
+
+  Widget _buildChatBody() {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 100),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary.withAlpha(30),
+      ),
+      child: ListView.builder(
+        controller: _scrollController,
+        padding: const EdgeInsets.all(16),
+        itemCount: _chatHistory.length + (_isLoading ? 1 : 0),
+        itemBuilder: _buildChatItem,
+      ),
+    );
+  }
+
+  Widget _buildChatItem(BuildContext context, int index) {
+    if (index == _chatHistory.length && _isLoading) {
+      return _buildLoadingMessage();
+    }
+
+    final message = _chatHistory[index];
+    final isUser = message.containsKey('user');
+    final isFirstMessage = index == 0;
+    final isLastMessage = index == _chatHistory.length - 1;
+
+    return ChatMessageItem(
+      message: message,
+      isUser: isUser,
+      isFirst: isFirstMessage,
+      isLast: isLastMessage,
+    );
+  }
+
+  Widget _buildLoadingMessage() {
+    return const ChatMessageItem(
+      message: {'assistant': 'helper.thinking'},
+      isUser: false,
+      isLoading: true,
+    );
+  }
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -369,154 +262,5 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     _messageController.dispose();
     _focusNode.dispose();
     super.dispose();
-  }
-}
-
-class ChatBubble extends StatelessWidget {
-  final String message;
-  final bool isUser;
-  final bool isLoading;
-
-  const ChatBubble({
-    super.key,
-    required this.message,
-    required this.isUser,
-    this.isLoading = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.7,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: isUser
-            ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.8),
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(20),
-          topRight: const Radius.circular(20),
-          bottomLeft: Radius.circular(isUser ? 20 : 4),
-          bottomRight: Radius.circular(isUser ? 4 : 20),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 5,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            child: Text(
-              message,
-              style: TextStyle(
-                color: isUser
-                    ? Colors.white
-                    : Theme.of(context).colorScheme.onSecondaryContainer,
-                fontSize: 15,
-              ),
-            ),
-          ),
-          if (isLoading) ...[
-            const SizedBox(width: 8),
-            SizedBox(
-              width: 12,
-              height: 12,
-              child: RotatingPacaLoader(),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class DraftPreviewBottomSheet extends StatelessWidget {
-  final String title;
-  final String content;
-  final VoidCallback onPost;
-  final VoidCallback onEdit;
-
-  const DraftPreviewBottomSheet({
-    super.key,
-    required this.title,
-    required this.content,
-    required this.onPost,
-    required this.onEdit,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                    image: AssetImage('assets/profiles/pacappiface.png'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                '파카가 정리한 글'.tr(),
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-          const SizedBox(height: 12),
-          Text(content),
-          const SizedBox(height: 24),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: onEdit,
-                  child: Text('수정하기'.tr()),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: onPost,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Colors.white,
-                  ),
-                  child: Text('이대로 올리기'.tr()),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-        ],
-      ),
-    );
   }
 }

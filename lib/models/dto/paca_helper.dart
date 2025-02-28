@@ -17,7 +17,6 @@ class Message with _$Message {
 @freezed
 class RequestDefineProblems with _$RequestDefineProblems {
   const factory RequestDefineProblems({
-    required String category,
     required List<Message> messages,
   }) = _RequestDefineProblems;
 

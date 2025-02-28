@@ -16,11 +16,9 @@ class PacaHelper extends _$PacaHelper {
 
   /// 고민 정의하기
   Future<ResponseDefineProblems?> defineProblems({
-    required String category,
     required List<Message> messages,
   }) async {
     final request = RequestDefineProblems(
-      category: category,
       messages: messages,
     );
 

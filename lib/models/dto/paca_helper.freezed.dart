@@ -184,7 +184,6 @@ RequestDefineProblems _$RequestDefineProblemsFromJson(
 
 /// @nodoc
 mixin _$RequestDefineProblems {
-  String get category => throw _privateConstructorUsedError;
   List<Message> get messages => throw _privateConstructorUsedError;
 
   /// Serializes this RequestDefineProblems to a JSON map.
@@ -203,7 +202,7 @@ abstract class $RequestDefineProblemsCopyWith<$Res> {
           $Res Function(RequestDefineProblems) then) =
       _$RequestDefineProblemsCopyWithImpl<$Res, RequestDefineProblems>;
   @useResult
-  $Res call({String category, List<Message> messages});
+  $Res call({List<Message> messages});
 }
 
 /// @nodoc
@@ -222,14 +221,9 @@ class _$RequestDefineProblemsCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? category = null,
     Object? messages = null,
   }) {
     return _then(_value.copyWith(
-      category: null == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as String,
       messages: null == messages
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -247,7 +241,7 @@ abstract class _$$RequestDefineProblemsImplCopyWith<$Res>
       __$$RequestDefineProblemsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String category, List<Message> messages});
+  $Res call({List<Message> messages});
 }
 
 /// @nodoc
@@ -264,14 +258,9 @@ class __$$RequestDefineProblemsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? category = null,
     Object? messages = null,
   }) {
     return _then(_$RequestDefineProblemsImpl(
-      category: null == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as String,
       messages: null == messages
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -283,15 +272,12 @@ class __$$RequestDefineProblemsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$RequestDefineProblemsImpl implements _RequestDefineProblems {
-  const _$RequestDefineProblemsImpl(
-      {required this.category, required final List<Message> messages})
+  const _$RequestDefineProblemsImpl({required final List<Message> messages})
       : _messages = messages;
 
   factory _$RequestDefineProblemsImpl.fromJson(Map<String, dynamic> json) =>
       _$$RequestDefineProblemsImplFromJson(json);
 
-  @override
-  final String category;
   final List<Message> _messages;
   @override
   List<Message> get messages {
@@ -302,7 +288,7 @@ class _$RequestDefineProblemsImpl implements _RequestDefineProblems {
 
   @override
   String toString() {
-    return 'RequestDefineProblems(category: $category, messages: $messages)';
+    return 'RequestDefineProblems(messages: $messages)';
   }
 
   @override
@@ -310,15 +296,13 @@ class _$RequestDefineProblemsImpl implements _RequestDefineProblems {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RequestDefineProblemsImpl &&
-            (identical(other.category, category) ||
-                other.category == category) &&
             const DeepCollectionEquality().equals(other._messages, _messages));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, category, const DeepCollectionEquality().hash(_messages));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_messages));
 
   /// Create a copy of RequestDefineProblems
   /// with the given fields replaced by the non-null parameter values.
@@ -339,14 +323,11 @@ class _$RequestDefineProblemsImpl implements _RequestDefineProblems {
 
 abstract class _RequestDefineProblems implements RequestDefineProblems {
   const factory _RequestDefineProblems(
-      {required final String category,
-      required final List<Message> messages}) = _$RequestDefineProblemsImpl;
+      {required final List<Message> messages}) = _$RequestDefineProblemsImpl;
 
   factory _RequestDefineProblems.fromJson(Map<String, dynamic> json) =
       _$RequestDefineProblemsImpl.fromJson;
 
-  @override
-  String get category;
   @override
   List<Message> get messages;
 
