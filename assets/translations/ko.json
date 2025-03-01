@@ -192,5 +192,28 @@
     "pacapaca": {
         "pacappi": "파카삐",
         "pacappu": "파카뿌"
+    },
+    "store": {
+        "title": "당근 상점",
+        "error": "당근 상점 로드 중 오류가 발생했어요: {}",
+        "no_data": "당근 상점 데이터가 없어요",
+        "view_more": "더보기",
+        "featured_products": "추천 상품",
+        "all_products": "모든 상품",
+        "payment_history": "결제 내역",
+        "no_featured_products": "추천 상품이 없어요",
+        "no_products": "상품이 없어요",
+        "buy_now": "바로 구매하기"
+    },
+    "payment": {
+        "history": "결제 내역",
+        "filter": "필터",
+        "all": "전체",
+        "completed": "완료",
+        "pending": "대기",
+        "failed": "실패",
+        "error": "결제 내역 로드 중 오류가 발생했어요: {}",
+        "no_history": "결제 내역이 없어요",
+        "history_title": "결제 내역"
     }
 }

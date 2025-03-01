@@ -23,6 +23,8 @@ import 'package:get_it/get_it.dart';
 import 'pages/ranking/ranking_detail_page.dart';
 import 'pages/ranking/ranking_type.dart';
 import 'package:pacapaca/pages/article/comment_replies_page.dart';
+import 'package:pacapaca/pages/store/store_page.dart';
+import 'package:pacapaca/pages/payment/payment_history_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -174,6 +176,16 @@ class RouterNotifier extends ChangeNotifier {
         GoRoute(
           path: '/settings/blocked-users',
           builder: (context, state) => const BlockedUsersPage(),
+        ),
+        GoRoute(
+          path: '/store',
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => const StorePage(),
+        ),
+        GoRoute(
+          path: '/payment-history',
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => const PaymentHistoryPage(),
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {

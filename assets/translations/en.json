@@ -179,5 +179,28 @@
     "pacapaca": {
         "pacappi": "Pacappi",
         "pacappu": "Pacappu"
+    },
+    "store": {
+        "title": "Carrot Store",
+        "error": "Failed to load carrot store: {}",
+        "no_data": "Carrot store data is missing",
+        "view_more": "View More",
+        "featured_products": "Featured Products",
+        "all_products": "All Products",
+        "payment_history": "Payment History",
+        "no_featured_products": "No featured products",
+        "no_products": "No products",
+        "buy_now": "Buy Now"
+    },
+    "payment": {
+        "history": "Payment History",
+        "filter": "Filter",
+        "all": "All",
+        "completed": "Completed",
+        "pending": "Pending",
+        "failed": "Failed",
+        "error": "Failed to load payment history: {}",
+        "no_history": "No payment history",
+        "history_title": "Payment History"
     }
 }

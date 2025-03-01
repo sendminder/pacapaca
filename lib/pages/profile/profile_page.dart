@@ -178,11 +178,24 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         data: (carrotBalance) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'profile.my_carrots'.tr(),
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w500,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'profile.my_carrots'.tr(),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.shopping_cart,
+                    color: const Color(0xFFF9812A),
                   ),
+                  onPressed: () => context.push('/store'),
+                  tooltip: 'profile.go_to_store'.tr(),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             Row(
