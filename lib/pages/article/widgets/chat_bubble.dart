@@ -56,8 +56,8 @@ class ChatBubble extends StatelessWidget {
           if (isLoading) ...[
             const SizedBox(width: 8),
             SizedBox(
-              width: 12,
-              height: 12,
+              width: 16,
+              height: 16,
               child: RotatingPacaLoader(),
             ),
           ],
