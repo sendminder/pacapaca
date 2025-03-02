@@ -32,6 +32,12 @@ final recentSearchesProvider =
   return RecentSearchesNotifier();
 });
 
+// 알림 설정 상태를 위한 provider
+final notificationEnabledProvider =
+    StateNotifierProvider<NotificationEnabledNotifier, bool>((ref) {
+  return NotificationEnabledNotifier();
+});
+
 class ThemeNotifier extends StateNotifier<ThemeMode> {
   final _storage = GetIt.instance<StorageService>();
 
@@ -159,5 +165,23 @@ class RecentSearchesNotifier extends StateNotifier<List<String>> {
   Future<void> clearSearches() async {
     state = [];
     await _storage.saveRecentSearches([]);
+  }
+}
+
+class NotificationEnabledNotifier extends StateNotifier<bool> {
+  final _storage = GetIt.instance<StorageService>();
+
+  NotificationEnabledNotifier() : super(false) {
+    _loadNotificationEnabled();
+  }
+
+  Future<void> _loadNotificationEnabled() async {
+    final enabled = await _storage.notificationEnabled;
+    state = enabled ?? false;
+  }
+
+  Future<void> setNotificationEnabled(bool enabled) async {
+    await _storage.saveNotificationEnabled(enabled);
+    state = enabled;
   }
 }

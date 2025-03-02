@@ -16,6 +16,7 @@ class StorageService {
   static const String _articleSortKey = 'article_sort';
   static const String _articleCategoryKey = 'article_category';
   static const String _recentSearchesKey = 'recent_searches';
+  static const String _notificationEnabledKey = 'notification_enabled';
 
   final logger = GetIt.instance<Logger>();
 
@@ -168,5 +169,18 @@ class StorageService {
     final searchesStr = await _storage.read(key: _recentSearchesKey);
     if (searchesStr == null) return [];
     return List<String>.from(jsonDecode(searchesStr));
+  }
+
+  // 알림 설정 관련 메서드
+  Future<bool?> get notificationEnabled async {
+    final value = await _storage.read(key: _notificationEnabledKey);
+    return value == 'true';
+  }
+
+  Future<void> saveNotificationEnabled(bool enabled) async {
+    await _storage.write(
+      key: _notificationEnabledKey,
+      value: enabled.toString(),
+    );
   }
 }

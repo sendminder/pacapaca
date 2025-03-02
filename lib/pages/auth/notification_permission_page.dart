@@ -5,17 +5,19 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:pacapaca/services/notification_service.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
 
-class NotificationPermissionPage extends StatefulWidget {
+class NotificationPermissionPage extends ConsumerStatefulWidget {
   const NotificationPermissionPage({super.key});
 
   @override
-  State<NotificationPermissionPage> createState() =>
+  ConsumerState<NotificationPermissionPage> createState() =>
       _NotificationPermissionPageState();
 }
 
 class _NotificationPermissionPageState
-    extends State<NotificationPermissionPage> {
+    extends ConsumerState<NotificationPermissionPage> {
   final _notificationService = GetIt.instance<NotificationService>();
   final _logger = GetIt.instance<Logger>();
   bool _isLoading = false;
@@ -92,18 +94,17 @@ class _NotificationPermissionPageState
 
       _logger.i('FCM 권한 상태: ${settings.authorizationStatus}');
 
+      // 알림 설정 상태 업데이트
+      await ref
+          .read(notificationEnabledProvider.notifier)
+          .setNotificationEnabled(true);
+
       // 토큰 가져오기
       final token = await FirebaseMessaging.instance.getToken();
       if (token != null) {
         _logger.i('FCM 토큰: $token');
         await _notificationService.registerFCMToken(token);
       }
-
-      // 토큰 갱신 리스너 설정
-      FirebaseMessaging.instance.onTokenRefresh.listen((newToken) async {
-        _logger.i('FCM 토큰 갱신: $newToken');
-        await _notificationService.registerFCMToken(newToken);
-      });
 
       if (!mounted) return;
 
@@ -126,6 +127,11 @@ class _NotificationPermissionPageState
   }
 
   void _skipNotifications() {
+    // 알림 설정 비활성화 상태로 저장
+    ref
+        .read(notificationEnabledProvider.notifier)
+        .setNotificationEnabled(false);
+
     // 알림 설정 건너뛰고 메인 페이지로 이동
     context.go('/articles');
   }
