@@ -26,6 +26,7 @@ import 'package:pacapaca/pages/article/comment_replies_page.dart';
 import 'package:pacapaca/pages/store/store_page.dart';
 import 'package:pacapaca/pages/payment/payment_history_page.dart';
 import 'pages/user/user_detail_page.dart';
+import 'pages/auth/notification_permission_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -93,10 +94,18 @@ class RouterNotifier extends ChangeNotifier {
               : '/set-profile-type';
         }
 
+        // 알림 설정 페이지 추가
+        if (!user.notificationSetupCompleted) {
+          return state.matchedLocation == '/notification-setup'
+              ? null
+              : '/notification-setup';
+        }
+
         // 모든 정보가 설정된 경우
         if (state.matchedLocation == '/login' ||
             state.matchedLocation == '/set-nickname' ||
-            state.matchedLocation == '/set-profile-type') {
+            state.matchedLocation == '/set-profile-type' ||
+            state.matchedLocation == '/notification-setup') {
           return '/articles';
         }
 
@@ -133,6 +142,10 @@ class RouterNotifier extends ChangeNotifier {
         GoRoute(
           path: '/set-profile-type',
           builder: (context, state) => SetProfileTypePage(),
+        ),
+        GoRoute(
+          path: '/notification-setup',
+          builder: (context, state) => const NotificationPermissionPage(),
         ),
         GoRoute(
           path: '/articles/new',

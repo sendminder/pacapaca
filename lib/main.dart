@@ -28,6 +28,7 @@ import 'package:pacapaca/services/payment_service.dart';
 import 'package:pacapaca/services/product_service.dart';
 import 'package:pacapaca/services/user_service.dart';
 import 'package:pacapaca/services/in_app_purchase_service.dart';
+import 'package:pacapaca/services/notification_service.dart';
 
 void main() async {
   // 앱 초기화
@@ -103,18 +104,22 @@ void _setupServiceLocator() {
     ),
   );
 
+  // 핵심 서비스는 즉시 초기화
   getIt.registerSingleton<StorageService>(StorageService());
   getIt.registerSingleton<AuthService>(AuthService());
-  getIt.registerSingleton<ArticleService>(ArticleService());
-  getIt.registerSingleton<BlockService>(BlockService());
-  getIt.registerSingleton<ReportService>(ReportService());
-  getIt.registerSingleton<CarrotService>(CarrotService());
-  getIt.registerSingleton<PointService>(PointService());
-  getIt.registerSingleton<CommentService>(CommentService());
-  getIt.registerSingleton<PacaHelperService>(PacaHelperService());
-  getIt.registerSingleton<PaymentService>(PaymentService());
-  getIt.registerSingleton<ProductService>(ProductService());
   getIt.registerSingleton<UserService>(UserService());
-  getIt.registerSingleton<InAppPurchaseService>(InAppPurchaseService());
   getIt.registerSingleton<DioService>(DioService());
+
+  // 나머지 서비스는 필요할 때 초기화
+  getIt.registerLazySingleton(() => ArticleService());
+  getIt.registerLazySingleton(() => BlockService());
+  getIt.registerLazySingleton(() => ReportService());
+  getIt.registerLazySingleton(() => CarrotService());
+  getIt.registerLazySingleton(() => PointService());
+  getIt.registerLazySingleton(() => CommentService());
+  getIt.registerLazySingleton(() => PacaHelperService());
+  getIt.registerLazySingleton(() => PaymentService());
+  getIt.registerLazySingleton(() => ProductService());
+  getIt.registerLazySingleton(() => InAppPurchaseService());
+  getIt.registerLazySingleton(() => NotificationService());
 }
