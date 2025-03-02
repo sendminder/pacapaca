@@ -25,10 +25,12 @@ import 'package:pacapaca/services/comment_service.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:pacapaca/services/paca_helper_service.dart';
 import 'package:pacapaca/services/payment_service.dart';
-import 'package:pacapaca/services/product_service.dart';
 import 'package:pacapaca/services/user_service.dart';
 import 'package:pacapaca/services/in_app_purchase_service.dart';
 import 'package:pacapaca/services/notification_service.dart';
+import 'package:pacapaca/widgets/fcm_token_manager.dart';
+import 'package:pacapaca/services/notification_manager_service.dart';
+import 'package:pacapaca/services/product_service.dart';
 
 void main() async {
   // 앱 초기화
@@ -40,17 +42,19 @@ void main() async {
 
   // 앱 실행
   runApp(
-    ProviderScope(
-      child: EasyLocalization(
-        path: 'assets/translations',
-        supportedLocales: const [Locale('en'), Locale('ko')],
-        fallbackLocale: const Locale('ko'),
-        useFallbackTranslations: true,
-        child: ScreenUtilInit(
-          designSize: const Size(393, 852), // iPhone 16 Pro 기준
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) => const MyApp(),
+    FCMTokenManager(
+      child: ProviderScope(
+        child: EasyLocalization(
+          path: 'assets/translations',
+          supportedLocales: const [Locale('en'), Locale('ko')],
+          fallbackLocale: const Locale('ko'),
+          useFallbackTranslations: true,
+          child: ScreenUtilInit(
+            designSize: const Size(393, 852), // iPhone 16 Pro 기준
+            minTextAdapt: true,
+            splitScreenMode: true,
+            builder: (context, child) => const MyApp(),
+          ),
         ),
       ),
     ),
@@ -76,6 +80,14 @@ Future<void> _initializeSettings() async {
 
   // 시간대 설정
   await setupTimeZone();
+
+  // 서비스 등록
+  GetIt.instance.registerLazySingleton(() => NotificationService());
+  GetIt.instance.registerSingleton<NotificationManagerService>(
+      NotificationManagerService());
+
+  // 알림 관리자 초기화
+  await GetIt.instance<NotificationManagerService>().initialize();
 }
 
 Future<void> setupTimeZone() async {
@@ -121,5 +133,4 @@ void _setupServiceLocator() {
   getIt.registerLazySingleton(() => PaymentService());
   getIt.registerLazySingleton(() => ProductService());
   getIt.registerLazySingleton(() => InAppPurchaseService());
-  getIt.registerLazySingleton(() => NotificationService());
 }

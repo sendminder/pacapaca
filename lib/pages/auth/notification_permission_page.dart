@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
-import 'package:pacapaca/services/notification_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
+import 'package:pacapaca/services/notification_manager_service.dart';
 
 class NotificationPermissionPage extends ConsumerStatefulWidget {
   const NotificationPermissionPage({super.key});
@@ -18,7 +17,7 @@ class NotificationPermissionPage extends ConsumerStatefulWidget {
 
 class _NotificationPermissionPageState
     extends ConsumerState<NotificationPermissionPage> {
-  final _notificationService = GetIt.instance<NotificationService>();
+  final _notificationManager = GetIt.instance<NotificationManagerService>();
   final _logger = GetIt.instance<Logger>();
   bool _isLoading = false;
 
@@ -81,41 +80,42 @@ class _NotificationPermissionPageState
     });
 
     try {
-      // FCM 권한 요청
-      final settings = await FirebaseMessaging.instance.requestPermission(
-        alert: true,
-        announcement: false,
-        badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-        sound: true,
-      );
+      final result =
+          await _notificationManager.requestPermissionAndRegisterToken();
 
-      _logger.i('FCM 권한 상태: ${settings.authorizationStatus}');
+      if (!mounted) return;
 
-      // 알림 설정 상태 업데이트
-      await ref
-          .read(notificationEnabledProvider.notifier)
-          .setNotificationEnabled(true);
-
-      // 토큰 가져오기
-      final token = await FirebaseMessaging.instance.getToken();
-      if (token != null) {
-        _logger.i('FCM 토큰: $token');
-        await _notificationService.registerFCMToken(token);
+      switch (result) {
+        case NotificationPermissionResult.granted:
+          // 알림 설정 상태 업데이트
+          ref
+              .read(notificationEnabledProvider.notifier)
+              .setNotificationEnabled(true);
+          context.go('/articles');
+          break;
+        case NotificationPermissionResult.denied:
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('notification.permission_denied'.tr()),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          context.go('/articles');
+          break;
+        case NotificationPermissionResult.error:
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('notification.permission_error'.tr()),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          context.go('/articles');
+          break;
       }
-
-      if (!mounted) return;
-
-      // 메인 페이지로 이동
-      context.go('/articles');
     } catch (e, stackTrace) {
-      _logger.e('FCM 초기화 오류', error: e, stackTrace: stackTrace);
+      _logger.e('알림 초기화 오류', error: e, stackTrace: stackTrace);
 
       if (!mounted) return;
-
-      // 오류가 발생해도 메인 페이지로 이동
       context.go('/articles');
     } finally {
       if (mounted) {

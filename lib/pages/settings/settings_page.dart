@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/services/notification_manager_service.dart';
+import 'package:get_it/get_it.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -12,6 +14,8 @@ class SettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
     final locale = ref.watch(localeProvider);
+    final notificationEnabled = ref.watch(notificationEnabledProvider);
+    final notificationManager = GetIt.instance<NotificationManagerService>();
 
     return Scaffold(
       appBar: AppBar(
@@ -29,6 +33,70 @@ class SettingsPage extends ConsumerWidget {
           ListTile(
             leading: const Icon(Icons.notifications),
             title: Text('settings.notifications'.tr()),
+            subtitle: Text('settings.notifications_description'.tr()),
+            trailing: Switch(
+              value: notificationEnabled,
+              onChanged: (value) async {
+                if (value) {
+                  // 알림 활성화
+                  final result = await notificationManager
+                      .requestPermissionAndRegisterToken();
+
+                  switch (result) {
+                    case NotificationPermissionResult.granted:
+                      ref
+                          .read(notificationEnabledProvider.notifier)
+                          .setNotificationEnabled(true);
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content:
+                                Text('settings.notifications_enabled'.tr()),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                      break;
+                    case NotificationPermissionResult.denied:
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                'settings.notifications_permission_denied'
+                                    .tr()),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                      break;
+                    case NotificationPermissionResult.error:
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('settings.notifications_error'.tr()),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                      break;
+                  }
+                } else {
+                  // 알림 비활성화
+                  await notificationManager.disableNotifications();
+                  ref
+                      .read(notificationEnabledProvider.notifier)
+                      .setNotificationEnabled(false);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('settings.notifications_disabled'.tr()),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  }
+                }
+              },
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.language),
