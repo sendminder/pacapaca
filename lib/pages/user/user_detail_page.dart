@@ -5,7 +5,6 @@ import 'package:pacapaca/providers/user_provider.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:pacapaca/widgets/shared/user_profile_card.dart';
-import 'package:pacapaca/widgets/shared/join_info_card.dart';
 
 class UserDetailPage extends ConsumerWidget {
   final int userId;
