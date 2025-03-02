@@ -8,6 +8,7 @@ import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
+import 'package:pacapaca/widgets/notification/notification_bell.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -39,6 +40,9 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     return Scaffold(
       appBar: PageTitle(
         title: 'search.title'.tr(),
+        actions: const [
+          NotificationBell(),
+        ],
         bottom: _buildSearchField(),
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -53,38 +57,41 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     );
   }
 
-  Widget _buildSearchField() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: TextField(
-        controller: _searchController,
-        focusNode: _focusNode,
-        textInputAction: TextInputAction.search,
-        style: const TextStyle(fontSize: 16),
-        decoration: InputDecoration(
-          hintText: 'search.hint'.tr(),
-          filled: true,
-          fillColor: Theme.of(context).colorScheme.surfaceContainerLow,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
+  PreferredSizeWidget _buildSearchField() {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(56),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: TextField(
+          controller: _searchController,
+          focusNode: _focusNode,
+          textInputAction: TextInputAction.search,
+          style: const TextStyle(fontSize: 16),
+          decoration: InputDecoration(
+            hintText: 'search.hint'.tr(),
+            filled: true,
+            fillColor: Theme.of(context).colorScheme.surfaceContainerLow,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
+            prefixIcon: const Icon(Icons.search),
+            suffixIcon: _searchController.text.isNotEmpty
+                ? IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      _searchController.clear();
+                      _onSearch('');
+                    },
+                  )
+                : null,
           ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 12,
-          ),
-          prefixIcon: const Icon(Icons.search),
-          suffixIcon: _searchController.text.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: () {
-                    _searchController.clear();
-                    _onSearch('');
-                  },
-                )
-              : null,
+          onSubmitted: _onSearch,
         ),
-        onSubmitted: _onSearch,
       ),
     );
   }

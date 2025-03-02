@@ -37,10 +37,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     return Scaffold(
       appBar: PageTitle(
         title: 'profile.title'.tr(),
-        trailing: IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () => context.push('/settings'),
-        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => context.push('/settings'),
+          ),
+        ],
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: asyncUser.when(

@@ -2,69 +2,43 @@ import 'package:flutter/material.dart';
 
 class PageTitle extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final Widget? trailing;
-  final Widget? bottom;
-  final double height;
-  final EdgeInsetsGeometry padding;
+  final List<Widget>? actions;
+  final PreferredSizeWidget? bottom;
 
   const PageTitle({
     super.key,
     required this.title,
-    this.trailing,
+    this.actions,
     this.bottom,
-    this.height = 120,
-    this.padding = const EdgeInsets.fromLTRB(20, 8, 20, 12),
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      titleSpacing: 0,
-      automaticallyImplyLeading: false,
-      toolbarHeight: height,
-      title: SizedBox(
-        height: height,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 10,
-              left: 0,
-              right: 0,
-              child: Padding(
-                padding: padding,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                    ),
-                    if (trailing != null) trailing!,
-                  ],
-                ),
-              ),
-            ),
-            if (bottom != null)
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: bottom!,
-              ),
-          ],
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 28,
         ),
       ),
+      actions: actions,
+      centerTitle: false,
+      elevation: 0,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      foregroundColor: Theme.of(context).colorScheme.onSurface.withAlpha(200),
+      bottom: bottom,
+      titleSpacing: 20,
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(height);
+  Size get preferredSize {
+    // bottom이 null이 아닌 경우 해당 높이를 더하고, null인 경우 0.0을 사용
+    final bottomHeight = bottom?.preferredSize.height ?? 0.0;
+    // toolbarHeight가 null이 아닌 경우 해당 값을 사용하고, null인 경우 kToolbarHeight 사용
+    final appBarHeight = kToolbarHeight;
+
+    return Size.fromHeight(appBarHeight + bottomHeight);
+  }
 }

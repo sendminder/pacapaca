@@ -253,7 +253,7 @@ class Blocks extends _$Blocks {
     );
   }
 
-  /// 차단된 사용자 목록 새로고침
+  /// 차단한 사용자 목록 새로고침
   Future<void> refreshBlocks() async {
     state = const AsyncValue.loading();
     try {

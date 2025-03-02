@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/models/dto/notification_dto.dart';
 import 'package:pacapaca/services/notification_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'notification_provider.g.dart';
 

@@ -105,7 +105,7 @@
         "dark": "다크",
         "logout_confirm": "정말 로그아웃 하시겠어요?",
         "cancel": "취소",
-        "blocked_users": "차단된 사용자"
+        "blocked_users": "차단한 사용자"
     },
     "report": {
         "title": "사용자 신고",
@@ -128,9 +128,9 @@
         "unblock": "차단 해제",
         "unblock_confirm": "정말 차단 해제하시겠어요?",
         "unblocked": "사용자 차단이 해제되었어요",
-        "list_title": "차단된 사용자",
-        "no_blocks": "차단된 사용자가 없어요",
-        "error_loading": "차단된 사용자 불러오기 실패: {}"
+        "list_title": "차단한 사용자",
+        "no_blocks": "차단한 사용자가 없어요",
+        "error_loading": "차단한 사용자 불러오기 실패: {}"
     },
     "search": {
         "title": "검색",

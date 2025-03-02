@@ -9,6 +9,7 @@ import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/widgets/shared/article_skeleton_item.dart';
+import 'package:pacapaca/widgets/notification/notification_bell.dart';
 
 class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});
@@ -60,8 +61,10 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     return Scaffold(
       appBar: PageTitle(
         title: 'article.title'.tr(),
-        trailing: _buildSortDropdown(),
-        bottom: _buildCategoryFilter(),
+        actions: const [
+          NotificationBell(),
+        ],
+        bottom: _buildCategoryAndSortBar(),
       ),
       body: PageView(
         controller: _pageController,
@@ -109,6 +112,25 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     );
   }
 
+  PreferredSizeWidget _buildCategoryAndSortBar() {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(80),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildCategoryFilter(),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, bottom: 8),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: _buildSortDropdown(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildSortDropdown() {
     final sortBy = ref.watch(articleSortProvider);
     return Container(
@@ -153,8 +175,9 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+      padding: const EdgeInsets.only(left: 10, right: 16, bottom: 8),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: ArticleCategory.values.map((category) {
           final isSelected = category == _selectedCategory;
           return Padding(
