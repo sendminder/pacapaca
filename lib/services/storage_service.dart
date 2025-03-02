@@ -17,6 +17,8 @@ class StorageService {
   static const String _articleCategoryKey = 'article_category';
   static const String _recentSearchesKey = 'recent_searches';
   static const String _notificationEnabledKey = 'notification_enabled';
+  static const String _notificationSetupCompletedKey =
+      'notification_setup_completed';
 
   final logger = GetIt.instance<Logger>();
 
@@ -181,6 +183,18 @@ class StorageService {
     await _storage.write(
       key: _notificationEnabledKey,
       value: enabled.toString(),
+    );
+  }
+
+  Future<bool?> get notificationSetupCompleted async {
+    final value = await _storage.read(key: _notificationSetupCompletedKey);
+    return value == 'true';
+  }
+
+  Future<void> saveNotificationSetupCompleted(bool completed) async {
+    await _storage.write(
+      key: _notificationSetupCompletedKey,
+      value: completed.toString(),
     );
   }
 }

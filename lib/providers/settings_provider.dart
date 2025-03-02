@@ -38,6 +38,12 @@ final notificationEnabledProvider =
   return NotificationEnabledNotifier();
 });
 
+// 알림 설정 완료 상태를 위한 provider
+final notificationSetupCompletedProvider =
+    StateNotifierProvider<NotificationSetupCompletedNotifier, bool>((ref) {
+  return NotificationSetupCompletedNotifier();
+});
+
 class ThemeNotifier extends StateNotifier<ThemeMode> {
   final _storage = GetIt.instance<StorageService>();
 
@@ -183,5 +189,23 @@ class NotificationEnabledNotifier extends StateNotifier<bool> {
   Future<void> setNotificationEnabled(bool enabled) async {
     await _storage.saveNotificationEnabled(enabled);
     state = enabled;
+  }
+}
+
+class NotificationSetupCompletedNotifier extends StateNotifier<bool> {
+  final _storage = GetIt.instance<StorageService>();
+
+  NotificationSetupCompletedNotifier() : super(false) {
+    _loadNotificationSetupCompleted();
+  }
+
+  Future<void> _loadNotificationSetupCompleted() async {
+    final completed = await _storage.notificationSetupCompleted;
+    state = completed ?? false;
+  }
+
+  Future<void> setNotificationSetupCompleted(bool completed) async {
+    await _storage.saveNotificationSetupCompleted(completed);
+    state = completed;
   }
 }

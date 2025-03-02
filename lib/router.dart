@@ -27,6 +27,7 @@ import 'package:pacapaca/pages/store/store_page.dart';
 import 'package:pacapaca/pages/payment/payment_history_page.dart';
 import 'pages/user/user_detail_page.dart';
 import 'pages/auth/notification_permission_page.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -94,8 +95,10 @@ class RouterNotifier extends ChangeNotifier {
               : '/set-profile-type';
         }
 
-        // 알림 설정 페이지 추가
-        if (!user.notificationSetupCompleted) {
+        // 알림 설정 완료 여부 확인
+        final notificationSetupCompleted =
+            _ref.read(notificationSetupCompletedProvider);
+        if (!notificationSetupCompleted) {
           return state.matchedLocation == '/notification-setup'
               ? null
               : '/notification-setup';

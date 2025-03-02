@@ -87,35 +87,36 @@ class _NotificationPermissionPageState
 
       switch (result) {
         case NotificationPermissionResult.granted:
-          // 알림 설정 상태 업데이트
+          // 알림 활성화 상태 설정
           ref
               .read(notificationEnabledProvider.notifier)
               .setNotificationEnabled(true);
-          context.go('/articles');
           break;
         case NotificationPermissionResult.denied:
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('notification.permission_denied'.tr()),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-          context.go('/articles');
-          break;
         case NotificationPermissionResult.error:
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('notification.permission_error'.tr()),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-          context.go('/articles');
+          // 알림이 거부되거나 오류가 발생한 경우 비활성화 상태로 설정
+          ref
+              .read(notificationEnabledProvider.notifier)
+              .setNotificationEnabled(false);
           break;
       }
+
+      // 설정 과정 완료 표시 (결과와 상관없이)
+      ref
+          .read(notificationSetupCompletedProvider.notifier)
+          .setNotificationSetupCompleted(true);
+
+      // 메인 페이지로 이동
+      context.go('/articles');
     } catch (e, stackTrace) {
       _logger.e('알림 초기화 오류', error: e, stackTrace: stackTrace);
 
       if (!mounted) return;
+
+      // 오류가 발생해도 설정 완료로 처리
+      ref
+          .read(notificationSetupCompletedProvider.notifier)
+          .setNotificationSetupCompleted(true);
       context.go('/articles');
     } finally {
       if (mounted) {
@@ -131,6 +132,11 @@ class _NotificationPermissionPageState
     ref
         .read(notificationEnabledProvider.notifier)
         .setNotificationEnabled(false);
+
+    // 설정 과정 완료 표시
+    ref
+        .read(notificationSetupCompletedProvider.notifier)
+        .setNotificationSetupCompleted(true);
 
     // 알림 설정 건너뛰고 메인 페이지로 이동
     context.go('/articles');

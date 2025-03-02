@@ -33,7 +33,6 @@ class SettingsPage extends ConsumerWidget {
           ListTile(
             leading: const Icon(Icons.notifications),
             title: Text('settings.notifications'.tr()),
-            subtitle: Text('settings.notifications_description'.tr()),
             trailing: Switch(
               value: notificationEnabled,
               onChanged: (value) async {

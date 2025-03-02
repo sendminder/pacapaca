@@ -42,18 +42,18 @@ void main() async {
 
   // 앱 실행
   runApp(
-    FCMTokenManager(
-      child: ProviderScope(
-        child: EasyLocalization(
-          path: 'assets/translations',
-          supportedLocales: const [Locale('en'), Locale('ko')],
-          fallbackLocale: const Locale('ko'),
-          useFallbackTranslations: true,
-          child: ScreenUtilInit(
-            designSize: const Size(393, 852), // iPhone 16 Pro 기준
-            minTextAdapt: true,
-            splitScreenMode: true,
-            builder: (context, child) => const MyApp(),
+    ProviderScope(
+      child: EasyLocalization(
+        path: 'assets/translations',
+        supportedLocales: const [Locale('en'), Locale('ko')],
+        fallbackLocale: const Locale('ko'),
+        useFallbackTranslations: true,
+        child: ScreenUtilInit(
+          designSize: const Size(393, 852), // iPhone 16 Pro 기준
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) => FCMTokenManager(
+            child: const MyApp(),
           ),
         ),
       ),

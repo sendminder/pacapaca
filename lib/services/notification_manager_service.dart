@@ -1,5 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:pacapaca/services/notification_service.dart';
@@ -26,6 +25,17 @@ class NotificationManagerService {
   // 알림 설정 상태 저장
   Future<void> setNotificationEnabled(bool enabled) async {
     await _storageService.saveNotificationEnabled(enabled);
+  }
+
+  // 알림 설정 완료 상태 가져오기
+  Future<bool> isNotificationSetupCompleted() async {
+    final completed = await _storageService.notificationSetupCompleted;
+    return completed ?? false;
+  }
+
+  // 알림 설정 완료 상태 저장
+  Future<void> setNotificationSetupCompleted(bool completed) async {
+    await _storageService.saveNotificationSetupCompleted(completed);
   }
 
   // 알림 권한 요청 및 토큰 등록
@@ -106,6 +116,12 @@ class NotificationManagerService {
         _logger.i('현재 FCM 토큰: $token');
         await _notificationService.registerFCMToken(token);
       }
+    }
+
+    // 알림 설정 완료 상태 확인
+    final isSetupCompleted = await isNotificationSetupCompleted();
+    if (!isSetupCompleted) {
+      _logger.i('알림 설정이 완료되지 않았습니다. 알림 설정 페이지로 이동합니다.');
     }
   }
 }
