@@ -54,8 +54,19 @@ class RankingSection extends StatelessWidget {
               const Spacer(),
               TextButton.icon(
                 onPressed: isLoading ? null : onViewMore,
-                icon: const Icon(Icons.arrow_forward),
-                label: Text('ranking.view_more'.tr()),
+                icon: Icon(
+                  Icons.arrow_forward,
+                  color: Theme.of(context).colorScheme.onSurface.withAlpha(100),
+                ),
+                label: Text(
+                  'ranking.view_more'.tr(),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withAlpha(100)),
+                ),
                 style: TextButton.styleFrom(
                   foregroundColor: Theme.of(context).colorScheme.primary,
                 ),

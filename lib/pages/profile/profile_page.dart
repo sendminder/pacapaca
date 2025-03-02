@@ -6,9 +6,10 @@ import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/providers/point_provider.dart';
-import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
+import 'package:pacapaca/widgets/shared/user_profile_card.dart';
+import 'package:pacapaca/widgets/shared/join_info_card.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -31,7 +32,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final pointBalance = ref.watch(pointBalanceProvider);
     final divider = Divider(
       height: 30,
-      color: Theme.of(context).colorScheme.primary.withAlpha(50),
+      color: Theme.of(context).colorScheme.onSurface.withAlpha(15),
     );
 
     return Scaffold(
@@ -77,48 +78,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     if (user == null) {
       return const SizedBox.shrink();
     }
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          UserAvatar(
-            imageUrl: user.displayUser.profileImageUrl ?? '',
-            profileType: user.displayUser.profileType,
-            radius: 40,
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  user.displayUser.nickname,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'profile.member_since'.tr(args: ['2024.03']),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 16),
-          IconButton(
-            onPressed: () {
-              ref.read(authProvider.notifier).getMe();
-              ref.invalidate(carrotBalanceProvider);
-              ref.invalidate(pointBalanceProvider);
-            },
-            icon: Icon(
-              Icons.refresh,
-              color: Theme.of(context).colorScheme.onSurface.withAlpha(100),
-            ),
-          ),
-        ],
-      ),
+
+    return UserProfileCard(
+      user: user,
+      showStats: false, // 포인트와 당근은 별도 섹션에 표시하므로 여기서는 숨김
+      onRefresh: () {
+        ref.read(authProvider.notifier).getMe();
+        ref.invalidate(carrotBalanceProvider);
+        ref.invalidate(pointBalanceProvider);
+      },
     );
   }
 
@@ -155,7 +123,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       ),
                 ),
                 Text(
-                  ' points',
+                  'profile.points'.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
@@ -214,7 +182,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       ),
                 ),
                 Text(
-                  ' carrots',
+                  'profile.carrots'.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],

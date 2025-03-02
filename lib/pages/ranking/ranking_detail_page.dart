@@ -52,6 +52,7 @@ class RankingDetailPage extends ConsumerWidget {
                           nickname: rank.nickname,
                           profileImageUrl: rank.profileImageUrl,
                           profileType: rank.profileType,
+                          userId: rank.id,
                           score: NumberFormat.compact().format(rank.points),
                         ))
                     .toList() ??
@@ -73,6 +74,7 @@ class RankingDetailPage extends ConsumerWidget {
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
                           profileType: ranker.profileType,
+                          userId: ranker.id,
                           score: NumberFormat.compact().format(ranker.carrots),
                         ))
                     .toList() ??
@@ -94,6 +96,7 @@ class RankingDetailPage extends ConsumerWidget {
                           nickname: ranker.nickname,
                           profileImageUrl: ranker.profileImageUrl,
                           profileType: ranker.profileType,
+                          userId: ranker.id,
                           score: NumberFormat.compact().format(ranker.carrots),
                         ))
                     .toList() ??
