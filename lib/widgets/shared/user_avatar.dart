@@ -7,7 +7,6 @@ class UserAvatar extends StatelessWidget {
   final double radius;
   final String? profileType;
   final int? userId;
-  final VoidCallback? onTap;
 
   const UserAvatar({
     super.key,
@@ -15,7 +14,6 @@ class UserAvatar extends StatelessWidget {
     this.profileType,
     this.radius = 16,
     this.userId,
-    this.onTap,
   });
 
   @override
@@ -23,8 +21,7 @@ class UserAvatar extends StatelessWidget {
     final profileType = this.profileType ?? PacapacaProfileType.pacappi.value;
 
     return GestureDetector(
-      onTap: onTap ??
-          (userId != null ? () => context.push('/users/$userId') : null),
+      onTap: userId != null ? () => context.push('/users/$userId') : null,
       child: Container(
         width: radius * 2,
         height: radius * 2,

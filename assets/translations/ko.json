@@ -215,5 +215,18 @@
         "error": "결제 내역 로드 중 오류가 발생했어요: {}",
         "no_history": "결제 내역이 없어요",
         "history_title": "결제 내역"
+    },
+    "user": {
+        "detail_title": "사용자 정보",
+        "no_posts": "게시글이 없어요",
+        "block": "차단하기",
+        "join_info": "가입 정보",
+        "create_time": "가입일",
+        "last_login": "최근 접속시간",
+        "block_user": "사용자 차단",
+        "block_confirm": "이 사용자를 차단하시겠어요?",
+        "cancel": "취소",
+        "points": "{}점",
+        "carrots": "{}개"
     }
 }

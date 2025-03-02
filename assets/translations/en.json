@@ -202,5 +202,18 @@
         "error": "Failed to load payment history: {}",
         "no_history": "No payment history",
         "history_title": "Payment History"
+    },
+    "user": {
+        "detail_title": "User Information",
+        "no_posts": "No posts",
+        "block": "Block User",
+        "join_info": "Join Info",
+        "create_time": "Create Time",
+        "last_login": "Last Login",
+        "block_user": "Block User",
+        "block_confirm": "Are you sure you want to block this user?",
+        "cancel": "Cancel",
+        "points": "{} Points",
+        "carrots": "{} Carrots"
     }
 }

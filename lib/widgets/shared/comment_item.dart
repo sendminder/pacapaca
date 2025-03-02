@@ -81,6 +81,7 @@ class CommentItem extends ConsumerWidget {
       imageUrl: comment.displayUser.profileImageUrl ?? '',
       profileType: comment.displayUser.profileType,
       radius: isReply ? 16 : 18,
+      userId: comment.userId,
     );
   }
 

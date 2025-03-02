@@ -125,7 +125,7 @@ class UserDetailPage extends ConsumerWidget {
                                   Row(
                                     children: [
                                       Icon(
-                                        Icons.star,
+                                        Icons.workspace_premium,
                                         color: Colors.amber,
                                         size: 16,
                                       ),
@@ -136,10 +136,10 @@ class UserDetailPage extends ConsumerWidget {
                                         ]),
                                       ),
                                       const SizedBox(width: 16),
-                                      Icon(
-                                        Icons.eco,
-                                        color: Colors.orange,
-                                        size: 16,
+                                      Image.asset(
+                                        'assets/icon/carrot.png',
+                                        width: 16,
+                                        height: 16,
                                       ),
                                       const SizedBox(width: 4),
                                       Text(

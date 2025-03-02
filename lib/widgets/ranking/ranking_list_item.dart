@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pacapaca/models/enums/profile_type.dart';
+import 'package:pacapaca/widgets/shared/user_avatar.dart';
 
 class RankingListItem extends StatelessWidget {
   final int rank;
@@ -9,6 +9,7 @@ class RankingListItem extends StatelessWidget {
   final String score;
   final VoidCallback? onTap;
   final bool isTopRank;
+  final int? userId;
   final String defaultProfilePath = "assets/profiles/pacappu.jpeg";
 
   const RankingListItem({
@@ -20,6 +21,7 @@ class RankingListItem extends StatelessWidget {
     required this.score,
     this.onTap,
     this.isTopRank = false,
+    this.userId,
   });
 
   String get _rankEmoji {
@@ -69,9 +71,11 @@ class RankingListItem extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            CircleAvatar(
+            UserAvatar(
+              imageUrl: profileImageUrl ?? '',
+              profileType: profileType,
               radius: isTopRank ? 24 : 20,
-              backgroundImage: getProfileImage(profileImageUrl, profileType),
+              userId: userId,
             ),
           ],
         ),
@@ -101,24 +105,5 @@ class RankingListItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  ImageProvider getProfileImage(String? profileImageUrl, String? profileType) {
-    if (profileImageUrl != null && profileImageUrl.isNotEmpty) {
-      return NetworkImage(profileImageUrl);
-    }
-    if (profileType == PacapacaProfileType.pacappi.value) {
-      return AssetImage('assets/profiles/pacappi.jpeg') as ImageProvider;
-    }
-    if (profileType == PacapacaProfileType.pacappu.value) {
-      return AssetImage('assets/profiles/pacappu.jpeg') as ImageProvider;
-    }
-    if (profileType == PacapacaProfileType.pacappiface.value) {
-      return AssetImage('assets/profiles/pacappiface.png') as ImageProvider;
-    }
-    if (profileType == PacapacaProfileType.pacappuface.value) {
-      return AssetImage('assets/profiles/pacappuface.png') as ImageProvider;
-    }
-    return AssetImage(defaultProfilePath) as ImageProvider;
   }
 }

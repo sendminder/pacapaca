@@ -94,6 +94,7 @@ class RankingPage extends ConsumerWidget {
               data: (rankings) => RankingSection(
                 title: 'ranking.point_ranking'.tr(),
                 items: (rankings ?? [])
+                    .take(3)
                     .map((rank) => RankingListItem(
                           rank: rankings!.indexOf(rank) + 1,
                           nickname: rank.nickname,
@@ -101,6 +102,7 @@ class RankingPage extends ConsumerWidget {
                           profileType: rank.profileType,
                           score: NumberFormat.compact().format(rank.points),
                           isTopRank: rankings.indexOf(rank) < 3,
+                          userId: rank.id,
                         ))
                     .toList(),
                 onViewMore: () => _showRankingDetail(
@@ -135,6 +137,7 @@ class RankingPage extends ConsumerWidget {
               data: (rankings) => RankingSection(
                 title: 'ranking.received_carrots'.tr(),
                 items: (rankings?.topReceivers ?? [])
+                    .take(3)
                     .map((ranker) => RankingListItem(
                           rank: rankings!.topReceivers!.indexOf(ranker) + 1,
                           nickname: ranker.nickname,
@@ -142,6 +145,7 @@ class RankingPage extends ConsumerWidget {
                           profileType: ranker.profileType,
                           score: NumberFormat.compact().format(ranker.carrots),
                           isTopRank: rankings.topReceivers!.indexOf(ranker) < 3,
+                          userId: ranker.id,
                         ))
                     .toList(),
                 onViewMore: () => _showRankingDetail(
@@ -176,6 +180,7 @@ class RankingPage extends ConsumerWidget {
               data: (rankings) => RankingSection(
                 title: 'ranking.sent_carrots'.tr(),
                 items: (rankings?.topSenders ?? [])
+                    .take(3)
                     .map((ranker) => RankingListItem(
                           rank: rankings!.topSenders!.indexOf(ranker) + 1,
                           nickname: ranker.nickname,
@@ -183,6 +188,7 @@ class RankingPage extends ConsumerWidget {
                           profileType: ranker.profileType,
                           score: NumberFormat.compact().format(ranker.carrots),
                           isTopRank: rankings.topSenders!.indexOf(ranker) < 3,
+                          userId: ranker.id,
                         ))
                     .toList(),
                 onViewMore: () => _showRankingDetail(

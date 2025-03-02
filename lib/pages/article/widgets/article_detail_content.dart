@@ -50,6 +50,7 @@ class ArticleDetailContent extends StatelessWidget {
         UserAvatar(
           imageUrl: article.displayUser.profileImageUrl ?? '',
           profileType: article.displayUser.profileType,
+          userId: article.displayUser.id,
         ),
         const SizedBox(width: 12),
         Expanded(
