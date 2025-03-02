@@ -72,200 +72,214 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: Column(
-          children: [
-            Expanded(
-              child: NotificationListener<ScrollNotification>(
-                onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels >=
-                      scrollInfo.metrics.maxScrollExtent * 0.8) {
-                    ref
-                        .read(commentReplyListProvider(
-                                sortBy, widget.articleId, widget.commentId)
-                            .notifier)
-                        .loadMore(sortBy, widget.articleId, widget.commentId);
-                  }
-                  return true;
-                },
-                child: CustomScrollView(
-                  slivers: [
-                    // 원본 댓글 표시
-                    SliverToBoxAdapter(
-                      child: parentCommentAsync.when(
-                        data: (comments) {
-                          final parentComment = comments?.firstWhere(
-                            (comment) => comment.id == widget.commentId,
-                          );
-                          if (parentComment == null) return SizedBox.shrink();
+        child: RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(commentReplyListProvider(
+                sortBy, widget.articleId, widget.commentId));
+            return Future.delayed(const Duration(milliseconds: 1000));
+          },
+          child: Column(
+            children: [
+              Expanded(
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    if (scrollInfo.metrics.pixels >=
+                        scrollInfo.metrics.maxScrollExtent * 0.8) {
+                      ref
+                          .read(commentReplyListProvider(
+                                  sortBy, widget.articleId, widget.commentId)
+                              .notifier)
+                          .loadMore(sortBy, widget.articleId, widget.commentId);
+                    }
+                    return false;
+                  },
+                  child: CustomScrollView(
+                    slivers: [
+                      // 원본 댓글 표시
+                      SliverToBoxAdapter(
+                        child: parentCommentAsync.when(
+                          data: (comments) {
+                            final parentComment = comments?.firstWhere(
+                              (comment) => comment.id == widget.commentId,
+                            );
+                            if (parentComment == null) return SizedBox.shrink();
 
-                          return Container(
-                            padding: const EdgeInsets.only(
-                              left: 12,
-                              right: 12,
-                              top: 12,
-                              bottom: 12,
-                            ),
-                            color: Theme.of(context).colorScheme.surface,
-                            child: CommentItem(
-                              comment: parentComment,
-                              isCurrentUser:
-                                  parentComment.userId == currentUser?.id,
-                              isWriter:
-                                  widget.articleUserId == parentComment.userId,
-                              onDelete: (commentId) {
-                                ref
-                                    .read(commentReplyListProvider(sortBy,
-                                            widget.articleId, widget.commentId)
-                                        .notifier)
-                                    .delete(widget.articleId, commentId);
-                              },
-                              onUpdate: (commentId, content) {},
-                              onReply: (commentId) {
-                                FocusScope.of(context).requestFocus(_focusNode);
-                              },
-                              onToggleLike: (commentId) {
-                                ref
-                                    .read(commentReplyListProvider(sortBy,
-                                            widget.articleId, widget.commentId)
-                                        .notifier)
-                                    .toggleLike(commentId);
-                              },
+                            return Container(
+                              padding: const EdgeInsets.only(
+                                left: 12,
+                                right: 12,
+                                top: 12,
+                                bottom: 12,
+                              ),
+                              color: Theme.of(context).colorScheme.surface,
+                              child: CommentItem(
+                                comment: parentComment,
+                                isCurrentUser:
+                                    parentComment.userId == currentUser?.id,
+                                isWriter: widget.articleUserId ==
+                                    parentComment.userId,
+                                onDelete: (commentId) {
+                                  ref
+                                      .read(commentReplyListProvider(
+                                              sortBy,
+                                              widget.articleId,
+                                              widget.commentId)
+                                          .notifier)
+                                      .delete(widget.articleId, commentId);
+                                },
+                                onUpdate: (commentId, content) {},
+                                onReply: (commentId) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_focusNode);
+                                },
+                                onToggleLike: (commentId) {
+                                  ref
+                                      .read(commentReplyListProvider(
+                                              sortBy,
+                                              widget.articleId,
+                                              widget.commentId)
+                                          .notifier)
+                                      .toggleLike(commentId);
+                                },
+                              ),
+                            );
+                          },
+                          error: (_, __) => const SizedBox.shrink(),
+                          loading: () =>
+                              const Center(child: RotatingPacaLoader()),
+                        ),
+                      ),
+                      // 구분선
+                      SliverToBoxAdapter(
+                        child: Divider(
+                          height: 1,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withAlpha(20),
+                        ),
+                      ),
+                      // 정렬 드롭다운 추가
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 12, right: 12, top: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              repliesAsync.when(
+                                data: (replies) => replies != null &&
+                                        replies.isNotEmpty
+                                    ? PopupMenuButton<String>(
+                                        child: Row(
+                                          children: [
+                                            if (sortBy == 'latest')
+                                              Text('article.sort.latest'.tr()),
+                                            if (sortBy == 'oldest')
+                                              Text('article.sort.oldest'.tr()),
+                                            const Icon(Icons.arrow_drop_down),
+                                          ],
+                                        ),
+                                        itemBuilder: (context) => [
+                                          PopupMenuItem(
+                                            value: 'latest',
+                                            child: Text(
+                                                'article.sort.latest'.tr()),
+                                          ),
+                                          PopupMenuItem(
+                                            value: 'oldest',
+                                            child: Text(
+                                                'article.sort.oldest'.tr()),
+                                          ),
+                                        ],
+                                        onSelected: (value) {
+                                          ref
+                                              .read(
+                                                  commentSortProvider.notifier)
+                                              .setSort(value);
+                                          ref.invalidate(
+                                              commentReplyListProvider(
+                                            value,
+                                            widget.articleId,
+                                            widget.commentId,
+                                          ));
+                                        },
+                                      )
+                                    : const SizedBox.shrink(),
+                                error: (_, __) => const SizedBox.shrink(),
+                                loading: () => const SizedBox.shrink(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // 답글 목록
+                      repliesAsync.when(
+                        data: (replies) {
+                          if (replies == null || replies.isEmpty) {
+                            return const SliverFillRemaining(
+                              child: Center(
+                                child: Text('comment.no_replies'),
+                              ),
+                            );
+                          }
+
+                          return SliverPadding(
+                            padding: const EdgeInsets.only(left: 24, right: 12),
+                            sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                                  if (index == replies.length) {
+                                    return const SizedBox(height: 70); // 입력창 여백
+                                  }
+                                  final reply = replies[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 12),
+                                    child: CommentItem(
+                                      comment: reply,
+                                      isCurrentUser:
+                                          reply.userId == currentUser?.id,
+                                      isWriter:
+                                          widget.articleUserId == reply.userId,
+                                      isReply: true,
+                                      onDelete: (commentId) {},
+                                      onUpdate: (commentId, content) {},
+                                      onReply: (commentId) {},
+                                      onToggleLike: (commentId) {
+                                        ref
+                                            .read(commentReplyListProvider(
+                                                    sortBy,
+                                                    widget.articleId,
+                                                    widget.commentId)
+                                                .notifier)
+                                            .toggleLike(commentId);
+                                      },
+                                    ),
+                                  );
+                                },
+                                childCount: replies.length + 1,
+                              ),
                             ),
                           );
                         },
-                        error: (_, __) => const SizedBox.shrink(),
-                        loading: () =>
-                            const Center(child: RotatingPacaLoader()),
-                      ),
-                    ),
-                    // 구분선
-                    SliverToBoxAdapter(
-                      child: Divider(
-                        height: 1,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withAlpha(20),
-                      ),
-                    ),
-                    // 정렬 드롭다운 추가
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 12, right: 12, top: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            repliesAsync.when(
-                              data: (replies) => replies != null &&
-                                      replies.isNotEmpty
-                                  ? PopupMenuButton<String>(
-                                      child: Row(
-                                        children: [
-                                          if (sortBy == 'latest')
-                                            Text('article.sort.latest'.tr()),
-                                          if (sortBy == 'oldest')
-                                            Text('article.sort.oldest'.tr()),
-                                          const Icon(Icons.arrow_drop_down),
-                                        ],
-                                      ),
-                                      itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                          value: 'latest',
-                                          child:
-                                              Text('article.sort.latest'.tr()),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'oldest',
-                                          child:
-                                              Text('article.sort.oldest'.tr()),
-                                        ),
-                                      ],
-                                      onSelected: (value) {
-                                        ref
-                                            .read(commentSortProvider.notifier)
-                                            .setSort(value);
-                                        ref.invalidate(commentReplyListProvider(
-                                          value,
-                                          widget.articleId,
-                                          widget.commentId,
-                                        ));
-                                      },
-                                    )
-                                  : const SizedBox.shrink(),
-                              error: (_, __) => const SizedBox.shrink(),
-                              loading: () => const SizedBox.shrink(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    // 답글 목록
-                    repliesAsync.when(
-                      data: (replies) {
-                        if (replies == null || replies.isEmpty) {
-                          return const SliverFillRemaining(
-                            child: Center(
-                              child: Text('comment.no_replies'),
-                            ),
-                          );
-                        }
-
-                        return SliverPadding(
-                          padding: const EdgeInsets.only(left: 24, right: 12),
-                          sliver: SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) {
-                                if (index == replies.length) {
-                                  return const SizedBox(height: 70); // 입력창 여백
-                                }
-                                final reply = replies[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(top: 12),
-                                  child: CommentItem(
-                                    comment: reply,
-                                    isCurrentUser:
-                                        reply.userId == currentUser?.id,
-                                    isWriter:
-                                        widget.articleUserId == reply.userId,
-                                    isReply: true,
-                                    onDelete: (commentId) {},
-                                    onUpdate: (commentId, content) {},
-                                    onReply: (commentId) {},
-                                    onToggleLike: (commentId) {
-                                      ref
-                                          .read(commentReplyListProvider(
-                                                  sortBy,
-                                                  widget.articleId,
-                                                  widget.commentId)
-                                              .notifier)
-                                          .toggleLike(commentId);
-                                    },
-                                  ),
-                                );
-                              },
-                              childCount: replies.length + 1,
-                            ),
+                        error: (error, _) => SliverFillRemaining(
+                          child: Center(
+                            child: Text('error.generic'.tr()),
                           ),
-                        );
-                      },
-                      error: (error, _) => SliverFillRemaining(
-                        child: Center(
-                          child: Text('error.generic'.tr()),
+                        ),
+                        loading: () => const SliverFillRemaining(
+                          child: Center(
+                            child: RotatingPacaLoader(),
+                          ),
                         ),
                       ),
-                      loading: () => const SliverFillRemaining(
-                        child: Center(
-                          child: RotatingPacaLoader(),
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 50),
-          ],
+              const SizedBox(height: 50),
+            ],
+          ),
         ),
       ),
       bottomSheet: currentUser != null
