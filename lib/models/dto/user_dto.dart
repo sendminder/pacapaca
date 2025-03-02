@@ -55,7 +55,6 @@ class DisplayUserDTO with _$DisplayUserDTO {
 class UserDTO with _$UserDTO {
   const factory UserDTO({
     required int id,
-    required String email,
     @JsonKey(name: 'create_time') String? createTime,
     @JsonKey(name: 'update_time') String? updateTime,
     @JsonKey(name: 'last_login_time') String? lastLoginTime,
@@ -66,4 +65,24 @@ class UserDTO with _$UserDTO {
 
   factory UserDTO.fromJson(Map<String, dynamic> json) =>
       _$UserDTOFromJson(json);
+}
+
+@freezed
+class RequestGetUserByID with _$RequestGetUserByID {
+  const factory RequestGetUserByID({
+    required int id,
+  }) = _RequestGetUserByID;
+
+  factory RequestGetUserByID.fromJson(Map<String, dynamic> json) =>
+      _$RequestGetUserByIDFromJson(json);
+}
+
+@freezed
+class ResponseGetUserByID with _$ResponseGetUserByID {
+  const factory ResponseGetUserByID({
+    UserDTO? user,
+  }) = _ResponseGetUserByID;
+
+  factory ResponseGetUserByID.fromJson(Map<String, dynamic> json) =>
+      _$ResponseGetUserByIDFromJson(json);
 }

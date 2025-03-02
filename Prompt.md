@@ -12,7 +12,7 @@
 - 서버코드를 먼저 참고하여 어떤 api 가 필요한지 확인
 - @lib/models/dto/block_dto.dart 에 dto 추가
 - @lib/services/block_service.dart 에 서비스 추가
-- main.dart에 get_it 을 사용하여 service singleton 추가
+- @lib/main.dart에 get_it 을 사용하여 service singleton 추가
 - @lib/providers/block_provider.dart 에 provider 추가
 - @lib/pages/block 에 페이지 추가
 - @lib/pages/block/widgets 에 위젯 추가

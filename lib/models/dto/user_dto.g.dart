@@ -40,7 +40,6 @@ Map<String, dynamic> _$$DisplayUserDTOImplToJson(
 _$UserDTOImpl _$$UserDTOImplFromJson(Map<String, dynamic> json) =>
     _$UserDTOImpl(
       id: (json['id'] as num).toInt(),
-      email: json['email'] as String,
       createTime: json['create_time'] as String?,
       updateTime: json['update_time'] as String?,
       lastLoginTime: json['last_login_time'] as String?,
@@ -53,11 +52,36 @@ _$UserDTOImpl _$$UserDTOImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$UserDTOImplToJson(_$UserDTOImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'email': instance.email,
       'create_time': instance.createTime,
       'update_time': instance.updateTime,
       'last_login_time': instance.lastLoginTime,
       'block_time': instance.blockTime,
       'delete_time': instance.deleteTime,
       'display_user': instance.displayUser,
+    };
+
+_$RequestGetUserByIDImpl _$$RequestGetUserByIDImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RequestGetUserByIDImpl(
+      id: (json['id'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$RequestGetUserByIDImplToJson(
+        _$RequestGetUserByIDImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+_$ResponseGetUserByIDImpl _$$ResponseGetUserByIDImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseGetUserByIDImpl(
+      user: json['user'] == null
+          ? null
+          : UserDTO.fromJson(json['user'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseGetUserByIDImplToJson(
+        _$ResponseGetUserByIDImpl instance) =>
+    <String, dynamic>{
+      'user': instance.user,
     };

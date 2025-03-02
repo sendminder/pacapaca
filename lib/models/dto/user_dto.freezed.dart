@@ -416,7 +416,6 @@ UserDTO _$UserDTOFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserDTO {
   int get id => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
   @JsonKey(name: 'create_time')
   String? get createTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'update_time')
@@ -446,7 +445,6 @@ abstract class $UserDTOCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      String email,
       @JsonKey(name: 'create_time') String? createTime,
       @JsonKey(name: 'update_time') String? updateTime,
       @JsonKey(name: 'last_login_time') String? lastLoginTime,
@@ -473,7 +471,6 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
   @override
   $Res call({
     Object? id = null,
-    Object? email = null,
     Object? createTime = freezed,
     Object? updateTime = freezed,
     Object? lastLoginTime = freezed,
@@ -486,10 +483,6 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
       createTime: freezed == createTime
           ? _value.createTime
           : createTime // ignore: cast_nullable_to_non_nullable
@@ -537,7 +530,6 @@ abstract class _$$UserDTOImplCopyWith<$Res> implements $UserDTOCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      String email,
       @JsonKey(name: 'create_time') String? createTime,
       @JsonKey(name: 'update_time') String? updateTime,
       @JsonKey(name: 'last_login_time') String? lastLoginTime,
@@ -563,7 +555,6 @@ class __$$UserDTOImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? email = null,
     Object? createTime = freezed,
     Object? updateTime = freezed,
     Object? lastLoginTime = freezed,
@@ -576,10 +567,6 @@ class __$$UserDTOImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
       createTime: freezed == createTime
           ? _value.createTime
           : createTime // ignore: cast_nullable_to_non_nullable
@@ -613,7 +600,6 @@ class __$$UserDTOImplCopyWithImpl<$Res>
 class _$UserDTOImpl implements _UserDTO {
   const _$UserDTOImpl(
       {required this.id,
-      required this.email,
       @JsonKey(name: 'create_time') this.createTime,
       @JsonKey(name: 'update_time') this.updateTime,
       @JsonKey(name: 'last_login_time') this.lastLoginTime,
@@ -626,8 +612,6 @@ class _$UserDTOImpl implements _UserDTO {
 
   @override
   final int id;
-  @override
-  final String email;
   @override
   @JsonKey(name: 'create_time')
   final String? createTime;
@@ -649,7 +633,7 @@ class _$UserDTOImpl implements _UserDTO {
 
   @override
   String toString() {
-    return 'UserDTO(id: $id, email: $email, createTime: $createTime, updateTime: $updateTime, lastLoginTime: $lastLoginTime, blockTime: $blockTime, deleteTime: $deleteTime, displayUser: $displayUser)';
+    return 'UserDTO(id: $id, createTime: $createTime, updateTime: $updateTime, lastLoginTime: $lastLoginTime, blockTime: $blockTime, deleteTime: $deleteTime, displayUser: $displayUser)';
   }
 
   @override
@@ -658,7 +642,6 @@ class _$UserDTOImpl implements _UserDTO {
         (other.runtimeType == runtimeType &&
             other is _$UserDTOImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.email, email) || other.email == email) &&
             (identical(other.createTime, createTime) ||
                 other.createTime == createTime) &&
             (identical(other.updateTime, updateTime) ||
@@ -675,8 +658,8 @@ class _$UserDTOImpl implements _UserDTO {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, email, createTime,
-      updateTime, lastLoginTime, blockTime, deleteTime, displayUser);
+  int get hashCode => Object.hash(runtimeType, id, createTime, updateTime,
+      lastLoginTime, blockTime, deleteTime, displayUser);
 
   /// Create a copy of UserDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -697,7 +680,6 @@ class _$UserDTOImpl implements _UserDTO {
 abstract class _UserDTO implements UserDTO {
   const factory _UserDTO(
       {required final int id,
-      required final String email,
       @JsonKey(name: 'create_time') final String? createTime,
       @JsonKey(name: 'update_time') final String? updateTime,
       @JsonKey(name: 'last_login_time') final String? lastLoginTime,
@@ -710,8 +692,6 @@ abstract class _UserDTO implements UserDTO {
 
   @override
   int get id;
-  @override
-  String get email;
   @override
   @JsonKey(name: 'create_time')
   String? get createTime;
@@ -736,5 +716,326 @@ abstract class _UserDTO implements UserDTO {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserDTOImplCopyWith<_$UserDTOImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RequestGetUserByID _$RequestGetUserByIDFromJson(Map<String, dynamic> json) {
+  return _RequestGetUserByID.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RequestGetUserByID {
+  int get id => throw _privateConstructorUsedError;
+
+  /// Serializes this RequestGetUserByID to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RequestGetUserByID
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RequestGetUserByIDCopyWith<RequestGetUserByID> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RequestGetUserByIDCopyWith<$Res> {
+  factory $RequestGetUserByIDCopyWith(
+          RequestGetUserByID value, $Res Function(RequestGetUserByID) then) =
+      _$RequestGetUserByIDCopyWithImpl<$Res, RequestGetUserByID>;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class _$RequestGetUserByIDCopyWithImpl<$Res, $Val extends RequestGetUserByID>
+    implements $RequestGetUserByIDCopyWith<$Res> {
+  _$RequestGetUserByIDCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RequestGetUserByID
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RequestGetUserByIDImplCopyWith<$Res>
+    implements $RequestGetUserByIDCopyWith<$Res> {
+  factory _$$RequestGetUserByIDImplCopyWith(_$RequestGetUserByIDImpl value,
+          $Res Function(_$RequestGetUserByIDImpl) then) =
+      __$$RequestGetUserByIDImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class __$$RequestGetUserByIDImplCopyWithImpl<$Res>
+    extends _$RequestGetUserByIDCopyWithImpl<$Res, _$RequestGetUserByIDImpl>
+    implements _$$RequestGetUserByIDImplCopyWith<$Res> {
+  __$$RequestGetUserByIDImplCopyWithImpl(_$RequestGetUserByIDImpl _value,
+      $Res Function(_$RequestGetUserByIDImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RequestGetUserByID
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$RequestGetUserByIDImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RequestGetUserByIDImpl implements _RequestGetUserByID {
+  const _$RequestGetUserByIDImpl({required this.id});
+
+  factory _$RequestGetUserByIDImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestGetUserByIDImplFromJson(json);
+
+  @override
+  final int id;
+
+  @override
+  String toString() {
+    return 'RequestGetUserByID(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestGetUserByIDImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  /// Create a copy of RequestGetUserByID
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestGetUserByIDImplCopyWith<_$RequestGetUserByIDImpl> get copyWith =>
+      __$$RequestGetUserByIDImplCopyWithImpl<_$RequestGetUserByIDImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestGetUserByIDImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RequestGetUserByID implements RequestGetUserByID {
+  const factory _RequestGetUserByID({required final int id}) =
+      _$RequestGetUserByIDImpl;
+
+  factory _RequestGetUserByID.fromJson(Map<String, dynamic> json) =
+      _$RequestGetUserByIDImpl.fromJson;
+
+  @override
+  int get id;
+
+  /// Create a copy of RequestGetUserByID
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequestGetUserByIDImplCopyWith<_$RequestGetUserByIDImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ResponseGetUserByID _$ResponseGetUserByIDFromJson(Map<String, dynamic> json) {
+  return _ResponseGetUserByID.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ResponseGetUserByID {
+  UserDTO? get user => throw _privateConstructorUsedError;
+
+  /// Serializes this ResponseGetUserByID to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ResponseGetUserByID
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ResponseGetUserByIDCopyWith<ResponseGetUserByID> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ResponseGetUserByIDCopyWith<$Res> {
+  factory $ResponseGetUserByIDCopyWith(
+          ResponseGetUserByID value, $Res Function(ResponseGetUserByID) then) =
+      _$ResponseGetUserByIDCopyWithImpl<$Res, ResponseGetUserByID>;
+  @useResult
+  $Res call({UserDTO? user});
+
+  $UserDTOCopyWith<$Res>? get user;
+}
+
+/// @nodoc
+class _$ResponseGetUserByIDCopyWithImpl<$Res, $Val extends ResponseGetUserByID>
+    implements $ResponseGetUserByIDCopyWith<$Res> {
+  _$ResponseGetUserByIDCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ResponseGetUserByID
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? user = freezed,
+  }) {
+    return _then(_value.copyWith(
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserDTO?,
+    ) as $Val);
+  }
+
+  /// Create a copy of ResponseGetUserByID
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserDTOCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserDTOCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ResponseGetUserByIDImplCopyWith<$Res>
+    implements $ResponseGetUserByIDCopyWith<$Res> {
+  factory _$$ResponseGetUserByIDImplCopyWith(_$ResponseGetUserByIDImpl value,
+          $Res Function(_$ResponseGetUserByIDImpl) then) =
+      __$$ResponseGetUserByIDImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({UserDTO? user});
+
+  @override
+  $UserDTOCopyWith<$Res>? get user;
+}
+
+/// @nodoc
+class __$$ResponseGetUserByIDImplCopyWithImpl<$Res>
+    extends _$ResponseGetUserByIDCopyWithImpl<$Res, _$ResponseGetUserByIDImpl>
+    implements _$$ResponseGetUserByIDImplCopyWith<$Res> {
+  __$$ResponseGetUserByIDImplCopyWithImpl(_$ResponseGetUserByIDImpl _value,
+      $Res Function(_$ResponseGetUserByIDImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ResponseGetUserByID
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? user = freezed,
+  }) {
+    return _then(_$ResponseGetUserByIDImpl(
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserDTO?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ResponseGetUserByIDImpl implements _ResponseGetUserByID {
+  const _$ResponseGetUserByIDImpl({this.user});
+
+  factory _$ResponseGetUserByIDImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseGetUserByIDImplFromJson(json);
+
+  @override
+  final UserDTO? user;
+
+  @override
+  String toString() {
+    return 'ResponseGetUserByID(user: $user)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResponseGetUserByIDImpl &&
+            (identical(other.user, user) || other.user == user));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, user);
+
+  /// Create a copy of ResponseGetUserByID
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ResponseGetUserByIDImplCopyWith<_$ResponseGetUserByIDImpl> get copyWith =>
+      __$$ResponseGetUserByIDImplCopyWithImpl<_$ResponseGetUserByIDImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ResponseGetUserByIDImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ResponseGetUserByID implements ResponseGetUserByID {
+  const factory _ResponseGetUserByID({final UserDTO? user}) =
+      _$ResponseGetUserByIDImpl;
+
+  factory _ResponseGetUserByID.fromJson(Map<String, dynamic> json) =
+      _$ResponseGetUserByIDImpl.fromJson;
+
+  @override
+  UserDTO? get user;
+
+  /// Create a copy of ResponseGetUserByID
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ResponseGetUserByIDImplCopyWith<_$ResponseGetUserByIDImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
