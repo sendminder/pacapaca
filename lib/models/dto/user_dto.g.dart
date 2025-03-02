@@ -47,6 +47,8 @@ _$UserDTOImpl _$$UserDTOImplFromJson(Map<String, dynamic> json) =>
       deleteTime: json['delete_time'] as String?,
       displayUser:
           DisplayUserDTO.fromJson(json['display_user'] as Map<String, dynamic>),
+      notificationSetupCompleted:
+          json['notification_setup_completed'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$UserDTOImplToJson(_$UserDTOImpl instance) =>
@@ -58,6 +60,7 @@ Map<String, dynamic> _$$UserDTOImplToJson(_$UserDTOImpl instance) =>
       'block_time': instance.blockTime,
       'delete_time': instance.deleteTime,
       'display_user': instance.displayUser,
+      'notification_setup_completed': instance.notificationSetupCompleted,
     };
 
 _$RequestGetUserByIDImpl _$$RequestGetUserByIDImplFromJson(
