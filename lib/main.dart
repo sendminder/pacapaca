@@ -27,6 +27,7 @@ import 'package:pacapaca/services/paca_helper_service.dart';
 import 'package:pacapaca/services/payment_service.dart';
 import 'package:pacapaca/services/product_service.dart';
 import 'package:pacapaca/services/user_service.dart';
+import 'package:pacapaca/services/in_app_purchase_service.dart';
 
 void main() async {
   // 앱 초기화
@@ -114,5 +115,6 @@ void _setupServiceLocator() {
   getIt.registerSingleton<PaymentService>(PaymentService());
   getIt.registerSingleton<ProductService>(ProductService());
   getIt.registerSingleton<UserService>(UserService());
+  getIt.registerSingleton<InAppPurchaseService>(InAppPurchaseService());
   getIt.registerSingleton<DioService>(DioService());
 }

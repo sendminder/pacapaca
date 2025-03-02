@@ -6,6 +6,7 @@ import 'package:pacapaca/models/dto/product_dto.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:io' show Platform;
+import 'package:pacapaca/providers/in_app_purchase_provider.dart';
 
 class StorePage extends ConsumerStatefulWidget {
   const StorePage({super.key});
@@ -457,8 +458,7 @@ class _StorePageState extends ConsumerState<StorePage> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                // TODO: 결제 처리 구현
-                Navigator.pop(context);
+                _handlePurchase(context, product);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
@@ -471,5 +471,54 @@ class _StorePageState extends ConsumerState<StorePage> {
         ],
       ),
     );
+  }
+
+  void _handlePurchase(BuildContext context, ProductDTO product) async {
+    // 로딩 표시
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: RotatingPacaLoader()),
+    );
+
+    try {
+      // 결제 요청
+      final success =
+          await ref.read(inAppPurchaseProvider.notifier).buyProduct(product);
+
+      // 로딩 닫기
+      Navigator.pop(context);
+
+      if (!success) {
+        // 결제 요청 실패
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('store.purchase_failed'.tr())),
+        );
+      } else {
+        // 결제 요청 성공 (실제 결제 결과는 스트림으로 받음)
+        Navigator.pop(context); // 상품 상세 모달 닫기
+
+        // 결제 결과 리스너 등록
+        ref.listen(inAppPurchaseProvider, (previous, next) {
+          next.whenData((payment) {
+            if (payment != null) {
+              // 결제 성공
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('store.purchase_success'.tr())),
+              );
+
+              // 당근 개수 새로고침 (필요한 경우)
+              // ref.read(userProvider.notifier).refreshUserInfo();
+            }
+          });
+        });
+      }
+    } catch (e) {
+      // 오류 처리
+      Navigator.pop(context); // 로딩 닫기
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('store.purchase_error'.tr())),
+      );
+    }
   }
 }

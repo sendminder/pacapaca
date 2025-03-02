@@ -43,6 +43,9 @@ dependencies:
   flutter_launcher_icons: ^0.14.3
   rename_app: ^1.6.2
   shimmer: ^3.0.0
+  in_app_purchase: ^3.2.1
+  in_app_purchase_android: ^0.4.0
+  in_app_purchase_storekit: ^0.3.21
 
 dev_dependencies:
   flutter_test:
