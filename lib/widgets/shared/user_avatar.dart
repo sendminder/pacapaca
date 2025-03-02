@@ -1,38 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:pacapaca/models/enums/profile_type.dart';
+import 'package:go_router/go_router.dart';
 
 class UserAvatar extends StatelessWidget {
   final String imageUrl;
   final double radius;
   final String? profileType;
+  final int? userId;
+  final VoidCallback? onTap;
 
   const UserAvatar({
     super.key,
     required this.imageUrl,
     this.profileType,
     this.radius = 16,
+    this.userId,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final profileType = this.profileType ?? PacapacaProfileType.pacappi.value;
 
-    return Container(
-      width: radius * 2,
-      height: radius * 2,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.transparent,
+    return GestureDetector(
+      onTap: onTap ??
+          (userId != null ? () => context.push('/users/$userId') : null),
+      child: Container(
+        width: radius * 2,
+        height: radius * 2,
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.transparent,
+        ),
+        child: imageUrl.isNotEmpty
+            ? Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                width: radius * 2,
+                height: radius * 2,
+              )
+            : getProfileImage(profileType),
       ),
-      child: imageUrl.isNotEmpty
-          ? Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-              width: radius * 2,
-              height: radius * 2,
-            )
-          : getProfileImage(profileType),
     );
   }
 

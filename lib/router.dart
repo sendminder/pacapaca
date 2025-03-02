@@ -25,6 +25,7 @@ import 'pages/ranking/ranking_type.dart';
 import 'package:pacapaca/pages/article/comment_replies_page.dart';
 import 'package:pacapaca/pages/store/store_page.dart';
 import 'package:pacapaca/pages/payment/payment_history_page.dart';
+import 'pages/user/user_detail_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -186,6 +187,13 @@ class RouterNotifier extends ChangeNotifier {
           path: '/payment-history',
           parentNavigatorKey: _rootNavigatorKey,
           builder: (context, state) => const PaymentHistoryPage(),
+        ),
+        GoRoute(
+          path: '/users/:userId',
+          builder: (context, state) {
+            final userId = int.parse(state.pathParameters['userId']!);
+            return UserDetailPage(userId: userId);
+          },
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
