@@ -29,6 +29,8 @@ import 'pages/user/user_detail_page.dart';
 import 'pages/auth/notification_permission_page.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'pages/notification/notification_page.dart';
+import 'pages/carrot/carrot_history_page.dart';
+import 'pages/point/point_history_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -216,6 +218,14 @@ class RouterNotifier extends ChangeNotifier {
           path: '/notifications',
           parentNavigatorKey: _rootNavigatorKey,
           builder: (context, state) => const NotificationPage(),
+        ),
+        GoRoute(
+          path: '/carrot-history',
+          builder: (context, state) => const CarrotHistoryPage(),
+        ),
+        GoRoute(
+          path: '/point-history',
+          builder: (context, state) => const PointHistoryPage(),
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {

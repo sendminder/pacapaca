@@ -143,7 +143,8 @@
         "sent": "Sent {} Carrot, {} Carrot left",
         "error": "Failed to send carrot",
         "for_article": "Thank you for article '{}'",
-        "for_comment": "Thank you for comment '{}'"
+        "for_comment": "Thank you for comment '{}'",
+        "history_title": "Carrot History"
     },
     "profile": {
         "title": "Profile",

@@ -155,8 +155,9 @@
         "cancel": "취소",
         "sent": "{}개의 당근을 보냈어요. {}개의 당근이 남았어요",
         "error": "당근을 보내는 중 오류가 발생했어요",
-        "for_article": "게시글 '{}'에 대한 감사 표시",
-        "for_comment": "댓글 '{}'에 대한 감사 표시"
+        "for_article": "게시글에 대한 공감",
+        "for_comment": "댓글에 대한 공감",
+        "history_title": "당근 내역"
     },
     "profile": {
         "title": "마이페이지",
