@@ -60,10 +60,10 @@ Map<String, dynamic> _$$ResponseNotificationImplToJson(
 _$ResponseNotificationListImpl _$$ResponseNotificationListImplFromJson(
         Map<String, dynamic> json) =>
     _$ResponseNotificationListImpl(
-      notifications: (json['notifications'] as List<dynamic>)
-          .map((e) => NotificationDTO.fromJson(e as Map<String, dynamic>))
+      notifications: (json['notifications'] as List<dynamic>?)
+          ?.map((e) => NotificationDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
-      total: (json['total'] as num).toInt(),
+      total: (json['total'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$ResponseNotificationListImplToJson(

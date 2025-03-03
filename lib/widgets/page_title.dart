@@ -46,7 +46,7 @@ class PageTitle extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       foregroundColor: Theme.of(context).colorScheme.onSurface.withAlpha(200),
       bottom: bottom,
-      titleSpacing: hasBackButton ? 0 : 16,
+      titleSpacing: hasBackButton ? 0 : 20,
       scrolledUnderElevation: 0,
       surfaceTintColor: Colors.transparent,
       automaticallyImplyLeading: hasBackButton,

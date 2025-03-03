@@ -656,8 +656,9 @@ ResponseNotificationList _$ResponseNotificationListFromJson(
 
 /// @nodoc
 mixin _$ResponseNotificationList {
-  List<NotificationDTO> get notifications => throw _privateConstructorUsedError;
-  int get total => throw _privateConstructorUsedError;
+  List<NotificationDTO>? get notifications =>
+      throw _privateConstructorUsedError;
+  int? get total => throw _privateConstructorUsedError;
 
   /// Serializes this ResponseNotificationList to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -675,7 +676,7 @@ abstract class $ResponseNotificationListCopyWith<$Res> {
           $Res Function(ResponseNotificationList) then) =
       _$ResponseNotificationListCopyWithImpl<$Res, ResponseNotificationList>;
   @useResult
-  $Res call({List<NotificationDTO> notifications, int total});
+  $Res call({List<NotificationDTO>? notifications, int? total});
 }
 
 /// @nodoc
@@ -694,18 +695,18 @@ class _$ResponseNotificationListCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? notifications = null,
-    Object? total = null,
+    Object? notifications = freezed,
+    Object? total = freezed,
   }) {
     return _then(_value.copyWith(
-      notifications: null == notifications
+      notifications: freezed == notifications
           ? _value.notifications
           : notifications // ignore: cast_nullable_to_non_nullable
-              as List<NotificationDTO>,
-      total: null == total
+              as List<NotificationDTO>?,
+      total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ) as $Val);
   }
 }
@@ -719,7 +720,7 @@ abstract class _$$ResponseNotificationListImplCopyWith<$Res>
       __$$ResponseNotificationListImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<NotificationDTO> notifications, int total});
+  $Res call({List<NotificationDTO>? notifications, int? total});
 }
 
 /// @nodoc
@@ -737,18 +738,18 @@ class __$$ResponseNotificationListImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? notifications = null,
-    Object? total = null,
+    Object? notifications = freezed,
+    Object? total = freezed,
   }) {
     return _then(_$ResponseNotificationListImpl(
-      notifications: null == notifications
+      notifications: freezed == notifications
           ? _value._notifications
           : notifications // ignore: cast_nullable_to_non_nullable
-              as List<NotificationDTO>,
-      total: null == total
+              as List<NotificationDTO>?,
+      total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -757,22 +758,24 @@ class __$$ResponseNotificationListImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ResponseNotificationListImpl implements _ResponseNotificationList {
   const _$ResponseNotificationListImpl(
-      {required final List<NotificationDTO> notifications, required this.total})
+      {final List<NotificationDTO>? notifications, this.total})
       : _notifications = notifications;
 
   factory _$ResponseNotificationListImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResponseNotificationListImplFromJson(json);
 
-  final List<NotificationDTO> _notifications;
+  final List<NotificationDTO>? _notifications;
   @override
-  List<NotificationDTO> get notifications {
+  List<NotificationDTO>? get notifications {
+    final value = _notifications;
+    if (value == null) return null;
     if (_notifications is EqualUnmodifiableListView) return _notifications;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_notifications);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
-  final int total;
+  final int? total;
 
   @override
   String toString() {
@@ -813,16 +816,16 @@ class _$ResponseNotificationListImpl implements _ResponseNotificationList {
 
 abstract class _ResponseNotificationList implements ResponseNotificationList {
   const factory _ResponseNotificationList(
-      {required final List<NotificationDTO> notifications,
-      required final int total}) = _$ResponseNotificationListImpl;
+      {final List<NotificationDTO>? notifications,
+      final int? total}) = _$ResponseNotificationListImpl;
 
   factory _ResponseNotificationList.fromJson(Map<String, dynamic> json) =
       _$ResponseNotificationListImpl.fromJson;
 
   @override
-  List<NotificationDTO> get notifications;
+  List<NotificationDTO>? get notifications;
   @override
-  int get total;
+  int? get total;
 
   /// Create a copy of ResponseNotificationList
   /// with the given fields replaced by the non-null parameter values.

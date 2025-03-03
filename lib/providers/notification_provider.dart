@@ -2,19 +2,23 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/models/dto/notification_dto.dart';
 import 'package:pacapaca/services/notification_service.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'notification_provider.g.dart';
+
+@Riverpod(keepAlive: true)
+Notifications notifications(NotificationsRef ref) => Notifications();
 
 @riverpod
 class Notifications extends _$Notifications {
   final _notificationService = GetIt.instance<NotificationService>();
   int _pagingKey = 0;
-  bool _hasMore = true;
   static const int _limit = 20;
 
   @override
   Future<List<NotificationDTO>> build() async {
+    if (state.value != null && state.value!.isNotEmpty) {
+      return state.value!;
+    }
     // 초기 알림 목록 로드
     final response = await _notificationService.getNotifications(
       limit: _limit,
@@ -22,11 +26,11 @@ class Notifications extends _$Notifications {
     );
 
     if (response != null) {
-      _hasMore = response.notifications.length >= _limit;
-      if (response.notifications.isNotEmpty) {
-        _pagingKey = response.notifications.last.id;
+      if (response.notifications != null &&
+          response.notifications!.isNotEmpty) {
+        _pagingKey = response.notifications!.last.id;
       }
-      return response.notifications;
+      return response.notifications ?? [];
     }
 
     return [];
@@ -34,10 +38,6 @@ class Notifications extends _$Notifications {
 
   /// 알림 더 불러오기
   Future<void> loadMore() async {
-    if (!_hasMore || state.isLoading) return;
-
-    state = const AsyncValue.loading();
-
     try {
       final response = await _notificationService.getNotifications(
         limit: _limit,
@@ -46,9 +46,8 @@ class Notifications extends _$Notifications {
 
       if (response != null) {
         final newNotifications = response.notifications;
-        _hasMore = newNotifications.length >= _limit;
 
-        if (newNotifications.isNotEmpty) {
+        if (newNotifications != null && newNotifications.isNotEmpty) {
           _pagingKey = newNotifications.last.id;
           state = AsyncValue.data([...state.value ?? [], ...newNotifications]);
         } else {
@@ -102,7 +101,6 @@ class Notifications extends _$Notifications {
   /// 알림 목록 새로고침
   Future<void> refreshNotifications() async {
     _pagingKey = 0;
-    _hasMore = true;
 
     state = const AsyncValue.loading();
 
@@ -113,11 +111,11 @@ class Notifications extends _$Notifications {
       );
 
       if (response != null) {
-        _hasMore = response.notifications.length >= _limit;
-        if (response.notifications.isNotEmpty) {
-          _pagingKey = response.notifications.last.id;
+        if (response.notifications != null &&
+            response.notifications!.isNotEmpty) {
+          _pagingKey = response.notifications!.last.id;
         }
-        state = AsyncValue.data(response.notifications);
+        state = AsyncValue.data(response.notifications ?? []);
       } else {
         state = const AsyncValue.data([]);
       }
@@ -131,11 +129,6 @@ class Notifications extends _$Notifications {
 class UnreadNotificationCount extends _$UnreadNotificationCount {
   @override
   int build() {
-    final notifications = ref.watch(notificationsProvider);
-    return notifications.when(
-      data: (list) => list.where((notification) => !notification.isRead).length,
-      loading: () => 0,
-      error: (_, __) => 0,
-    );
+    return 0;
   }
 }

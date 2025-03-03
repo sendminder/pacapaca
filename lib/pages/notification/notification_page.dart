@@ -40,6 +40,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
     final notificationsAsync = ref.watch(notificationsProvider);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: PageTitle(
         title: 'notification.title'.tr(),
         actions: [

@@ -4,6 +4,8 @@ import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:pacapaca/constants/theme.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:convert'; // 해시 함수를 위한 import
+import 'package:crypto/crypto.dart'; // crypto 패키지 추가 필요
 
 class UserProfileCard extends StatelessWidget {
   final UserDTO user;
@@ -25,6 +27,9 @@ class UserProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+
+    // 사용자 ID를 해시로 변환
+    final String idHash = _generateShortHash(user.displayUser.id.toString());
 
     return Card(
       elevation: 0,
@@ -71,6 +76,14 @@ class UserProfileCard extends StatelessWidget {
                               ),
                             ),
                         ],
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        "#$idHash",
+                        style: textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurface.withAlpha(150),
+                          fontSize: 14,
+                        ),
                       ),
                     ],
                   ),
@@ -285,5 +298,11 @@ class UserProfileCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _generateShortHash(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString().substring(0, 8);
   }
 }

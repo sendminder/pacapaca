@@ -59,6 +59,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     _selectedCategory = ref.watch(articleCategoryProvider);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: PageTitle(
         title: 'article.title'.tr(),
         actions: const [

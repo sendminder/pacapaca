@@ -43,8 +43,8 @@ class ResponseNotification with _$ResponseNotification {
 @freezed
 class ResponseNotificationList with _$ResponseNotificationList {
   const factory ResponseNotificationList({
-    required List<NotificationDTO> notifications,
-    required int total,
+    List<NotificationDTO>? notifications,
+    int? total,
   }) = _ResponseNotificationList;
 
   factory ResponseNotificationList.fromJson(Map<String, dynamic> json) =>

@@ -6,7 +6,24 @@ part of 'notification_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$notificationsHash() => r'd187946f932ce661063d721c9908b3e0cd5822d6';
+String _$notificationsHash() => r'4c016e5b632f56b907d374388bf8ea57424b87de';
+
+/// See also [notifications].
+@ProviderFor(notifications)
+final notificationsProvider = Provider<Notifications>.internal(
+  notifications,
+  name: r'notificationsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$notificationsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef NotificationsRef = ProviderRef<Notifications>;
+String _$notificationsHash() => r'3c8d91b24c79f216fa32323f9c1fab9a3adc3ece';
 
 /// See also [Notifications].
 @ProviderFor(Notifications)

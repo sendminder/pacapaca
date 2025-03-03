@@ -68,6 +68,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     _updateArticleList(ref, provider);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: PageTitle(
         title: 'article.title'.tr(),
         actions: [

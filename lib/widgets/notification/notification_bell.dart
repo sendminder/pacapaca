@@ -14,7 +14,10 @@ class NotificationBell extends ConsumerWidget {
       clipBehavior: Clip.none,
       children: [
         IconButton(
-          icon: const Icon(Icons.notifications_outlined),
+          icon: Icon(
+            Icons.notifications_none_rounded,
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(200),
+          ),
           onPressed: () {
             context.push('/notifications');
           },

@@ -68,6 +68,7 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
     final parentCommentAsync = ref.watch(commentListProvider(widget.articleId));
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: PageTitle(
         title: 'comment.replies'.tr(),
       ),

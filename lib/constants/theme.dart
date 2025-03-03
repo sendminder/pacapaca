@@ -10,7 +10,7 @@ class AppTheme {
 
   // 다크모드 색상
   static const darkPrimaryColor = Color(0xFFB39DDB); // 더 밝은 보라색
-  static const darkBackgroundColor = Color(0xFF121212); // 더 어두운 배경
+  static const darkBackgroundColor = Color(0xFF1E1E1E); // 더 어두운 배경
   static const darkSurfaceColor = Color(0xFF1E1E1E); // 카드 등의 표면 색상
   static const darkTextColor = Color(0xFFE1E1E1); // 주 텍스트 색상
   static const darkTextSecondaryColor = Color(0xFFB0B0B0); // 보조 텍스트 색상
@@ -27,7 +27,7 @@ class AppTheme {
         primary: primaryColor,
         secondary: secondaryColor,
         error: errorColor,
-        surface: Colors.white,
+        surface: backgroundColor,
         surfaceContainerLow: Colors.grey.shade100,
         onSurface: Colors.black87,
       ),
@@ -49,7 +49,7 @@ class AppTheme {
       // 버튼 테마
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white,
+          foregroundColor: backgroundColor,
           backgroundColor: primaryColor,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           shape: RoundedRectangleBorder(
@@ -65,8 +65,8 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        color: Colors.white,
-        shadowColor: primaryColor.withOpacity(0.1),
+        color: backgroundColor,
+        shadowColor: primaryColor.withAlpha(20),
       ),
 
       // 입력 필드 테마
@@ -85,7 +85,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: primaryColor.withOpacity(0.5)),
+          borderSide: BorderSide(color: primaryColor.withAlpha(128)),
         ),
         hintStyle: TextStyle(
           color: Colors.grey[400],
@@ -119,13 +119,13 @@ class AppTheme {
         surface: darkSurfaceColor,
         surfaceContainerLow: Colors.grey.shade900,
         onSurface: darkTextColor,
-        onPrimary: Colors.black, // 버튼 텍스트 등
-        onSecondary: Colors.black,
+        onPrimary: darkSurfaceColor, // 버튼 텍스트 등
+        onSecondary: darkSurfaceColor,
       ),
 
       // AppBar 테마
       appBarTheme: AppBarTheme(
-        backgroundColor: darkBackgroundColor,
+        backgroundColor: darkSurfaceColor,
         foregroundColor: darkTextColor,
         elevation: 0,
         centerTitle: true,
@@ -150,7 +150,7 @@ class AppTheme {
       // 버튼 테마
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white,
+          foregroundColor: backgroundColor,
           backgroundColor: darkPrimaryColor,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           shape: RoundedRectangleBorder(
@@ -167,7 +167,7 @@ class AppTheme {
           borderRadius: BorderRadius.circular(20),
         ),
         color: darkSurfaceColor,
-        shadowColor: Colors.black26,
+        shadowColor: darkSurfaceColor,
       ),
 
       // 입력 필드 테마
@@ -186,7 +186,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: darkPrimaryColor.withOpacity(0.5)),
+          borderSide: BorderSide(color: darkPrimaryColor.withAlpha(128)),
         ),
         hintStyle: TextStyle(
           color: darkTextSecondaryColor,
