@@ -39,21 +39,18 @@ class Notifications extends _$Notifications {
       final lastNotification = state.value!.last;
       // 이전과 같은 페이징 키면 요청하지 않음
       if (lastNotification.id == _lastPagingKey) return;
+      _lastPagingKey = lastNotification.id;
 
       final response = await _notificationService.getNotifications(
         limit: _limit,
         pagingKey: lastNotification.id,
       );
-      _lastPagingKey = lastNotification.id;
 
       if (response != null) {
         final newNotifications = response.notifications;
+        if (newNotifications == null || newNotifications.isEmpty) return;
 
-        if (newNotifications != null && newNotifications.isNotEmpty) {
-          state = AsyncValue.data([...state.value ?? [], ...newNotifications]);
-        } else {
-          state = AsyncValue.data(state.value ?? []);
-        }
+        state = AsyncValue.data([...state.value!, ...newNotifications]);
       }
     } catch (error, stackTrace) {
       state = AsyncValue.error(error, stackTrace);

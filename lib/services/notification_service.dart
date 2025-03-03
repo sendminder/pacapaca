@@ -13,15 +13,16 @@ class NotificationService {
   /// 알림 목록 조회
   Future<ResponseNotificationList?> getNotifications({
     int limit = 20,
-    int pagingKey = 0,
+    int? pagingKey,
   }) async {
     try {
+      RequestListNotifications request = RequestListNotifications(
+        limit: limit,
+        pagingKey: pagingKey,
+      );
       final response = await _dio.get(
         '/v1/notifications',
-        queryParameters: {
-          'limit': limit,
-          'paging_key': pagingKey,
-        },
+        queryParameters: request.toJson(),
       );
 
       final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
