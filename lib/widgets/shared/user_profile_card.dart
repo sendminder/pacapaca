@@ -30,7 +30,7 @@ class UserProfileCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -70,12 +70,10 @@ class UserProfileCard extends StatelessWidget {
                             ),
                         ],
                       ),
-                      const SizedBox(height: 6),
                     ],
                   ),
                 ),
                 if (onRefresh != null) ...[
-                  const SizedBox(width: 16),
                   IconButton(
                     onPressed: onRefresh,
                     icon: Icon(
@@ -203,7 +201,7 @@ class UserProfileCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
       decoration: BoxDecoration(
         color: colorScheme.surface.withAlpha(15),
         borderRadius: BorderRadius.circular(8),

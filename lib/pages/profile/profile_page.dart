@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -30,7 +31,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final carrotBalance = ref.watch(carrotBalanceProvider);
     final pointBalance = ref.watch(pointBalanceProvider);
     final divider = Divider(
-      height: 30,
+      height: 1,
       color: Theme.of(context).colorScheme.onSurface.withAlpha(15),
     );
 
@@ -57,15 +58,22 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         ),
         data: (user) => ListView(
           children: [
-            divider,
             _buildProfileHeader(context, user),
+            const SizedBox(height: 16),
             divider,
+            const SizedBox(height: 16),
             _buildPointsSection(context, pointBalance),
+            const SizedBox(height: 16),
             divider,
+            const SizedBox(height: 16),
             _buildCarrotSection(context, carrotBalance),
+            const SizedBox(height: 16),
             divider,
+            const SizedBox(height: 16),
             _buildActivitySection(context, user),
+            const SizedBox(height: 16),
             divider,
+            const SizedBox(height: 16),
           ],
         ),
       ),
@@ -101,13 +109,27 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         data: (pointBalance) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'profile.my_points'.tr(),
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w500,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'profile.my_points'.tr(),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.history,
+                    color:
+                        Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                    size: 20,
                   ),
+                  onPressed: () => context.push('/point-history'),
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             Row(
               children: [
                 Icon(
@@ -148,7 +170,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   'profile.my_carrots'.tr(),
@@ -158,15 +180,26 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ),
                 IconButton(
                   icon: Icon(
+                    Icons.history,
+                    color:
+                        Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                    size: 20,
+                  ),
+                  onPressed: () => context.push('/carrot-history'),
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: Icon(
                     Icons.shopping_cart,
                     color: const Color(0xFFF9812A),
+                    size: 24,
                   ),
                   onPressed: () => context.push('/store'),
                   tooltip: 'profile.go_to_store'.tr(),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             Row(
               children: [
                 Image.asset(

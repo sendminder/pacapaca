@@ -105,7 +105,9 @@
         "dark": "다크",
         "logout_confirm": "정말 로그아웃 하시겠어요?",
         "cancel": "취소",
-        "blocked_users": "차단한 사용자"
+        "blocked_users": "차단한 사용자",
+        "notification_disabled": "이제 알림을 받지 않아요",
+        "notification_enabled": "이제 알림을 받아요"
     },
     "report": {
         "title": "사용자 신고",

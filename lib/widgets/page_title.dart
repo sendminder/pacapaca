@@ -14,6 +14,15 @@ class PageTitle extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 액션 버튼에 오른쪽 패딩 추가
+    final List<Widget> wrappedActions = actions != null
+        ? [
+            ...actions!,
+            // 오른쪽 여백 추가
+            const SizedBox(width: 8),
+          ]
+        : [];
+
     return AppBar(
       title: Text(
         title,
@@ -22,13 +31,15 @@ class PageTitle extends StatelessWidget implements PreferredSizeWidget {
           fontSize: 28,
         ),
       ),
-      actions: actions,
+      actions: wrappedActions,
       centerTitle: false,
       elevation: 0,
       backgroundColor: Theme.of(context).colorScheme.surface,
       foregroundColor: Theme.of(context).colorScheme.onSurface.withAlpha(200),
       bottom: bottom,
       titleSpacing: 20,
+      scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
     );
   }
 

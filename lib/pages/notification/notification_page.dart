@@ -37,7 +37,6 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     final notificationsAsync = ref.watch(notificationsProvider);
-    final unreadCount = ref.watch(unreadNotificationCountProvider);
 
     return Scaffold(
       appBar: PageTitle(

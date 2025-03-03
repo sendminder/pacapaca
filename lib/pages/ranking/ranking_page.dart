@@ -19,8 +19,8 @@ class RankingPage extends ConsumerWidget {
     final carrotRankings = ref.watch(carrotRankingsProvider);
 
     final divider = Divider(
-      color: Theme.of(context).colorScheme.primary.withAlpha(50),
-      height: 2,
+      color: Theme.of(context).colorScheme.onSurface.withAlpha(15),
+      height: 1,
     );
 
     return Scaffold(
@@ -29,10 +29,6 @@ class RankingPage extends ConsumerWidget {
         actions: const [
           NotificationBell(),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(4),
-          child: divider,
-        ),
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: RefreshIndicator(
@@ -92,6 +88,8 @@ class RankingPage extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 24),
+            divider,
+            const SizedBox(height: 16),
 
             // 포인트 랭킹
             pointRankings.when(
