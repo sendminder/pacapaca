@@ -144,7 +144,14 @@
         "error": "Failed to send carrot",
         "for_article": "Thank you for article '{}'",
         "for_comment": "Thank you for comment '{}'",
-        "history_title": "Carrot History"
+        "history_title": "Carrot History",
+        "your_balance": "Your Carrot Balance: {}",
+        "send_success": "Sent {} Carrot to {}",
+        "transaction": "Carrot Exchange",
+        "payment": "Carrot Payment",
+        "reward": "Carrot Reward",
+        "transfer": "Carrot Transfer",
+        "refund": "Carrot Refund"
     },
     "profile": {
         "title": "Profile",

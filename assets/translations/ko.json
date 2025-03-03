@@ -159,7 +159,12 @@
         "for_comment": "댓글에 대한 공감",
         "history_title": "당근 내역",
         "your_balance": "보유 당근: {}개",
-        "send_success": "{}님에게 당근 {}개를 보냈어요"
+        "send_success": "{}님에게 당근 {}개를 보냈어요",
+        "transaction": "당근 교환",
+        "payment": "당근 결제",
+        "reward": "당근 보상",
+        "transfer": "당근 교환",
+        "refund": "당근 환불"
     },
     "profile": {
         "title": "마이페이지",

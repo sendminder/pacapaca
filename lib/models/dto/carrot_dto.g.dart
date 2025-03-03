@@ -133,13 +133,14 @@ _$CarrotTransactionDTOImpl _$$CarrotTransactionDTOImplFromJson(
         Map<String, dynamic> json) =>
     _$CarrotTransactionDTOImpl(
       id: (json['id'] as num).toInt(),
-      senderId: (json['sender_id'] as num).toInt(),
+      senderId: (json['sender_id'] as num?)?.toInt(),
       receiverId: (json['receiver_id'] as num).toInt(),
       amount: (json['amount'] as num).toInt(),
       description: json['description'] as String?,
       commentId: (json['comment_id'] as num?)?.toInt(),
       articleId: (json['article_id'] as num?)?.toInt(),
       createTime: json['create_time'] as String,
+      type: json['type'] as String,
     );
 
 Map<String, dynamic> _$$CarrotTransactionDTOImplToJson(
@@ -153,4 +154,5 @@ Map<String, dynamic> _$$CarrotTransactionDTOImplToJson(
       'comment_id': instance.commentId,
       'article_id': instance.articleId,
       'create_time': instance.createTime,
+      'type': instance.type,
     };

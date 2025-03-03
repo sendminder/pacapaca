@@ -98,13 +98,14 @@ class ResponseCarrotRankings with _$ResponseCarrotRankings {
 class CarrotTransactionDTO with _$CarrotTransactionDTO {
   const factory CarrotTransactionDTO({
     required int id,
-    @JsonKey(name: 'sender_id') required int senderId,
+    @JsonKey(name: 'sender_id') int? senderId,
     @JsonKey(name: 'receiver_id') required int receiverId,
     required int amount,
     String? description,
     @JsonKey(name: 'comment_id') int? commentId,
     @JsonKey(name: 'article_id') int? articleId,
     @JsonKey(name: 'create_time') required String createTime,
+    required String type,
   }) = _CarrotTransactionDTO;
 
   factory CarrotTransactionDTO.fromJson(Map<String, dynamic> json) =>

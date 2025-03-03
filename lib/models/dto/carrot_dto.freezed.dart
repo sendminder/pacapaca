@@ -1547,7 +1547,7 @@ CarrotTransactionDTO _$CarrotTransactionDTOFromJson(Map<String, dynamic> json) {
 mixin _$CarrotTransactionDTO {
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'sender_id')
-  int get senderId => throw _privateConstructorUsedError;
+  int? get senderId => throw _privateConstructorUsedError;
   @JsonKey(name: 'receiver_id')
   int get receiverId => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
@@ -1558,6 +1558,7 @@ mixin _$CarrotTransactionDTO {
   int? get articleId => throw _privateConstructorUsedError;
   @JsonKey(name: 'create_time')
   String get createTime => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
 
   /// Serializes this CarrotTransactionDTO to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1577,13 +1578,14 @@ abstract class $CarrotTransactionDTOCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      @JsonKey(name: 'sender_id') int senderId,
+      @JsonKey(name: 'sender_id') int? senderId,
       @JsonKey(name: 'receiver_id') int receiverId,
       int amount,
       String? description,
       @JsonKey(name: 'comment_id') int? commentId,
       @JsonKey(name: 'article_id') int? articleId,
-      @JsonKey(name: 'create_time') String createTime});
+      @JsonKey(name: 'create_time') String createTime,
+      String type});
 }
 
 /// @nodoc
@@ -1603,23 +1605,24 @@ class _$CarrotTransactionDTOCopyWithImpl<$Res,
   @override
   $Res call({
     Object? id = null,
-    Object? senderId = null,
+    Object? senderId = freezed,
     Object? receiverId = null,
     Object? amount = null,
     Object? description = freezed,
     Object? commentId = freezed,
     Object? articleId = freezed,
     Object? createTime = null,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      senderId: null == senderId
+      senderId: freezed == senderId
           ? _value.senderId
           : senderId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       receiverId: null == receiverId
           ? _value.receiverId
           : receiverId // ignore: cast_nullable_to_non_nullable
@@ -1644,6 +1647,10 @@ class _$CarrotTransactionDTOCopyWithImpl<$Res,
           ? _value.createTime
           : createTime // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -1658,13 +1665,14 @@ abstract class _$$CarrotTransactionDTOImplCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      @JsonKey(name: 'sender_id') int senderId,
+      @JsonKey(name: 'sender_id') int? senderId,
       @JsonKey(name: 'receiver_id') int receiverId,
       int amount,
       String? description,
       @JsonKey(name: 'comment_id') int? commentId,
       @JsonKey(name: 'article_id') int? articleId,
-      @JsonKey(name: 'create_time') String createTime});
+      @JsonKey(name: 'create_time') String createTime,
+      String type});
 }
 
 /// @nodoc
@@ -1681,23 +1689,24 @@ class __$$CarrotTransactionDTOImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? senderId = null,
+    Object? senderId = freezed,
     Object? receiverId = null,
     Object? amount = null,
     Object? description = freezed,
     Object? commentId = freezed,
     Object? articleId = freezed,
     Object? createTime = null,
+    Object? type = null,
   }) {
     return _then(_$CarrotTransactionDTOImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      senderId: null == senderId
+      senderId: freezed == senderId
           ? _value.senderId
           : senderId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       receiverId: null == receiverId
           ? _value.receiverId
           : receiverId // ignore: cast_nullable_to_non_nullable
@@ -1722,6 +1731,10 @@ class __$$CarrotTransactionDTOImplCopyWithImpl<$Res>
           ? _value.createTime
           : createTime // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -1731,13 +1744,14 @@ class __$$CarrotTransactionDTOImplCopyWithImpl<$Res>
 class _$CarrotTransactionDTOImpl implements _CarrotTransactionDTO {
   const _$CarrotTransactionDTOImpl(
       {required this.id,
-      @JsonKey(name: 'sender_id') required this.senderId,
+      @JsonKey(name: 'sender_id') this.senderId,
       @JsonKey(name: 'receiver_id') required this.receiverId,
       required this.amount,
       this.description,
       @JsonKey(name: 'comment_id') this.commentId,
       @JsonKey(name: 'article_id') this.articleId,
-      @JsonKey(name: 'create_time') required this.createTime});
+      @JsonKey(name: 'create_time') required this.createTime,
+      required this.type});
 
   factory _$CarrotTransactionDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$CarrotTransactionDTOImplFromJson(json);
@@ -1746,7 +1760,7 @@ class _$CarrotTransactionDTOImpl implements _CarrotTransactionDTO {
   final int id;
   @override
   @JsonKey(name: 'sender_id')
-  final int senderId;
+  final int? senderId;
   @override
   @JsonKey(name: 'receiver_id')
   final int receiverId;
@@ -1763,10 +1777,12 @@ class _$CarrotTransactionDTOImpl implements _CarrotTransactionDTO {
   @override
   @JsonKey(name: 'create_time')
   final String createTime;
+  @override
+  final String type;
 
   @override
   String toString() {
-    return 'CarrotTransactionDTO(id: $id, senderId: $senderId, receiverId: $receiverId, amount: $amount, description: $description, commentId: $commentId, articleId: $articleId, createTime: $createTime)';
+    return 'CarrotTransactionDTO(id: $id, senderId: $senderId, receiverId: $receiverId, amount: $amount, description: $description, commentId: $commentId, articleId: $articleId, createTime: $createTime, type: $type)';
   }
 
   @override
@@ -1787,13 +1803,14 @@ class _$CarrotTransactionDTOImpl implements _CarrotTransactionDTO {
             (identical(other.articleId, articleId) ||
                 other.articleId == articleId) &&
             (identical(other.createTime, createTime) ||
-                other.createTime == createTime));
+                other.createTime == createTime) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, senderId, receiverId, amount,
-      description, commentId, articleId, createTime);
+      description, commentId, articleId, createTime, type);
 
   /// Create a copy of CarrotTransactionDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -1815,15 +1832,15 @@ class _$CarrotTransactionDTOImpl implements _CarrotTransactionDTO {
 
 abstract class _CarrotTransactionDTO implements CarrotTransactionDTO {
   const factory _CarrotTransactionDTO(
-          {required final int id,
-          @JsonKey(name: 'sender_id') required final int senderId,
-          @JsonKey(name: 'receiver_id') required final int receiverId,
-          required final int amount,
-          final String? description,
-          @JsonKey(name: 'comment_id') final int? commentId,
-          @JsonKey(name: 'article_id') final int? articleId,
-          @JsonKey(name: 'create_time') required final String createTime}) =
-      _$CarrotTransactionDTOImpl;
+      {required final int id,
+      @JsonKey(name: 'sender_id') final int? senderId,
+      @JsonKey(name: 'receiver_id') required final int receiverId,
+      required final int amount,
+      final String? description,
+      @JsonKey(name: 'comment_id') final int? commentId,
+      @JsonKey(name: 'article_id') final int? articleId,
+      @JsonKey(name: 'create_time') required final String createTime,
+      required final String type}) = _$CarrotTransactionDTOImpl;
 
   factory _CarrotTransactionDTO.fromJson(Map<String, dynamic> json) =
       _$CarrotTransactionDTOImpl.fromJson;
@@ -1832,7 +1849,7 @@ abstract class _CarrotTransactionDTO implements CarrotTransactionDTO {
   int get id;
   @override
   @JsonKey(name: 'sender_id')
-  int get senderId;
+  int? get senderId;
   @override
   @JsonKey(name: 'receiver_id')
   int get receiverId;
@@ -1849,6 +1866,8 @@ abstract class _CarrotTransactionDTO implements CarrotTransactionDTO {
   @override
   @JsonKey(name: 'create_time')
   String get createTime;
+  @override
+  String get type;
 
   /// Create a copy of CarrotTransactionDTO
   /// with the given fields replaced by the non-null parameter values.

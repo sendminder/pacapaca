@@ -126,8 +126,26 @@ class _CarrotHistoryPageState extends ConsumerState<CarrotHistoryPage> {
       DateTime.parse(transaction.createTime),
     );
 
-    String transactionTitle =
-        transaction.description ?? 'carrot.transaction'.tr();
+    // TransactionTypePayment  = "payment"  // 결제로 인한 지급
+    // TransactionTypeReward   = "reward"   // 보상으로 인한 지급
+    // TransactionTypeTransfer = "transfer" // 유저간 이체
+    // TransactionTypeRefund   = "refund"   // 환불로 인한 차감
+
+    String transactionTitle = 'carrot.transaction'.tr();
+    if (transaction.type == 'payment') {
+      transactionTitle = 'carrot.payment'.tr();
+    }
+    if (transaction.type == 'reward') {
+      transactionTitle = 'carrot.reward'.tr();
+    }
+    if (transaction.type == 'transfer') {
+      transactionTitle = 'carrot.transfer'.tr();
+    }
+    if (transaction.type == 'refund') {
+      transactionTitle = 'carrot.refund'.tr();
+    }
+
+    bool isPlus = isReceived || transaction.type == 'refund';
 
     return GestureDetector(
       onTap: () => _handleTransactionTap(context, transaction),
@@ -172,10 +190,9 @@ class _CarrotHistoryPageState extends ConsumerState<CarrotHistoryPage> {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '${isReceived ? '+' : '-'}${transaction.amount}',
+                    '${isPlus ? '+' : '-'}${transaction.amount}',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color:
-                              isReceived ? Colors.green : AppTheme.carrotColor,
+                          color: isPlus ? Colors.green : AppTheme.carrotColor,
                           fontWeight: FontWeight.w500,
                         ),
                   ),
