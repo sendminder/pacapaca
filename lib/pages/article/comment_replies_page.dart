@@ -12,6 +12,7 @@ import 'package:pacapaca/widgets/shared/comment_item.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:pacapaca/widgets/page_title.dart';
 
 class CommentRepliesPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -67,8 +68,8 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
     final parentCommentAsync = ref.watch(commentListProvider(widget.articleId));
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('comment.replies'.tr()),
+      appBar: PageTitle(
+        title: 'comment.replies'.tr(),
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),

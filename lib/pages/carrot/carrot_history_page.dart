@@ -6,6 +6,7 @@ import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
+import 'package:go_router/go_router.dart';
 
 class CarrotHistoryPage extends ConsumerStatefulWidget {
   const CarrotHistoryPage({super.key});
@@ -119,7 +120,6 @@ class _CarrotHistoryPageState extends ConsumerState<CarrotHistoryPage> {
       BuildContext context, CarrotTransactionDTO transaction) {
     final currentUserId = ref.read(authProvider).value?.id;
     final isReceived = transaction.receiverId == currentUserId;
-    final isSent = transaction.senderId == currentUserId;
 
     final formattedDate = DateFormat('yyyy.MM.dd HH:mm').format(
       DateTime.parse(transaction.createTime),
@@ -128,58 +128,80 @@ class _CarrotHistoryPageState extends ConsumerState<CarrotHistoryPage> {
     String transactionTitle =
         transaction.description ?? 'carrot.transaction'.tr();
 
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    transactionTitle,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+    return GestureDetector(
+      onTap: () => _handleTransactionTap(context, transaction),
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      transactionTitle,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Text(
+                    formattedDate,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.6),
+                        ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Image.asset(
+                    'assets/icon/carrot.png',
+                    width: 24,
+                    height: 24,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${isReceived ? '+' : '-'}${transaction.amount}',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: isReceived ? Colors.green : Colors.red,
                           fontWeight: FontWeight.w500,
                         ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                Text(
-                  formattedDate,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withAlpha(150),
-                      ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Image.asset(
-                  'assets/icon/carrot.png',
-                  width: 24,
-                  height: 24,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '${isReceived ? '+' : '-'}${transaction.amount}',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: isReceived ? Colors.green : Colors.red,
-                        fontWeight: FontWeight.w500,
-                      ),
-                ),
-              ],
-            ),
-          ],
+                  const Spacer(),
+                  if (transaction.articleId != null ||
+                      transaction.commentId != null)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
+                    ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void _handleTransactionTap(
+      BuildContext context, CarrotTransactionDTO transaction) {
+    if (transaction.articleId == null) {
+      return;
+    }
+    context.push('/articles/${transaction.articleId}');
   }
 }

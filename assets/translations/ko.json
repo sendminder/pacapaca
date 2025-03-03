@@ -242,5 +242,9 @@
         "permission_description": "파카파카에서 활동에 대한 알림을 받아보세요. \n새로운 댓글, 좋아요, 당근 등 알림을 받을 수 있어요.",
         "enable": "알림 받기",
         "skip": "알림 받지 않기"
+    },
+    "point": {
+        "history_title": "포인트 내역",
+        "no_histories": "포인트 내역이 없어요"
     }
 }

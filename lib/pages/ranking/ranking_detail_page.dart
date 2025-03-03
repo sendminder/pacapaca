@@ -6,6 +6,7 @@ import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/pages/ranking/ranking_type.dart';
 import 'package:flutter/material.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
+import 'package:pacapaca/widgets/page_title.dart';
 
 class RankingDetailPage extends ConsumerWidget {
   final String title;
@@ -20,9 +21,10 @@ class RankingDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
+      appBar: PageTitle(
+        title: title,
       ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: RefreshIndicator(
         onRefresh: () async {
           switch (type) {

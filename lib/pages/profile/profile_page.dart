@@ -44,6 +44,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             onPressed: () => context.push('/settings'),
           ),
         ],
+        hasBackButton: false,
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: asyncUser.when(

@@ -4,12 +4,14 @@ class PageTitle extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
+  final bool hasBackButton;
 
   const PageTitle({
     super.key,
     required this.title,
     this.actions,
     this.bottom,
+    this.hasBackButton = true,
   });
 
   @override
@@ -23,13 +25,20 @@ class PageTitle extends StatelessWidget implements PreferredSizeWidget {
           ]
         : [];
 
+    final mainTextStyle = TextStyle(
+      fontSize: 28,
+      fontWeight: FontWeight.bold,
+    );
+    final subTextStyle = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+    );
+
     return AppBar(
       title: Text(
         title,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 28,
-        ),
+        style: hasBackButton ? subTextStyle : mainTextStyle,
       ),
       actions: wrappedActions,
       centerTitle: false,
@@ -37,9 +46,10 @@ class PageTitle extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       foregroundColor: Theme.of(context).colorScheme.onSurface.withAlpha(200),
       bottom: bottom,
-      titleSpacing: 20,
+      titleSpacing: hasBackButton ? 0 : 16,
       scrolledUnderElevation: 0,
       surfaceTintColor: Colors.transparent,
+      automaticallyImplyLeading: hasBackButton,
     );
   }
 

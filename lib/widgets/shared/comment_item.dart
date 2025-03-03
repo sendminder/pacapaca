@@ -322,6 +322,7 @@ class CommentItem extends ConsumerWidget {
         await SendCarrotButton(
           receiverId: comment.userId,
           receiverName: comment.displayUser.nickname,
+          articleId: comment.articleId,
           commentId: comment.id,
           description: 'carrot.for_comment'.tr(
             args: [comment.content],

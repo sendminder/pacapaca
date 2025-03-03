@@ -44,6 +44,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           NotificationBell(),
         ],
         bottom: _buildSearchField(),
+        hasBackButton: false,
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: _currentQuery.isEmpty

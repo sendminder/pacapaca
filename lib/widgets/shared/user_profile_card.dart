@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class UserProfileCard extends StatelessWidget {
   final UserDTO user;
@@ -159,7 +160,7 @@ class UserProfileCard extends StatelessWidget {
       margin: const EdgeInsets.only(top: 16.0),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: colorScheme.primaryContainer.withOpacity(0.3),
+        color: colorScheme.primaryContainer.withAlpha(30),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: colorScheme.primaryContainer,
@@ -171,8 +172,8 @@ class UserProfileCard extends StatelessWidget {
         children: [
           if (user.displayUser.badgeImageUrl != null &&
               user.displayUser.badgeImageUrl!.isNotEmpty)
-            Image.network(
-              user.displayUser.badgeImageUrl!,
+            CachedNetworkImage(
+              imageUrl: user.displayUser.badgeImageUrl!,
               width: 24,
               height: 24,
             )
@@ -257,7 +258,7 @@ class UserProfileCard extends StatelessWidget {
           if (icon != null) ...[
             Icon(
               icon,
-              size: 20,
+              size: 24,
               color: iconColor ?? defaultIconColor,
             ),
             const SizedBox(width: 8),
@@ -269,6 +270,7 @@ class UserProfileCard extends StatelessWidget {
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: labelColor ?? colorScheme.onSurface.withAlpha(200),
+                  fontSize: 17,
                 ),
           ),
           const Spacer(),
@@ -276,6 +278,7 @@ class UserProfileCard extends StatelessWidget {
             value,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: valueColor ?? colorScheme.onSurface,
+                  fontSize: 17,
                 ),
           ),
         ],

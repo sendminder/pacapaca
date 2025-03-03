@@ -81,7 +81,7 @@ class PointService {
       );
 
       final response = await _dio.get(
-        '/v1/points/histories',
+        '/v1/points/history',
         queryParameters: request.toJson(),
       );
 

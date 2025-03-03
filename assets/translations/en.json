@@ -226,5 +226,9 @@
         "permission_description": "Receive notifications about your activities on PacaPaca. \nYou can receive notifications such as new comments, likes, and carrots.",
         "enable": "Enable Notifications",
         "skip": "Skip Notifications"
+    },
+    "point": {
+        "history_title": "Point History",
+        "no_histories": "No point history"
     }
 }

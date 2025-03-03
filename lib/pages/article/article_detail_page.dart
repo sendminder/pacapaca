@@ -16,6 +16,7 @@ import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:go_router/go_router.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:pacapaca/widgets/page_title.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -64,14 +65,13 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     final articleAsync = ref.watch(provider);
     final commentsAsync = ref.watch(commentListProvider(widget.articleId));
     final currentUser = ref.watch(authProvider).value;
-    final logger = GetIt.instance<Logger>();
 
     // 게시글 상세 페이지에서 좋아요 버튼 클릭 시 목록 업데이트
     _updateArticleList(ref, provider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('article.title'.tr()),
+      appBar: PageTitle(
+        title: 'article.title'.tr(),
         actions: [
           articleAsync.when(
             data: (article) =>

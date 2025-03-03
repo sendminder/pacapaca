@@ -6,6 +6,7 @@ import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/services/notification_manager_service.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pacapaca/widgets/page_title.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -18,12 +19,10 @@ class SettingsPage extends ConsumerWidget {
     final notificationManager = GetIt.instance<NotificationManagerService>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('settings.title'.tr()),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: null,
+      appBar: PageTitle(
+        title: 'settings.title'.tr(),
       ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: ListView(
         children: [
           ListTile(

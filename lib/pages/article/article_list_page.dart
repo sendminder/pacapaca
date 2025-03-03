@@ -65,6 +65,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
           NotificationBell(),
         ],
         bottom: _buildCategoryAndSortBar(),
+        hasBackButton: false,
       ),
       body: PageView(
         controller: _pageController,

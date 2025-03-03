@@ -5,6 +5,7 @@ import 'package:pacapaca/providers/user_provider.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:pacapaca/widgets/shared/user_profile_card.dart';
+import 'package:pacapaca/widgets/page_title.dart';
 
 class UserDetailPage extends ConsumerWidget {
   final int userId;
@@ -21,11 +22,8 @@ class UserDetailPage extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('user.detail_title'.tr()),
-        backgroundColor: colorScheme.surface,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: Colors.transparent,
+      appBar: PageTitle(
+        title: 'user.detail_title'.tr(),
         actions: [
           IconButton(
             icon: Icon(
@@ -39,6 +37,7 @@ class UserDetailPage extends ConsumerWidget {
           const SizedBox(width: 8),
         ],
       ),
+      backgroundColor: colorScheme.surface,
       body: userDetail.when(
         data: (user) {
           if (user == null) {

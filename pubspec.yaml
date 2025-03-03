@@ -48,6 +48,7 @@ dependencies:
   in_app_purchase_storekit: ^0.3.21
   firebase_messaging: ^15.2.4
   flutter_local_notifications: ^18.0.1
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:

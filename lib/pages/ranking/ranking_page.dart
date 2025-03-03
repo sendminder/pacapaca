@@ -29,6 +29,7 @@ class RankingPage extends ConsumerWidget {
         actions: const [
           NotificationBell(),
         ],
+        hasBackButton: false,
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: RefreshIndicator(
