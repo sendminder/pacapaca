@@ -6,24 +6,7 @@ part of 'notification_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$notificationsHash() => r'4c016e5b632f56b907d374388bf8ea57424b87de';
-
-/// See also [notifications].
-@ProviderFor(notifications)
-final notificationsProvider = Provider<Notifications>.internal(
-  notifications,
-  name: r'notificationsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$notificationsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef NotificationsRef = ProviderRef<Notifications>;
-String _$notificationsHash() => r'3c8d91b24c79f216fa32323f9c1fab9a3adc3ece';
+String _$notificationsHash() => r'85e01a8c649776110f59c480f990ce6db6ba12e0';
 
 /// See also [Notifications].
 @ProviderFor(Notifications)
@@ -40,7 +23,7 @@ final notificationsProvider = AutoDisposeAsyncNotifierProvider<Notifications,
 
 typedef _$Notifications = AutoDisposeAsyncNotifier<List<NotificationDTO>>;
 String _$unreadNotificationCountHash() =>
-    r'b483a9b274344e05a4fcabdc2d90807dc8f3c01d';
+    r'9b279da095cab88bebde8d73b3373ecf8a10c2cf';
 
 /// See also [UnreadNotificationCount].
 @ProviderFor(UnreadNotificationCount)
