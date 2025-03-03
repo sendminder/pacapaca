@@ -14,8 +14,6 @@ import 'package:pacapaca/pages/article/widgets/article_action_menu.dart';
 import 'package:pacapaca/widgets/shared/comment/comment_list.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:go_router/go_router.dart';
-import 'package:get_it/get_it.dart';
-import 'package:logger/logger.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {

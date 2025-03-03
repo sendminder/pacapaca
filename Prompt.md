@@ -274,7 +274,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
-
+import 'package:pacapaca/widgets/page_title.dart';
 class BlockedUsersPage extends ConsumerWidget {
   const BlockedUsersPage({super.key});
 
@@ -283,11 +283,8 @@ class BlockedUsersPage extends ConsumerWidget {
     final blockedUsers = ref.watch(blocksProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('block.list_title'.tr()),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: null,
+      appBar: PageTitle(
+        title: 'block.list_title'.tr(),
         actions: [
           // 새로고침 버튼
           IconButton(

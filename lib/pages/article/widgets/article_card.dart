@@ -6,6 +6,8 @@ import 'package:pacapaca/widgets/shared/tag_list.dart';
 import 'package:pacapaca/widgets/shared/interaction_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 
 class ArticleCard extends StatelessWidget {
   final ArticleDTO article;
@@ -58,6 +60,7 @@ class ArticleCard extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final locale = Localizations.localeOf(context);
     return Row(
       children: [
         UserAvatar(
@@ -79,17 +82,18 @@ class ArticleCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 timeago.format(DateTime.parse(article.createTime),
-                    locale: 'ko'),
+                    locale: locale.countryCode),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context)
                           .colorScheme
                           .onSurface
-                          .withOpacity(0.7),
+                          .withAlpha(150),
                     ),
               ),
             ],
           ),
         ),
+        if (article.category != null) _buildCategoryEmoji(context),
       ],
     );
   }
@@ -153,8 +157,8 @@ class ArticleCard extends StatelessWidget {
   Widget _buildThumbnail() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.network(
-        article.thumbnailUrl!,
+      child: CachedNetworkImage(
+        imageUrl: article.thumbnailUrl!,
         width: double.infinity,
         height: 200,
         fit: BoxFit.cover,
@@ -172,6 +176,22 @@ class ArticleCard extends StatelessWidget {
       ),
       maxLines: 3,
       overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  Widget _buildCategoryEmoji(BuildContext context) {
+    // 카테고리에 따른 이모지 매핑
+    final emoji = categoryEmojis[article.category] ?? '📝';
+
+    return Tooltip(
+      message: article.category,
+      child: Container(
+        padding: const EdgeInsets.only(right: 8, bottom: 8),
+        child: Text(
+          emoji,
+          style: const TextStyle(fontSize: 22),
+        ),
+      ),
     );
   }
 }

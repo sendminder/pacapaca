@@ -4,6 +4,7 @@ import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/widgets/shared/tag_list.dart';
 import 'package:pacapaca/widgets/shared/interaction_button.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ArticleDetailContent extends StatelessWidget {
   final ArticleDTO article;
@@ -34,11 +35,12 @@ class ArticleDetailContent extends StatelessWidget {
           const SizedBox(height: 8),
           _buildContent(context),
           const SizedBox(height: 16),
-          _buildInteractions(context),
           if (article.tags != null && article.tags!.isNotEmpty) ...[
             const SizedBox(height: 12),
-            TagList(tags: article.tags!),
+            _buildTags(context),
           ],
+          const SizedBox(height: 16),
+          _buildInteractions(context),
         ],
       ),
     );
@@ -96,11 +98,17 @@ class ArticleDetailContent extends StatelessWidget {
   Widget _buildThumbnail() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.network(
-        article.thumbnailUrl!,
+      child: CachedNetworkImage(
+        imageUrl: article.thumbnailUrl!,
         width: double.infinity,
         height: 200,
         fit: BoxFit.cover,
+        errorWidget: (context, error, stackTrace) => Container(
+          width: double.infinity,
+          height: 200,
+          color: Colors.grey[300],
+          child: const Icon(Icons.image_not_supported),
+        ),
       ),
     );
   }
@@ -113,6 +121,28 @@ class ArticleDetailContent extends StatelessWidget {
         color: Theme.of(context).colorScheme.onSurface,
         height: 1.4,
       ),
+    );
+  }
+
+  Widget _buildTags(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: article.tags!.map((tag) {
+        return InkWell(
+          onTap: () {
+            // 태그 클릭 시 해당 태그로 검색하거나 관련 페이지로 이동
+          },
+          child: Text(
+            '#$tag',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 

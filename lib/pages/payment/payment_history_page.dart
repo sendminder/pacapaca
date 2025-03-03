@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/models/dto/payment_dto.dart';
 import 'package:pacapaca/providers/payment_provider.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
+import 'package:pacapaca/widgets/page_title.dart';
 
 class PaymentHistoryPage extends ConsumerStatefulWidget {
   const PaymentHistoryPage({super.key});
@@ -25,11 +26,8 @@ class _PaymentHistoryPageState extends ConsumerState<PaymentHistoryPage> {
     final asyncPayments = ref.watch(paymentsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('payment.history_title'.tr()),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: null,
+      appBar: PageTitle(
+        title: 'payment.history_title'.tr(),
       ),
       body: RefreshIndicator(
         onRefresh: () => ref.read(paymentsProvider.notifier).refreshPayments(),

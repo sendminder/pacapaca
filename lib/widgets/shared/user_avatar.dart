@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pacapaca/models/enums/profile_type.dart';
 import 'package:go_router/go_router.dart';
@@ -31,11 +32,17 @@ class UserAvatar extends StatelessWidget {
           color: Colors.transparent,
         ),
         child: imageUrl.isNotEmpty
-            ? Image.network(
-                imageUrl,
+            ? CachedNetworkImage(
+                imageUrl: imageUrl,
                 fit: BoxFit.cover,
                 width: radius * 2,
                 height: radius * 2,
+                errorWidget: (context, error, stackTrace) => Container(
+                  width: radius * 2,
+                  height: radius * 2,
+                  color: Colors.grey[300],
+                  child: const Icon(Icons.image_not_supported),
+                ),
               )
             : getProfileImage(profileType),
       ),

@@ -7,6 +7,8 @@ import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:io' show Platform;
 import 'package:pacapaca/providers/in_app_purchase_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:pacapaca/widgets/page_title.dart';
 
 class StorePage extends ConsumerStatefulWidget {
   const StorePage({super.key});
@@ -37,11 +39,8 @@ class _StorePageState extends ConsumerState<StorePage> {
         ref.watch(featuredProductsProvider(platform: _platform));
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('store.title'.tr()),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: null,
+      appBar: PageTitle(
+        title: 'store.title'.tr(),
         actions: [
           IconButton(
             icon: const Icon(Icons.receipt_long),
@@ -127,12 +126,12 @@ class _StorePageState extends ConsumerState<StorePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (product.imageUrl.isNotEmpty)
-                Image.network(
-                  product.imageUrl,
+                CachedNetworkImage(
+                  imageUrl: product.imageUrl,
                   height: 100,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
+                  errorWidget: (context, error, stackTrace) => Container(
                     height: 100,
                     color: Colors.grey[300],
                     child: const Icon(Icons.image_not_supported),
@@ -263,12 +262,12 @@ class _StorePageState extends ConsumerState<StorePage> {
               if (product.imageUrl.isNotEmpty)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    product.imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: product.imageUrl,
                     width: 80,
                     height: 80,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
+                    errorWidget: (context, error, stackTrace) => Container(
                       width: 80,
                       height: 80,
                       color: Colors.grey[300],
@@ -379,12 +378,12 @@ class _StorePageState extends ConsumerState<StorePage> {
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  product.imageUrl,
-                  height: 200,
+                child: CachedNetworkImage(
+                  imageUrl: product.imageUrl,
+                  height: 100,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
+                  errorWidget: (context, error, stackTrace) => Container(
                     height: 200,
                     color: Colors.grey[300],
                     child: const Icon(Icons.image_not_supported, size: 48),

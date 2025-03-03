@@ -21,3 +21,10 @@ enum ArticleCategory {
       .where((category) => category != ArticleCategory.all)
       .toList();
 }
+
+const Map<String, String> categoryEmojis = {
+  'daily': '🦙',
+  'family': '👨‍👩‍👧‍👦',
+  'work': '💼',
+  'love': '💜',
+};
