@@ -48,10 +48,6 @@ class ArticleCard extends StatelessWidget {
               _buildContent(context),
               const SizedBox(height: 16),
               _buildInteractions(context),
-              if (article.tags != null && article.tags!.isNotEmpty) ...[
-                const SizedBox(height: 12),
-                TagList(tags: article.tags!),
-              ],
             ],
           ),
         ),

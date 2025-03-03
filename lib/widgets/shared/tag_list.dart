@@ -16,7 +16,7 @@ class TagList extends StatelessWidget {
       children: tags.map((tag) {
         return Container(
           padding: const EdgeInsets.symmetric(
-            horizontal: 8,
+            horizontal: 10,
             vertical: 4,
           ),
           decoration: BoxDecoration(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
-import 'package:pacapaca/widgets/shared/tag_list.dart';
 import 'package:pacapaca/widgets/shared/interaction_button.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:go_router/go_router.dart';
 
 class ArticleDetailContent extends StatelessWidget {
   final ArticleDTO article;
@@ -36,8 +36,8 @@ class ArticleDetailContent extends StatelessWidget {
           _buildContent(context),
           const SizedBox(height: 16),
           if (article.tags != null && article.tags!.isNotEmpty) ...[
-            const SizedBox(height: 12),
             _buildTags(context),
+            const SizedBox(height: 4),
           ],
           const SizedBox(height: 16),
           _buildInteractions(context),
@@ -131,7 +131,10 @@ class ArticleDetailContent extends StatelessWidget {
       children: article.tags!.map((tag) {
         return InkWell(
           onTap: () {
-            // 태그 클릭 시 해당 태그로 검색하거나 관련 페이지로 이동
+            // 태그 클릭 시 검색 페이지로 이동하고 해당 태그로 검색
+            context.push('/tag-search', extra: {
+              'searchQuery': tag,
+            });
           },
           child: Text(
             '#$tag',

@@ -227,6 +227,20 @@ class RouterNotifier extends ChangeNotifier {
           path: '/point-history',
           builder: (context, state) => const PointHistoryPage(),
         ),
+        GoRoute(
+          path: '/tag-search',
+          parentNavigatorKey: _rootNavigatorKey, // 루트 네비게이터 사용
+          builder: (context, state) {
+            final Map<String, dynamic>? extra =
+                state.extra as Map<String, dynamic>?;
+            final String? searchQuery = extra?['searchQuery'] as String?;
+
+            return SearchPage(
+              initialSearchQuery: searchQuery,
+              isTagSearch: true,
+            );
+          },
+        ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
             return ShellScaffold(navigationShell: navigationShell);
@@ -274,7 +288,11 @@ class RouterNotifier extends ChangeNotifier {
               routes: [
                 GoRoute(
                   path: '/search',
-                  builder: (context, state) => const SearchPage(),
+                  builder: (context, state) {
+                    return SearchPage(
+                      isTagSearch: false,
+                    );
+                  },
                 ),
               ],
             ),

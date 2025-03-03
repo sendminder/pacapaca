@@ -11,22 +11,50 @@ import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/widgets/notification/notification_bell.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
-  const SearchPage({super.key});
+  final String? initialSearchQuery;
+  final bool isTagSearch;
+
+  const SearchPage({
+    super.key,
+    this.initialSearchQuery,
+    this.isTagSearch = false,
+  });
 
   @override
   ConsumerState<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends ConsumerState<SearchPage> {
-  final _searchController = TextEditingController();
+  late final TextEditingController _searchController;
   final _focusNode = FocusNode();
   final _scrollController = ScrollController();
   String _currentQuery = '';
+  bool _isTagSearch = false;
 
   @override
   void initState() {
     super.initState();
-    _focusNode.requestFocus();
+    _searchController = TextEditingController(text: widget.initialSearchQuery);
+    _isTagSearch = widget.isTagSearch;
+
+    // 초기 검색어가 있으면 검색 실행
+    if (widget.initialSearchQuery != null &&
+        widget.initialSearchQuery!.isNotEmpty) {
+      _currentQuery = widget.initialSearchQuery!;
+
+      // 화면이 완전히 로드된 후 검색 실행
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (widget.isTagSearch) {
+          // 태그 검색인 경우 최근 검색어에 추가하지 않음
+          setState(() {});
+        } else {
+          _onSearch(_currentQuery);
+        }
+      });
+    } else {
+      _focusNode.requestFocus();
+    }
+
     _scrollController.addListener(_onScroll);
   }
 
@@ -35,11 +63,12 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     final searchResults = _currentQuery.isEmpty
         ? const AsyncValue.data(<ArticleDTO>[])
         : ref.watch(articleSearchProvider(_currentQuery));
+
     final recentSearches = ref.watch(recentSearchesProvider);
 
     return Scaffold(
       appBar: PageTitle(
-        title: 'search.title'.tr(),
+        title: _isTagSearch ? '#${_currentQuery}' : 'search.title'.tr(),
         actions: const [
           NotificationBell(),
         ],
@@ -69,7 +98,8 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           textInputAction: TextInputAction.search,
           style: const TextStyle(fontSize: 16),
           decoration: InputDecoration(
-            hintText: 'search.hint'.tr(),
+            hintText:
+                _isTagSearch ? 'search.tag_hint'.tr() : 'search.hint'.tr(),
             filled: true,
             fillColor: Theme.of(context).colorScheme.surfaceContainerLow,
             border: OutlineInputBorder(
@@ -80,13 +110,17 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               horizontal: 16,
               vertical: 12,
             ),
-            prefixIcon: const Icon(Icons.search),
+            prefixIcon:
+                _isTagSearch ? const Icon(Icons.tag) : const Icon(Icons.search),
             suffixIcon: _searchController.text.isNotEmpty
                 ? IconButton(
                     icon: const Icon(Icons.clear),
                     onPressed: () {
                       _searchController.clear();
-                      _onSearch('');
+                      setState(() {
+                        _currentQuery = '';
+                        _isTagSearch = false;
+                      });
                     },
                   )
                 : null,
@@ -275,7 +309,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         FloatingActionButton(
-          heroTag: 'ai_helper',
+          heroTag: 'search_ai_helper',
           onPressed: () => context.push('/articles/ai-helper'),
           child: Image.asset(
             'assets/profiles/pacappiface.png',
@@ -309,13 +343,23 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     if (query.trim().isEmpty) {
       setState(() {
         _currentQuery = '';
+        _isTagSearch = false;
       });
       return;
     }
 
-    ref.read(recentSearchesProvider.notifier).addSearch(query.trim());
+    // 태그 검색이 아닌 경우에만 최근 검색어에 추가
+    if (!_isTagSearch) {
+      ref.read(recentSearchesProvider.notifier).addSearch(query.trim());
+    }
+
     setState(() {
       _currentQuery = query.trim();
+      // # 기호로 시작하면 태그 검색으로 전환
+      if (query.trim().startsWith('#')) {
+        _isTagSearch = true;
+        _currentQuery = query.trim().substring(1); // # 제거
+      }
     });
     _focusNode.unfocus();
   }
