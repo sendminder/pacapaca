@@ -233,7 +233,9 @@
         "block_confirm": "이 사용자를 차단하시겠어요?",
         "cancel": "취소",
         "points": "활동 점수",
-        "carrots": "보유 당근"
+        "carrots": "보유 당근",
+        "activity": "활동",
+        "user_posts": "사용자가 올린 게시글"
     },
     "notification": {
         "title": "알림함",

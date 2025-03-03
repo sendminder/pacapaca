@@ -6,6 +6,7 @@ import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:pacapaca/widgets/shared/user_profile_card.dart';
 import 'package:pacapaca/widgets/page_title.dart';
+import 'package:pacapaca/widgets/shared/user_activity_section.dart';
 
 class UserDetailPage extends ConsumerWidget {
   final int userId;
@@ -64,12 +65,22 @@ class UserDetailPage extends ConsumerWidget {
 
   Widget _buildUserDetailContent(
       BuildContext context, WidgetRef ref, UserDTO user) {
+    final divider = Divider(
+      height: 1,
+      color: Theme.of(context).colorScheme.onSurface.withAlpha(15),
+    );
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 프로필 정보 카드
           _buildProfileCard(context, user),
+          const SizedBox(height: 16),
+          divider,
+          const SizedBox(height: 16),
+          // 사용자 활동 섹션 추가
+          UserActivitySection(userId: user.id),
         ],
       ),
     );

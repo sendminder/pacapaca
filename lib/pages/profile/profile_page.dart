@@ -10,6 +10,7 @@ import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/widgets/shared/user_profile_card.dart';
 import 'package:pacapaca/constants/theme.dart';
+import 'package:pacapaca/widgets/shared/user_activity_section.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -237,56 +238,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     if (user == null) {
       return const SizedBox.shrink();
     }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'profile.my_activity'.tr(),
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        ListTile(
-          leading: Icon(
-            Icons.article,
-            color: Colors.grey,
-          ),
-          title: Text(
-            'profile.my_posts'.tr(),
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 18,
-                  color: Theme.of(context).colorScheme.onSurface,
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () {
-            context.push('/user-posts/${user.id}');
-          },
-        ),
-        ListTile(
-          leading: Icon(
-            Icons.favorite,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          title: Text(
-            'profile.liked_posts'.tr(),
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 18,
-                  color: Theme.of(context).colorScheme.onSurface,
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () {
-            // TODO: 좋아요한 게시글 목록으로 이동
-          },
-        ),
-      ],
+    return UserActivitySection(
+      userId: user.id,
+      isCurrentUser: true,
     );
   }
 }

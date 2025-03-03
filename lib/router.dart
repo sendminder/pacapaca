@@ -249,6 +249,12 @@ class RouterNotifier extends ChangeNotifier {
             return UserPostsPage(userId: userId);
           },
         ),
+        GoRoute(
+          path: '/liked-posts/:userId',
+          builder: (context, state) {
+            final userId = int.parse(state.pathParameters['userId']!);
+            return LikedPostsPage(userId: userId);
+        ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
             return ShellScaffold(navigationShell: navigationShell);
