@@ -2237,3 +2237,181 @@ abstract class _RequestListUserArticles implements RequestListUserArticles {
   _$$RequestListUserArticlesImplCopyWith<_$RequestListUserArticlesImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+RequestListLikedPosts _$RequestListLikedPostsFromJson(
+    Map<String, dynamic> json) {
+  return _RequestListLikedPosts.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RequestListLikedPosts {
+  int get limit => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey => throw _privateConstructorUsedError;
+
+  /// Serializes this RequestListLikedPosts to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RequestListLikedPosts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RequestListLikedPostsCopyWith<RequestListLikedPosts> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RequestListLikedPostsCopyWith<$Res> {
+  factory $RequestListLikedPostsCopyWith(RequestListLikedPosts value,
+          $Res Function(RequestListLikedPosts) then) =
+      _$RequestListLikedPostsCopyWithImpl<$Res, RequestListLikedPosts>;
+  @useResult
+  $Res call({int limit, @JsonKey(name: 'paging_key') int? pagingKey});
+}
+
+/// @nodoc
+class _$RequestListLikedPostsCopyWithImpl<$Res,
+        $Val extends RequestListLikedPosts>
+    implements $RequestListLikedPostsCopyWith<$Res> {
+  _$RequestListLikedPostsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RequestListLikedPosts
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? limit = null,
+    Object? pagingKey = freezed,
+  }) {
+    return _then(_value.copyWith(
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RequestListLikedPostsImplCopyWith<$Res>
+    implements $RequestListLikedPostsCopyWith<$Res> {
+  factory _$$RequestListLikedPostsImplCopyWith(
+          _$RequestListLikedPostsImpl value,
+          $Res Function(_$RequestListLikedPostsImpl) then) =
+      __$$RequestListLikedPostsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int limit, @JsonKey(name: 'paging_key') int? pagingKey});
+}
+
+/// @nodoc
+class __$$RequestListLikedPostsImplCopyWithImpl<$Res>
+    extends _$RequestListLikedPostsCopyWithImpl<$Res,
+        _$RequestListLikedPostsImpl>
+    implements _$$RequestListLikedPostsImplCopyWith<$Res> {
+  __$$RequestListLikedPostsImplCopyWithImpl(_$RequestListLikedPostsImpl _value,
+      $Res Function(_$RequestListLikedPostsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RequestListLikedPosts
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? limit = null,
+    Object? pagingKey = freezed,
+  }) {
+    return _then(_$RequestListLikedPostsImpl(
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RequestListLikedPostsImpl implements _RequestListLikedPosts {
+  const _$RequestListLikedPostsImpl(
+      {required this.limit, @JsonKey(name: 'paging_key') this.pagingKey});
+
+  factory _$RequestListLikedPostsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestListLikedPostsImplFromJson(json);
+
+  @override
+  final int limit;
+  @override
+  @JsonKey(name: 'paging_key')
+  final int? pagingKey;
+
+  @override
+  String toString() {
+    return 'RequestListLikedPosts(limit: $limit, pagingKey: $pagingKey)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestListLikedPostsImpl &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.pagingKey, pagingKey) ||
+                other.pagingKey == pagingKey));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, limit, pagingKey);
+
+  /// Create a copy of RequestListLikedPosts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestListLikedPostsImplCopyWith<_$RequestListLikedPostsImpl>
+      get copyWith => __$$RequestListLikedPostsImplCopyWithImpl<
+          _$RequestListLikedPostsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestListLikedPostsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RequestListLikedPosts implements RequestListLikedPosts {
+  const factory _RequestListLikedPosts(
+          {required final int limit,
+          @JsonKey(name: 'paging_key') final int? pagingKey}) =
+      _$RequestListLikedPostsImpl;
+
+  factory _RequestListLikedPosts.fromJson(Map<String, dynamic> json) =
+      _$RequestListLikedPostsImpl.fromJson;
+
+  @override
+  int get limit;
+  @override
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey;
+
+  /// Create a copy of RequestListLikedPosts
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequestListLikedPostsImplCopyWith<_$RequestListLikedPostsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}

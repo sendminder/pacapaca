@@ -132,3 +132,14 @@ class RequestListUserArticles with _$RequestListUserArticles {
   factory RequestListUserArticles.fromJson(Map<String, dynamic> json) =>
       _$RequestListUserArticlesFromJson(json);
 }
+
+@freezed
+class RequestListLikedPosts with _$RequestListLikedPosts {
+  const factory RequestListLikedPosts({
+    required int limit,
+    @JsonKey(name: 'paging_key') int? pagingKey,
+  }) = _RequestListLikedPosts;
+
+  factory RequestListLikedPosts.fromJson(Map<String, dynamic> json) =>
+      _$RequestListLikedPostsFromJson(json);
+}

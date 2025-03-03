@@ -1,0 +1,135 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/providers/article_provider.dart';
+import 'package:pacapaca/providers/auth_provider.dart';
+import 'package:pacapaca/pages/article/widgets/article_card.dart';
+import 'package:pacapaca/models/dto/article_dto.dart';
+import 'package:pacapaca/widgets/page_title.dart';
+import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
+
+class LikedPostsPage extends ConsumerStatefulWidget {
+  final int userId;
+
+  const LikedPostsPage({
+    super.key,
+    required this.userId,
+  });
+
+  @override
+  ConsumerState<LikedPostsPage> createState() => _LikedPostsPageState();
+}
+
+class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      ref
+          .read(likedPostsProvider(widget.userId).notifier)
+          .loadMore(widget.userId);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final asyncArticles = ref.watch(likedPostsProvider(widget.userId));
+    final currentUser = ref.watch(authProvider).value;
+    final isMyLikes = currentUser != null &&
+        currentUser.id.toString() == widget.userId.toString();
+
+    return Scaffold(
+      appBar: PageTitle(
+        title: isMyLikes
+            ? 'profile.my_liked_posts'.tr()
+            : 'profile.user_liked_posts'.tr(),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: asyncArticles.when(
+        loading: () => const Center(child: RotatingPacaLoader()),
+        error: (error, _) => Center(
+          child: Text(
+            'error.common'.tr(),
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
+        ),
+        data: (articles) {
+          if (articles == null || articles.isEmpty) {
+            return _buildEmptyList(isMyLikes);
+          }
+
+          return RefreshIndicator(
+            onRefresh: () async {
+              ref.read(likedPostsProvider(widget.userId).notifier).refresh();
+            },
+            child: ListView.builder(
+              controller: _scrollController,
+              padding: const EdgeInsets.only(top: 8),
+              itemCount: articles.length,
+              itemBuilder: (context, index) =>
+                  _buildArticleCard(articles[index]),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildArticleCard(ArticleDTO article) {
+    return ArticleCard(
+      article: article,
+      onToggleLike: (articleId) async {
+        final response = await ref
+            .read(articleProvider(article.id).notifier)
+            .toggleArticleLike(article.id);
+        if (response != null) {
+          ref
+              .read(likedPostsProvider(widget.userId).notifier)
+              .updateArticleStatus(
+                articleId: article.id,
+                isLiked: response.isLiked,
+                likeCount: response.likeCount,
+              );
+        }
+      },
+    );
+  }
+
+  Widget _buildEmptyList(bool isMyLikes) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.favorite_border,
+            size: 80,
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(20),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            isMyLikes
+                ? 'profile.no_my_liked_posts'.tr()
+                : 'profile.no_user_liked_posts'.tr(),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+}

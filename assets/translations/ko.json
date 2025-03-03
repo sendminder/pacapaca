@@ -179,7 +179,8 @@
         "account_info": "가입 정보",
         "points": " 점",
         "carrots": " 개",
-        "user_posts": "사용자 게시글"
+        "user_posts": "사용자 게시글",
+        "my_liked_posts": "좋아요 누른 게시글"
     },
     "ranking": {
         "title": "랭킹",

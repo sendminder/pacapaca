@@ -163,7 +163,9 @@
         "solution_description": "I prefer to provide solutions to problems.",
         "error": "Failed to set profile type.",
         "points": " Points",
-        "carrots": " Carrots"
+        "carrots": " Carrots",
+        "user_posts": "User Posts",
+        "my_liked_posts": "Liked Posts"
     },
     "ranking": {
         "title": "Ranking",

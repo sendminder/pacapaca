@@ -710,5 +710,151 @@ class _UserArticlesProviderElement
   @override
   int get userId => (origin as UserArticlesProvider).userId;
 }
+
+String _$likedPostsHash() => r'01f14ba15d41b8e34f9cecb0b646dbb05acf3d0f';
+
+abstract class _$LikedPosts
+    extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
+  late final int userId;
+
+  FutureOr<List<ArticleDTO>?> build(
+    int userId,
+  );
+}
+
+/// See also [LikedPosts].
+@ProviderFor(LikedPosts)
+const likedPostsProvider = LikedPostsFamily();
+
+/// See also [LikedPosts].
+class LikedPostsFamily extends Family<AsyncValue<List<ArticleDTO>?>> {
+  /// See also [LikedPosts].
+  const LikedPostsFamily();
+
+  /// See also [LikedPosts].
+  LikedPostsProvider call(
+    int userId,
+  ) {
+    return LikedPostsProvider(
+      userId,
+    );
+  }
+
+  @override
+  LikedPostsProvider getProviderOverride(
+    covariant LikedPostsProvider provider,
+  ) {
+    return call(
+      provider.userId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'likedPostsProvider';
+}
+
+/// See also [LikedPosts].
+class LikedPostsProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    LikedPosts, List<ArticleDTO>?> {
+  /// See also [LikedPosts].
+  LikedPostsProvider(
+    int userId,
+  ) : this._internal(
+          () => LikedPosts()..userId = userId,
+          from: likedPostsProvider,
+          name: r'likedPostsProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$likedPostsHash,
+          dependencies: LikedPostsFamily._dependencies,
+          allTransitiveDependencies:
+              LikedPostsFamily._allTransitiveDependencies,
+          userId: userId,
+        );
+
+  LikedPostsProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.userId,
+  }) : super.internal();
+
+  final int userId;
+
+  @override
+  FutureOr<List<ArticleDTO>?> runNotifierBuild(
+    covariant LikedPosts notifier,
+  ) {
+    return notifier.build(
+      userId,
+    );
+  }
+
+  @override
+  Override overrideWith(LikedPosts Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: LikedPostsProvider._internal(
+        () => create()..userId = userId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        userId: userId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<LikedPosts, List<ArticleDTO>?>
+      createElement() {
+    return _LikedPostsProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is LikedPostsProvider && other.userId == userId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, userId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin LikedPostsRef on AutoDisposeAsyncNotifierProviderRef<List<ArticleDTO>?> {
+  /// The parameter `userId` of this provider.
+  int get userId;
+}
+
+class _LikedPostsProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<LikedPosts,
+        List<ArticleDTO>?> with LikedPostsRef {
+  _LikedPostsProviderElement(super.provider);
+
+  @override
+  int get userId => (origin as LikedPostsProvider).userId;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

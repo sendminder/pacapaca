@@ -180,3 +180,17 @@ Map<String, dynamic> _$$RequestListUserArticlesImplToJson(
       'limit': instance.limit,
       'paging_key': instance.pagingKey,
     };
+
+_$RequestListLikedPostsImpl _$$RequestListLikedPostsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RequestListLikedPostsImpl(
+      limit: (json['limit'] as num).toInt(),
+      pagingKey: (json['paging_key'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$RequestListLikedPostsImplToJson(
+        _$RequestListLikedPostsImpl instance) =>
+    <String, dynamic>{
+      'limit': instance.limit,
+      'paging_key': instance.pagingKey,
+    };

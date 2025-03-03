@@ -228,4 +228,36 @@ class ArticleService {
       rethrow;
     }
   }
+
+  Future<List<ArticleDTO>?> getLikedArticles({
+    required int userId,
+    required int limit,
+    int? pagingKey,
+  }) async {
+    try {
+      final request = RequestListLikedPosts(
+        limit: limit,
+        pagingKey: pagingKey,
+      );
+      final response = await _dio.get(
+        '/v1/users/$userId/articles/liked',
+        queryParameters: request.toJson(),
+      );
+
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
+
+      if (responseRest.response != null) {
+        final likedPostsResponse =
+            ResponseListArticles.fromJson(responseRest.response!);
+        return likedPostsResponse.articles;
+      }
+      return null;
+    } catch (e, stackTrace) {
+      logger.e('get liked posts', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
 }
