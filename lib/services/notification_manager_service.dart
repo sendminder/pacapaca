@@ -4,7 +4,10 @@ import 'package:logger/logger.dart';
 import 'package:pacapaca/services/notification_service.dart';
 import 'package:pacapaca/services/storage_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pacapaca/router.dart';
 
 class NotificationManagerService {
   final _notificationService = GetIt.instance<NotificationService>();
@@ -21,6 +24,14 @@ class NotificationManagerService {
       NotificationManagerService._internal();
   factory NotificationManagerService() => _instance;
   NotificationManagerService._internal();
+
+  // Riverpod 컨테이너 참조 저장
+  late ProviderContainer _container;
+
+  // 컨테이너 설정 메서드 추가
+  void setProviderContainer(ProviderContainer container) {
+    _container = container;
+  }
 
   // 알림 설정 상태 가져오기
   Future<bool> isNotificationEnabled() async {
@@ -130,6 +141,12 @@ class NotificationManagerService {
 
       // 로컬 알림 초기화
       await _initializeLocalNotifications();
+
+      // 앱이 종료된 상태에서 알림을 클릭하여 열린 경우 처리
+      await _handleInitialMessage();
+
+      // 백그라운드 메시지 핸들러 설정
+      FirebaseMessaging.onMessageOpenedApp.listen(_handleBackgroundMessage);
     }
 
     // 알림 설정 완료 상태 확인
@@ -173,9 +190,18 @@ class NotificationManagerService {
     if (payload != null) {
       try {
         final data = json.decode(payload);
-        // 여기서 알림 타입에 따라 적절한 화면으로 이동하는 로직 구현
+        final type = data['type'];
+        final refId = int.parse(data['ref_id']);
+
+        if (type == 'comment' || type == 'reply' || type == 'like') {
+          // Riverpod 컨테이너를 통해 라우터에 접근
+          final router = _container.read(routerProvider);
+          final path = '/articles/${refId}';
+          _logger.i('알림 탭: $path');
+          router.push(path);
+        }
+
         _logger.i('알림 탭: $data');
-        // 예: 네비게이션 처리
       } catch (e) {
         _logger.e('알림 페이로드 파싱 오류', error: e);
       }
@@ -226,6 +252,50 @@ class NotificationManagerService {
       platformChannelSpecifics,
       payload: payload,
     );
+  }
+
+  // 초기 메시지 처리 (앱이 종료된 상태에서 알림 클릭)
+  Future<void> _handleInitialMessage() async {
+    final RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      _logger.i('초기 메시지: ${initialMessage.notification?.title}');
+      _handleMessageNavigation(initialMessage);
+    }
+  }
+
+  // 백그라운드 메시지 처리 (앱이 백그라운드에 있을 때 알림 클릭)
+  void _handleBackgroundMessage(RemoteMessage message) {
+    _logger.i('백그라운드 메시지: ${message.notification?.title}');
+    _handleMessageNavigation(message);
+  }
+
+  // 메시지 기반 네비게이션 처리
+  void _handleMessageNavigation(RemoteMessage message) {
+    try {
+      final data = message.data;
+      _logger.d('메시지 데이터: $data');
+
+      final type = data['type'];
+      final refId = int.tryParse(data['ref_id']?.toString() ?? '') ?? 0;
+
+      if (type == 'comment' || type == 'reply' || type == 'like') {
+        // 지연 실행으로 라우터가 초기화될 시간을 줌
+        Future.delayed(const Duration(milliseconds: 500), () {
+          try {
+            final router = _container.read(routerProvider);
+            final path = '/articles/${refId}';
+            _logger.i('알림 탭: $path');
+            router.push(path);
+          } catch (e) {
+            _logger.e('라우팅 오류', error: e);
+          }
+        });
+      }
+    } catch (e) {
+      _logger.e('메시지 처리 오류', error: e);
+    }
   }
 }
 

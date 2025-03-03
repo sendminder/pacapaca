@@ -40,9 +40,16 @@ void main() async {
   // 설정 초기화
   await _initializeSettings();
 
+  // ProviderContainer 생성
+  final container = ProviderContainer();
+
+  // 알림 관리자에 컨테이너 설정
+  GetIt.instance<NotificationManagerService>().setProviderContainer(container);
+
   // 앱 실행
   runApp(
-    ProviderScope(
+    UncontrolledProviderScope(
+      container: container,
       child: EasyLocalization(
         path: 'assets/translations',
         supportedLocales: const [Locale('en'), Locale('ko')],
