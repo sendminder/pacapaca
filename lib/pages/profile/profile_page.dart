@@ -192,7 +192,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 const Spacer(),
                 IconButton(
                   icon: Icon(
-                    Icons.shopping_cart,
+                    Icons.shopping_bag,
                     color: AppTheme.carrotColor,
                     size: 24,
                   ),

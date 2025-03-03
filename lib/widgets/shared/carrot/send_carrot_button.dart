@@ -21,6 +21,8 @@ class SendCarrotButton {
   });
 
   Future<void> show(BuildContext context, WidgetRef ref) async {
+    if (!context.mounted) return;
+
     final amount = await showDialog<int>(
       context: context,
       builder: (context) => SendCarrotDialog(
@@ -42,7 +44,7 @@ class SendCarrotButton {
         final balance =
             await ref.read(carrotSenderProvider.notifier).sendCarrots(request);
 
-        if (balance != null) {
+        if (balance != null && context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('carrot.sent'.tr(args: [
