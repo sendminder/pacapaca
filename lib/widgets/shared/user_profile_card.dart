@@ -4,8 +4,9 @@ import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:pacapaca/constants/theme.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'dart:convert'; // 해시 함수를 위한 import
-import 'package:crypto/crypto.dart'; // crypto 패키지 추가 필요
+import 'package:pacapaca/widgets/shared/carrot/send_carrot_dialog.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class UserProfileCard extends StatelessWidget {
   final UserDTO user;
@@ -13,6 +14,7 @@ class UserProfileCard extends StatelessWidget {
   final bool showBadge;
   final bool showJoinInfo;
   final VoidCallback? onRefresh;
+  final bool isCurrentUser;
 
   const UserProfileCard({
     super.key,
@@ -21,6 +23,7 @@ class UserProfileCard extends StatelessWidget {
     this.showBadge = true,
     this.showJoinInfo = true,
     this.onRefresh,
+    this.isCurrentUser = false,
   });
 
   @override
@@ -88,6 +91,9 @@ class UserProfileCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                if (!isCurrentUser) ...[
+                  _buildSendCarrotButton(context),
+                ],
                 if (onRefresh != null) ...[
                   IconButton(
                     onPressed: onRefresh,
@@ -304,5 +310,48 @@ class UserProfileCard extends StatelessWidget {
     final bytes = utf8.encode(input);
     final digest = sha256.convert(bytes);
     return digest.toString().substring(0, 8);
+  }
+
+  Widget _buildSendCarrotButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _showSendCarrotDialog(context),
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        child: Image.asset(
+          'assets/icon/carrot.png',
+          width: 24,
+          height: 24,
+        ),
+      ),
+    );
+  }
+
+  // 당근 보내기 다이얼로그 표시
+  void _showSendCarrotDialog(BuildContext context) async {
+    final result = await showDialog<int>(
+      context: context,
+      builder: (context) => SendCarrotDialog(
+        receiverId: user.displayUser.id,
+        receiverName: user.displayUser.nickname,
+      ),
+    );
+
+    // 결과 처리 (당근 개수가 반환됨)
+    if (result != null && result > 0 && context.mounted) {
+      // 당근 보내기 성공 메시지
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'carrot.send_success'.tr(
+              args: [
+                user.displayUser.nickname,
+                result.toString(),
+              ],
+            ),
+          ),
+          backgroundColor: AppTheme.carrotColor,
+        ),
+      );
+    }
   }
 }

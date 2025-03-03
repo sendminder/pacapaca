@@ -92,7 +92,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
     return UserProfileCard(
       user: user,
-      showStats: false, // 포인트와 당근은 별도 섹션에 표시하므로 여기서는 숨김
+      showStats: false,
+      isCurrentUser: true,
       onRefresh: () {
         ref.read(authProvider.notifier).getMe();
         ref.invalidate(carrotBalanceProvider);

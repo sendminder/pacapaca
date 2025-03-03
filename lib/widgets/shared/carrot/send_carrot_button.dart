@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/models/dto/carrot_dto.dart';
 import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_dialog.dart';
+import 'package:pacapaca/constants/theme.dart';
 
 class SendCarrotButton {
   final int receiverId;
@@ -26,6 +27,7 @@ class SendCarrotButton {
     final amount = await showDialog<int>(
       context: context,
       builder: (context) => SendCarrotDialog(
+        receiverId: receiverId,
         receiverName: receiverName,
         description: description,
       ),
@@ -47,11 +49,12 @@ class SendCarrotButton {
         if (balance != null && context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('carrot.sent'.tr(args: [
+              content: Text('carrot.send_success'.tr(args: [
+                receiverName,
                 amount.toString(),
-                balance.balance.toString(),
               ])),
               behavior: SnackBarBehavior.floating,
+              backgroundColor: AppTheme.carrotColor,
             ),
           );
         }
