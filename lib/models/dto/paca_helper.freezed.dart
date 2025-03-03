@@ -350,6 +350,7 @@ mixin _$ResponseDefineProblems {
   bool? get done => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get category => throw _privateConstructorUsedError;
+  List<String>? get keywords => throw _privateConstructorUsedError;
 
   /// Serializes this ResponseDefineProblems to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -367,7 +368,12 @@ abstract class $ResponseDefineProblemsCopyWith<$Res> {
           $Res Function(ResponseDefineProblems) then) =
       _$ResponseDefineProblemsCopyWithImpl<$Res, ResponseDefineProblems>;
   @useResult
-  $Res call({String answer, bool? done, String? title, String? category});
+  $Res call(
+      {String answer,
+      bool? done,
+      String? title,
+      String? category,
+      List<String>? keywords});
 }
 
 /// @nodoc
@@ -390,6 +396,7 @@ class _$ResponseDefineProblemsCopyWithImpl<$Res,
     Object? done = freezed,
     Object? title = freezed,
     Object? category = freezed,
+    Object? keywords = freezed,
   }) {
     return _then(_value.copyWith(
       answer: null == answer
@@ -408,6 +415,10 @@ class _$ResponseDefineProblemsCopyWithImpl<$Res,
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String?,
+      keywords: freezed == keywords
+          ? _value.keywords
+          : keywords // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -421,7 +432,12 @@ abstract class _$$ResponseDefineProblemsImplCopyWith<$Res>
       __$$ResponseDefineProblemsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String answer, bool? done, String? title, String? category});
+  $Res call(
+      {String answer,
+      bool? done,
+      String? title,
+      String? category,
+      List<String>? keywords});
 }
 
 /// @nodoc
@@ -443,6 +459,7 @@ class __$$ResponseDefineProblemsImplCopyWithImpl<$Res>
     Object? done = freezed,
     Object? title = freezed,
     Object? category = freezed,
+    Object? keywords = freezed,
   }) {
     return _then(_$ResponseDefineProblemsImpl(
       answer: null == answer
@@ -461,6 +478,10 @@ class __$$ResponseDefineProblemsImplCopyWithImpl<$Res>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String?,
+      keywords: freezed == keywords
+          ? _value._keywords
+          : keywords // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -469,7 +490,12 @@ class __$$ResponseDefineProblemsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ResponseDefineProblemsImpl implements _ResponseDefineProblems {
   const _$ResponseDefineProblemsImpl(
-      {required this.answer, this.done, this.title, this.category});
+      {required this.answer,
+      this.done,
+      this.title,
+      this.category,
+      final List<String>? keywords})
+      : _keywords = keywords;
 
   factory _$ResponseDefineProblemsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResponseDefineProblemsImplFromJson(json);
@@ -482,10 +508,19 @@ class _$ResponseDefineProblemsImpl implements _ResponseDefineProblems {
   final String? title;
   @override
   final String? category;
+  final List<String>? _keywords;
+  @override
+  List<String>? get keywords {
+    final value = _keywords;
+    if (value == null) return null;
+    if (_keywords is EqualUnmodifiableListView) return _keywords;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'ResponseDefineProblems(answer: $answer, done: $done, title: $title, category: $category)';
+    return 'ResponseDefineProblems(answer: $answer, done: $done, title: $title, category: $category, keywords: $keywords)';
   }
 
   @override
@@ -497,12 +532,14 @@ class _$ResponseDefineProblemsImpl implements _ResponseDefineProblems {
             (identical(other.done, done) || other.done == done) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.category, category) ||
-                other.category == category));
+                other.category == category) &&
+            const DeepCollectionEquality().equals(other._keywords, _keywords));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, answer, done, title, category);
+  int get hashCode => Object.hash(runtimeType, answer, done, title, category,
+      const DeepCollectionEquality().hash(_keywords));
 
   /// Create a copy of ResponseDefineProblems
   /// with the given fields replaced by the non-null parameter values.
@@ -526,7 +563,8 @@ abstract class _ResponseDefineProblems implements ResponseDefineProblems {
       {required final String answer,
       final bool? done,
       final String? title,
-      final String? category}) = _$ResponseDefineProblemsImpl;
+      final String? category,
+      final List<String>? keywords}) = _$ResponseDefineProblemsImpl;
 
   factory _ResponseDefineProblems.fromJson(Map<String, dynamic> json) =
       _$ResponseDefineProblemsImpl.fromJson;
@@ -539,6 +577,8 @@ abstract class _ResponseDefineProblems implements ResponseDefineProblems {
   String? get title;
   @override
   String? get category;
+  @override
+  List<String>? get keywords;
 
   /// Create a copy of ResponseDefineProblems
   /// with the given fields replaced by the non-null parameter values.

@@ -39,6 +39,9 @@ _$ResponseDefineProblemsImpl _$$ResponseDefineProblemsImplFromJson(
       done: json['done'] as bool?,
       title: json['title'] as String?,
       category: json['category'] as String?,
+      keywords: (json['keywords'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$$ResponseDefineProblemsImplToJson(
@@ -48,4 +51,5 @@ Map<String, dynamic> _$$ResponseDefineProblemsImplToJson(
       'done': instance.done,
       'title': instance.title,
       'category': instance.category,
+      'keywords': instance.keywords,
     };

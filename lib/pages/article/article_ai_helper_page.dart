@@ -148,6 +148,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
       response.title ?? 'helper.title'.tr(),
       response.category ?? ArticleCategory.daily.name,
       response.answer,
+      response.keywords,
     );
   }
 
@@ -167,7 +168,8 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     );
   }
 
-  void _showDraftPreview(String title, String category, String content) {
+  void _showDraftPreview(
+      String title, String category, String content, List<String>? keywords) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -175,7 +177,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
       builder: (context) => DraftPreviewBottomSheet(
         title: title,
         content: content,
-        onPost: () => _handlePostDraft(title, category, content),
+        onPost: () => _handlePostDraft(title, category, content, keywords),
         onEdit: () => _handleEditDraft(title, category, content),
         onContinueChat: () {
           Navigator.pop(context);
@@ -190,12 +192,14 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     String title,
     String category,
     String content,
+    List<String>? keywords,
   ) async {
     try {
       final request = RequestCreateArticle(
         title: title,
         content: content,
         category: category,
+        tags: keywords,
       );
 
       await ref.read(articleEditorProvider.notifier).createArticle(request);

@@ -31,6 +31,7 @@ class ResponseDefineProblems with _$ResponseDefineProblems {
     bool? done,
     String? title,
     String? category,
+    List<String>? keywords,
   }) = _ResponseDefineProblems;
 
   factory ResponseDefineProblems.fromJson(Map<String, dynamic> json) =>
