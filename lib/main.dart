@@ -31,6 +31,7 @@ import 'package:pacapaca/services/notification_service.dart';
 import 'package:pacapaca/widgets/fcm_token_manager.dart';
 import 'package:pacapaca/services/notification_manager_service.dart';
 import 'package:pacapaca/services/product_service.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
 
 void main() async {
   // 앱 초기화
@@ -42,6 +43,11 @@ void main() async {
 
   // ProviderContainer 생성
   final container = ProviderContainer();
+
+  // 알림 설정 상태 미리 로드
+  await container
+      .read(notificationSetupCompletedProvider.notifier)
+      .loadAndGetNotificationSetupCompleted();
 
   // 알림 관리자에 컨테이너 설정
   GetIt.instance<NotificationManagerService>().setProviderContainer(container);

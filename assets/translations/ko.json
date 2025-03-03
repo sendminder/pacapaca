@@ -233,6 +233,7 @@
         "carrots": "보유 당근"
     },
     "notification": {
+        "title": "알림함",
         "setup_title": "알림 설정",
         "permission_title": "알림 권한 설정",
         "permission_description": "파카파카에서 활동에 대한 알림을 받아보세요. \n새로운 댓글, 좋아요, 당근 등 알림을 받을 수 있어요.",

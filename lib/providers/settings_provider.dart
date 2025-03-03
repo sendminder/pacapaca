@@ -204,6 +204,12 @@ class NotificationSetupCompletedNotifier extends StateNotifier<bool> {
     state = completed ?? false;
   }
 
+  Future<bool> loadAndGetNotificationSetupCompleted() async {
+    final completed = await _storage.notificationSetupCompleted;
+    state = completed ?? false;
+    return state;
+  }
+
   Future<void> setNotificationSetupCompleted(bool completed) async {
     await _storage.saveNotificationSetupCompleted(completed);
     state = completed;

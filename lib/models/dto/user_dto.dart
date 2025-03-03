@@ -61,9 +61,6 @@ class UserDTO with _$UserDTO {
     @JsonKey(name: 'block_time') String? blockTime,
     @JsonKey(name: 'delete_time') String? deleteTime,
     @JsonKey(name: 'display_user') required DisplayUserDTO displayUser,
-    @JsonKey(name: 'notification_setup_completed')
-    @Default(false)
-    bool notificationSetupCompleted,
   }) = _UserDTO;
 
   factory UserDTO.fromJson(Map<String, dynamic> json) =>

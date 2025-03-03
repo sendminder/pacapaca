@@ -428,8 +428,6 @@ mixin _$UserDTO {
   String? get deleteTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser => throw _privateConstructorUsedError;
-  @JsonKey(name: 'notification_setup_completed')
-  bool get notificationSetupCompleted => throw _privateConstructorUsedError;
 
   /// Serializes this UserDTO to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -452,9 +450,7 @@ abstract class $UserDTOCopyWith<$Res> {
       @JsonKey(name: 'last_login_time') String? lastLoginTime,
       @JsonKey(name: 'block_time') String? blockTime,
       @JsonKey(name: 'delete_time') String? deleteTime,
-      @JsonKey(name: 'display_user') DisplayUserDTO displayUser,
-      @JsonKey(name: 'notification_setup_completed')
-      bool notificationSetupCompleted});
+      @JsonKey(name: 'display_user') DisplayUserDTO displayUser});
 
   $DisplayUserDTOCopyWith<$Res> get displayUser;
 }
@@ -481,7 +477,6 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
     Object? blockTime = freezed,
     Object? deleteTime = freezed,
     Object? displayUser = null,
-    Object? notificationSetupCompleted = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -512,10 +507,6 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
           ? _value.displayUser
           : displayUser // ignore: cast_nullable_to_non_nullable
               as DisplayUserDTO,
-      notificationSetupCompleted: null == notificationSetupCompleted
-          ? _value.notificationSetupCompleted
-          : notificationSetupCompleted // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 
@@ -544,9 +535,7 @@ abstract class _$$UserDTOImplCopyWith<$Res> implements $UserDTOCopyWith<$Res> {
       @JsonKey(name: 'last_login_time') String? lastLoginTime,
       @JsonKey(name: 'block_time') String? blockTime,
       @JsonKey(name: 'delete_time') String? deleteTime,
-      @JsonKey(name: 'display_user') DisplayUserDTO displayUser,
-      @JsonKey(name: 'notification_setup_completed')
-      bool notificationSetupCompleted});
+      @JsonKey(name: 'display_user') DisplayUserDTO displayUser});
 
   @override
   $DisplayUserDTOCopyWith<$Res> get displayUser;
@@ -572,7 +561,6 @@ class __$$UserDTOImplCopyWithImpl<$Res>
     Object? blockTime = freezed,
     Object? deleteTime = freezed,
     Object? displayUser = null,
-    Object? notificationSetupCompleted = null,
   }) {
     return _then(_$UserDTOImpl(
       id: null == id
@@ -603,10 +591,6 @@ class __$$UserDTOImplCopyWithImpl<$Res>
           ? _value.displayUser
           : displayUser // ignore: cast_nullable_to_non_nullable
               as DisplayUserDTO,
-      notificationSetupCompleted: null == notificationSetupCompleted
-          ? _value.notificationSetupCompleted
-          : notificationSetupCompleted // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -621,9 +605,7 @@ class _$UserDTOImpl implements _UserDTO {
       @JsonKey(name: 'last_login_time') this.lastLoginTime,
       @JsonKey(name: 'block_time') this.blockTime,
       @JsonKey(name: 'delete_time') this.deleteTime,
-      @JsonKey(name: 'display_user') required this.displayUser,
-      @JsonKey(name: 'notification_setup_completed')
-      this.notificationSetupCompleted = false});
+      @JsonKey(name: 'display_user') required this.displayUser});
 
   factory _$UserDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserDTOImplFromJson(json);
@@ -648,13 +630,10 @@ class _$UserDTOImpl implements _UserDTO {
   @override
   @JsonKey(name: 'display_user')
   final DisplayUserDTO displayUser;
-  @override
-  @JsonKey(name: 'notification_setup_completed')
-  final bool notificationSetupCompleted;
 
   @override
   String toString() {
-    return 'UserDTO(id: $id, createTime: $createTime, updateTime: $updateTime, lastLoginTime: $lastLoginTime, blockTime: $blockTime, deleteTime: $deleteTime, displayUser: $displayUser, notificationSetupCompleted: $notificationSetupCompleted)';
+    return 'UserDTO(id: $id, createTime: $createTime, updateTime: $updateTime, lastLoginTime: $lastLoginTime, blockTime: $blockTime, deleteTime: $deleteTime, displayUser: $displayUser)';
   }
 
   @override
@@ -674,25 +653,13 @@ class _$UserDTOImpl implements _UserDTO {
             (identical(other.deleteTime, deleteTime) ||
                 other.deleteTime == deleteTime) &&
             (identical(other.displayUser, displayUser) ||
-                other.displayUser == displayUser) &&
-            (identical(other.notificationSetupCompleted,
-                    notificationSetupCompleted) ||
-                other.notificationSetupCompleted ==
-                    notificationSetupCompleted));
+                other.displayUser == displayUser));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      createTime,
-      updateTime,
-      lastLoginTime,
-      blockTime,
-      deleteTime,
-      displayUser,
-      notificationSetupCompleted);
+  int get hashCode => Object.hash(runtimeType, id, createTime, updateTime,
+      lastLoginTime, blockTime, deleteTime, displayUser);
 
   /// Create a copy of UserDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -718,9 +685,8 @@ abstract class _UserDTO implements UserDTO {
       @JsonKey(name: 'last_login_time') final String? lastLoginTime,
       @JsonKey(name: 'block_time') final String? blockTime,
       @JsonKey(name: 'delete_time') final String? deleteTime,
-      @JsonKey(name: 'display_user') required final DisplayUserDTO displayUser,
-      @JsonKey(name: 'notification_setup_completed')
-      final bool notificationSetupCompleted}) = _$UserDTOImpl;
+      @JsonKey(name: 'display_user')
+      required final DisplayUserDTO displayUser}) = _$UserDTOImpl;
 
   factory _UserDTO.fromJson(Map<String, dynamic> json) = _$UserDTOImpl.fromJson;
 
@@ -744,9 +710,6 @@ abstract class _UserDTO implements UserDTO {
   @override
   @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser;
-  @override
-  @JsonKey(name: 'notification_setup_completed')
-  bool get notificationSetupCompleted;
 
   /// Create a copy of UserDTO
   /// with the given fields replaced by the non-null parameter values.
