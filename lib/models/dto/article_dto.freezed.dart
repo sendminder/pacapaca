@@ -2058,3 +2058,182 @@ abstract class _RequestSearchArticles implements RequestSearchArticles {
   _$$RequestSearchArticlesImplCopyWith<_$RequestSearchArticlesImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+RequestListUserArticles _$RequestListUserArticlesFromJson(
+    Map<String, dynamic> json) {
+  return _RequestListUserArticles.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RequestListUserArticles {
+  int get limit => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey => throw _privateConstructorUsedError;
+
+  /// Serializes this RequestListUserArticles to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RequestListUserArticles
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RequestListUserArticlesCopyWith<RequestListUserArticles> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RequestListUserArticlesCopyWith<$Res> {
+  factory $RequestListUserArticlesCopyWith(RequestListUserArticles value,
+          $Res Function(RequestListUserArticles) then) =
+      _$RequestListUserArticlesCopyWithImpl<$Res, RequestListUserArticles>;
+  @useResult
+  $Res call({int limit, @JsonKey(name: 'paging_key') int? pagingKey});
+}
+
+/// @nodoc
+class _$RequestListUserArticlesCopyWithImpl<$Res,
+        $Val extends RequestListUserArticles>
+    implements $RequestListUserArticlesCopyWith<$Res> {
+  _$RequestListUserArticlesCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RequestListUserArticles
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? limit = null,
+    Object? pagingKey = freezed,
+  }) {
+    return _then(_value.copyWith(
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RequestListUserArticlesImplCopyWith<$Res>
+    implements $RequestListUserArticlesCopyWith<$Res> {
+  factory _$$RequestListUserArticlesImplCopyWith(
+          _$RequestListUserArticlesImpl value,
+          $Res Function(_$RequestListUserArticlesImpl) then) =
+      __$$RequestListUserArticlesImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int limit, @JsonKey(name: 'paging_key') int? pagingKey});
+}
+
+/// @nodoc
+class __$$RequestListUserArticlesImplCopyWithImpl<$Res>
+    extends _$RequestListUserArticlesCopyWithImpl<$Res,
+        _$RequestListUserArticlesImpl>
+    implements _$$RequestListUserArticlesImplCopyWith<$Res> {
+  __$$RequestListUserArticlesImplCopyWithImpl(
+      _$RequestListUserArticlesImpl _value,
+      $Res Function(_$RequestListUserArticlesImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RequestListUserArticles
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? limit = null,
+    Object? pagingKey = freezed,
+  }) {
+    return _then(_$RequestListUserArticlesImpl(
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingKey: freezed == pagingKey
+          ? _value.pagingKey
+          : pagingKey // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RequestListUserArticlesImpl implements _RequestListUserArticles {
+  const _$RequestListUserArticlesImpl(
+      {required this.limit, @JsonKey(name: 'paging_key') this.pagingKey});
+
+  factory _$RequestListUserArticlesImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestListUserArticlesImplFromJson(json);
+
+  @override
+  final int limit;
+  @override
+  @JsonKey(name: 'paging_key')
+  final int? pagingKey;
+
+  @override
+  String toString() {
+    return 'RequestListUserArticles(limit: $limit, pagingKey: $pagingKey)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestListUserArticlesImpl &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.pagingKey, pagingKey) ||
+                other.pagingKey == pagingKey));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, limit, pagingKey);
+
+  /// Create a copy of RequestListUserArticles
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestListUserArticlesImplCopyWith<_$RequestListUserArticlesImpl>
+      get copyWith => __$$RequestListUserArticlesImplCopyWithImpl<
+          _$RequestListUserArticlesImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestListUserArticlesImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RequestListUserArticles implements RequestListUserArticles {
+  const factory _RequestListUserArticles(
+          {required final int limit,
+          @JsonKey(name: 'paging_key') final int? pagingKey}) =
+      _$RequestListUserArticlesImpl;
+
+  factory _RequestListUserArticles.fromJson(Map<String, dynamic> json) =
+      _$RequestListUserArticlesImpl.fromJson;
+
+  @override
+  int get limit;
+  @override
+  @JsonKey(name: 'paging_key')
+  int? get pagingKey;
+
+  /// Create a copy of RequestListUserArticles
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequestListUserArticlesImplCopyWith<_$RequestListUserArticlesImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}

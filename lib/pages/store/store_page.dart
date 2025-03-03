@@ -9,6 +9,7 @@ import 'dart:io' show Platform;
 import 'package:pacapaca/providers/in_app_purchase_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:pacapaca/widgets/page_title.dart';
+import 'package:pacapaca/constants/theme.dart';
 
 class StorePage extends ConsumerStatefulWidget {
   const StorePage({super.key});
@@ -167,7 +168,7 @@ class _StorePageState extends ConsumerState<StorePage> {
                           NumberFormat.compact().format(product.carrotAmount),
                           style:
                               Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Colors.orange,
+                                    color: AppTheme.carrotColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                         ),
@@ -316,7 +317,7 @@ class _StorePageState extends ConsumerState<StorePage> {
                           NumberFormat.compact().format(product.carrotAmount),
                           style:
                               Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: Colors.orange,
+                                    color: AppTheme.carrotColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                         ),
@@ -427,7 +428,7 @@ class _StorePageState extends ConsumerState<StorePage> {
               Text(
                 NumberFormat.compact().format(product.carrotAmount),
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.orange,
+                      color: AppTheme.carrotColor,
                       fontWeight: FontWeight.bold,
                     ),
               ),

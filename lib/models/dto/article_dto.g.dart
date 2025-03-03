@@ -166,3 +166,17 @@ Map<String, dynamic> _$$RequestSearchArticlesImplToJson(
       'paging_key': instance.pagingKey,
       'limit': instance.limit,
     };
+
+_$RequestListUserArticlesImpl _$$RequestListUserArticlesImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RequestListUserArticlesImpl(
+      limit: (json['limit'] as num).toInt(),
+      pagingKey: (json['paging_key'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$RequestListUserArticlesImplToJson(
+        _$RequestListUserArticlesImpl instance) =>
+    <String, dynamic>{
+      'limit': instance.limit,
+      'paging_key': instance.pagingKey,
+    };

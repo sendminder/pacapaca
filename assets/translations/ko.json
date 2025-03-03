@@ -164,7 +164,6 @@
         "my_activity": "내 활동",
         "my_posts": "내 게시글",
         "my_carrots": "내 당근",
-        "my_articles": "내 게시글",
         "my_comments": "내 댓글",
         "my_likes": "내 좋아요",
         "my_scraps": "내 스크랩",
@@ -179,7 +178,8 @@
         "error": "프로필 타입 설정에 실패했어요.",
         "account_info": "가입 정보",
         "points": " 점",
-        "carrots": " 개"
+        "carrots": " 개",
+        "user_posts": "사용자 게시글"
     },
     "ranking": {
         "title": "랭킹",

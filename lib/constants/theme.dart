@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   // 색상 정의
+  static const carrotColor = Color(0xFFF9812A);
   static const primaryColor = Color.fromARGB(255, 157, 121, 255); // 부드러운 보라색
   static const secondaryColor = Color(0xFFFF6B6B); // 귀여운 핑크레드
   static const backgroundColor = Color(0xFFF8F9FA);

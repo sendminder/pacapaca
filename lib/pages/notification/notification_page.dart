@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:pacapaca/constants/theme.dart';
 
 class NotificationPage extends ConsumerStatefulWidget {
   const NotificationPage({super.key});
@@ -201,32 +202,40 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
   Widget _buildNotificationIcon(String type) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    IconData iconData;
+    // carrot 타입일 경우 이미지를 사용하기 위해 변수 선언
+    Widget iconWidget;
     Color iconColor;
 
     switch (type) {
       case 'like':
-        iconData = Icons.favorite;
+        iconWidget = const Icon(Icons.favorite, size: 20, color: Colors.red);
         iconColor = Colors.red;
         break;
       case 'comment':
-        iconData = Icons.comment;
+        iconWidget = const Icon(Icons.comment, size: 20, color: Colors.blue);
         iconColor = Colors.blue;
         break;
       case 'carrot':
-        iconData = Icons.emoji_food_beverage;
-        iconColor = Colors.orange;
+        // 이미지 위젯 사용
+        iconWidget = Image.asset(
+          'assets/images/carrot_icon.png', // 당근 이미지 경로
+          width: 20,
+          height: 20,
+        );
+        iconColor = AppTheme.carrotColor;
         break;
       case 'system':
-        iconData = Icons.info;
+        iconWidget = Icon(Icons.info, size: 20, color: colorScheme.primary);
         iconColor = colorScheme.primary;
         break;
       case 'mention':
-        iconData = Icons.alternate_email;
+        iconWidget =
+            const Icon(Icons.alternate_email, size: 20, color: Colors.purple);
         iconColor = Colors.purple;
         break;
       default:
-        iconData = Icons.notifications;
+        iconWidget =
+            Icon(Icons.notifications, size: 20, color: colorScheme.primary);
         iconColor = colorScheme.primary;
     }
 
@@ -236,11 +245,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
         color: iconColor.withOpacity(0.1),
         shape: BoxShape.circle,
       ),
-      child: Icon(
-        iconData,
-        size: 20,
-        color: iconColor,
-      ),
+      child: iconWidget,
     );
   }
 

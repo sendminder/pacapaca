@@ -196,4 +196,36 @@ class ArticleService {
       rethrow;
     }
   }
+
+  Future<List<ArticleDTO>?> getUserArticles({
+    required int userId,
+    required int limit,
+    int? pagingKey,
+  }) async {
+    try {
+      final request = RequestListUserArticles(
+        limit: limit,
+        pagingKey: pagingKey,
+      );
+      final response = await _dio.get(
+        '/v1/users/$userId/articles',
+        queryParameters: request.toJson(),
+      );
+
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
+
+      if (responseRest.response != null) {
+        final userArticlesResponse =
+            ResponseListArticles.fromJson(responseRest.response!);
+        return userArticlesResponse.articles;
+      }
+      return null;
+    } catch (e, stackTrace) {
+      logger.e('get user articles', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
 }

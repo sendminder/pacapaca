@@ -121,3 +121,14 @@ class RequestSearchArticles with _$RequestSearchArticles {
   factory RequestSearchArticles.fromJson(Map<String, dynamic> json) =>
       _$RequestSearchArticlesFromJson(json);
 }
+
+@freezed
+class RequestListUserArticles with _$RequestListUserArticles {
+  const factory RequestListUserArticles({
+    required int limit,
+    @JsonKey(name: 'paging_key') int? pagingKey,
+  }) = _RequestListUserArticles;
+
+  factory RequestListUserArticles.fromJson(Map<String, dynamic> json) =>
+      _$RequestListUserArticlesFromJson(json);
+}

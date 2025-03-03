@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +9,7 @@ import 'package:pacapaca/providers/point_provider.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/widgets/shared/user_profile_card.dart';
+import 'package:pacapaca/constants/theme.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -192,7 +192,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 IconButton(
                   icon: Icon(
                     Icons.shopping_cart,
-                    color: const Color(0xFFF9812A),
+                    color: AppTheme.carrotColor,
                     size: 24,
                   ),
                   onPressed: () => context.push('/store'),
@@ -212,7 +212,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 Text(
                   NumberFormat.compact().format(carrotBalance ?? 0),
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: Colors.orange,
+                        color: AppTheme.carrotColor,
                         fontWeight: FontWeight.w500,
                       ),
                 ),
@@ -258,14 +258,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           title: Text(
             'profile.my_posts'.tr(),
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 16,
+                  fontSize: 18,
                   color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.w500,
                 ),
           ),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
-            // TODO: 내가 쓴 게시글 목록으로 이동
+            context.push('/user-posts/${user.id}');
           },
         ),
         ListTile(
@@ -276,7 +276,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           title: Text(
             'profile.liked_posts'.tr(),
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 16,
+                  fontSize: 18,
                   color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.w500,
                 ),

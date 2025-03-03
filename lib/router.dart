@@ -31,6 +31,7 @@ import 'package:pacapaca/providers/settings_provider.dart';
 import 'pages/notification/notification_page.dart';
 import 'pages/carrot/carrot_history_page.dart';
 import 'pages/point/point_history_page.dart';
+import 'pages/article/user_posts_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -239,6 +240,13 @@ class RouterNotifier extends ChangeNotifier {
               initialSearchQuery: searchQuery,
               isTagSearch: true,
             );
+          },
+        ),
+        GoRoute(
+          path: '/user-posts/:userId',
+          builder: (context, state) {
+            final userId = int.parse(state.pathParameters['userId']!);
+            return UserPostsPage(userId: userId);
           },
         ),
         StatefulShellRoute.indexedStack(

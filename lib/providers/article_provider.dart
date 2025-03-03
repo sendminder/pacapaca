@@ -297,3 +297,87 @@ class ArticleSearch extends _$ArticleSearch {
     state = AsyncData(updatedArticles);
   }
 }
+
+// 유저 게시글 모아보기
+@riverpod
+class UserArticles extends _$UserArticles {
+  final _articleService = GetIt.instance<ArticleService>();
+
+  int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
+
+  @override
+  FutureOr<List<ArticleDTO>?> build(int userId) async {
+    _lastPagingKey = null; // 초기화
+    final articles = await _articleService.getUserArticles(
+      userId: userId,
+      limit: 20,
+    );
+    return articles;
+  }
+
+  Future<void> loadMore(int userId) async {
+    final currentArticles = state.value ?? [];
+    if (currentArticles.isEmpty) return;
+
+    final lastArticle = currentArticles.last;
+    // 이전과 같은 페이징 키면 요청하지 않음
+    if (lastArticle.id == _lastPagingKey) return;
+
+    try {
+      _lastPagingKey = lastArticle.id; // 현재 페이징 키 저장
+      final moreArticles = await _articleService.getUserArticles(
+        userId: userId,
+        limit: 20,
+        pagingKey: lastArticle.id,
+      );
+
+      if (moreArticles == null || moreArticles.isEmpty) return;
+
+      // 기존 목록에 새로운 항목 추가
+      state = AsyncData([...currentArticles, ...moreArticles]);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+    }
+  }
+
+  Future<void> refresh(int userId) async {
+    ref.invalidateSelf();
+  }
+
+  void updateArticleStatus({
+    required int articleId,
+    bool? isLiked,
+    int? likeCount,
+    int? viewCount,
+    int? commentCount,
+  }) {
+    final currentArticles = state.value ?? [];
+    final updatedArticles = currentArticles.map((article) {
+      if (article.id == articleId) {
+        return article.copyWith(
+          isLiked: isLiked ?? article.isLiked,
+          likeCount: likeCount ?? article.likeCount,
+          viewCount: viewCount ?? article.viewCount,
+          commentCount: commentCount ?? article.commentCount,
+        );
+      }
+      return article;
+    }).toList();
+
+    state = AsyncData(updatedArticles);
+  }
+
+  Future<void> addCommentCount(int articleId) async {
+    final currentArticles = state.value;
+    if (currentArticles == null) return;
+    final updatedArticles = currentArticles.map((article) {
+      if (article.id == articleId) {
+        return article.copyWith(
+          commentCount: article.commentCount + 1,
+        );
+      }
+      return article;
+    }).toList();
+    state = AsyncData(updatedArticles);
+  }
+}

@@ -115,7 +115,7 @@ class _PointHistoryPageState extends ConsumerState<PointHistoryPage> {
 
   Widget _buildHistoryItem(BuildContext context, PointsHistoryDTO history) {
     final isPositive = history.amount > 0;
-    final formattedDate = DateFormat('yyyy.MM.dd HH:mm').format(
+    final formattedDate = DateFormat('yyyy.MM.dd').format(
       DateTime.parse(history.createTime),
     );
 

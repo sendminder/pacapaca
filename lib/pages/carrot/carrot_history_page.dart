@@ -7,6 +7,7 @@ import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pacapaca/constants/theme.dart';
 
 class CarrotHistoryPage extends ConsumerStatefulWidget {
   const CarrotHistoryPage({super.key});
@@ -121,7 +122,7 @@ class _CarrotHistoryPageState extends ConsumerState<CarrotHistoryPage> {
     final currentUserId = ref.read(authProvider).value?.id;
     final isReceived = transaction.receiverId == currentUserId;
 
-    final formattedDate = DateFormat('yyyy.MM.dd HH:mm').format(
+    final formattedDate = DateFormat('yyyy.MM.dd').format(
       DateTime.parse(transaction.createTime),
     );
 
@@ -173,7 +174,8 @@ class _CarrotHistoryPageState extends ConsumerState<CarrotHistoryPage> {
                   Text(
                     '${isReceived ? '+' : '-'}${transaction.amount}',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: isReceived ? Colors.green : Colors.red,
+                          color:
+                              isReceived ? Colors.green : AppTheme.carrotColor,
                           fontWeight: FontWeight.w500,
                         ),
                   ),

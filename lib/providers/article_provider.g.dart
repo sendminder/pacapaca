@@ -563,5 +563,152 @@ class _ArticleSearchProviderElement
   @override
   String get query => (origin as ArticleSearchProvider).query;
 }
+
+String _$userArticlesHash() => r'556c69478e29e1d41236b788d4ac06407f08d5d1';
+
+abstract class _$UserArticles
+    extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
+  late final int userId;
+
+  FutureOr<List<ArticleDTO>?> build(
+    int userId,
+  );
+}
+
+/// See also [UserArticles].
+@ProviderFor(UserArticles)
+const userArticlesProvider = UserArticlesFamily();
+
+/// See also [UserArticles].
+class UserArticlesFamily extends Family<AsyncValue<List<ArticleDTO>?>> {
+  /// See also [UserArticles].
+  const UserArticlesFamily();
+
+  /// See also [UserArticles].
+  UserArticlesProvider call(
+    int userId,
+  ) {
+    return UserArticlesProvider(
+      userId,
+    );
+  }
+
+  @override
+  UserArticlesProvider getProviderOverride(
+    covariant UserArticlesProvider provider,
+  ) {
+    return call(
+      provider.userId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'userArticlesProvider';
+}
+
+/// See also [UserArticles].
+class UserArticlesProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    UserArticles, List<ArticleDTO>?> {
+  /// See also [UserArticles].
+  UserArticlesProvider(
+    int userId,
+  ) : this._internal(
+          () => UserArticles()..userId = userId,
+          from: userArticlesProvider,
+          name: r'userArticlesProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$userArticlesHash,
+          dependencies: UserArticlesFamily._dependencies,
+          allTransitiveDependencies:
+              UserArticlesFamily._allTransitiveDependencies,
+          userId: userId,
+        );
+
+  UserArticlesProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.userId,
+  }) : super.internal();
+
+  final int userId;
+
+  @override
+  FutureOr<List<ArticleDTO>?> runNotifierBuild(
+    covariant UserArticles notifier,
+  ) {
+    return notifier.build(
+      userId,
+    );
+  }
+
+  @override
+  Override overrideWith(UserArticles Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: UserArticlesProvider._internal(
+        () => create()..userId = userId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        userId: userId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<UserArticles, List<ArticleDTO>?>
+      createElement() {
+    return _UserArticlesProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is UserArticlesProvider && other.userId == userId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, userId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin UserArticlesRef
+    on AutoDisposeAsyncNotifierProviderRef<List<ArticleDTO>?> {
+  /// The parameter `userId` of this provider.
+  int get userId;
+}
+
+class _UserArticlesProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<UserArticles,
+        List<ArticleDTO>?> with UserArticlesRef {
+  _UserArticlesProviderElement(super.provider);
+
+  @override
+  int get userId => (origin as UserArticlesProvider).userId;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
+import 'package:pacapaca/constants/theme.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -146,7 +147,7 @@ class UserProfileCard extends StatelessWidget {
             ),
             null,
             null,
-            Colors.orange,
+            AppTheme.carrotColor,
           ),
         ],
       ),
