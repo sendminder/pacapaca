@@ -128,13 +128,18 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
       return;
     }
 
+    ArticleCategory createCategory = selectedCategory;
+    if (createCategory == ArticleCategory.all) {
+      createCategory = ArticleCategory.daily;
+    }
+
     setState(() => _isLoading = true);
 
     try {
       final request = RequestCreateArticle(
         title: _titleController.text,
         content: _contentController.text,
-        category: selectedCategory.name,
+        category: createCategory.name,
       );
 
       await ref.read(articleEditorProvider.notifier).createArticle(request);
@@ -145,12 +150,25 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
         ref
             .read(articleListProvider(
               sortBy: sortBy,
-              category: selectedCategory,
+              category: createCategory,
               limit: 20,
             ).notifier)
             .forceRefresh(
               sortBy: sortBy,
-              category: selectedCategory,
+              category: createCategory,
+              limit: 20,
+            );
+
+        // 전체 탭도 리프레시
+        ref
+            .read(articleListProvider(
+              sortBy: sortBy,
+              category: ArticleCategory.all,
+              limit: 20,
+            ).notifier)
+            .forceRefresh(
+              sortBy: sortBy,
+              category: ArticleCategory.all,
               limit: 20,
             );
       }

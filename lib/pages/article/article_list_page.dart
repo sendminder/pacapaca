@@ -257,6 +257,19 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
                     isLiked: response.isLiked,
                     likeCount: response.likeCount,
                   );
+
+              // 전체 탭도 상태 업데이트
+              ref
+                  .read(articleListProvider(
+                    sortBy: _sortBy,
+                    category: ArticleCategory.all,
+                    limit: 20,
+                  ).notifier)
+                  .updateArticleStatus(
+                    articleId: articleId,
+                    isLiked: response.isLiked,
+                    likeCount: response.likeCount,
+                  );
             }
           } catch (e) {
             rethrow;

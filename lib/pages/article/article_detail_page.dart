@@ -15,6 +15,7 @@ import 'package:pacapaca/widgets/shared/comment/comment_list.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pacapaca/widgets/page_title.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -202,6 +203,21 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                   likeCount: response.likeCount,
                   viewCount: article.viewCount,
                 );
+
+            // 전체 탭도 상태 업데이트
+            ref
+                .read(articleListProvider(
+                  sortBy: currentSortBy,
+                  category: ArticleCategory.all,
+                  limit: 20,
+                ).notifier)
+                .updateArticleStatus(
+                  articleId: articleId,
+                  isLiked: response.isLiked,
+                  likeCount: response.likeCount,
+                  viewCount: article.viewCount,
+                );
+
             // 상세 페이지 상태 갱신
             ref.read(articleProvider(articleId).notifier).updateArticleStatus(
                   response.isLiked,
