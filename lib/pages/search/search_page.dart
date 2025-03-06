@@ -254,18 +254,9 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     return ArticleCard(
       article: article,
       onToggleLike: (articleId) async {
-        final response = await ref
+        await ref
             .read(articleProvider(article.id).notifier)
             .toggleArticleLike(article.id);
-        if (response != null) {
-          ref
-              .read(articleSearchProvider(_currentQuery).notifier)
-              .updateArticleStatus(
-                articleId: article.id,
-                isLiked: response.isLiked,
-                likeCount: response.likeCount,
-              );
-        }
       },
     );
   }

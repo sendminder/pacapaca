@@ -146,31 +146,19 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
       if (mounted) {
         final sortBy = ref.read(articleSortProvider);
         context.pop();
-        // force refresh로 글 등록후 새로고침
-        ref
-            .read(articleListProvider(
-              sortBy: sortBy,
-              category: createCategory,
-              limit: 20,
-            ).notifier)
-            .forceRefresh(
-              sortBy: sortBy,
-              category: createCategory,
-              limit: 20,
-            );
+        // 현재 카테고리 목록 무효화
+        ref.invalidate(articleListProvider(
+          sortBy: sortBy,
+          category: createCategory,
+          limit: 20,
+        ));
 
-        // 전체 탭도 리프레시
-        ref
-            .read(articleListProvider(
-              sortBy: sortBy,
-              category: ArticleCategory.all,
-              limit: 20,
-            ).notifier)
-            .forceRefresh(
-              sortBy: sortBy,
-              category: ArticleCategory.all,
-              limit: 20,
-            );
+        // 전체 탭 무효화
+        ref.invalidate(articleListProvider(
+          sortBy: sortBy,
+          category: ArticleCategory.all,
+          limit: 20,
+        ));
       }
     } catch (e) {
       if (mounted) {

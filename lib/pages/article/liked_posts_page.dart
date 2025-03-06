@@ -93,17 +93,53 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
     return ArticleCard(
       article: article,
       onToggleLike: (articleId) async {
-        final response = await ref
-            .read(articleProvider(article.id).notifier)
-            .toggleArticleLike(article.id);
-        if (response != null) {
-          ref
-              .read(likedPostsProvider(widget.userId).notifier)
-              .updateArticleStatus(
-                articleId: article.id,
-                isLiked: response.isLiked,
-                likeCount: response.likeCount,
-              );
+        try {
+          // 현재 게시글 상태 가져오기
+          final currentArticle = ref.read(articleProvider(articleId)).value;
+          if (currentArticle != null) {
+            // 좋아요 상태 미리 반영 (optimistic update)
+            final optimisticArticle = currentArticle.copyWith(
+              isLiked: !currentArticle.isLiked,
+              likeCount: currentArticle.isLiked
+                  ? currentArticle.likeCount - 1
+                  : currentArticle.likeCount + 1,
+            );
+
+            // 로컬 상태 업데이트
+            ref.read(articleProvider(articleId).notifier).state =
+                AsyncData(optimisticArticle);
+
+            // 캐시 업데이트 (다른 화면과 동기화)
+            ref
+                .read(articleCacheProvider.notifier)
+                .updateArticle(optimisticArticle);
+
+            // 좋아요 취소 시 목록에서 즉시 제거
+            if (currentArticle.isLiked) {
+              // 현재 목록 상태 가져오기
+              final currentArticles =
+                  ref.read(likedPostsProvider(widget.userId));
+              if (currentArticles.hasValue && currentArticles.value != null) {
+                // 좋아요 취소된 게시글 제외한 새 목록 생성
+                final updatedList = currentArticles.value!
+                    .where((a) => a.id != articleId)
+                    .toList();
+
+                // 목록 상태 업데이트 (UI 즉시 반영)
+                ref.read(likedPostsProvider(widget.userId).notifier).state =
+                    AsyncData(updatedList);
+              }
+            }
+          }
+
+          // 백그라운드에서 API 호출 (UI 업데이트 후 실제 서버 반영)
+          await ref
+              .read(articleProvider(articleId).notifier)
+              .toggleArticleLike(articleId);
+        } catch (e) {
+          // 에러 발생 시 상태 복구
+          ref.invalidate(articleProvider(articleId));
+          rethrow;
         }
       },
     );

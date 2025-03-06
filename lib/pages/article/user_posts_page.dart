@@ -93,18 +93,9 @@ class _UserPostsPageState extends ConsumerState<UserPostsPage> {
     return ArticleCard(
       article: article,
       onToggleLike: (articleId) async {
-        final response = await ref
+        await ref
             .read(articleProvider(article.id).notifier)
             .toggleArticleLike(article.id);
-        if (response != null) {
-          ref
-              .read(userArticlesProvider(widget.userId).notifier)
-              .updateArticleStatus(
-                articleId: article.id,
-                isLiked: response.isLiked,
-                likeCount: response.likeCount,
-              );
-        }
       },
     );
   }

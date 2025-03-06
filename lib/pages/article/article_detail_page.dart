@@ -15,7 +15,6 @@ import 'package:pacapaca/widgets/shared/comment/comment_list.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pacapaca/widgets/page_title.dart';
-import 'package:pacapaca/models/enums/article_category.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -64,9 +63,6 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     final articleAsync = ref.watch(provider);
     final commentsAsync = ref.watch(commentListProvider(widget.articleId));
     final currentUser = ref.watch(authProvider).value;
-
-    // 게시글 상세 페이지에서 좋아요 버튼 클릭 시 목록 업데이트
-    _updateArticleList(ref, provider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -149,30 +145,6 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     );
   }
 
-  void _updateArticleList(
-    WidgetRef ref,
-    ArticleProvider provider,
-  ) {
-    ref.listen(provider, (previous, next) {
-      next.whenData((article) {
-        if (article != null) {
-          final currentSortBy = ref.read(articleSortProvider);
-          ref
-              .read(articleListProvider(
-                sortBy: currentSortBy,
-                limit: 20,
-              ).notifier)
-              .updateArticleStatus(
-                articleId: article.id,
-                isLiked: article.isLiked,
-                likeCount: article.likeCount,
-                viewCount: article.viewCount,
-              );
-        }
-      });
-    });
-  }
-
   Widget _buildArticleContent(
     WidgetRef ref,
     ArticleDTO? article,
@@ -180,53 +152,39 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     if (article == null) {
       return Center(child: Text('article.not_found'.tr()));
     }
-    final currentSortBy = ref.read(articleSortProvider);
-    final selectedCategory = ref.read(articleCategoryProvider);
 
     return ArticleDetailContent(
       article: article,
       onToggleLike: (articleId) async {
         try {
-          final response = await ref
+          // 좋아요 토글 시 UI 즉시 업데이트를 위해 optimistic update 적용
+          final currentArticle = ref.read(articleProvider(articleId)).value;
+          if (currentArticle != null) {
+            // 좋아요 상태 미리 반영
+            final optimisticArticle = currentArticle.copyWith(
+              isLiked: !currentArticle.isLiked,
+              likeCount: currentArticle.isLiked
+                  ? currentArticle.likeCount - 1
+                  : currentArticle.likeCount + 1,
+            );
+
+            // 임시 상태 업데이트 (provider 상태)
+            ref.read(articleProvider(articleId).notifier).state =
+                AsyncData(optimisticArticle);
+
+            // 캐시에도 즉시 업데이트 (다른 화면에서도 반영되도록)
+            ref
+                .read(articleCacheProvider.notifier)
+                .updateArticle(optimisticArticle);
+          }
+
+          // 실제 API 호출 (백그라운드에서 처리)
+          await ref
               .read(articleProvider(articleId).notifier)
               .toggleArticleLike(articleId);
-          if (response != null) {
-            ref
-                .read(articleListProvider(
-                  sortBy: currentSortBy,
-                  category: selectedCategory,
-                  limit: 20,
-                ).notifier)
-                .updateArticleStatus(
-                  articleId: articleId,
-                  isLiked: response.isLiked,
-                  likeCount: response.likeCount,
-                  viewCount: article.viewCount,
-                );
-
-            // 전체 탭도 상태 업데이트
-            ref
-                .read(articleListProvider(
-                  sortBy: currentSortBy,
-                  category: ArticleCategory.all,
-                  limit: 20,
-                ).notifier)
-                .updateArticleStatus(
-                  articleId: articleId,
-                  isLiked: response.isLiked,
-                  likeCount: response.likeCount,
-                  viewCount: article.viewCount,
-                );
-
-            // 상세 페이지 상태 갱신
-            ref.read(articleProvider(articleId).notifier).updateArticleStatus(
-                  response.isLiked,
-                  response.likeCount,
-                  article.viewCount,
-                  article.commentCount,
-                );
-          }
         } catch (e) {
+          // 에러 발생 시 원래 상태로 복구하기 위해 provider 갱신
+          ref.invalidate(articleProvider(articleId));
           rethrow;
         }
       },

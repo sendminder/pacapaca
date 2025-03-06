@@ -6,7 +6,22 @@ part of 'article_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$articleHash() => r'eeb3095e146b70f79856cbb7af6de21578baba25';
+String _$articleCacheHash() => r'1e300bab95e97b724c9c8c9f4099a74e15ce58ea';
+
+/// See also [ArticleCache].
+@ProviderFor(ArticleCache)
+final articleCacheProvider =
+    AutoDisposeNotifierProvider<ArticleCache, Map<int, ArticleDTO>>.internal(
+  ArticleCache.new,
+  name: r'articleCacheProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$articleCacheHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ArticleCache = AutoDisposeNotifier<Map<int, ArticleDTO>>;
+String _$articleHash() => r'9a4eb53ea45bcb2a63bd8cc7894bef5d1f872beb';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -172,7 +187,7 @@ class _ArticleProviderElement
   int get articleId => (origin as ArticleProvider).articleId;
 }
 
-String _$articleListHash() => r'c422ff613b2bd884844901ce89c07ee838cc7253';
+String _$articleListHash() => r'fe52b7e0480ba31153d211bab0e3cb8516d90611';
 
 abstract class _$ArticleList
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
@@ -401,7 +416,7 @@ class _ArticleListProviderElement
   ArticleCategory? get category => (origin as ArticleListProvider).category;
 }
 
-String _$articleEditorHash() => r'78e196f41d36d9a8010d4d4fa1816a94afa745f5';
+String _$articleEditorHash() => r'7b0f21684ceee224ee6386155be0b8d6445ea621';
 
 /// See also [ArticleEditor].
 @ProviderFor(ArticleEditor)
@@ -417,7 +432,7 @@ final articleEditorProvider =
 );
 
 typedef _$ArticleEditor = AutoDisposeAsyncNotifier<void>;
-String _$articleSearchHash() => r'8b0ab9114f82e8427a60f70f383de2bd5b5a501f';
+String _$articleSearchHash() => r'7a9634fc2f1379c6e4df0e6912bf998ad0807aa3';
 
 abstract class _$ArticleSearch
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
@@ -564,7 +579,7 @@ class _ArticleSearchProviderElement
   String get query => (origin as ArticleSearchProvider).query;
 }
 
-String _$userArticlesHash() => r'556c69478e29e1d41236b788d4ac06407f08d5d1';
+String _$userArticlesHash() => r'd120e9b863930cba8a9efc0a0d55b20b3d74ebe1';
 
 abstract class _$UserArticles
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
@@ -711,7 +726,7 @@ class _UserArticlesProviderElement
   int get userId => (origin as UserArticlesProvider).userId;
 }
 
-String _$likedPostsHash() => r'01f14ba15d41b8e34f9cecb0b646dbb05acf3d0f';
+String _$likedPostsHash() => r'48bc60fa8b9fe517e74fcc214336d3f2d546d1e2';
 
 abstract class _$LikedPosts
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {

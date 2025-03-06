@@ -28,12 +28,15 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    Future.microtask(() {
+      _sortBy = ref.read(articleSortProvider);
+      _selectedCategory = ref.read(articleCategoryProvider);
+    });
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ref.invalidate(articleListProvider);
   }
 
   void _onScroll() {
@@ -242,36 +245,27 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
         article: articles[index],
         onToggleLike: (articleId) async {
           try {
-            final response = await ref
+            final currentArticle = ref.read(articleProvider(articleId)).value;
+            if (currentArticle != null) {
+              final optimisticArticle = currentArticle.copyWith(
+                isLiked: !currentArticle.isLiked,
+                likeCount: currentArticle.isLiked
+                    ? currentArticle.likeCount - 1
+                    : currentArticle.likeCount + 1,
+              );
+
+              ref.read(articleProvider(articleId).notifier).state =
+                  AsyncData(optimisticArticle);
+              ref
+                  .read(articleCacheProvider.notifier)
+                  .updateArticle(optimisticArticle);
+            }
+
+            await ref
                 .read(articleProvider(articleId).notifier)
                 .toggleArticleLike(articleId);
-            if (response != null) {
-              ref
-                  .read(articleListProvider(
-                    sortBy: _sortBy,
-                    category: _selectedCategory,
-                    limit: 20,
-                  ).notifier)
-                  .updateArticleStatus(
-                    articleId: articleId,
-                    isLiked: response.isLiked,
-                    likeCount: response.likeCount,
-                  );
-
-              // 전체 탭도 상태 업데이트
-              ref
-                  .read(articleListProvider(
-                    sortBy: _sortBy,
-                    category: ArticleCategory.all,
-                    limit: 20,
-                  ).notifier)
-                  .updateArticleStatus(
-                    articleId: articleId,
-                    isLiked: response.isLiked,
-                    likeCount: response.likeCount,
-                  );
-            }
           } catch (e) {
+            ref.invalidate(articleProvider(articleId));
             rethrow;
           }
         },

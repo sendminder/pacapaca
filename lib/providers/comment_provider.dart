@@ -3,7 +3,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:pacapaca/services/comment_service.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
 part 'comment_provider.g.dart';
 
@@ -62,18 +61,6 @@ class CommentList extends _$CommentList {
               ? [newComment, ...currentComments]
               : [...currentComments, newComment]);
         }
-
-        // 댓글 수 업데이트
-        ref.read(articleProvider(articleId).notifier).addCommentCount();
-
-        // 활성화된 게시글 목록 업데이트
-        ref
-            .read(articleListProvider(
-              limit: 20,
-              sortBy: _sort,
-              category: _category,
-            ).notifier)
-            .addCommentCount(articleId);
       }
     } catch (e, stack) {
       state = AsyncError(e, stack);
