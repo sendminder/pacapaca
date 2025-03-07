@@ -45,8 +45,14 @@ class RankingListItem extends StatelessWidget {
           ? BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Theme.of(context).colorScheme.primary.withAlpha(10),
-                  Theme.of(context).colorScheme.surface,
+                  Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withAlpha((5 - rank) * 10),
+                  Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withAlpha((5 - rank) * 15),
                 ],
               ),
               borderRadius: BorderRadius.circular(12),
@@ -64,13 +70,15 @@ class RankingListItem extends StatelessWidget {
         leading: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            isTopRank ? const SizedBox.shrink() : const SizedBox(width: 8),
             Text(
               _rankEmoji,
               style: TextStyle(
-                fontSize: isTopRank ? 28 : 24,
+                fontSize: isTopRank ? 28 : 20,
+                fontWeight: isTopRank ? FontWeight.w700 : FontWeight.w300,
               ),
             ),
-            const SizedBox(width: 8),
+            isTopRank ? const SizedBox(width: 8) : const SizedBox(width: 21),
             UserAvatar(
               imageUrl: profileImageUrl ?? '',
               profileType: profileType,
@@ -82,7 +90,7 @@ class RankingListItem extends StatelessWidget {
         title: Text(
           nickname,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: isTopRank ? FontWeight.w700 : FontWeight.w600,
+                fontWeight: isTopRank ? FontWeight.w700 : FontWeight.w500,
                 color: isTopRank ? Theme.of(context).colorScheme.primary : null,
               ),
         ),

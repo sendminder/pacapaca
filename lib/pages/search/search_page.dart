@@ -9,6 +9,7 @@ import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/widgets/notification/notification_bell.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   final String? initialSearchQuery;
@@ -253,11 +254,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
   Widget _buildArticleCard(ArticleDTO article) {
     return ArticleCard(
       article: article,
-      onToggleLike: (articleId) async {
-        await ref
-            .read(articleProvider(article.id).notifier)
-            .toggleArticleLike(article.id);
-      },
+      onTap: () => context.push('/articles/${article.id}'),
     );
   }
 

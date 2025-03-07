@@ -1,137 +1,198 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
+import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/widgets/shared/interaction_button.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
+import 'package:get_it/get_it.dart';
+import 'package:pacapaca/services/article_service.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 
-class ArticleDetailContent extends StatelessWidget {
+class ArticleDetailContent extends ConsumerWidget {
   final ArticleDTO article;
-  final Future<void> Function(int) onToggleLike;
+  final logger = GetIt.instance<Logger>();
+  final _articleService = GetIt.instance<ArticleService>();
 
-  const ArticleDetailContent({
+  ArticleDetailContent({
     super.key,
     required this.article,
-    required this.onToggleLike,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    // 캐시에서 최신 상태의 게시글 가져오기
+    final cachedArticle =
+        ref.watch(articleCacheProvider.select((cache) => cache[article.id]));
+
+    // 캐시에 있는 게시글 또는 원래 게시글 사용
+    final displayArticle = cachedArticle ?? article;
+
+    return Container(
+      color: colorScheme.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(context),
-          if (article.title.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            _buildTitle(context),
-          ],
-          if (article.thumbnailUrl != null) ...[
-            const SizedBox(height: 12),
-            _buildThumbnail(),
-          ],
-          const SizedBox(height: 8),
-          _buildContent(context),
+          // 헤더 (프로필 + 시간)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
+            child: _buildHeader(context, displayArticle),
+          ),
+
+          // 제목
+          if (displayArticle.title.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                displayArticle.title,
+                style: textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  height: 1.3,
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ),
+
           const SizedBox(height: 16),
-          if (article.tags != null && article.tags!.isNotEmpty) ...[
-            _buildTags(context),
-            const SizedBox(height: 4),
+
+          // 썸네일
+          if (displayArticle.thumbnailUrl != null) ...[
+            _buildThumbnail(displayArticle),
+            const SizedBox(height: 20),
           ],
-          const SizedBox(height: 16),
-          _buildInteractions(context),
+
+          // 내용
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              displayArticle.content,
+              style: textTheme.bodyLarge?.copyWith(
+                height: 1.6,
+                color: colorScheme.onSurface.withAlpha(230),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          // 태그
+          if (displayArticle.tags != null &&
+              displayArticle.tags!.isNotEmpty) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: _buildTags(context, displayArticle),
+            ),
+            const SizedBox(height: 24),
+          ],
+
+          // 상호작용 버튼 (좋아요, 댓글, 조회수)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            child: _buildInteractions(context, ref, displayArticle),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context, ArticleDTO displayArticle) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Row(
       children: [
+        // 프로필 아바타
         UserAvatar(
-          imageUrl: article.displayUser.profileImageUrl ?? '',
-          profileType: article.displayUser.profileType,
-          userId: article.displayUser.id,
+          imageUrl: displayArticle.displayUser.profileImageUrl ?? '',
+          profileType: displayArticle.displayUser.profileType,
+          userId: displayArticle.displayUser.id,
         ),
+
         const SizedBox(width: 12),
+
+        // 사용자 정보 및 시간
         Expanded(
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                article.displayUser.nickname,
-                style: TextStyle(
+                displayArticle.displayUser.nickname,
+                style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(height: 2),
               Text(
-                timeago.format(DateTime.parse(article.createTime),
+                timeago.format(DateTime.parse(displayArticle.createTime),
                     locale: 'ko'),
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withAlpha(128),
-                    ),
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurface.withAlpha(153),
+                ),
               ),
             ],
           ),
         ),
+
+        // 카테고리 표시
+        if (displayArticle.category != null)
+          _buildCategoryChip(context, displayArticle),
       ],
     );
   }
 
-  Widget _buildTitle(BuildContext context) {
-    return Text(
-      article.title,
-      style: TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.bold,
-        color: Theme.of(context).colorScheme.onSurface,
+  Widget _buildCategoryChip(BuildContext context, ArticleDTO displayArticle) {
+    final emoji = categoryEmojis[displayArticle.category] ?? '📝';
+
+    return Container(
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 15),
+      child: Text(
+        emoji,
+        style: const TextStyle(fontSize: 18),
       ),
     );
   }
 
-  Widget _buildThumbnail() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+  Widget _buildThumbnail(ArticleDTO displayArticle) {
+    return SizedBox(
+      width: double.infinity,
+      height: 250,
       child: CachedNetworkImage(
-        imageUrl: article.thumbnailUrl!,
-        width: double.infinity,
-        height: 200,
+        imageUrl: displayArticle.thumbnailUrl!,
         fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
+          color: Colors.grey[200],
+          child: const Center(
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ),
         errorWidget: (context, error, stackTrace) => Container(
-          width: double.infinity,
-          height: 200,
-          color: Colors.grey[300],
-          child: const Icon(Icons.image_not_supported),
+          color: Colors.grey[200],
+          child: const Icon(
+            Icons.image_not_supported,
+            size: 40,
+            color: Colors.grey,
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context) {
-    return Text(
-      article.content,
-      style: TextStyle(
-        fontSize: 16,
-        color: Theme.of(context).colorScheme.onSurface,
-        height: 1.4,
-      ),
-    );
-  }
+  Widget _buildTags(BuildContext context, ArticleDTO displayArticle) {
+    final colorScheme = Theme.of(context).colorScheme;
 
-  Widget _buildTags(BuildContext context) {
     return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: article.tags!.map((tag) {
+      spacing: 10,
+      runSpacing: 10,
+      children: displayArticle.tags!.map((tag) {
         return InkWell(
           onTap: () {
-            // 태그 클릭 시 검색 페이지로 이동하고 해당 태그로 검색
+            // 태그 클릭 시 검색 페이지로 이동
             context.push('/tag-search', extra: {
               'searchQuery': tag,
             });
@@ -139,7 +200,7 @@ class ArticleDetailContent extends StatelessWidget {
           child: Text(
             '#$tag',
             style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+              color: colorScheme.primary,
               fontWeight: FontWeight.w500,
               fontSize: 14,
             ),
@@ -149,28 +210,81 @@ class ArticleDetailContent extends StatelessWidget {
     );
   }
 
-  Widget _buildInteractions(BuildContext context) {
+  Widget _buildInteractions(
+      BuildContext context, WidgetRef ref, ArticleDTO displayArticle) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
+        // 좋아요 버튼
         Expanded(
           child: InteractionButton(
-            icon: article.isLiked ? Icons.favorite : Icons.favorite_border,
-            count: article.likeCount,
-            color:
-                article.isLiked ? Theme.of(context).colorScheme.primary : null,
-            onTap: () => onToggleLike(article.id),
+            icon:
+                displayArticle.isLiked ? Icons.favorite : Icons.favorite_border,
+            count: displayArticle.likeCount,
+            color: displayArticle.isLiked ? colorScheme.primary : null,
+            onTap: () {
+              logger.i('상세 페이지: 좋아요 버튼 클릭 - articleId=${displayArticle.id}');
+
+              // 낙관적 UI 업데이트를 위한 게시글 복사본 생성
+              final optimisticArticle = displayArticle.copyWith(
+                isLiked: !displayArticle.isLiked,
+                likeCount: displayArticle.isLiked
+                    ? displayArticle.likeCount - 1
+                    : displayArticle.likeCount + 1,
+              );
+
+              // 캐시 업데이트 (낙관적 UI 업데이트)
+              ref
+                  .read(articleCacheProvider.notifier)
+                  .updateArticle(optimisticArticle);
+
+              // 서버 요청 (백그라운드에서 처리)
+              Future.microtask(() async {
+                try {
+                  // 서버 요청
+                  final response = await _articleService
+                      .toggleArticleLike(displayArticle.id);
+
+                  if (response != null) {
+                    // 서버 응답으로 최종 상태 생성
+                    final serverArticle = displayArticle.copyWith(
+                      isLiked: response.isLiked,
+                      likeCount: response.likeCount,
+                    );
+
+                    // 캐시 업데이트 (서버 응답 기반)
+                    ref
+                        .read(articleCacheProvider.notifier)
+                        .updateArticle(serverArticle);
+                  }
+                } catch (e) {
+                  logger.e('좋아요 토글 중 오류 발생 - $e');
+
+                  // 오류 발생 시 원래 상태로 복구
+                  ref
+                      .read(articleCacheProvider.notifier)
+                      .updateArticle(displayArticle);
+                }
+              });
+            },
           ),
         ),
+
+        // 댓글 버튼
         Expanded(
           child: InteractionButton(
-            icon: Icons.chat_bubble_outline,
-            count: article.commentCount,
+            icon: Icons.chat_bubble_outline_rounded,
+            count: displayArticle.commentCount,
           ),
         ),
+
+        // 조회수 버튼
         Expanded(
           child: InteractionButton(
-            icon: Icons.remove_red_eye_outlined,
-            count: article.viewCount,
+            icon: Icons.visibility_outlined,
+            count: displayArticle.viewCount,
           ),
         ),
       ],

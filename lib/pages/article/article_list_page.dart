@@ -10,6 +10,8 @@ import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/widgets/shared/article_skeleton_item.dart';
 import 'package:pacapaca/widgets/notification/notification_bell.dart';
+import 'package:logger/logger.dart';
+import 'package:get_it/get_it.dart';
 
 class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});
@@ -20,14 +22,19 @@ class ArticleListPage extends ConsumerStatefulWidget {
 
 class _ArticleListPageState extends ConsumerState<ArticleListPage> {
   final _pageController = PageController();
-  final _scrollController = ScrollController();
+  final Map<ArticleCategory, ScrollController> _scrollControllers = {};
   late String _sortBy;
   late ArticleCategory _selectedCategory;
+  final logger = GetIt.instance<Logger>();
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    for (final category in ArticleCategory.values) {
+      _scrollControllers[category] = ScrollController()
+        ..addListener(() => _onScroll(category));
+    }
+
     Future.microtask(() {
       _sortBy = ref.read(articleSortProvider);
       _selectedCategory = ref.read(articleCategoryProvider);
@@ -39,19 +46,21 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     super.didChangeDependencies();
   }
 
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.8) {
+  void _onScroll(ArticleCategory category) {
+    final controller = _scrollControllers[category];
+    if (controller != null &&
+        controller.position.pixels >=
+            controller.position.maxScrollExtent * 0.8) {
       ref
           .read(articleListProvider(
             sortBy: _sortBy,
-            category: _selectedCategory,
+            category: category,
             limit: 20,
           ).notifier)
           .loadMore(
             sortBy: _sortBy,
             limit: 20,
-            category: _selectedCategory,
+            category: category,
           );
     }
   }
@@ -103,7 +112,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
                   );
             },
             child: articlesAsync.when(
-              data: (articles) => _buildArticleList(articles ?? []),
+              data: (articles) => _buildArticleList(articles ?? [], category),
               error: (error, stackTrace) => const SizedBox.shrink(),
               loading: () => ListView.builder(
                 itemCount: 5,
@@ -235,41 +244,20 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
     );
   }
 
-  Widget _buildArticleList(List<ArticleDTO> articles) {
+  Widget _buildArticleList(
+      List<ArticleDTO> articles, ArticleCategory category) {
     return ListView.builder(
-      controller: _scrollController,
+      controller: _scrollControllers[category],
       physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.only(top: 8),
       itemCount: articles.length,
-      itemBuilder: (context, index) => ArticleCard(
-        article: articles[index],
-        onToggleLike: (articleId) async {
-          try {
-            final currentArticle = ref.read(articleProvider(articleId)).value;
-            if (currentArticle != null) {
-              final optimisticArticle = currentArticle.copyWith(
-                isLiked: !currentArticle.isLiked,
-                likeCount: currentArticle.isLiked
-                    ? currentArticle.likeCount - 1
-                    : currentArticle.likeCount + 1,
-              );
-
-              ref.read(articleProvider(articleId).notifier).state =
-                  AsyncData(optimisticArticle);
-              ref
-                  .read(articleCacheProvider.notifier)
-                  .updateArticle(optimisticArticle);
-            }
-
-            await ref
-                .read(articleProvider(articleId).notifier)
-                .toggleArticleLike(articleId);
-          } catch (e) {
-            ref.invalidate(articleProvider(articleId));
-            rethrow;
-          }
-        },
-      ),
+      itemBuilder: (context, index) {
+        final article = articles[index];
+        return ArticleCard(
+          article: article,
+          onTap: () => context.push('/articles/${article.id}'),
+        );
+      },
     );
   }
 
@@ -301,8 +289,9 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
+    for (final controller in _scrollControllers.values) {
+      controller.dispose();
+    }
     _pageController.dispose();
     super.dispose();
   }

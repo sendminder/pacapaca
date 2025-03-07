@@ -15,6 +15,8 @@ import 'package:pacapaca/widgets/shared/comment/comment_list.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pacapaca/widgets/page_title.dart';
+import 'package:logger/logger.dart';
+import 'package:get_it/get_it.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -33,6 +35,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
   final FocusNode _focusNode = FocusNode();
   bool _canSend = false;
   int? _replyingCommentId;
+  final logger = GetIt.instance<Logger>();
 
   @override
   void initState() {
@@ -59,8 +62,8 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = articleProvider(widget.articleId);
-    final articleAsync = ref.watch(provider);
+    // 게시글 데이터 가져오기 (캐시 또는 API)
+    final articleAsync = ref.watch(articleProvider(widget.articleId));
     final commentsAsync = ref.watch(commentListProvider(widget.articleId));
     final currentUser = ref.watch(authProvider).value;
 
@@ -79,13 +82,18 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
         ],
       ),
       body: articleAsync.when(
-        data: (article) => GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: RefreshIndicator(
+        loading: () => const Center(child: RotatingPacaLoader()),
+        error: (error, _) => Center(
+          child: Text('article.error'.tr(args: [error.toString()])),
+        ),
+        data: (article) {
+          if (article == null) {
+            return Center(child: Text('article.not_found'.tr()));
+          }
+
+          return RefreshIndicator(
             onRefresh: () async {
-              ref.invalidate(provider);
+              ref.invalidate(articleProvider(widget.articleId));
               ref.invalidate(commentListProvider(widget.articleId));
               return Future.delayed(const Duration(milliseconds: 1000));
             },
@@ -104,7 +112,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
-                    _buildArticleContent(ref, article),
+                    ArticleDetailContent(article: article),
                     Divider(
                       height: 1,
                       color:
@@ -116,12 +124,8 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                 ),
               ),
             ),
-          ),
-        ),
-        error: (error, stack) => const SizedBox.shrink(),
-        loading: () => Center(
-          child: RotatingPacaLoader(),
-        ),
+          );
+        },
       ),
       bottomSheet: currentUser != null
           ? ChatInput(
@@ -131,6 +135,11 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                 await ref
                     .read(commentListProvider(widget.articleId).notifier)
                     .addComment(widget.articleId, content, _replyingCommentId);
+
+                // 댓글 카운트 증가
+                ref
+                    .read(articleCacheProvider.notifier)
+                    .incrementCommentCount(widget.articleId);
 
                 _commentController.clear();
                 FocusScope.of(context).unfocus();
@@ -145,62 +154,13 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     );
   }
 
-  Widget _buildArticleContent(
-    WidgetRef ref,
-    ArticleDTO? article,
-  ) {
-    if (article == null) {
-      return Center(child: Text('article.not_found'.tr()));
-    }
-
-    return ArticleDetailContent(
-      article: article,
-      onToggleLike: (articleId) async {
-        try {
-          // 좋아요 토글 시 UI 즉시 업데이트를 위해 optimistic update 적용
-          final currentArticle = ref.read(articleProvider(articleId)).value;
-          if (currentArticle != null) {
-            // 좋아요 상태 미리 반영
-            final optimisticArticle = currentArticle.copyWith(
-              isLiked: !currentArticle.isLiked,
-              likeCount: currentArticle.isLiked
-                  ? currentArticle.likeCount - 1
-                  : currentArticle.likeCount + 1,
-            );
-
-            // 임시 상태 업데이트 (provider 상태)
-            ref.read(articleProvider(articleId).notifier).state =
-                AsyncData(optimisticArticle);
-
-            // 캐시에도 즉시 업데이트 (다른 화면에서도 반영되도록)
-            ref
-                .read(articleCacheProvider.notifier)
-                .updateArticle(optimisticArticle);
-          }
-
-          // 실제 API 호출 (백그라운드에서 처리)
-          await ref
-              .read(articleProvider(articleId).notifier)
-              .toggleArticleLike(articleId);
-        } catch (e) {
-          // 에러 발생 시 원래 상태로 복구하기 위해 provider 갱신
-          ref.invalidate(articleProvider(articleId));
-          rethrow;
-        }
-      },
-    );
-  }
-
   Widget _buildCommentSection(
     BuildContext context,
     WidgetRef ref,
     AsyncValue<List<ArticleCommentDTO>?> commentsAsync,
     UserDTO? currentUser,
-    ArticleDTO? article,
+    ArticleDTO article,
   ) {
-    if (article == null) {
-      return const SizedBox.shrink();
-    }
     final commentSort = ref.watch(commentSortProvider);
 
     return Padding(
@@ -255,12 +215,8 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     WidgetRef ref,
     AsyncValue<List<ArticleCommentDTO>?> commentsAsync,
     UserDTO? currentUser,
-    ArticleDTO? article,
+    ArticleDTO article,
   ) {
-    if (article == null) {
-      return const SizedBox.shrink();
-    }
-
     return commentsAsync.when(
       data: (comments) {
         if (comments == null || comments.isEmpty) {

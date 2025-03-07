@@ -1,193 +1,281 @@
-import 'package:flutter/material.dart';
-import 'package:timeago/timeago.dart' as timeago;
-import 'package:pacapaca/models/dto/article_dto.dart';
-import 'package:pacapaca/widgets/shared/user_avatar.dart';
-import 'package:pacapaca/widgets/shared/tag_list.dart';
-import 'package:pacapaca/widgets/shared/interaction_button.dart';
-import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pacapaca/models/dto/article_dto.dart';
+import 'package:pacapaca/providers/article_provider.dart';
+import 'package:pacapaca/widgets/shared/user_avatar.dart';
+import 'package:pacapaca/widgets/shared/interaction_button.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
+import 'package:logger/logger.dart';
+import 'package:get_it/get_it.dart';
+import 'package:pacapaca/services/article_service.dart';
 
-class ArticleCard extends StatelessWidget {
+class ArticleCard extends ConsumerWidget {
   final ArticleDTO article;
-  final Future<void> Function(int articleId) onToggleLike;
+  final VoidCallback? onTap;
+  final logger = GetIt.instance<Logger>();
+  final _articleService = GetIt.instance<ArticleService>();
 
-  const ArticleCard({
+  ArticleCard({
     super.key,
     required this.article,
-    required this.onToggleLike,
+    this.onTap,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    // 캐시에서 최신 상태의 게시글 가져오기
+    final cachedArticle =
+        ref.watch(articleCacheProvider.select((cache) => cache[article.id]));
+
+    // 캐시에 있는 게시글 또는 원래 게시글 사용
+    final displayArticle = cachedArticle ?? article;
+
     return Card(
-      color: Theme.of(context).colorScheme.primary.withAlpha(20),
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      elevation: 1,
+      elevation: 0.5,
+      clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: colorScheme.outline.withAlpha(30),
+          width: 0.5,
+        ),
       ),
       child: InkWell(
-        onTap: () => context.push('/articles/${article.id}'),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
+        onTap: onTap ?? () => context.push('/articles/${displayArticle.id}'),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 썸네일이 있는 경우 상단에 표시
+            if (displayArticle.thumbnailUrl != null)
+              _buildThumbnail(displayArticle),
+
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 헤더 (프로필 + 카테고리)
+                  _buildHeader(context, displayArticle),
+
+                  const SizedBox(height: 12),
+
+                  // 제목
+                  if (displayArticle.title.isNotEmpty)
+                    _buildTitle(context, displayArticle),
+
+                  const SizedBox(height: 8),
+
+                  // 내용
+                  _buildContent(context, displayArticle),
+
+                  const SizedBox(height: 16),
+
+                  // 상호작용 버튼 (좋아요, 댓글, 조회수)
+                  _buildInteractions(context, ref, displayArticle),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, ArticleDTO displayArticle) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Row(
+      children: [
+        // 프로필 아바타
+        UserAvatar(
+          imageUrl: displayArticle.displayUser.profileImageUrl ?? '',
+          profileType: displayArticle.displayUser.profileType,
+          userId: displayArticle.displayUser.id,
+        ),
+
+        const SizedBox(width: 12),
+
+        // 사용자 정보
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(context),
-              if (article.title.isNotEmpty) ...[
-                const SizedBox(height: 16),
-                _buildTitle(context),
-              ],
-              if (article.thumbnailUrl != null) ...[
-                const SizedBox(height: 12),
-                _buildThumbnail(),
-              ],
-              const SizedBox(height: 6),
-              _buildContent(context),
-              const SizedBox(height: 16),
-              _buildInteractions(context),
+              Text(
+                displayArticle.displayUser.nickname,
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                timeago.format(DateTime.parse(displayArticle.createTime),
+                    locale: 'ko'),
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurface.withAlpha(150),
+                ),
+              ),
             ],
           ),
         ),
+
+        // 카테고리 이모지
+        if (displayArticle.category != null)
+          _buildCategoryChip(context, displayArticle),
+      ],
+    );
+  }
+
+  Widget _buildCategoryChip(BuildContext context, ArticleDTO displayArticle) {
+    final emoji = categoryEmojis[displayArticle.category] ?? '📝';
+
+    return Container(
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 15),
+      child: Text(
+        emoji,
+        style: const TextStyle(fontSize: 18),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    final locale = Localizations.localeOf(context);
-    return Row(
-      children: [
-        UserAvatar(
-          imageUrl: article.displayUser.profileImageUrl ?? '',
-          profileType: article.displayUser.profileType,
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Row(
-            children: [
-              Text(
-                article.displayUser.nickname,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                timeago.format(DateTime.parse(article.createTime),
-                    locale: locale.countryCode),
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withAlpha(150),
-                    ),
-              ),
-            ],
-          ),
-        ),
-        if (article.category != null) _buildCategoryEmoji(context),
-      ],
-    );
-  }
+  Widget _buildTitle(BuildContext context, ArticleDTO displayArticle) {
+    final textTheme = Theme.of(context).textTheme;
 
-  Widget _buildInteractions(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          // 1/3 차지
-          child: InteractionButton(
-            icon: article.isLiked ? Icons.favorite : Icons.favorite_border,
-            count: article.likeCount,
-            color:
-                article.isLiked ? Theme.of(context).colorScheme.primary : null,
-            onTap: () async {
-              try {
-                await onToggleLike(article.id);
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content:
-                            Text('article.error'.tr(args: [e.toString()]))),
-                  );
-                }
-              }
-            },
-          ),
-        ),
-        Expanded(
-          // 1/3 차지
-          child: InteractionButton(
-            icon: Icons.chat_bubble_outline,
-            count: article.commentCount,
-          ),
-        ),
-        Expanded(
-          // 1/3 차지
-          child: InteractionButton(
-            icon: Icons.remove_red_eye_outlined,
-            count: article.viewCount,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTitle(BuildContext context) {
     return Text(
-      article.title,
-      style: TextStyle(
-        fontSize: 20,
+      displayArticle.title,
+      style: textTheme.titleLarge?.copyWith(
         fontWeight: FontWeight.bold,
-        color: Theme.of(context).colorScheme.onSurface,
+        height: 1.3,
       ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
     );
   }
 
-  Widget _buildThumbnail() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+  Widget _buildThumbnail(ArticleDTO displayArticle) {
+    return SizedBox(
+      width: double.infinity,
+      height: 200,
       child: CachedNetworkImage(
-        imageUrl: article.thumbnailUrl!,
-        width: double.infinity,
-        height: 200,
+        imageUrl: displayArticle.thumbnailUrl!,
         fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
+          color: Colors.grey[200],
+          child: const Center(
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ),
+        errorWidget: (context, error, stackTrace) => Container(
+          color: Colors.grey[200],
+          child: const Icon(
+            Icons.image_not_supported,
+            size: 40,
+            color: Colors.grey,
+          ),
+        ),
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent(BuildContext context, ArticleDTO displayArticle) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Text(
-      article.content,
-      style: TextStyle(
-        fontSize: 15,
-        color: Theme.of(context).colorScheme.onSurface,
-        height: 1.4,
+      displayArticle.content,
+      style: textTheme.bodyMedium?.copyWith(
+        color: colorScheme.onSurface.withOpacity(0.8),
+        height: 1.5,
       ),
       maxLines: 3,
       overflow: TextOverflow.ellipsis,
     );
   }
 
-  Widget _buildCategoryEmoji(BuildContext context) {
-    // 카테고리에 따른 이모지 매핑
-    final emoji = categoryEmojis[article.category] ?? '📝';
+  Widget _buildInteractions(
+      BuildContext context, WidgetRef ref, ArticleDTO displayArticle) {
+    final colorScheme = Theme.of(context).colorScheme;
 
-    return Tooltip(
-      message: article.category,
-      child: Container(
-        padding: const EdgeInsets.only(right: 8, bottom: 8),
-        child: Text(
-          emoji,
-          style: const TextStyle(fontSize: 22),
+    return Row(
+      children: [
+        // 좋아요 버튼
+        Expanded(
+          child: InteractionButton(
+            icon:
+                displayArticle.isLiked ? Icons.favorite : Icons.favorite_border,
+            count: displayArticle.likeCount,
+            color: displayArticle.isLiked ? colorScheme.primary : null,
+            onTap: () {
+              logger.i('좋아요 버튼 클릭 - articleId=${displayArticle.id}');
+
+              // 낙관적 UI 업데이트를 위한 게시글 복사본 생성
+              final optimisticArticle = displayArticle.copyWith(
+                isLiked: !displayArticle.isLiked,
+                likeCount: displayArticle.isLiked
+                    ? displayArticle.likeCount - 1
+                    : displayArticle.likeCount + 1,
+              );
+
+              // 캐시 업데이트 (낙관적 UI 업데이트)
+              ref
+                  .read(articleCacheProvider.notifier)
+                  .updateArticle(optimisticArticle);
+
+              // 서버 요청 (백그라운드에서 처리)
+              Future.microtask(() async {
+                try {
+                  // 서버 요청
+                  final response = await _articleService
+                      .toggleArticleLike(displayArticle.id);
+
+                  if (response != null) {
+                    // 서버 응답으로 최종 상태 생성
+                    final serverArticle = displayArticle.copyWith(
+                      isLiked: response.isLiked,
+                      likeCount: response.likeCount,
+                    );
+
+                    // 캐시 업데이트 (서버 응답 기반)
+                    ref
+                        .read(articleCacheProvider.notifier)
+                        .updateArticle(serverArticle);
+                  }
+                } catch (e) {
+                  logger.e('좋아요 토글 중 오류 발생 - $e');
+
+                  // 오류 발생 시 원래 상태로 복구
+                  ref
+                      .read(articleCacheProvider.notifier)
+                      .updateArticle(displayArticle);
+                }
+              });
+            },
+          ),
         ),
-      ),
+
+        // 댓글 버튼
+        Expanded(
+          child: InteractionButton(
+            icon: Icons.chat_bubble_outline_rounded,
+            count: displayArticle.commentCount,
+          ),
+        ),
+
+        // 조회수 버튼
+        Expanded(
+          child: InteractionButton(
+            icon: Icons.visibility_outlined,
+            count: displayArticle.viewCount,
+          ),
+        ),
+      ],
     );
   }
 }

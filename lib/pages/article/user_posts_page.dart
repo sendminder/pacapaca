@@ -7,6 +7,7 @@ import 'package:pacapaca/pages/article/widgets/article_card.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
+import 'package:go_router/go_router.dart';
 
 class UserPostsPage extends ConsumerStatefulWidget {
   final int userId;
@@ -92,11 +93,7 @@ class _UserPostsPageState extends ConsumerState<UserPostsPage> {
   Widget _buildArticleCard(ArticleDTO article) {
     return ArticleCard(
       article: article,
-      onToggleLike: (articleId) async {
-        await ref
-            .read(articleProvider(article.id).notifier)
-            .toggleArticleLike(article.id);
-      },
+      onTap: () => context.push('/articles/${article.id}'),
     );
   }
 

@@ -28,3 +28,10 @@ const Map<String, String> categoryEmojis = {
   'work': '💼',
   'love': '💜',
 };
+
+var categoryNames = {
+  'daily': 'category.daily'.tr(),
+  'family': 'category.family'.tr(),
+  'work': 'category.work'.tr(),
+  'love': 'category.love'.tr(),
+};

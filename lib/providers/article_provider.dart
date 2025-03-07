@@ -6,41 +6,119 @@ import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:logger/logger.dart';
 part 'article_provider.g.dart';
 
-// 게시글 캐시 관리 provider
+// 게시글 캐시 관리 provider - 중앙 집중식 상태 관리
 @riverpod
 class ArticleCache extends _$ArticleCache {
+  final logger = GetIt.instance<Logger>();
+  final _articleService = GetIt.instance<ArticleService>();
+
   @override
   Map<int, ArticleDTO> build() {
     return {};
   }
 
+  // 게시글 단일 업데이트
   void updateArticle(ArticleDTO article) {
-    state = {...state, article.id: article};
+    logger.d(
+        'ArticleCache: 게시글 업데이트 - id=${article.id}, isLiked=${article.isLiked}, likeCount=${article.likeCount}');
+    final newState = Map<int, ArticleDTO>.from(state);
+    newState[article.id] = article;
+    state = newState;
   }
 
+  // 게시글 목록 업데이트
   void updateArticles(List<ArticleDTO> articles) {
-    final updates = {for (final article in articles) article.id: article};
-    state = {...state, ...updates};
+    final newState = Map<int, ArticleDTO>.from(state);
+    for (final article in articles) {
+      newState[article.id] = article;
+    }
+    state = newState;
   }
 
-  void updateArticleField(
-    int articleId, {
-    bool? isLiked,
-    int? likeCount,
-    int? viewCount,
-    int? commentCount,
-  }) {
+  // 좋아요 토글 (낙관적 UI 업데이트 + 서버 요청)
+  Future<void> toggleLike(int articleId) async {
+    final article = state[articleId];
+    if (article == null) {
+      logger.w('ArticleCache: 좋아요 토글 실패 - 캐시에 게시글 없음 (id=$articleId)');
+      return;
+    }
+
+    // 낙관적 UI 업데이트
+    final optimisticArticle = article.copyWith(
+      isLiked: !article.isLiked,
+      likeCount:
+          article.isLiked ? article.likeCount - 1 : article.likeCount + 1,
+    );
+
+    logger.d(
+        'ArticleCache: 좋아요 토글 (낙관적 업데이트) - id=$articleId, isLiked: ${article.isLiked} -> ${optimisticArticle.isLiked}, likeCount: ${article.likeCount} -> ${optimisticArticle.likeCount}');
+
+    // 캐시 업데이트
+    final newState = Map<int, ArticleDTO>.from(state);
+    newState[articleId] = optimisticArticle;
+    state = newState;
+
+    try {
+      // 서버 요청
+      logger.d('ArticleCache: 서버에 좋아요 토글 요청 시작 - id=$articleId');
+      final response = await _articleService.toggleArticleLike(articleId);
+      logger.d(
+          'ArticleCache: 서버 응답 받음 - id=$articleId, isLiked=${response?.isLiked}, likeCount=${response?.likeCount}');
+
+      if (response != null) {
+        // 서버 응답으로 최종 상태 업데이트
+        final serverArticle = article.copyWith(
+          isLiked: response.isLiked,
+          likeCount: response.likeCount,
+        );
+
+        logger.d(
+            'ArticleCache: 서버 응답으로 좋아요 업데이트 - id=$articleId, isLiked: ${article.isLiked} -> ${response.isLiked}, likeCount: ${article.likeCount} -> ${response.likeCount}');
+
+        final finalState = Map<int, ArticleDTO>.from(state);
+        finalState[articleId] = serverArticle;
+        state = finalState;
+      }
+    } catch (e) {
+      logger.e('ArticleCache: 좋아요 토글 중 오류 발생 - id=$articleId, error=$e');
+
+      // 오류 발생 시 원래 상태로 복구
+      final recoveryState = Map<int, ArticleDTO>.from(state);
+      recoveryState[articleId] = article;
+      state = recoveryState;
+      rethrow;
+    }
+  }
+
+  // 댓글 카운트 증가
+  void incrementCommentCount(int articleId) {
     final article = state[articleId];
     if (article == null) return;
 
     final updatedArticle = article.copyWith(
-      isLiked: isLiked ?? article.isLiked,
-      likeCount: likeCount ?? article.likeCount,
-      viewCount: viewCount ?? article.viewCount,
-      commentCount: commentCount ?? article.commentCount,
+      commentCount: article.commentCount + 1,
     );
 
-    // 올바른 방법으로 Map 업데이트 (스프레드 연산자와 함께 사용)
+    logger.d(
+        'ArticleCache: 댓글 카운트 증가 - id=$articleId, commentCount: ${article.commentCount} -> ${updatedArticle.commentCount}');
+
+    final newState = Map<int, ArticleDTO>.from(state);
+    newState[articleId] = updatedArticle;
+    state = newState;
+  }
+
+  // 조회수 증가
+  void incrementViewCount(int articleId, int viewCount) {
+    final article = state[articleId];
+    if (article == null) return;
+
+    final updatedArticle = article.copyWith(
+      viewCount: viewCount,
+    );
+
+    logger.d(
+        'ArticleCache: 조회수 증가 - id=$articleId, viewCount: ${article.viewCount} -> ${viewCount}');
+
     final newState = Map<int, ArticleDTO>.from(state);
     newState[articleId] = updatedArticle;
     state = newState;
@@ -51,6 +129,7 @@ class ArticleCache extends _$ArticleCache {
 @riverpod
 class Article extends _$Article {
   final _articleService = GetIt.instance<ArticleService>();
+  final logger = GetIt.instance<Logger>();
 
   @override
   FutureOr<ArticleDTO?> build(int articleId) async {
@@ -64,54 +143,17 @@ class Article extends _$Article {
     }
 
     // 캐시에 없으면 API 호출
-    final article = await _articleService.getArticle(articleId);
-    if (article != null) {
-      // 캐시에 저장
-      ref.read(articleCacheProvider.notifier).updateArticle(article);
-    }
-    return article;
-  }
-
-  Future<ResponseArticleLike?> toggleArticleLike(int articleId) async {
-    final response = await _articleService.toggleArticleLike(articleId);
-
-    if (response != null) {
-      final currentArticle = state.value;
-      if (currentArticle != null) {
-        final updatedArticle = currentArticle.copyWith(
-          isLiked: response.isLiked,
-          likeCount: response.likeCount,
-        );
-        // 캐시 업데이트
-        ref.read(articleCacheProvider.notifier).updateArticle(updatedArticle);
-        // 현재 provider 상태 업데이트
-        state = AsyncData(updatedArticle);
+    try {
+      final article = await _articleService.getArticle(articleId);
+      if (article != null) {
+        // 캐시에 저장
+        ref.read(articleCacheProvider.notifier).updateArticle(article);
       }
+      return article;
+    } catch (e) {
+      logger.e('Article: 게시글 로드 중 오류 발생 - id=$articleId, error=$e');
+      rethrow;
     }
-
-    return response;
-  }
-
-  Future<void> addCommentCount() async {
-    final currentArticle = state.value;
-    if (currentArticle == null) return;
-
-    final updatedArticle = currentArticle.copyWith(
-      commentCount: currentArticle.commentCount + 1,
-    );
-    // 캐시 업데이트
-    ref.read(articleCacheProvider.notifier).updateArticle(updatedArticle);
-    // 현재 provider 상태 업데이트
-    state = AsyncData(updatedArticle);
-  }
-
-  Future<void> refresh() async {
-    ref.invalidateSelf();
-  }
-
-  // 캐시 직접 업데이트를 위한 헬퍼 메서드
-  void updateCache(ArticleDTO article) {
-    ref.read(articleCacheProvider.notifier).updateArticle(article);
   }
 }
 
@@ -119,6 +161,7 @@ class Article extends _$Article {
 @riverpod
 class ArticleList extends _$ArticleList {
   final _articleService = GetIt.instance<ArticleService>();
+  final logger = GetIt.instance<Logger>();
 
   int? _lastPagingViewCount;
   int? _lastPagingArticleId;
@@ -131,45 +174,92 @@ class ArticleList extends _$ArticleList {
     int? pagingArticleId,
     ArticleCategory? category,
   }) async {
-    // 이미 데이터가 있으면 캐시 반영 (각 게시글의 ID 목록을 유지)
+    // 이미 데이터가 있으면 캐시 반영
     if (state.hasValue && state.value != null) {
       // 현재 목록의 ID 목록 추출
       final articleIds = state.value!.map((article) => article.id).toList();
 
-      // 캐시에서 해당 ID의 게시글만 감시 (전체 캐시를 감시하지 않음)
-      // 이렇게 하면 목록에 있는 게시글만 변경 감지
+      // 캐시에서 해당 ID의 게시글만 감시
       final articleCache = ref.watch(articleCacheProvider.select((cache) {
-        // 현재 목록에 있는 게시글의 캐시 상태만 반환
         return {
           for (final id in articleIds)
             if (cache.containsKey(id)) id: cache[id]!
         };
       }));
 
-      // 캐시의 최신 상태로 업데이트
-      return state.value!.map((article) {
+      // 캐시의 최신 상태로 업데이트 (기존 순서 유지)
+      final updatedArticles = state.value!.map((article) {
         return articleCache[article.id] ?? article;
       }).toList();
+
+      return updatedArticles;
     }
 
     // 초기 데이터 로드
-    final articles = await _articleService.getArticles(
-      sortBy: sortBy,
-      limit: limit,
-      pagingViewCount: pagingViewCount,
-      pagingArticleId: pagingArticleId,
-      category: category,
-    );
+    try {
+      final articles = await _articleService.getArticles(
+        sortBy: sortBy,
+        limit: limit,
+        pagingViewCount: pagingViewCount,
+        pagingArticleId: pagingArticleId,
+        category: category,
+      );
 
-    if (articles != null) {
-      // 캐시에 저장
-      ref.read(articleCacheProvider.notifier).updateArticles(articles);
+      if (articles != null) {
+        // 캐시에 저장
+        ref.read(articleCacheProvider.notifier).updateArticles(articles);
+      }
+
+      return articles;
+    } catch (e) {
+      logger.e('ArticleList: 게시글 목록 로드 중 오류 발생 - error=$e');
+      rethrow;
     }
-
-    return articles;
   }
 
-  // 명시적 새로고침을 위한 메서드
+  // 더 많은 게시글 로드
+  Future<void> loadMore({
+    required String sortBy,
+    required int limit,
+    ArticleCategory? category,
+  }) async {
+    if (state.value == null || state.value!.isEmpty) return;
+
+    final lastArticle = state.value!.last;
+    final pagingViewCount = lastArticle.viewCount;
+    final pagingArticleId = lastArticle.id;
+
+    if (pagingViewCount == _lastPagingViewCount &&
+        pagingArticleId == _lastPagingArticleId) {
+      return;
+    }
+
+    try {
+      _lastPagingViewCount = pagingViewCount;
+      _lastPagingArticleId = pagingArticleId;
+
+      final moreArticles = await _articleService.getArticles(
+        sortBy: sortBy,
+        limit: limit,
+        pagingViewCount: pagingViewCount,
+        pagingArticleId: pagingArticleId,
+        category: category,
+      );
+
+      if (moreArticles != null && moreArticles.isNotEmpty) {
+        // 캐시에 저장
+        ref.read(articleCacheProvider.notifier).updateArticles(moreArticles);
+
+        // 현재 목록에 추가
+        final currentArticles = state.value ?? [];
+        state = AsyncData([...currentArticles, ...moreArticles]);
+      }
+    } catch (e) {
+      logger.e('ArticleList: 더 많은 게시글 로드 중 오류 발생 - error=$e');
+    }
+  }
+
+  // 새로고침
   Future<void> forceRefresh({
     required String sortBy,
     required int limit,
@@ -190,51 +280,10 @@ class ArticleList extends _$ArticleList {
       }
 
       state = AsyncData(articles);
-    } catch (e, stack) {
-      state = AsyncError(e, stack);
+    } catch (e) {
+      logger.e('ArticleList: 게시글 목록 새로고침 중 오류 발생 - error=$e');
+      state = AsyncError(e, StackTrace.current);
     }
-  }
-
-  Future<void> loadMore({
-    required String sortBy,
-    required int limit,
-    ArticleCategory? category,
-  }) async {
-    if (state.value == null) return;
-    final lastArticle = state.value!.last;
-    final pagingViewCount = lastArticle.viewCount;
-    final pagingArticleId = lastArticle.id;
-
-    if (pagingViewCount == _lastPagingViewCount &&
-        pagingArticleId == _lastPagingArticleId) {
-      return;
-    }
-
-    try {
-      _lastPagingViewCount = pagingViewCount;
-      _lastPagingArticleId = pagingArticleId;
-      final moreArticles = await _articleService.getArticles(
-        sortBy: sortBy,
-        limit: limit,
-        pagingViewCount: pagingViewCount,
-        pagingArticleId: pagingArticleId,
-        category: category,
-      );
-
-      if (moreArticles != null) {
-        // 캐시에 저장
-        ref.read(articleCacheProvider.notifier).updateArticles(moreArticles);
-      }
-
-      final currentArticles = state.value ?? [];
-      state = AsyncData([...currentArticles, ...moreArticles ?? []]);
-    } catch (e, stack) {
-      state = AsyncError(e, stack);
-    }
-  }
-
-  Future<void> refresh() async {
-    ref.invalidateSelf();
   }
 }
 
