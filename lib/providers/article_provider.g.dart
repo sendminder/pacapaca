@@ -6,7 +6,7 @@ part of 'article_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$articleCacheHash() => r'1e300bab95e97b724c9c8c9f4099a74e15ce58ea';
+String _$articleCacheHash() => r'7eb3e51493be34f26cbd9fcacdfb2f62abf66081';
 
 /// See also [ArticleCache].
 @ProviderFor(ArticleCache)
@@ -21,7 +21,7 @@ final articleCacheProvider =
 );
 
 typedef _$ArticleCache = AutoDisposeNotifier<Map<int, ArticleDTO>>;
-String _$articleHash() => r'9a4eb53ea45bcb2a63bd8cc7894bef5d1f872beb';
+String _$articleHash() => r'a107242ce9304f2b9f0f6a8afa88723e69fd3a19';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -187,7 +187,7 @@ class _ArticleProviderElement
   int get articleId => (origin as ArticleProvider).articleId;
 }
 
-String _$articleListHash() => r'fe52b7e0480ba31153d211bab0e3cb8516d90611';
+String _$articleListHash() => r'a602b357a70b6690b0b17493a2982b766519d095';
 
 abstract class _$ArticleList
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
@@ -432,7 +432,7 @@ final articleEditorProvider =
 );
 
 typedef _$ArticleEditor = AutoDisposeAsyncNotifier<void>;
-String _$articleSearchHash() => r'7a9634fc2f1379c6e4df0e6912bf998ad0807aa3';
+String _$articleSearchHash() => r'1a34adedbd4a7545e271a4dc0c31e50eee0f726a';
 
 abstract class _$ArticleSearch
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
@@ -579,7 +579,7 @@ class _ArticleSearchProviderElement
   String get query => (origin as ArticleSearchProvider).query;
 }
 
-String _$userArticlesHash() => r'd120e9b863930cba8a9efc0a0d55b20b3d74ebe1';
+String _$userArticlesHash() => r'a8455c6ab7a08624ef7e6305582a0cd8699b954d';
 
 abstract class _$UserArticles
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {
@@ -726,7 +726,7 @@ class _UserArticlesProviderElement
   int get userId => (origin as UserArticlesProvider).userId;
 }
 
-String _$likedPostsHash() => r'48bc60fa8b9fe517e74fcc214336d3f2d546d1e2';
+String _$likedPostsHash() => r'5980a955b7f4b6155fb0b4f57045614442f5f610';
 
 abstract class _$LikedPosts
     extends BuildlessAutoDisposeAsyncNotifier<List<ArticleDTO>?> {

@@ -204,7 +204,11 @@ mixin _$NotificationDTO {
   String get body => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'ref_id')
-  int get refId => throw _privateConstructorUsedError;
+  int? get refId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'sub_id')
+  int? get subId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'third_id')
+  int? get thirdId => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_read')
   bool get isRead => throw _privateConstructorUsedError;
   @JsonKey(name: 'create_time')
@@ -231,7 +235,9 @@ abstract class $NotificationDTOCopyWith<$Res> {
       String title,
       String body,
       String type,
-      @JsonKey(name: 'ref_id') int refId,
+      @JsonKey(name: 'ref_id') int? refId,
+      @JsonKey(name: 'sub_id') int? subId,
+      @JsonKey(name: 'third_id') int? thirdId,
       @JsonKey(name: 'is_read') bool isRead,
       @JsonKey(name: 'create_time') String createTime});
 }
@@ -255,7 +261,9 @@ class _$NotificationDTOCopyWithImpl<$Res, $Val extends NotificationDTO>
     Object? title = null,
     Object? body = null,
     Object? type = null,
-    Object? refId = null,
+    Object? refId = freezed,
+    Object? subId = freezed,
+    Object? thirdId = freezed,
     Object? isRead = null,
     Object? createTime = null,
   }) {
@@ -276,10 +284,18 @@ class _$NotificationDTOCopyWithImpl<$Res, $Val extends NotificationDTO>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      refId: null == refId
+      refId: freezed == refId
           ? _value.refId
           : refId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      subId: freezed == subId
+          ? _value.subId
+          : subId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      thirdId: freezed == thirdId
+          ? _value.thirdId
+          : thirdId // ignore: cast_nullable_to_non_nullable
+              as int?,
       isRead: null == isRead
           ? _value.isRead
           : isRead // ignore: cast_nullable_to_non_nullable
@@ -305,7 +321,9 @@ abstract class _$$NotificationDTOImplCopyWith<$Res>
       String title,
       String body,
       String type,
-      @JsonKey(name: 'ref_id') int refId,
+      @JsonKey(name: 'ref_id') int? refId,
+      @JsonKey(name: 'sub_id') int? subId,
+      @JsonKey(name: 'third_id') int? thirdId,
       @JsonKey(name: 'is_read') bool isRead,
       @JsonKey(name: 'create_time') String createTime});
 }
@@ -327,7 +345,9 @@ class __$$NotificationDTOImplCopyWithImpl<$Res>
     Object? title = null,
     Object? body = null,
     Object? type = null,
-    Object? refId = null,
+    Object? refId = freezed,
+    Object? subId = freezed,
+    Object? thirdId = freezed,
     Object? isRead = null,
     Object? createTime = null,
   }) {
@@ -348,10 +368,18 @@ class __$$NotificationDTOImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      refId: null == refId
+      refId: freezed == refId
           ? _value.refId
           : refId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      subId: freezed == subId
+          ? _value.subId
+          : subId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      thirdId: freezed == thirdId
+          ? _value.thirdId
+          : thirdId // ignore: cast_nullable_to_non_nullable
+              as int?,
       isRead: null == isRead
           ? _value.isRead
           : isRead // ignore: cast_nullable_to_non_nullable
@@ -372,7 +400,9 @@ class _$NotificationDTOImpl implements _NotificationDTO {
       required this.title,
       required this.body,
       required this.type,
-      @JsonKey(name: 'ref_id') required this.refId,
+      @JsonKey(name: 'ref_id') this.refId,
+      @JsonKey(name: 'sub_id') this.subId,
+      @JsonKey(name: 'third_id') this.thirdId,
       @JsonKey(name: 'is_read') required this.isRead,
       @JsonKey(name: 'create_time') required this.createTime});
 
@@ -389,7 +419,13 @@ class _$NotificationDTOImpl implements _NotificationDTO {
   final String type;
   @override
   @JsonKey(name: 'ref_id')
-  final int refId;
+  final int? refId;
+  @override
+  @JsonKey(name: 'sub_id')
+  final int? subId;
+  @override
+  @JsonKey(name: 'third_id')
+  final int? thirdId;
   @override
   @JsonKey(name: 'is_read')
   final bool isRead;
@@ -399,7 +435,7 @@ class _$NotificationDTOImpl implements _NotificationDTO {
 
   @override
   String toString() {
-    return 'NotificationDTO(id: $id, title: $title, body: $body, type: $type, refId: $refId, isRead: $isRead, createTime: $createTime)';
+    return 'NotificationDTO(id: $id, title: $title, body: $body, type: $type, refId: $refId, subId: $subId, thirdId: $thirdId, isRead: $isRead, createTime: $createTime)';
   }
 
   @override
@@ -412,6 +448,8 @@ class _$NotificationDTOImpl implements _NotificationDTO {
             (identical(other.body, body) || other.body == body) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.refId, refId) || other.refId == refId) &&
+            (identical(other.subId, subId) || other.subId == subId) &&
+            (identical(other.thirdId, thirdId) || other.thirdId == thirdId) &&
             (identical(other.isRead, isRead) || other.isRead == isRead) &&
             (identical(other.createTime, createTime) ||
                 other.createTime == createTime));
@@ -419,8 +457,8 @@ class _$NotificationDTOImpl implements _NotificationDTO {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, title, body, type, refId, isRead, createTime);
+  int get hashCode => Object.hash(runtimeType, id, title, body, type, refId,
+      subId, thirdId, isRead, createTime);
 
   /// Create a copy of NotificationDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -445,7 +483,9 @@ abstract class _NotificationDTO implements NotificationDTO {
           required final String title,
           required final String body,
           required final String type,
-          @JsonKey(name: 'ref_id') required final int refId,
+          @JsonKey(name: 'ref_id') final int? refId,
+          @JsonKey(name: 'sub_id') final int? subId,
+          @JsonKey(name: 'third_id') final int? thirdId,
           @JsonKey(name: 'is_read') required final bool isRead,
           @JsonKey(name: 'create_time') required final String createTime}) =
       _$NotificationDTOImpl;
@@ -463,7 +503,13 @@ abstract class _NotificationDTO implements NotificationDTO {
   String get type;
   @override
   @JsonKey(name: 'ref_id')
-  int get refId;
+  int? get refId;
+  @override
+  @JsonKey(name: 'sub_id')
+  int? get subId;
+  @override
+  @JsonKey(name: 'third_id')
+  int? get thirdId;
   @override
   @JsonKey(name: 'is_read')
   bool get isRead;

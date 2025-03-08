@@ -216,6 +216,10 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
         iconWidget = const Icon(Icons.comment, size: 20, color: Colors.blue);
         iconColor = Colors.blue;
         break;
+      case 'reply':
+        iconWidget = const Icon(Icons.reply, size: 20, color: Colors.green);
+        iconColor = Colors.green;
+        break;
       case 'carrot':
         // 이미지 위젯 사용
         iconWidget = Image.asset(
@@ -256,13 +260,27 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
       switch (notification.type) {
         case 'like':
         case 'comment':
-        case 'mention':
           // refId가 게시글 ID인 경우
-          context.push('/articles/${notification.refId}');
+          if (notification.refId != null) {
+            context.push('/articles/${notification.refId}');
+          }
+          break;
+        case 'reply':
+          _logger.i(
+              '알림 타입: ${notification.type}, refId: ${notification.refId}, subId: ${notification.subId}, thirdId: ${notification.thirdId}');
+          if (notification.refId != null &&
+              notification.subId != null &&
+              notification.thirdId != null) {
+            context.push(
+              '/articles/${notification.refId}/comment/${notification.subId}/replies/${notification.thirdId}',
+            );
+          }
           break;
         case 'carrot':
           // refId가 사용자 ID인 경우
-          context.push('/users/${notification.refId}');
+          if (notification.refId != null) {
+            context.push('/users/${notification.refId}');
+          }
           break;
         case 'system':
           // 시스템 알림은 특별한 처리가 필요 없을 수 있음

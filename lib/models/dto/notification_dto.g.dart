@@ -27,7 +27,9 @@ _$NotificationDTOImpl _$$NotificationDTOImplFromJson(
       title: json['title'] as String,
       body: json['body'] as String,
       type: json['type'] as String,
-      refId: (json['ref_id'] as num).toInt(),
+      refId: (json['ref_id'] as num?)?.toInt(),
+      subId: (json['sub_id'] as num?)?.toInt(),
+      thirdId: (json['third_id'] as num?)?.toInt(),
       isRead: json['is_read'] as bool,
       createTime: json['create_time'] as String,
     );
@@ -40,6 +42,8 @@ Map<String, dynamic> _$$NotificationDTOImplToJson(
       'body': instance.body,
       'type': instance.type,
       'ref_id': instance.refId,
+      'sub_id': instance.subId,
+      'third_id': instance.thirdId,
       'is_read': instance.isRead,
       'create_time': instance.createTime,
     };

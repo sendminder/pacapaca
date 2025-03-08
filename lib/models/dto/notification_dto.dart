@@ -21,7 +21,9 @@ class NotificationDTO with _$NotificationDTO {
     required String title,
     required String body,
     required String type,
-    @JsonKey(name: 'ref_id') required int refId,
+    @JsonKey(name: 'ref_id') int? refId,
+    @JsonKey(name: 'sub_id') int? subId,
+    @JsonKey(name: 'third_id') int? thirdId,
     @JsonKey(name: 'is_read') required bool isRead,
     @JsonKey(name: 'create_time') required String createTime,
   }) = _NotificationDTO;
