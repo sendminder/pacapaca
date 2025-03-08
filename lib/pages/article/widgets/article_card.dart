@@ -229,34 +229,9 @@ class ArticleCard extends ConsumerWidget {
                   .read(articleCacheProvider.notifier)
                   .updateArticle(optimisticArticle);
 
-              // 서버 요청 (백그라운드에서 처리)
-              Future.microtask(() async {
-                try {
-                  // 서버 요청
-                  final response = await _articleService
-                      .toggleArticleLike(displayArticle.id);
-
-                  if (response != null) {
-                    // 서버 응답으로 최종 상태 생성
-                    final serverArticle = displayArticle.copyWith(
-                      isLiked: response.isLiked,
-                      likeCount: response.likeCount,
-                    );
-
-                    // 캐시 업데이트 (서버 응답 기반)
-                    ref
-                        .read(articleCacheProvider.notifier)
-                        .updateArticle(serverArticle);
-                  }
-                } catch (e) {
-                  logger.e('좋아요 토글 중 오류 발생 - $e');
-
-                  // 오류 발생 시 원래 상태로 복구
-                  ref
-                      .read(articleCacheProvider.notifier)
-                      .updateArticle(displayArticle);
-                }
-              });
+              ref
+                  .read(articleCacheProvider.notifier)
+                  .toggleLike(displayArticle.id);
             },
           ),
         ),

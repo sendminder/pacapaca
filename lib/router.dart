@@ -33,6 +33,8 @@ import 'pages/carrot/carrot_history_page.dart';
 import 'pages/point/point_history_page.dart';
 import 'pages/article/user_posts_page.dart';
 import 'pages/article/liked_posts_page.dart';
+import 'package:pacapaca/providers/article_provider.dart';
+import 'package:pacapaca/providers/comment_provider.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -272,9 +274,18 @@ class RouterNotifier extends ChangeNotifier {
                       path: ':id',
                       parentNavigatorKey: _rootNavigatorKey,
                       builder: (context, state) {
-                        final articleId =
-                            int.parse(state.pathParameters['id']!);
-                        return ArticleDetailPage(articleId: articleId);
+                        final id = int.parse(state.pathParameters['id']!);
+                        final fromNotification =
+                            state.uri.queryParameters['from'] == 'notification';
+
+                        if (fromNotification) {
+                          // 푸시 알림에서 왔을 때 데이터 새로고침
+                          final container = ProviderScope.containerOf(context);
+                          container.invalidate(articleProvider(id));
+                          container.invalidate(commentListProvider(id));
+                        }
+
+                        return ArticleDetailPage(articleId: id);
                       },
                     ),
                     GoRoute(

@@ -404,23 +404,23 @@ class UserArticles extends _$UserArticles {
   @override
   FutureOr<List<ArticleDTO>?> build(int userId) async {
     // 이미 데이터가 있으면 캐시 반영
-    if (state.hasValue && state.value != null) {
-      // 현재 목록의 ID 목록 추출
-      final articleIds = state.value!.map((article) => article.id).toList();
+    // if (state.hasValue && state.value != null) {
+    //   // 현재 목록의 ID 목록 추출
+    //   final articleIds = state.value!.map((article) => article.id).toList();
 
-      // 캐시에서 해당 ID의 게시글만 감시
-      final articleCache = ref.watch(articleCacheProvider.select((cache) {
-        return {
-          for (final id in articleIds)
-            if (cache.containsKey(id)) id: cache[id]!
-        };
-      }));
+    //   // 캐시에서 해당 ID의 게시글만 감시
+    //   final articleCache = ref.watch(articleCacheProvider.select((cache) {
+    //     return {
+    //       for (final id in articleIds)
+    //         if (cache.containsKey(id)) id: cache[id]!
+    //     };
+    //   }));
 
-      // 캐시의 최신 상태로 업데이트
-      return state.value!.map((article) {
-        return articleCache[article.id] ?? article;
-      }).toList();
-    }
+    //   // 캐시의 최신 상태로 업데이트
+    //   return state.value!.map((article) {
+    //     return articleCache[article.id] ?? article;
+    //   }).toList();
+    // }
 
     // 초기 데이터 로드
     _lastPagingKey = null;
@@ -477,24 +477,24 @@ class LikedPosts extends _$LikedPosts {
 
   @override
   FutureOr<List<ArticleDTO>?> build(int userId) async {
-    // 이미 데이터가 있으면 캐시 반영
-    if (state.hasValue && state.value != null) {
-      // 현재 목록의 ID 목록 추출
-      final articleIds = state.value!.map((article) => article.id).toList();
+    // // 이미 데이터가 있으면 캐시 반영
+    // if (state.hasValue && state.value != null) {
+    //   // 현재 목록의 ID 목록 추출
+    //   final articleIds = state.value!.map((article) => article.id).toList();
 
-      // 캐시에서 해당 ID의 게시글만 감시
-      final articleCache = ref.watch(articleCacheProvider.select((cache) {
-        return {
-          for (final id in articleIds)
-            if (cache.containsKey(id)) id: cache[id]!
-        };
-      }));
+    //   // 캐시에서 해당 ID의 게시글만 감시
+    //   final articleCache = ref.watch(articleCacheProvider.select((cache) {
+    //     return {
+    //       for (final id in articleIds)
+    //         if (cache.containsKey(id)) id: cache[id]!
+    //     };
+    //   }));
 
-      // 캐시의 최신 상태로 업데이트
-      return state.value!.map((article) {
-        return articleCache[article.id] ?? article;
-      }).toList();
-    }
+    //   // 캐시의 최신 상태로 업데이트
+    //   return state.value!.map((article) {
+    //     return articleCache[article.id] ?? article;
+    //   }).toList();
+    // }
 
     // 초기 데이터 로드
     _lastPagingKey = null;

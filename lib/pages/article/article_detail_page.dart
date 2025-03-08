@@ -113,11 +113,13 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                 child: Column(
                   children: [
                     ArticleDetailContent(article: article),
+                    const SizedBox(height: 16),
                     Divider(
                       height: 1,
                       color:
                           Theme.of(context).colorScheme.onSurface.withAlpha(20),
                     ),
+                    const SizedBox(height: 8),
                     _buildCommentSection(
                         context, ref, commentsAsync, currentUser, article),
                   ],

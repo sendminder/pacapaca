@@ -4,10 +4,11 @@ import 'package:logger/logger.dart';
 import 'package:pacapaca/services/notification_service.dart';
 import 'package:pacapaca/services/storage_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:go_router/go_router.dart';
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/router.dart';
+import 'package:pacapaca/providers/article_provider.dart';
+import 'package:pacapaca/providers/comment_provider.dart';
 
 class NotificationManagerService {
   final _notificationService = GetIt.instance<NotificationService>();
@@ -116,6 +117,9 @@ class NotificationManagerService {
       // 인앱 푸시 알림 표시
       _showLocalNotification(message);
 
+      // 알림 타입이 댓글 관련이면 게시글 정보 업데이트
+      _updateArticleIfNeeded(message);
+
       // 기존 콜백 호출
       onMessageReceived(message);
     });
@@ -196,7 +200,7 @@ class NotificationManagerService {
         if (type == 'comment' || type == 'reply' || type == 'like') {
           // Riverpod 컨테이너를 통해 라우터에 접근
           final router = _container.read(routerProvider);
-          final path = '/articles/${refId}';
+          final path = '/articles/${refId}?from=notification';
           _logger.i('알림 탭: $path');
           router.push(path);
         }
@@ -280,6 +284,9 @@ class NotificationManagerService {
       final type = data['type'];
       final refId = int.tryParse(data['ref_id']?.toString() ?? '') ?? 0;
 
+      // 알림 타입이 댓글 관련이면 게시글 정보 업데이트
+      _updateArticleIfNeeded(message);
+
       if (type == 'comment' || type == 'reply' || type == 'like') {
         // 지연 실행으로 라우터가 초기화될 시간을 줌
         Future.delayed(const Duration(milliseconds: 500), () {
@@ -295,6 +302,46 @@ class NotificationManagerService {
       }
     } catch (e) {
       _logger.e('메시지 처리 오류', error: e);
+    }
+  }
+
+  // 알림 타입에 따라 게시글 정보 업데이트
+  void _updateArticleIfNeeded(RemoteMessage message) {
+    try {
+      final data = message.data;
+      final type = data['type'];
+      final refId = int.tryParse(data['ref_id']?.toString() ?? '') ?? 0;
+
+      // 댓글 또는 답글 알림인 경우
+      if (type == 'comment' || type == 'reply') {
+        // 게시글 캐시 업데이트
+        final articleCacheNotifier =
+            _container.read(articleCacheProvider.notifier);
+
+        // 현재 캐시에 있는 게시글 가져오기
+        final currentArticle = _container.read(articleCacheProvider)[refId];
+
+        if (currentArticle != null) {
+          // 댓글 카운트 증가
+          final updatedArticle = currentArticle.copyWith(
+            commentCount: currentArticle.commentCount + 1,
+          );
+
+          // 캐시 업데이트
+          articleCacheNotifier.updateArticle(updatedArticle);
+          _logger.i(
+              '알림으로 게시글 댓글 카운트 업데이트: articleId=$refId, commentCount=${updatedArticle.commentCount}');
+        } else {
+          // 캐시에 없는 경우 게시글 정보 새로고침
+          _container.refresh(articleProvider(refId));
+          _logger.i('알림으로 게시글 정보 새로고침: articleId=$refId');
+        }
+
+        // 댓글 목록도 새로고침
+        _container.refresh(commentListProvider(refId));
+      }
+    } catch (e) {
+      _logger.e('게시글 업데이트 오류', error: e);
     }
   }
 }

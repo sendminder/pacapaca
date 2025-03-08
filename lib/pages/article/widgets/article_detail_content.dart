@@ -27,12 +27,12 @@ class ArticleDetailContent extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    // 캐시에서 최신 상태의 게시글 가져오기
-    final cachedArticle =
-        ref.watch(articleCacheProvider.select((cache) => cache[article.id]));
+    // // 캐시에서 최신 상태의 게시글 가져오기
+    // final cachedArticle =
+    //     ref.watch(articleCacheProvider.select((cache) => cache[article.id]));
 
     // 캐시에 있는 게시글 또는 원래 게시글 사용
-    final displayArticle = cachedArticle ?? article;
+    final displayArticle = article;
 
     return Container(
       color: colorScheme.surface,
@@ -48,7 +48,7 @@ class ArticleDetailContent extends ConsumerWidget {
           // 제목
           if (displayArticle.title.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.only(left: 22, right: 20),
               child: Text(
                 displayArticle.title,
                 style: textTheme.headlineSmall?.copyWith(
@@ -84,7 +84,7 @@ class ArticleDetailContent extends ConsumerWidget {
 
           // 상호작용 버튼 (좋아요, 댓글, 조회수)
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 12),
             child: _buildInteractions(context, ref, displayArticle),
           ),
         ],
@@ -234,48 +234,9 @@ class ArticleDetailContent extends ConsumerWidget {
             color: displayArticle.isLiked ? colorScheme.primary : null,
             onTap: () {
               logger.i('상세 페이지: 좋아요 버튼 클릭 - articleId=${displayArticle.id}');
-
-              // 낙관적 UI 업데이트를 위한 게시글 복사본 생성
-              final optimisticArticle = displayArticle.copyWith(
-                isLiked: !displayArticle.isLiked,
-                likeCount: displayArticle.isLiked
-                    ? displayArticle.likeCount - 1
-                    : displayArticle.likeCount + 1,
-              );
-
-              // 캐시 업데이트 (낙관적 UI 업데이트)
               ref
                   .read(articleCacheProvider.notifier)
-                  .updateArticle(optimisticArticle);
-
-              // 서버 요청 (백그라운드에서 처리)
-              Future.microtask(() async {
-                try {
-                  // 서버 요청
-                  final response = await _articleService
-                      .toggleArticleLike(displayArticle.id);
-
-                  if (response != null) {
-                    // 서버 응답으로 최종 상태 생성
-                    final serverArticle = displayArticle.copyWith(
-                      isLiked: response.isLiked,
-                      likeCount: response.likeCount,
-                    );
-
-                    // 캐시 업데이트 (서버 응답 기반)
-                    ref
-                        .read(articleCacheProvider.notifier)
-                        .updateArticle(serverArticle);
-                  }
-                } catch (e) {
-                  logger.e('좋아요 토글 중 오류 발생 - $e');
-
-                  // 오류 발생 시 원래 상태로 복구
-                  ref
-                      .read(articleCacheProvider.notifier)
-                      .updateArticle(displayArticle);
-                }
-              });
+                  .toggleLike(displayArticle.id);
             },
           ),
         ),
