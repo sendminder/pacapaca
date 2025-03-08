@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pacapaca/providers/notification_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class NotificationBell extends ConsumerWidget {
   const NotificationBell({super.key});
@@ -19,9 +20,10 @@ class NotificationBell extends ConsumerWidget {
             color: Theme.of(context).colorScheme.onSurface.withAlpha(200),
           ),
           onPressed: () {
+            ref.read(notificationsProvider.notifier).refreshNotifications();
             context.push('/notifications');
           },
-          tooltip: '알림함',
+          tooltip: 'notification.title'.tr(),
         ),
         if (unreadCount > 0)
           Positioned(
@@ -38,7 +40,7 @@ class NotificationBell extends ConsumerWidget {
                 minHeight: 16,
               ),
               child: Text(
-                unreadCount > 99 ? '99+' : '$unreadCount',
+                unreadCount > 20 ? '20+' : '$unreadCount',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 10,

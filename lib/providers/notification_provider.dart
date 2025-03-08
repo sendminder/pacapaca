@@ -13,20 +13,13 @@ class Notifications extends _$Notifications {
 
   @override
   Future<List<NotificationDTO>> build() async {
-    if (state.value != null && state.value!.isNotEmpty) {
-      return state.value!;
-    }
     _lastPagingKey = null;
     // 초기 알림 목록 로드
     final response = await _notificationService.getNotifications(
       limit: _limit,
     );
 
-    if (response != null) {
-      return response.notifications ?? [];
-    }
-
-    return [];
+    return response?.notifications ?? [];
   }
 
   /// 알림 더 불러오기
@@ -120,8 +113,42 @@ class Notifications extends _$Notifications {
 
 @riverpod
 class UnreadNotificationCount extends _$UnreadNotificationCount {
+  final _notificationService = GetIt.instance<NotificationService>();
+  static const int _limit = 20;
+
   @override
   int build() {
-    return 0;
+    // 알림 목록 상태 감시
+    ref.watch(notificationsProvider);
+    return _getUnreadCount();
+  }
+
+  /// 읽지 않은 알림 개수 가져오기
+  int _getUnreadCount() {
+    final notifications = ref.read(notificationsProvider).valueOrNull;
+    if (notifications == null) return 0;
+
+    return notifications.where((notification) => !notification.isRead).length;
+  }
+
+  /// 읽지 않은 알림 개수 새로고침
+  Future<void> refreshUnreadCount() async {
+    try {
+      final response = await _notificationService.getNotifications(
+        limit: _limit + 1,
+      );
+      final count = response?.notifications
+              ?.where((notification) => !notification.isRead)
+              .length ??
+          0;
+
+      state = count;
+    } catch (e) {
+      // 오류 발생 시 현재 상태 유지
+    }
+  }
+
+  Future<void> addNotificationCount() async {
+    state = state + 1;
   }
 }

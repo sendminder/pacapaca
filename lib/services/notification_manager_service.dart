@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/router.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/providers/comment_provider.dart';
+import 'package:pacapaca/providers/notification_provider.dart';
 
 class NotificationManagerService {
   final _notificationService = GetIt.instance<NotificationService>();
@@ -368,6 +369,10 @@ class NotificationManagerService {
         // 댓글 목록도 새로고침
         _container.refresh(commentListProvider(refId));
       }
+      // 알림 목록도 새로고침
+      _container
+          .read(unreadNotificationCountProvider.notifier)
+          .addNotificationCount();
     } catch (e) {
       _logger.e('게시글 업데이트 오류', error: e);
     }
