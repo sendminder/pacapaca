@@ -35,7 +35,6 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
   final FocusNode _focusNode = FocusNode();
   bool _canSend = false;
   final _logger = GetIt.instance<Logger>();
-  ArticleCommentDTO? _commentToEdit;
 
   @override
   void initState() {
@@ -78,6 +77,12 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
         .read(
             commentReplyListProvider(sortBy, widget.articleId, widget.commentId)
                 .notifier)
+        .toggleLike(commentId);
+  }
+
+  void _toggleParentCommentLike(int commentId) {
+    ref
+        .read(commentListProvider(widget.articleId).notifier)
         .toggleLike(commentId);
   }
 
@@ -224,7 +229,7 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
               onReply: (commentId) {
                 FocusScope.of(context).requestFocus(_focusNode);
               },
-              onToggleLike: (commentId) => _toggleLike(sortBy, commentId),
+              onToggleLike: (commentId) => _toggleParentCommentLike(commentId),
             ),
           );
         },
