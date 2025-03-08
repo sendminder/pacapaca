@@ -5,13 +5,18 @@ class InteractionButton extends StatefulWidget {
   final int count;
   final Color? color;
   final VoidCallback? onTap;
-
+  final int size;
+  final String? defaultText;
+  final int textSize;
   const InteractionButton({
     super.key,
     required this.icon,
     required this.count,
     this.color,
     this.onTap,
+    this.size = 20,
+    this.defaultText = '0',
+    this.textSize = 16,
   });
 
   @override
@@ -27,11 +32,11 @@ class _InteractionButtonState extends State<InteractionButton>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.3).animate(
-        CurvedAnimation(parent: _controller, curve: Curves.elasticOut));
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.2)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _controller.reverse();
@@ -67,7 +72,7 @@ class _InteractionButtonState extends State<InteractionButton>
                   scale: _scaleAnimation.value,
                   child: Icon(
                     widget.icon,
-                    size: 20,
+                    size: widget.size.toDouble(),
                     color: widget.color ?? Colors.grey[600],
                   ),
                 );
@@ -76,11 +81,11 @@ class _InteractionButtonState extends State<InteractionButton>
           ),
           const SizedBox(width: 4),
           SizedBox(
-            width: 24,
+            width: 40,
             child: Text(
-              '${widget.count}',
+              widget.count == 0 ? widget.defaultText! : '${widget.count}',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: widget.textSize.toDouble(),
                 color: widget.color ?? Colors.grey[600],
               ),
             ),

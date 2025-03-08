@@ -10,14 +10,17 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ArticleDetailContent extends ConsumerWidget {
   final ArticleDTO article;
   final logger = GetIt.instance<Logger>();
+  final Function(int) onReply;
 
   ArticleDetailContent({
     super.key,
     required this.article,
+    required this.onReply,
   });
 
   @override
@@ -236,6 +239,9 @@ class ArticleDetailContent extends ConsumerWidget {
                   .read(articleCacheProvider.notifier)
                   .toggleLike(displayArticle.id);
             },
+            size: 20,
+            textSize: 14,
+            defaultText: 'article.like'.tr(),
           ),
         ),
 
@@ -244,6 +250,12 @@ class ArticleDetailContent extends ConsumerWidget {
           child: InteractionButton(
             icon: Icons.chat_bubble_outline_rounded,
             count: displayArticle.commentCount,
+            size: 20,
+            textSize: 14,
+            defaultText: 'article.comments'.tr(),
+            onTap: () {
+              onReply(displayArticle.id);
+            },
           ),
         ),
 
@@ -252,6 +264,9 @@ class ArticleDetailContent extends ConsumerWidget {
           child: InteractionButton(
             icon: Icons.visibility_outlined,
             count: displayArticle.viewCount,
+            size: 20,
+            textSize: 14,
+            defaultText: 'article.views'.tr(),
           ),
         ),
       ],

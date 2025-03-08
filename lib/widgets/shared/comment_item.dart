@@ -8,6 +8,7 @@ import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/providers/report_provider.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
 import 'package:pacapaca/models/dto/comment_dto.dart';
+import 'package:pacapaca/widgets/shared/interaction_button.dart';
 
 class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
@@ -190,42 +191,23 @@ class CommentItem extends ConsumerWidget {
   }
 
   Widget _buildLikeButton(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onToggleLike(comment.id);
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            comment.isLiked ? Icons.thumb_up_alt : Icons.thumb_up_outlined,
-            size: 14,
-            color: comment.isLiked
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.onSurface.withAlpha(128),
-          ),
-          if (comment.likeCount > 0) ...[
-            const SizedBox(width: 4),
-            Text(
-              comment.likeCount.toString(),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color:
-                        Theme.of(context).colorScheme.onSurface.withAlpha(128),
-                  ),
-            ),
-          ],
-          if (comment.likeCount == 0) ...[
-            const SizedBox(width: 4),
-            Text(
-              'comment.like'.tr(),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color:
-                        Theme.of(context).colorScheme.onSurface.withAlpha(128),
-                  ),
-            ),
-          ],
-        ],
-      ),
+    final color = comment.isLiked
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.onSurface.withAlpha(128);
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        InteractionButton(
+          icon: comment.isLiked ? Icons.thumb_up_alt : Icons.thumb_up_outlined,
+          count: comment.likeCount,
+          color: color,
+          onTap: () => onToggleLike(comment.id),
+          size: 16,
+          defaultText: 'comment.like'.tr(),
+          textSize: 12,
+        ),
+      ],
     );
   }
 

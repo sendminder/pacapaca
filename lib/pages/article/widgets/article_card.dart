@@ -10,13 +10,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pacapaca/services/article_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ArticleCard extends ConsumerWidget {
   final ArticleDTO article;
   final VoidCallback? onTap;
   final logger = GetIt.instance<Logger>();
-  final _articleService = GetIt.instance<ArticleService>();
 
   ArticleCard({
     super.key,
@@ -213,6 +212,9 @@ class ArticleCard extends ConsumerWidget {
                 displayArticle.isLiked ? Icons.favorite : Icons.favorite_border,
             count: displayArticle.likeCount,
             color: displayArticle.isLiked ? colorScheme.primary : null,
+            size: 20,
+            textSize: 14,
+            defaultText: 'article.like'.tr(),
             onTap: () {
               logger.i('좋아요 버튼 클릭 - articleId=${displayArticle.id}');
 
@@ -241,6 +243,9 @@ class ArticleCard extends ConsumerWidget {
           child: InteractionButton(
             icon: Icons.chat_bubble_outline_rounded,
             count: displayArticle.commentCount,
+            size: 20,
+            textSize: 14,
+            defaultText: 'article.comments'.tr(),
           ),
         ),
 
@@ -249,6 +254,9 @@ class ArticleCard extends ConsumerWidget {
           child: InteractionButton(
             icon: Icons.visibility_outlined,
             count: displayArticle.viewCount,
+            size: 20,
+            textSize: 14,
+            defaultText: 'article.views'.tr(),
           ),
         ),
       ],

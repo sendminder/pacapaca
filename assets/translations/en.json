@@ -40,7 +40,6 @@
         "title_hint": "Enter title",
         "content_hint": "Enter content",
         "unknown_user": "Unknown",
-        "comments": "Comments",
         "delete_confirm": "Are you sure you want to delete?",
         "delete_confirm_desc": "Deleted posts cannot be recovered",
         "cancel": "Cancel",
@@ -52,7 +51,10 @@
         "sort": {
             "latest": "Latest",
             "views": "Views"
-        }
+        },
+        "like": "Like",
+        "comments": "Comments",
+        "views": "Views"
     },
     "category": {
         "all": "All",

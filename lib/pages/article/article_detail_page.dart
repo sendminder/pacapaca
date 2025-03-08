@@ -76,93 +76,104 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     final commentsAsync = ref.watch(commentListProvider(widget.articleId));
     final currentUser = ref.watch(authProvider).value;
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: PageTitle(
-        title: 'article.title'.tr(),
-        actions: [
-          displayArticleAsync.when(
-            data: (article) =>
-                _buildArticleActions(context, ref, article, currentUser),
-            error: (error, _) =>
-                Text('article.error'.tr(args: [error.toString()])),
-            loading: () => const SizedBox.shrink(),
-          ),
-        ],
-      ),
-      body: displayArticleAsync.when(
-        loading: () => const Center(child: RotatingPacaLoader()),
-        error: (error, _) => Center(
-          child: Text('article.error'.tr(args: [error.toString()])),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: PageTitle(
+          title: 'article.title'.tr(),
+          actions: [
+            displayArticleAsync.when(
+              data: (article) =>
+                  _buildArticleActions(context, ref, article, currentUser),
+              error: (error, _) =>
+                  Text('article.error'.tr(args: [error.toString()])),
+              loading: () => const SizedBox.shrink(),
+            ),
+          ],
         ),
-        data: (article) {
-          if (article == null) {
-            return Center(child: Text('article.not_found'.tr()));
-          }
+        body: displayArticleAsync.when(
+          loading: () => const Center(child: RotatingPacaLoader()),
+          error: (error, _) => Center(
+            child: Text('article.error'.tr(args: [error.toString()])),
+          ),
+          data: (article) {
+            if (article == null) {
+              return Center(child: Text('article.not_found'.tr()));
+            }
 
-          return RefreshIndicator(
-            onRefresh: () async {
-              // 새로고침 시에는 articleProvider를 invalidate하여 데이터 다시 로드
-              ref.invalidate(articleProvider(widget.articleId));
-              ref.invalidate(commentListProvider(widget.articleId));
-              return Future.delayed(const Duration(milliseconds: 1000));
-            },
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (ScrollNotification scrollInfo) {
-                // 스크롤이 80% 이상 내려가면 더 많은 댓글 로드
-                if (scrollInfo.metrics.pixels >=
-                    scrollInfo.metrics.maxScrollExtent * 0.8) {
-                  ref
-                      .read(commentListProvider(widget.articleId).notifier)
-                      .loadMore(widget.articleId);
-                }
-                return false; // RefreshIndicator가 작동하도록 false 반환
+            return RefreshIndicator(
+              onRefresh: () async {
+                // 새로고침 시에는 articleProvider를 invalidate하여 데이터 다시 로드
+                ref.invalidate(articleProvider(widget.articleId));
+                ref.invalidate(commentListProvider(widget.articleId));
+                return Future.delayed(const Duration(milliseconds: 1000));
               },
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    ArticleDetailContent(article: article),
-                    const SizedBox(height: 16),
-                    Divider(
-                      height: 1,
-                      color:
-                          Theme.of(context).colorScheme.onSurface.withAlpha(20),
-                    ),
-                    const SizedBox(height: 8),
-                    _buildCommentSection(
-                        context, ref, commentsAsync, currentUser, article),
-                  ],
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (ScrollNotification scrollInfo) {
+                  // 스크롤이 80% 이상 내려가면 더 많은 댓글 로드
+                  if (scrollInfo.metrics.pixels >=
+                      scrollInfo.metrics.maxScrollExtent * 0.8) {
+                    ref
+                        .read(commentListProvider(widget.articleId).notifier)
+                        .loadMore(widget.articleId);
+                  }
+                  return false; // RefreshIndicator가 작동하도록 false 반환
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      ArticleDetailContent(
+                        article: article,
+                        onReply: (commentId) {
+                          FocusScope.of(context).requestFocus(_focusNode);
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      Divider(
+                        height: 1,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withAlpha(20),
+                      ),
+                      const SizedBox(height: 8),
+                      _buildCommentSection(
+                          context, ref, commentsAsync, currentUser, article),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
+        bottomSheet: currentUser != null
+            ? ChatInput(
+                controller: _commentController,
+                focusNode: _focusNode,
+                onSubmit: (content) async {
+                  await ref
+                      .read(commentListProvider(widget.articleId).notifier)
+                      .addComment(
+                          widget.articleId, content, _replyingCommentId);
+
+                  // 댓글 카운트 증가
+                  ref
+                      .read(articleCacheProvider.notifier)
+                      .incrementCommentCount(widget.articleId);
+
+                  _commentController.clear();
+                  FocusScope.of(context).unfocus();
+                  setState(() {
+                    _replyingCommentId = null; // 답글 작성 완료 후 초기화
+                  });
+                },
+                hintText: 'comment.hint'.tr(),
+                canSend: _canSend,
+              )
+            : null,
       ),
-      bottomSheet: currentUser != null
-          ? ChatInput(
-              controller: _commentController,
-              focusNode: _focusNode,
-              onSubmit: (content) async {
-                await ref
-                    .read(commentListProvider(widget.articleId).notifier)
-                    .addComment(widget.articleId, content, _replyingCommentId);
-
-                // 댓글 카운트 증가
-                ref
-                    .read(articleCacheProvider.notifier)
-                    .incrementCommentCount(widget.articleId);
-
-                _commentController.clear();
-                FocusScope.of(context).unfocus();
-                setState(() {
-                  _replyingCommentId = null; // 답글 작성 완료 후 초기화
-                });
-              },
-              hintText: 'comment.hint'.tr(),
-              canSend: _canSend,
-            )
-          : null,
     );
   }
 
