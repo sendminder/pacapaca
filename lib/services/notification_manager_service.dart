@@ -182,34 +182,9 @@ class NotificationManagerService {
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
         // 알림 탭 시 처리 로직
-        _handleNotificationTap(response);
+        _handleNotificationTapForeground(response);
       },
     );
-  }
-
-  // 알림 탭 처리
-  void _handleNotificationTap(NotificationResponse response) {
-    // 알림 페이로드에서 데이터 추출
-    final payload = response.payload;
-    if (payload != null) {
-      try {
-        final data = json.decode(payload);
-        final type = data['type'];
-        final refId = int.parse(data['ref_id']);
-
-        if (type == 'comment' || type == 'reply' || type == 'like') {
-          // Riverpod 컨테이너를 통해 라우터에 접근
-          final router = _container.read(routerProvider);
-          final path = '/articles/${refId}?from=notification';
-          _logger.i('알림 탭: $path');
-          router.push(path);
-        }
-
-        _logger.i('알림 탭: $data');
-      } catch (e) {
-        _logger.e('알림 페이로드 파싱 오류', error: e);
-      }
-    }
   }
 
   // 로컬 알림 표시
@@ -265,18 +240,56 @@ class NotificationManagerService {
 
     if (initialMessage != null) {
       _logger.i('초기 메시지: ${initialMessage.notification?.title}');
-      _handleMessageNavigation(initialMessage);
+      _handleNotificationTapBackground(initialMessage);
     }
   }
 
   // 백그라운드 메시지 처리 (앱이 백그라운드에 있을 때 알림 클릭)
   void _handleBackgroundMessage(RemoteMessage message) {
     _logger.i('백그라운드 메시지: ${message.notification?.title}');
-    _handleMessageNavigation(message);
+    _handleNotificationTapBackground(message);
+  }
+
+  // 앱이 포그라운드 상태일때 알림 탭 처리
+  void _handleNotificationTapForeground(NotificationResponse response) {
+    // 알림 페이로드에서 데이터 추출
+    final payload = response.payload;
+    if (payload != null) {
+      try {
+        final data = json.decode(payload);
+        final type = data['type'];
+        final refId = int.parse(data['ref_id']);
+
+        if (type == 'comment' || type == 'like') {
+          // Riverpod 컨테이너를 통해 라우터에 접근
+          final router = _container.read(routerProvider);
+          final path = '/articles/${refId}?from=notification';
+          _logger.i('알림 탭: $path');
+          router.push(path);
+        }
+
+        if (type == 'reply') {
+          // Riverpod 컨테이너를 통해 라우터에 접근
+          final commentId = int.parse(data['sub_id']);
+          final articleUserId = int.parse(data['third_id']);
+          final router = _container.read(routerProvider);
+
+          // 게시글 상세 페이지로 이동 (commentId를 쿼리 파라미터로 전달)
+          final path =
+              '/articles/${refId}/comment/$commentId/replies/$articleUserId';
+          _logger.d('답글 알림 탭: $path');
+          router.push(path);
+        }
+
+        _logger.i('알림 탭: $data');
+      } catch (e) {
+        _logger.e('알림 페이로드 파싱 오류', error: e);
+      }
+    }
   }
 
   // 메시지 기반 네비게이션 처리
-  void _handleMessageNavigation(RemoteMessage message) {
+  void _handleNotificationTapBackground(RemoteMessage message) {
     try {
       final data = message.data;
       _logger.d('메시지 데이터: $data');
@@ -287,19 +300,34 @@ class NotificationManagerService {
       // 알림 타입이 댓글 관련이면 게시글 정보 업데이트
       _updateArticleIfNeeded(message);
 
-      if (type == 'comment' || type == 'reply' || type == 'like') {
-        // 지연 실행으로 라우터가 초기화될 시간을 줌
-        Future.delayed(const Duration(milliseconds: 500), () {
-          try {
-            final router = _container.read(routerProvider);
-            final path = '/articles/${refId}';
-            _logger.i('알림 탭: $path');
-            router.push(path);
-          } catch (e) {
-            _logger.e('라우팅 오류', error: e);
+      // 지연 실행으로 라우터가 초기화될 시간을 줌
+      Future.delayed(const Duration(milliseconds: 500), () {
+        try {
+          final router = _container.read(routerProvider);
+
+          if (type == 'reply') {
+            // 답글 알림인 경우 commentId를 쿼리 파라미터로 전달
+            final commentId =
+                int.tryParse(data['sub_id']?.toString() ?? '') ?? 0;
+            final articleUserId =
+                int.tryParse(data['third_id']?.toString() ?? '') ?? 0;
+            if (commentId > 0 && articleUserId > 0) {
+              final path =
+                  '/articles/${refId}/comment/$commentId/replies/$articleUserId';
+              _logger.i('답글 알림 탭: $path');
+              router.push(path);
+              return;
+            }
           }
-        });
-      }
+
+          // 그 외 알림은 기본 경로로 이동
+          final path = '/articles/${refId}?from=notification';
+          _logger.i('알림 탭: $path');
+          router.push(path);
+        } catch (e) {
+          _logger.e('라우팅 오류', error: e);
+        }
+      });
     } catch (e) {
       _logger.e('메시지 처리 오류', error: e);
     }

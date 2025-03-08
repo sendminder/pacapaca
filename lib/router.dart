@@ -285,7 +285,9 @@ class RouterNotifier extends ChangeNotifier {
                           container.invalidate(commentListProvider(id));
                         }
 
-                        return ArticleDetailPage(articleId: id);
+                        return ArticleDetailPage(
+                          articleId: id,
+                        );
                       },
                     ),
                     GoRoute(
