@@ -82,7 +82,16 @@
         "login": "Login",
         "login_failed": "Login failed: {}",
         "try_again": "Try again",
-        "login_with_apple": "Login with Apple"
+        "login_with_apple": "Login with Apple",
+        "login_with_email": "Login with Email",
+        "email_login": "Email Login",
+        "email": "Email",
+        "password": "Password",
+        "email_required": "Email is required",
+        "invalid_email": "Please enter a valid email",
+        "password_required": "Password is required",
+        "password_too_short": "Password must be at least 6 characters",
+        "no_account_sign_up": "Don't have an account? Sign up"
     },
     "settings": {
         "title": "Settings",
