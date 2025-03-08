@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -40,6 +39,7 @@ class ArticleCard extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       elevation: 0.5,
       clipBehavior: Clip.antiAlias,
+      color: Theme.of(context).colorScheme.primary.withAlpha(20),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
@@ -191,8 +191,9 @@ class ArticleCard extends ConsumerWidget {
     return Text(
       displayArticle.content,
       style: textTheme.bodyMedium?.copyWith(
-        color: colorScheme.onSurface.withOpacity(0.8),
+        color: colorScheme.onSurface.withAlpha(200),
         height: 1.5,
+        fontSize: 16,
       ),
       maxLines: 3,
       overflow: TextOverflow.ellipsis,

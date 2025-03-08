@@ -68,16 +68,7 @@ class ArticleDetailContent extends ConsumerWidget {
           ],
 
           // 내용
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              displayArticle.content,
-              style: textTheme.bodyLarge?.copyWith(
-                height: 1.6,
-                color: colorScheme.onSurface.withAlpha(230),
-              ),
-            ),
-          ),
+          _buildContent(context, displayArticle),
 
           const SizedBox(height: 24),
 
@@ -143,6 +134,23 @@ class ArticleDetailContent extends ConsumerWidget {
         if (displayArticle.category != null)
           _buildCategoryChip(context, displayArticle),
       ],
+    );
+  }
+
+  Widget _buildContent(BuildContext context, ArticleDTO displayArticle) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Text(
+        displayArticle.content,
+        style: textTheme.bodyLarge?.copyWith(
+          height: 1.6,
+          color: colorScheme.onSurface.withAlpha(230),
+          fontSize: 16,
+        ),
+      ),
     );
   }
 
