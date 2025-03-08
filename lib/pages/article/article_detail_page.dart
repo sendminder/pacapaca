@@ -64,6 +64,15 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
   Widget build(BuildContext context) {
     // 게시글 데이터 가져오기 (캐시 또는 API)
     final articleAsync = ref.watch(articleProvider(widget.articleId));
+
+    // 캐시에서 최신 데이터 확인 (UI 업데이트 최적화)
+    final cachedArticle = ref
+        .watch(articleCacheProvider.select((cache) => cache[widget.articleId]));
+
+    // 실제 표시할 데이터 (캐시 우선)
+    final displayArticleAsync =
+        cachedArticle != null ? AsyncValue.data(cachedArticle) : articleAsync;
+
     final commentsAsync = ref.watch(commentListProvider(widget.articleId));
     final currentUser = ref.watch(authProvider).value;
 
@@ -72,7 +81,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
       appBar: PageTitle(
         title: 'article.title'.tr(),
         actions: [
-          articleAsync.when(
+          displayArticleAsync.when(
             data: (article) =>
                 _buildArticleActions(context, ref, article, currentUser),
             error: (error, _) =>
@@ -81,7 +90,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
           ),
         ],
       ),
-      body: articleAsync.when(
+      body: displayArticleAsync.when(
         loading: () => const Center(child: RotatingPacaLoader()),
         error: (error, _) => Center(
           child: Text('article.error'.tr(args: [error.toString()])),
@@ -93,6 +102,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
 
           return RefreshIndicator(
             onRefresh: () async {
+              // 새로고침 시에는 articleProvider를 invalidate하여 데이터 다시 로드
               ref.invalidate(articleProvider(widget.articleId));
               ref.invalidate(commentListProvider(widget.articleId));
               return Future.delayed(const Duration(milliseconds: 1000));
