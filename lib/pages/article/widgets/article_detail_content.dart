@@ -9,13 +9,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pacapaca/services/article_service.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
 
 class ArticleDetailContent extends ConsumerWidget {
   final ArticleDTO article;
   final logger = GetIt.instance<Logger>();
-  final _articleService = GetIt.instance<ArticleService>();
 
   ArticleDetailContent({
     super.key,
