@@ -40,10 +40,10 @@ class NotificationBell extends ConsumerWidget {
                 minHeight: 16,
               ),
               child: Text(
-                unreadCount > 20 ? '20+' : '$unreadCount',
+                'N',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 13,
+                  fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,

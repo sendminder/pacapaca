@@ -109,9 +109,7 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
           ),
           const SizedBox(height: 16),
           Text(
-            isMyLikes
-                ? 'profile.no_my_liked_posts'.tr()
-                : 'profile.no_user_liked_posts'.tr(),
+            'profile.no_liked_posts'.tr(),
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
                 ),

@@ -223,7 +223,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
       case 'carrot':
         // 이미지 위젯 사용
         iconWidget = Image.asset(
-          'assets/images/carrot_icon.png', // 당근 이미지 경로
+          'assets/icon/carrot.png', // 당근 이미지 경로
           width: 20,
           height: 20,
         );

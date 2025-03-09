@@ -167,7 +167,7 @@
         "reward": "Carrot Reward",
         "transfer": "Carrot Transfer",
         "refund": "Carrot Refund",
-        "no_transaction": "No transaction history"
+        "no_transactions": "No transaction history"
     },
     "profile": {
         "title": "Profile",
