@@ -207,6 +207,29 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
       if (mounted) {
         context.pop(); // 바텀시트 닫기
         context.pop(); // AI 헬퍼 페이지 닫기
+
+        final sortBy = ref.read(articleSortProvider);
+        // 현재 카테고리 목록 무효화
+        ref
+            .read(articleListProvider(
+              sortBy: sortBy,
+              category: ArticleCategory.values.byName(category),
+              limit: 20,
+            ).notifier)
+            .forceRefresh(
+                sortBy: sortBy,
+                limit: 20,
+                category: ArticleCategory.values.byName(category));
+
+        // 전체 탭 무효화
+        ref
+            .read(articleListProvider(
+              sortBy: sortBy,
+              category: ArticleCategory.all,
+              limit: 20,
+            ).notifier)
+            .forceRefresh(
+                sortBy: sortBy, limit: 20, category: ArticleCategory.all);
         ref.invalidate(articleListProvider);
       }
     } catch (e) {

@@ -43,7 +43,7 @@ class NotificationBell extends ConsumerWidget {
                 unreadCount > 20 ? '20+' : '$unreadCount',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 10,
+                  fontSize: 13,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,

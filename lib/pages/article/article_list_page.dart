@@ -246,6 +246,10 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
 
   Widget _buildArticleList(
       List<ArticleDTO> articles, ArticleCategory category) {
+    if (articles.isEmpty) {
+      return _buildEmptyState(category);
+    }
+
     return ListView.builder(
       controller: _scrollControllers[category],
       physics: const AlwaysScrollableScrollPhysics(),
@@ -258,6 +262,49 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
           onTap: () => context.push('/articles/${article.id}'),
         );
       },
+    );
+  }
+
+  Widget _buildEmptyState(ArticleCategory category) {
+    final primaryColor = Theme.of(context).colorScheme.primary;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return Center(
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 120,
+                height: 120,
+                decoration: BoxDecoration(
+                  color: primaryColor.withAlpha(30),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.article_outlined,
+                  size: 60,
+                  color: primaryColor.withAlpha(200),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                'article.no_articles'.tr(),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 100),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

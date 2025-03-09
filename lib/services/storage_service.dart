@@ -188,6 +188,7 @@ class StorageService {
 
   Future<bool?> get notificationSetupCompleted async {
     final value = await _storage.read(key: _notificationSetupCompletedKey);
+    // return false;
     return value == 'true';
   }
 

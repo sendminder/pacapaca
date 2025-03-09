@@ -13,7 +13,9 @@
         "set_nickname": "닉네임 설정",
         "nickname_hint": "닉네임을 입력하세요",
         "nickname_rule": "2-10자 이내로 입력해주세요",
-        "nickname_error": "닉네임 설정에 실패했어요: {}"
+        "nickname_error": "닉네임 설정에 실패했어요: {}",
+        "description": "파카파카에서 사용할 닉네임을 설정해주세요. 닉네임은 언제든지 변경할 수 있어요.",
+        "your_nickname": "나의 닉네임"
     },
     "helper": {
         "first_message": "안녕하세요! 저는 파카삐예요 🦙\n어떤 주제의 고민이 있으신가요? \n제가 이야기를 들어드리고 글로 정리해드릴게요!",
@@ -49,6 +51,8 @@
         "not_found": "게시글을 찾을 수 없어요",
         "no_comments": "댓글이 없어요",
         "no_articles": "게시글이 없어요",
+        "empty_all_description": "아직 작성된 게시글이 없어요. 첫 번째 게시글을 작성해보세요!",
+        "empty_category_description": "아직 {} 카테고리에 작성된 게시글이 없어요. 첫 번째 게시글을 작성해보세요!",
         "loading": "게시글을 불러오고 있어요",
         "retry": "다시 시도",
         "sort": {
@@ -257,7 +261,8 @@
         "permission_title": "알림 권한 설정",
         "permission_description": "파카파카에서 활동에 대한 알림을 받아보세요. \n새로운 댓글, 좋아요, 당근 등 알림을 받을 수 있어요.",
         "enable": "알림 받기",
-        "skip": "알림 받지 않기"
+        "skip": "알림 받지 않기",
+        "empty": "받은 알림이 없어요"
     },
     "point": {
         "history_title": "포인트 내역",

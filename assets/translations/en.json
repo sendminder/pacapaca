@@ -12,7 +12,9 @@
         "set_nickname": "Set Nickname",
         "nickname_hint": "Enter your nickname",
         "nickname_rule": "Please enter 2-10 characters",
-        "nickname_error": "Failed to set nickname: {}"
+        "nickname_error": "Failed to set nickname: {}",
+        "description": "Please set a nickname to use in Pacapaca. You can change your nickname anytime.",
+        "your_nickname": "Your Nickname"
     },
     "helper": {
         "first_message": "Hello! I'm Pacappi 🦙\nWhat's your topic of concern? \nI'll listen to your story and summarize it in an article!",
@@ -48,6 +50,8 @@
         "not_found": "Article not found",
         "no_comments": "No comments",
         "no_articles": "No articles",
+        "empty_all_description": "There are no articles yet. Be the first to write one!",
+        "empty_category_description": "There are no articles in the {} category yet. Be the first to write one!",
         "sort": {
             "latest": "Latest",
             "views": "Views"
@@ -245,7 +249,8 @@
         "permission_title": "Notification Permission Settings",
         "permission_description": "Receive notifications about your activities on PacaPaca. \nYou can receive notifications such as new comments, likes, and carrots.",
         "enable": "Enable Notifications",
-        "skip": "Skip Notifications"
+        "skip": "Skip Notifications",
+        "empty": "No notifications"
     },
     "point": {
         "history_title": "Point History",

@@ -110,6 +110,10 @@ class RouterNotifier extends ChangeNotifier {
               : '/notification-setup';
         }
 
+        if (user.displayUser.isBlocked) {
+          return '/login';
+        }
+
         // 모든 정보가 설정된 경우
         if (state.matchedLocation == '/login' ||
             state.matchedLocation == '/set-nickname' ||
