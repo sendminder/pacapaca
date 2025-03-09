@@ -166,7 +166,8 @@
         "payment": "Carrot Payment",
         "reward": "Carrot Reward",
         "transfer": "Carrot Transfer",
-        "refund": "Carrot Refund"
+        "refund": "Carrot Refund",
+        "no_transaction": "No transaction history"
     },
     "profile": {
         "title": "Profile",
@@ -187,7 +188,9 @@
         "points": " Points",
         "carrots": " Carrots",
         "user_posts": "User Posts",
-        "my_liked_posts": "Liked Posts"
+        "my_liked_posts": "Liked Posts",
+        "no_user_posts": "No posts yet.",
+        "no_liked_posts": "No liked posts yet."
     },
     "ranking": {
         "title": "Ranking",

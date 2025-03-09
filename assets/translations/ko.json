@@ -174,7 +174,8 @@
         "payment": "당근 결제",
         "reward": "당근 보상",
         "transfer": "당근 교환",
-        "refund": "당근 환불"
+        "refund": "당근 환불",
+        "no_transaction": "당근 교환 내역이 없어요"
     },
     "profile": {
         "title": "마이페이지",
@@ -197,7 +198,9 @@
         "points": " 점",
         "carrots": " 개",
         "user_posts": "사용자 게시글",
-        "my_liked_posts": "좋아요 누른 게시글"
+        "my_liked_posts": "좋아요 누른 게시글",
+        "no_user_posts": "아직 게시글이 없어요.",
+        "no_liked_posts": "좋아요 누른 게시글이 없어요."
     },
     "ranking": {
         "title": "랭킹",
