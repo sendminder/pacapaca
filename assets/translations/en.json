@@ -40,7 +40,7 @@
         "delete": "Delete",
         "register": "Register",
         "title_hint": "Enter title",
-        "content_hint": "Enter content",
+        "content_hint": "Enter content \n20 characters or more to get a response from Paca Friends",
         "unknown_user": "Unknown",
         "delete_confirm": "Are you sure you want to delete?",
         "delete_confirm_desc": "Deleted posts cannot be recovered",

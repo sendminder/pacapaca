@@ -6,7 +6,7 @@ part of 'notification_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$notificationsHash() => r'243daf5406698864bde7c212bb14f5f67728f30f';
+String _$notificationsHash() => r'fbf4038a7fd66e54a2db7858ecc053958c71432c';
 
 /// See also [Notifications].
 @ProviderFor(Notifications)
@@ -23,7 +23,7 @@ final notificationsProvider = AutoDisposeAsyncNotifierProvider<Notifications,
 
 typedef _$Notifications = AutoDisposeAsyncNotifier<List<NotificationDTO>>;
 String _$unreadNotificationCountHash() =>
-    r'9b279da095cab88bebde8d73b3373ecf8a10c2cf';
+    r'05c43e0b8f2b877ebf351be60e99dd4c91620283';
 
 /// See also [UnreadNotificationCount].
 @ProviderFor(UnreadNotificationCount)

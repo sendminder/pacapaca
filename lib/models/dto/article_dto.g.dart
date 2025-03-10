@@ -54,6 +54,8 @@ _$RequestCreateArticleImpl _$$RequestCreateArticleImplFromJson(
       thumbnailUrl: json['thumbnail_url'] as String?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       category: json['category'] as String?,
+      replyPacappi: json['reply_pacappi'] as bool?,
+      replyPacappu: json['reply_pacappu'] as bool?,
     );
 
 Map<String, dynamic> _$$RequestCreateArticleImplToJson(
@@ -65,6 +67,8 @@ Map<String, dynamic> _$$RequestCreateArticleImplToJson(
       'thumbnail_url': instance.thumbnailUrl,
       'tags': instance.tags,
       'category': instance.category,
+      'reply_pacappi': instance.replyPacappi,
+      'reply_pacappu': instance.replyPacappu,
     };
 
 _$RequestUpdateArticleImpl _$$RequestUpdateArticleImplFromJson(

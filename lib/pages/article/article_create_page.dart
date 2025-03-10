@@ -27,6 +27,8 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
   bool _isLoading = false;
+  bool _replyPacappi = false;
+  bool _replyPacappu = false;
 
   @override
   void initState() {
@@ -110,10 +112,16 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
           nickname:
               currentUser?.displayUser.nickname ?? 'article.unknown_user'.tr(),
           selectedCategory: selectedCategory == ArticleCategory.all
-              ? ArticleCategory.daily // 카테고리가 전체일때는 일상으로 설정
+              ? ArticleCategory.daily
               : selectedCategory,
           onCategoryChanged: (category) {
             ref.read(articleCategoryProvider.notifier).setCategory(category);
+          },
+          onPacappiSelected: (selected) {
+            setState(() => _replyPacappi = selected);
+          },
+          onPacappuSelected: (selected) {
+            setState(() => _replyPacappu = selected);
           },
         ),
       ),
@@ -140,6 +148,8 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
         title: _titleController.text,
         content: _contentController.text,
         category: createCategory.name,
+        replyPacappi: _replyPacappi,
+        replyPacappu: _replyPacappu,
       );
 
       await ref.read(articleEditorProvider.notifier).createArticle(request);

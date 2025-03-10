@@ -544,6 +544,10 @@ mixin _$RequestCreateArticle {
   String? get thumbnailUrl => throw _privateConstructorUsedError;
   List<String>? get tags => throw _privateConstructorUsedError;
   String? get category => throw _privateConstructorUsedError;
+  @JsonKey(name: 'reply_pacappi')
+  bool? get replyPacappi => throw _privateConstructorUsedError;
+  @JsonKey(name: 'reply_pacappu')
+  bool? get replyPacappu => throw _privateConstructorUsedError;
 
   /// Serializes this RequestCreateArticle to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -567,7 +571,9 @@ abstract class $RequestCreateArticleCopyWith<$Res> {
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
       List<String>? tags,
-      String? category});
+      String? category,
+      @JsonKey(name: 'reply_pacappi') bool? replyPacappi,
+      @JsonKey(name: 'reply_pacappu') bool? replyPacappu});
 }
 
 /// @nodoc
@@ -592,6 +598,8 @@ class _$RequestCreateArticleCopyWithImpl<$Res,
     Object? thumbnailUrl = freezed,
     Object? tags = freezed,
     Object? category = freezed,
+    Object? replyPacappi = freezed,
+    Object? replyPacappu = freezed,
   }) {
     return _then(_value.copyWith(
       title: null == title
@@ -618,6 +626,14 @@ class _$RequestCreateArticleCopyWithImpl<$Res,
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String?,
+      replyPacappi: freezed == replyPacappi
+          ? _value.replyPacappi
+          : replyPacappi // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      replyPacappu: freezed == replyPacappu
+          ? _value.replyPacappu
+          : replyPacappu // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -636,7 +652,9 @@ abstract class _$$RequestCreateArticleImplCopyWith<$Res>
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
       List<String>? tags,
-      String? category});
+      String? category,
+      @JsonKey(name: 'reply_pacappi') bool? replyPacappi,
+      @JsonKey(name: 'reply_pacappu') bool? replyPacappu});
 }
 
 /// @nodoc
@@ -658,6 +676,8 @@ class __$$RequestCreateArticleImplCopyWithImpl<$Res>
     Object? thumbnailUrl = freezed,
     Object? tags = freezed,
     Object? category = freezed,
+    Object? replyPacappi = freezed,
+    Object? replyPacappu = freezed,
   }) {
     return _then(_$RequestCreateArticleImpl(
       title: null == title
@@ -684,6 +704,14 @@ class __$$RequestCreateArticleImplCopyWithImpl<$Res>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String?,
+      replyPacappi: freezed == replyPacappi
+          ? _value.replyPacappi
+          : replyPacappi // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      replyPacappu: freezed == replyPacappu
+          ? _value.replyPacappu
+          : replyPacappu // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -697,7 +725,9 @@ class _$RequestCreateArticleImpl implements _RequestCreateArticle {
       @JsonKey(name: 'image_url') this.imageUrl,
       @JsonKey(name: 'thumbnail_url') this.thumbnailUrl,
       final List<String>? tags,
-      this.category})
+      this.category,
+      @JsonKey(name: 'reply_pacappi') this.replyPacappi,
+      @JsonKey(name: 'reply_pacappu') this.replyPacappu})
       : _tags = tags;
 
   factory _$RequestCreateArticleImpl.fromJson(Map<String, dynamic> json) =>
@@ -725,10 +755,16 @@ class _$RequestCreateArticleImpl implements _RequestCreateArticle {
 
   @override
   final String? category;
+  @override
+  @JsonKey(name: 'reply_pacappi')
+  final bool? replyPacappi;
+  @override
+  @JsonKey(name: 'reply_pacappu')
+  final bool? replyPacappu;
 
   @override
   String toString() {
-    return 'RequestCreateArticle(title: $title, content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags, category: $category)';
+    return 'RequestCreateArticle(title: $title, content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags, category: $category, replyPacappi: $replyPacappi, replyPacappu: $replyPacappu)';
   }
 
   @override
@@ -744,13 +780,25 @@ class _$RequestCreateArticleImpl implements _RequestCreateArticle {
                 other.thumbnailUrl == thumbnailUrl) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.category, category) ||
-                other.category == category));
+                other.category == category) &&
+            (identical(other.replyPacappi, replyPacappi) ||
+                other.replyPacappi == replyPacappi) &&
+            (identical(other.replyPacappu, replyPacappu) ||
+                other.replyPacappu == replyPacappu));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, title, content, imageUrl,
-      thumbnailUrl, const DeepCollectionEquality().hash(_tags), category);
+  int get hashCode => Object.hash(
+      runtimeType,
+      title,
+      content,
+      imageUrl,
+      thumbnailUrl,
+      const DeepCollectionEquality().hash(_tags),
+      category,
+      replyPacappi,
+      replyPacappu);
 
   /// Create a copy of RequestCreateArticle
   /// with the given fields replaced by the non-null parameter values.
@@ -772,12 +820,15 @@ class _$RequestCreateArticleImpl implements _RequestCreateArticle {
 
 abstract class _RequestCreateArticle implements RequestCreateArticle {
   const factory _RequestCreateArticle(
-      {required final String title,
-      required final String content,
-      @JsonKey(name: 'image_url') final String? imageUrl,
-      @JsonKey(name: 'thumbnail_url') final String? thumbnailUrl,
-      final List<String>? tags,
-      final String? category}) = _$RequestCreateArticleImpl;
+          {required final String title,
+          required final String content,
+          @JsonKey(name: 'image_url') final String? imageUrl,
+          @JsonKey(name: 'thumbnail_url') final String? thumbnailUrl,
+          final List<String>? tags,
+          final String? category,
+          @JsonKey(name: 'reply_pacappi') final bool? replyPacappi,
+          @JsonKey(name: 'reply_pacappu') final bool? replyPacappu}) =
+      _$RequestCreateArticleImpl;
 
   factory _RequestCreateArticle.fromJson(Map<String, dynamic> json) =
       _$RequestCreateArticleImpl.fromJson;
@@ -796,6 +847,12 @@ abstract class _RequestCreateArticle implements RequestCreateArticle {
   List<String>? get tags;
   @override
   String? get category;
+  @override
+  @JsonKey(name: 'reply_pacappi')
+  bool? get replyPacappi;
+  @override
+  @JsonKey(name: 'reply_pacappu')
+  bool? get replyPacappu;
 
   /// Create a copy of RequestCreateArticle
   /// with the given fields replaced by the non-null parameter values.

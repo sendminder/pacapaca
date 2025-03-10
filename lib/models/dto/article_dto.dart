@@ -42,6 +42,8 @@ class RequestCreateArticle with _$RequestCreateArticle {
     @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
     List<String>? tags,
     String? category,
+    @JsonKey(name: 'reply_pacappi') bool? replyPacappi,
+    @JsonKey(name: 'reply_pacappu') bool? replyPacappu,
   }) = _RequestCreateArticle;
 
   factory RequestCreateArticle.fromJson(Map<String, dynamic> json) =>
