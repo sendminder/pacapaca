@@ -39,6 +39,7 @@
         "create": "글쓰기",
         "edit": "수정",
         "edit_article": "게시글 수정",
+        "update_success": "게시글이 수정되었어요",
         "delete": "삭제",
         "register": "등록",
         "title_hint": "제목을 입력하세요",

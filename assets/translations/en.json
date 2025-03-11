@@ -38,6 +38,7 @@
         "create": "Write",
         "edit": "Edit",
         "edit_article": "Edit Article",
+        "update_success": "Article updated",
         "delete": "Delete",
         "register": "Register",
         "title_hint": "Enter title",

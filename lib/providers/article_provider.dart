@@ -319,7 +319,10 @@ class ArticleEditor extends _$ArticleEditor {
   Future<void> updateArticle(
       int articleId, RequestUpdateArticle request) async {
     try {
-      await _articleService.updateArticle(articleId, request);
+      final article = await _articleService.updateArticle(articleId, request);
+      if (article != null) {
+        ref.read(articleCacheProvider.notifier).updateArticle(article);
+      }
     } catch (e, stack) {
       logger.e('ArticleEditor updateArticle error $e $stack');
       rethrow;
