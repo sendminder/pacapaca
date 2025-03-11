@@ -362,12 +362,22 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
         onDelete: (commentId) {
           _deleteComment(sortBy, commentId);
         },
-        onUpdate: (commentId, _) => {},
+        onUpdate: (commentId, _) => {
+          _updateComment(sortBy, commentId),
+        },
         onReply: (commentId) {
           FocusScope.of(context).requestFocus(_focusNode);
         },
         onToggleLike: (commentId) => _toggleLike(sortBy, commentId),
       ),
     );
+  }
+
+  Future<void> _updateComment(String sortBy, int commentId) async {
+    await ref
+        .read(
+            commentReplyListProvider(sortBy, widget.articleId, widget.commentId)
+                .notifier)
+        .updateComment(widget.articleId, commentId, _commentController.text);
   }
 }

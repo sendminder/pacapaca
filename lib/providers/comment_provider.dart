@@ -69,7 +69,6 @@ class CommentList extends _$CommentList {
 
   Future<void> updateComment(
       int articleId, int commentId, String content) async {
-    state = const AsyncLoading();
     try {
       final request = RequestUpdateComment(content: content);
       final updatedComment = await _commentService.updateComment(
@@ -91,7 +90,6 @@ class CommentList extends _$CommentList {
   }
 
   Future<void> deleteComment(int articleId, int commentId) async {
-    state = const AsyncLoading();
     try {
       await _commentService.deleteComment(articleId, commentId);
 

@@ -106,4 +106,25 @@ class CommentReplyList extends _$CommentReplyList {
       state = AsyncError(e, stack);
     }
   }
+
+  Future<void> updateComment(
+    int articleId,
+    int commentId,
+    String content,
+  ) async {
+    final request = RequestUpdateComment(content: content);
+    final updatedComment = await _commentService.updateComment(
+      articleId,
+      commentId,
+      request,
+    );
+
+    if (updatedComment == null) return;
+
+    final currentReplies = state.value ?? [];
+    final updatedReplies = currentReplies.map((reply) {
+      return reply.id == commentId ? updatedComment : reply;
+    }).toList();
+    state = AsyncData(updatedReplies);
+  }
 }
