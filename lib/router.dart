@@ -13,6 +13,7 @@ import 'pages/auth/set_nickname_page.dart';
 import 'widgets/shell_scaffold.dart';
 import 'pages/article/article_list_page.dart';
 import 'pages/article/article_create_page.dart';
+import 'pages/article/article_edit_page.dart';
 import 'pages/article/article_ai_helper_page.dart';
 import 'pages/search/search_page.dart';
 import 'pages/ranking/ranking_page.dart';
@@ -292,6 +293,14 @@ class RouterNotifier extends ChangeNotifier {
                         return ArticleDetailPage(
                           articleId: id,
                         );
+                      },
+                    ),
+                    GoRoute(
+                      path: ':id/edit',
+                      parentNavigatorKey: _rootNavigatorKey,
+                      builder: (context, state) {
+                        final id = int.parse(state.pathParameters['id']!);
+                        return ArticleEditPage(articleId: id);
                       },
                     ),
                     GoRoute(

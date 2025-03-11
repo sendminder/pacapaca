@@ -315,6 +315,16 @@ class ArticleEditor extends _$ArticleEditor {
       rethrow;
     }
   }
+
+  Future<void> updateArticle(
+      int articleId, RequestUpdateArticle request) async {
+    try {
+      await _articleService.updateArticle(articleId, request);
+    } catch (e, stack) {
+      logger.e('ArticleEditor updateArticle error $e $stack');
+      rethrow;
+    }
+  }
 }
 
 // 게시글 검색 provider

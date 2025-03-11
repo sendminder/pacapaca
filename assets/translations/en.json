@@ -37,6 +37,7 @@
         "nickname": "Author",
         "create": "Write",
         "edit": "Edit",
+        "edit_article": "Edit Article",
         "delete": "Delete",
         "register": "Register",
         "title_hint": "Enter title",

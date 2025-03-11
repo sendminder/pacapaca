@@ -10,6 +10,7 @@ class ArticleForm extends StatefulWidget {
   final Function(ArticleCategory) onCategoryChanged;
   final Function(bool)? onPacappiSelected;
   final Function(bool)? onPacappuSelected;
+  final bool isEditMode;
 
   const ArticleForm({
     Key? key,
@@ -20,6 +21,7 @@ class ArticleForm extends StatefulWidget {
     required this.onCategoryChanged,
     this.onPacappiSelected,
     this.onPacappuSelected,
+    this.isEditMode = false,
   }) : super(key: key);
 
   @override
@@ -71,6 +73,7 @@ class _ArticleFormState extends State<ArticleForm> {
     bool isEnabled,
     Function(bool) onTap,
   ) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: isEnabled
           ? () {
@@ -89,16 +92,25 @@ class _ArticleFormState extends State<ArticleForm> {
             width: 2,
           ),
           color: isEnabled
-              ? (isSelected ? Colors.white : Colors.grey.withOpacity(0.1))
-              : Colors.grey.withOpacity(0.1),
+              ? (isSelected
+                  ? (isDarkMode
+                      ? Theme.of(context).colorScheme.surface
+                      : Colors.white)
+                  : Theme.of(context)
+                      .colorScheme
+                      .surfaceVariant
+                      .withOpacity(0.3))
+              : Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.1),
         ),
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: Image.asset(
             assetPath,
             color: isEnabled
-                ? (isSelected ? null : Colors.black.withOpacity(0.3))
-                : Colors.black.withOpacity(0.3),
+                ? (isSelected
+                    ? null
+                    : Theme.of(context).colorScheme.onSurface.withAlpha(70))
+                : Theme.of(context).colorScheme.onSurface.withAlpha(70),
           ),
         ),
       ),
@@ -164,33 +176,34 @@ class _ArticleFormState extends State<ArticleForm> {
                   ],
                 ),
               ),
-              Row(
-                children: [
-                  _buildCharacterButton(
-                    'assets/profiles/pacappiface.png',
-                    _isPacappiSelected,
-                    _isContentLongEnough,
-                    (selected) {
-                      setState(() {
-                        _isPacappiSelected = selected;
-                      });
-                      widget.onPacappiSelected?.call(selected);
-                    },
-                  ),
-                  SizedBox(width: 8),
-                  _buildCharacterButton(
-                    'assets/profiles/pacappuface.png',
-                    _isPacappuSelected,
-                    _isContentLongEnough,
-                    (selected) {
-                      setState(() {
-                        _isPacappuSelected = selected;
-                      });
-                      widget.onPacappuSelected?.call(selected);
-                    },
-                  ),
-                ],
-              ),
+              if (!widget.isEditMode)
+                Row(
+                  children: [
+                    _buildCharacterButton(
+                      'assets/profiles/pacappiface.png',
+                      _isPacappiSelected,
+                      _isContentLongEnough,
+                      (selected) {
+                        setState(() {
+                          _isPacappiSelected = selected;
+                        });
+                        widget.onPacappiSelected?.call(selected);
+                      },
+                    ),
+                    SizedBox(width: 8),
+                    _buildCharacterButton(
+                      'assets/profiles/pacappuface.png',
+                      _isPacappuSelected,
+                      _isContentLongEnough,
+                      (selected) {
+                        setState(() {
+                          _isPacappuSelected = selected;
+                        });
+                        widget.onPacappuSelected?.call(selected);
+                      },
+                    ),
+                  ],
+                ),
             ],
           ),
         ),
