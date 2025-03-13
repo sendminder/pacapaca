@@ -127,6 +127,9 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                       ArticleDetailContent(
                         article: article,
                         onReply: (commentId) {
+                          setState(() {
+                            _replyingCommentId = null;
+                          });
                           FocusScope.of(context).requestFocus(_focusNode);
                         },
                       ),
@@ -169,7 +172,9 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                     _replyingCommentId = null; // 답글 작성 완료 후 초기화
                   });
                 },
-                hintText: 'comment.hint'.tr(),
+                hintText: _replyingCommentId != null
+                    ? 'comment.write_reply'.tr()
+                    : 'comment.hint'.tr(),
                 canSend: _canSend,
               )
             : null,

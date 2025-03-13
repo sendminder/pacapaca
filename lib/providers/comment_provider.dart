@@ -100,6 +100,14 @@ class CommentList extends _$CommentList {
             isDeleted: true,
           );
         }
+        if (comment.replies != null && comment.replies!.isNotEmpty) {
+          final updatedReplies = comment.replies!.map((reply) {
+            return reply.id == commentId
+                ? reply.copyWith(isDeleted: true)
+                : reply;
+          }).toList();
+          return comment.copyWith(replies: updatedReplies);
+        }
         return comment;
       }).toList();
 

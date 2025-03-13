@@ -127,45 +127,48 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
     final isLoading =
         parentCommentAsync is AsyncLoading || repliesAsync is AsyncLoading;
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: PageTitle(
-        title: 'comment.replies'.tr(),
-      ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: isLoading
-            ? const Center(child: RotatingPacaLoader())
-            : RefreshIndicator(
-                onRefresh: () async {
-                  _refreshComments(sortBy);
-                  return Future.delayed(const Duration(milliseconds: 1000));
-                },
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: _buildCommentList(
-                        context,
-                        sortBy,
-                        repliesAsync,
-                        parentCommentAsync,
-                        currentUser,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: PageTitle(
+          title: 'comment.replies'.tr(),
+        ),
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: isLoading
+              ? const Center(child: RotatingPacaLoader())
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    _refreshComments(sortBy);
+                    return Future.delayed(const Duration(milliseconds: 1000));
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: _buildCommentList(
+                          context,
+                          sortBy,
+                          repliesAsync,
+                          parentCommentAsync,
+                          currentUser,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 60),
-                  ],
+                      const SizedBox(height: 60),
+                    ],
+                  ),
                 ),
-              ),
+        ),
+        bottomSheet: currentUser != null
+            ? ChatInput(
+                controller: _commentController,
+                focusNode: _focusNode,
+                onSubmit: (content) => _addComment(sortBy, content),
+                hintText: 'comment.write_reply'.tr(),
+                canSend: _canSend,
+              )
+            : null,
       ),
-      bottomSheet: currentUser != null
-          ? ChatInput(
-              controller: _commentController,
-              focusNode: _focusNode,
-              onSubmit: (content) => _addComment(sortBy, content),
-              hintText: 'comment.write_reply'.tr(),
-              canSend: _canSend,
-            )
-          : null,
     );
   }
 
