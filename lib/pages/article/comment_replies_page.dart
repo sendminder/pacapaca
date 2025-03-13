@@ -103,7 +103,7 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
           .addComment(sortBy, widget.articleId, widget.commentId, content);
 
       _commentController.clear();
-      FocusScope.of(context).unfocus();
+      _focusNode.unfocus();
     } catch (e) {
       _logger.e('댓글 추가 실패: $e');
       // 에러 처리 (예: 스낵바 표시)
@@ -128,37 +128,36 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
         parentCommentAsync is AsyncLoading || repliesAsync is AsyncLoading;
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        _focusNode.unfocus();
+      },
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: PageTitle(
           title: 'comment.replies'.tr(),
         ),
-        body: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: isLoading
-              ? const Center(child: RotatingPacaLoader())
-              : RefreshIndicator(
-                  onRefresh: () async {
-                    _refreshComments(sortBy);
-                    return Future.delayed(const Duration(milliseconds: 1000));
-                  },
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: _buildCommentList(
-                          context,
-                          sortBy,
-                          repliesAsync,
-                          parentCommentAsync,
-                          currentUser,
-                        ),
+        body: isLoading
+            ? const Center(child: RotatingPacaLoader())
+            : RefreshIndicator(
+                onRefresh: () async {
+                  _refreshComments(sortBy);
+                  return Future.delayed(const Duration(milliseconds: 1000));
+                },
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: _buildCommentList(
+                        context,
+                        sortBy,
+                        repliesAsync,
+                        parentCommentAsync,
+                        currentUser,
                       ),
-                      const SizedBox(height: 60),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 60),
+                  ],
                 ),
-        ),
+              ),
         bottomSheet: currentUser != null
             ? ChatInput(
                 controller: _commentController,

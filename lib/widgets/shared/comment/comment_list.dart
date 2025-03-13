@@ -35,7 +35,7 @@ class CommentListWidget extends ConsumerWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: comments.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 16),
+      separatorBuilder: (_, __) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
         final comment = comments[index];
         return Column(
@@ -53,12 +53,12 @@ class CommentListWidget extends ConsumerWidget {
             ),
             if (comment.replies != null && comment.replies!.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.only(left: 24, top: 4),
+                padding: const EdgeInsets.only(left: 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ...comment.replies!.take(3).map((reply) => Padding(
-                          padding: const EdgeInsets.only(top: 8),
+                          padding: const EdgeInsets.only(top: 6),
                           child: CommentItem(
                             comment: reply,
                             isCurrentUser: reply.userId == currentUser?.id,

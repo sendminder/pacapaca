@@ -49,6 +49,7 @@ class CommentList extends _$CommentList {
               return comment.copyWith(
                 replies: updatedReplies,
                 replyCount: (comment.replyCount ?? 0) + 1,
+                hasMore: (comment.replyCount ?? 0) >= 3,
               );
             }
             return comment;

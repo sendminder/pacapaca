@@ -40,7 +40,9 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        _focusNode.unfocus();
+      },
       child: Scaffold(
         appBar: const AiHelperAppBar(),
         body: _buildChatBody(),

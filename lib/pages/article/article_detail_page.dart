@@ -77,7 +77,9 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     final currentUser = ref.watch(authProvider).value;
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        _focusNode.unfocus();
+      },
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: PageTitle(
@@ -167,7 +169,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                       .incrementCommentCount(widget.articleId);
 
                   _commentController.clear();
-                  FocusScope.of(context).unfocus();
+                  _focusNode.unfocus();
                   setState(() {
                     _replyingCommentId = null; // 답글 작성 완료 후 초기화
                   });

@@ -30,6 +30,7 @@ class _CommentInputState extends ConsumerState<CommentInput> {
         Expanded(
           child: TextField(
             controller: _controller,
+            autofocus: false,
             decoration: InputDecoration(
               hintText: 'comment.hint'.tr(),
               border: const OutlineInputBorder(),

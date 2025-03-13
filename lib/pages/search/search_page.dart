@@ -96,6 +96,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
         child: TextField(
           controller: _searchController,
           focusNode: _focusNode,
+          autofocus: false,
           textInputAction: TextInputAction.search,
           style: const TextStyle(fontSize: 16),
           decoration: InputDecoration(
