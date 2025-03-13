@@ -82,7 +82,8 @@
         "write_reply": "Write Reply",
         "no_replies": "No replies",
         "replies": "Replies",
-        "like": "Like"
+        "like": "Like",
+        "deleted": "Deleted comment"
     },
     "login": {
         "login": "Login",

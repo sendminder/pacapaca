@@ -152,6 +152,7 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
                         currentUser,
                       ),
                     ),
+                    const SizedBox(height: 60),
                   ],
                 ),
               ),
@@ -353,7 +354,7 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
     UserDTO? currentUser,
   ) {
     return Padding(
-      padding: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.only(top: 10),
       child: CommentItem(
         comment: reply,
         isCurrentUser: reply.userId == currentUser?.id,

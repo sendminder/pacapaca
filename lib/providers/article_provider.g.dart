@@ -416,7 +416,7 @@ class _ArticleListProviderElement
   ArticleCategory? get category => (origin as ArticleListProvider).category;
 }
 
-String _$articleEditorHash() => r'9b6ae398ba8d2572b6c5e9abdcd91705e8d40fac';
+String _$articleEditorHash() => r'0e68118c4fb5e3cff8071e6dd99d9189632c5a72';
 
 /// See also [ArticleEditor].
 @ProviderFor(ArticleEditor)

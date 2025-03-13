@@ -88,7 +88,8 @@
         "write_reply": "대댓글을 작성해주세요",
         "no_replies": "대댓글이 없어요",
         "replies": "대댓글",
-        "like": "좋아요"
+        "like": "좋아요",
+        "deleted": "삭제된 댓글입니다."
     },
     "login": {
         "login":"로그인",

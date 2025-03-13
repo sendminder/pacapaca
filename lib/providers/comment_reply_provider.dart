@@ -59,9 +59,20 @@ class CommentReplyList extends _$CommentReplyList {
   }
 
   Future<void> delete(int articleId, int commentId) async {
-    await _commentService.deleteComment(articleId, commentId);
-    state = AsyncData(
-        state.value?.where((reply) => reply.id != commentId).toList());
+    try {
+      await _commentService.deleteComment(articleId, commentId);
+
+      final currentReplies = state.value ?? [];
+      final updatedReplies = currentReplies.map((reply) {
+        if (reply.id == commentId) {
+          return reply.copyWith(isDeleted: true);
+        }
+        return reply;
+      }).toList();
+      state = AsyncData(updatedReplies);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+    }
   }
 
   Future<void> addComment(

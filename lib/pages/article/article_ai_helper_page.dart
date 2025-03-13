@@ -200,6 +200,8 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
         content: content,
         category: category,
         tags: keywords,
+        replyPacappi: true,
+        replyPacappu: true,
       );
 
       await ref.read(articleEditorProvider.notifier).createArticle(request);

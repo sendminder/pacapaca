@@ -94,8 +94,15 @@ class CommentList extends _$CommentList {
       await _commentService.deleteComment(articleId, commentId);
 
       final currentComments = state.value ?? [];
-      final updatedComments =
-          currentComments.where((comment) => comment.id != commentId).toList();
+      final updatedComments = currentComments.map((comment) {
+        if (comment.id == commentId) {
+          return comment.copyWith(
+            isDeleted: true,
+          );
+        }
+        return comment;
+      }).toList();
+
       state = AsyncData(updatedComments);
     } catch (e, stack) {
       state = AsyncError(e, stack);

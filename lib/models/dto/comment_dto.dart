@@ -13,7 +13,7 @@ class ArticleCommentDTO with _$ArticleCommentDTO {
     required String content,
     @JsonKey(name: 'create_time') required String createTime,
     @JsonKey(name: 'update_time') required String updateTime,
-    @JsonKey(name: 'delete_time') String? deleteTime,
+    @JsonKey(name: 'is_deleted') required bool isDeleted,
     @JsonKey(name: 'display_user') required DisplayUserDTO displayUser,
     // 대댓글
     @JsonKey(name: 'parent_id') int? parentId,

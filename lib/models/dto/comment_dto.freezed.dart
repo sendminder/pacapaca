@@ -30,8 +30,8 @@ mixin _$ArticleCommentDTO {
   String get createTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'update_time')
   String get updateTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'delete_time')
-  String? get deleteTime => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_deleted')
+  bool get isDeleted => throw _privateConstructorUsedError;
   @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser => throw _privateConstructorUsedError; // 대댓글
   @JsonKey(name: 'parent_id')
@@ -70,7 +70,7 @@ abstract class $ArticleCommentDTOCopyWith<$Res> {
       String content,
       @JsonKey(name: 'create_time') String createTime,
       @JsonKey(name: 'update_time') String updateTime,
-      @JsonKey(name: 'delete_time') String? deleteTime,
+      @JsonKey(name: 'is_deleted') bool isDeleted,
       @JsonKey(name: 'display_user') DisplayUserDTO displayUser,
       @JsonKey(name: 'parent_id') int? parentId,
       @JsonKey(name: 'replies') List<ArticleCommentDTO>? replies,
@@ -103,7 +103,7 @@ class _$ArticleCommentDTOCopyWithImpl<$Res, $Val extends ArticleCommentDTO>
     Object? content = null,
     Object? createTime = null,
     Object? updateTime = null,
-    Object? deleteTime = freezed,
+    Object? isDeleted = null,
     Object? displayUser = null,
     Object? parentId = freezed,
     Object? replies = freezed,
@@ -137,10 +137,10 @@ class _$ArticleCommentDTOCopyWithImpl<$Res, $Val extends ArticleCommentDTO>
           ? _value.updateTime
           : updateTime // ignore: cast_nullable_to_non_nullable
               as String,
-      deleteTime: freezed == deleteTime
-          ? _value.deleteTime
-          : deleteTime // ignore: cast_nullable_to_non_nullable
-              as String?,
+      isDeleted: null == isDeleted
+          ? _value.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
       displayUser: null == displayUser
           ? _value.displayUser
           : displayUser // ignore: cast_nullable_to_non_nullable
@@ -198,7 +198,7 @@ abstract class _$$ArticleCommentDTOImplCopyWith<$Res>
       String content,
       @JsonKey(name: 'create_time') String createTime,
       @JsonKey(name: 'update_time') String updateTime,
-      @JsonKey(name: 'delete_time') String? deleteTime,
+      @JsonKey(name: 'is_deleted') bool isDeleted,
       @JsonKey(name: 'display_user') DisplayUserDTO displayUser,
       @JsonKey(name: 'parent_id') int? parentId,
       @JsonKey(name: 'replies') List<ArticleCommentDTO>? replies,
@@ -230,7 +230,7 @@ class __$$ArticleCommentDTOImplCopyWithImpl<$Res>
     Object? content = null,
     Object? createTime = null,
     Object? updateTime = null,
-    Object? deleteTime = freezed,
+    Object? isDeleted = null,
     Object? displayUser = null,
     Object? parentId = freezed,
     Object? replies = freezed,
@@ -264,10 +264,10 @@ class __$$ArticleCommentDTOImplCopyWithImpl<$Res>
           ? _value.updateTime
           : updateTime // ignore: cast_nullable_to_non_nullable
               as String,
-      deleteTime: freezed == deleteTime
-          ? _value.deleteTime
-          : deleteTime // ignore: cast_nullable_to_non_nullable
-              as String?,
+      isDeleted: null == isDeleted
+          ? _value.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
       displayUser: null == displayUser
           ? _value.displayUser
           : displayUser // ignore: cast_nullable_to_non_nullable
@@ -310,7 +310,7 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
       required this.content,
       @JsonKey(name: 'create_time') required this.createTime,
       @JsonKey(name: 'update_time') required this.updateTime,
-      @JsonKey(name: 'delete_time') this.deleteTime,
+      @JsonKey(name: 'is_deleted') required this.isDeleted,
       @JsonKey(name: 'display_user') required this.displayUser,
       @JsonKey(name: 'parent_id') this.parentId,
       @JsonKey(name: 'replies') final List<ArticleCommentDTO>? replies,
@@ -340,8 +340,8 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
   @JsonKey(name: 'update_time')
   final String updateTime;
   @override
-  @JsonKey(name: 'delete_time')
-  final String? deleteTime;
+  @JsonKey(name: 'is_deleted')
+  final bool isDeleted;
   @override
   @JsonKey(name: 'display_user')
   final DisplayUserDTO displayUser;
@@ -375,7 +375,7 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
 
   @override
   String toString() {
-    return 'ArticleCommentDTO(id: $id, articleId: $articleId, userId: $userId, content: $content, createTime: $createTime, updateTime: $updateTime, deleteTime: $deleteTime, displayUser: $displayUser, parentId: $parentId, replies: $replies, replyCount: $replyCount, hasMore: $hasMore, likeCount: $likeCount, isLiked: $isLiked)';
+    return 'ArticleCommentDTO(id: $id, articleId: $articleId, userId: $userId, content: $content, createTime: $createTime, updateTime: $updateTime, isDeleted: $isDeleted, displayUser: $displayUser, parentId: $parentId, replies: $replies, replyCount: $replyCount, hasMore: $hasMore, likeCount: $likeCount, isLiked: $isLiked)';
   }
 
   @override
@@ -392,8 +392,8 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
                 other.createTime == createTime) &&
             (identical(other.updateTime, updateTime) ||
                 other.updateTime == updateTime) &&
-            (identical(other.deleteTime, deleteTime) ||
-                other.deleteTime == deleteTime) &&
+            (identical(other.isDeleted, isDeleted) ||
+                other.isDeleted == isDeleted) &&
             (identical(other.displayUser, displayUser) ||
                 other.displayUser == displayUser) &&
             (identical(other.parentId, parentId) ||
@@ -417,7 +417,7 @@ class _$ArticleCommentDTOImpl implements _ArticleCommentDTO {
       content,
       createTime,
       updateTime,
-      deleteTime,
+      isDeleted,
       displayUser,
       parentId,
       const DeepCollectionEquality().hash(_replies),
@@ -451,7 +451,7 @@ abstract class _ArticleCommentDTO implements ArticleCommentDTO {
       required final String content,
       @JsonKey(name: 'create_time') required final String createTime,
       @JsonKey(name: 'update_time') required final String updateTime,
-      @JsonKey(name: 'delete_time') final String? deleteTime,
+      @JsonKey(name: 'is_deleted') required final bool isDeleted,
       @JsonKey(name: 'display_user') required final DisplayUserDTO displayUser,
       @JsonKey(name: 'parent_id') final int? parentId,
       @JsonKey(name: 'replies') final List<ArticleCommentDTO>? replies,
@@ -481,8 +481,8 @@ abstract class _ArticleCommentDTO implements ArticleCommentDTO {
   @JsonKey(name: 'update_time')
   String get updateTime;
   @override
-  @JsonKey(name: 'delete_time')
-  String? get deleteTime;
+  @JsonKey(name: 'is_deleted')
+  bool get isDeleted;
   @override
   @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser; // 대댓글

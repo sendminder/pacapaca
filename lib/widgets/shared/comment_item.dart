@@ -9,6 +9,8 @@ import 'package:pacapaca/providers/report_provider.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
 import 'package:pacapaca/models/dto/comment_dto.dart';
 import 'package:pacapaca/widgets/shared/interaction_button.dart';
+import 'package:logger/logger.dart';
+import 'package:get_it/get_it.dart';
 
 class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
@@ -19,8 +21,9 @@ class CommentItem extends ConsumerWidget {
   final Function(int, String) onUpdate;
   final Function(int)? onReply;
   final Function(int) onToggleLike;
+  final Logger logger = GetIt.instance<Logger>();
 
-  const CommentItem({
+  CommentItem({
     super.key,
     required this.comment,
     required this.isCurrentUser,
@@ -48,18 +51,21 @@ class CommentItem extends ConsumerWidget {
               color: backgroundColor,
               borderRadius: BorderRadius.circular(12),
             ),
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
               left: 12,
               right: 12,
-              bottom: 12,
+              bottom: comment.isDeleted ? 12 : 6,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildCommentHeader(context, ref),
                 _buildCommentContent(context),
-                const SizedBox(height: 20),
-                _buildActionButtons(context),
+                SizedBox(height: comment.isDeleted ? 10 : 16),
+                comment.isDeleted
+                    ? const SizedBox.shrink()
+                    : _buildActionButtons(context),
+                SizedBox(height: comment.isDeleted ? 0 : 4),
               ],
             ),
           ),
@@ -93,7 +99,9 @@ class CommentItem extends ConsumerWidget {
         const SizedBox(width: 8),
         _buildTimeago(context),
         const Spacer(),
-        _buildPopupMenu(context, ref),
+        comment.isDeleted
+            ? SizedBox(width: 48, height: 48)
+            : _buildPopupMenu(context, ref),
       ],
     );
   }
@@ -213,10 +221,12 @@ class CommentItem extends ConsumerWidget {
 
   Widget _buildCommentContent(BuildContext context) {
     return Text(
-      comment.content,
+      comment.isDeleted ? 'comment.deleted'.tr() : comment.content,
       style: TextStyle(
         fontSize: 16,
-        color: Theme.of(context).colorScheme.onSurface,
+        color: comment.isDeleted
+            ? Theme.of(context).colorScheme.onSurface.withAlpha(128)
+            : Theme.of(context).colorScheme.onSurface,
         height: 1.4,
       ),
     );
@@ -248,16 +258,21 @@ class CommentItem extends ConsumerWidget {
   PopupMenuItem _buildEditMenuItem(BuildContext context) {
     return PopupMenuItem(
       child: Text('comment.edit'.tr()),
-      onTap: () async {
-        final content = await showDialog<String>(
-          context: context,
-          builder: (context) => CommentEditDialog(
-            initialContent: comment.content,
-          ),
-        );
-        if (content != null) {
-          onUpdate(comment.id, content);
-        }
+      onTap: () {
+        // 팝업 메뉴가 닫힌 후에 대화상자를 표시하기 위해 지연 시간을 줍니다
+        Future.delayed(const Duration(milliseconds: 100), () async {
+          if (context.mounted) {
+            final content = await showDialog<String>(
+              context: context,
+              builder: (context) => CommentEditDialog(
+                initialContent: comment.content,
+              ),
+            );
+            if (content != null && context.mounted) {
+              onUpdate(comment.id, content);
+            }
+          }
+        });
       },
     );
   }
@@ -268,31 +283,36 @@ class CommentItem extends ConsumerWidget {
         'comment.delete'.tr(),
         style: TextStyle(color: Theme.of(context).colorScheme.error),
       ),
-      onTap: () async {
-        final confirmed = await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('comment.delete_comment'.tr()),
-            content: Text('comment.delete_confirm'.tr()),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: Text('comment.cancel'.tr()),
+      onTap: () {
+        // 팝업 메뉴가 닫힌 후에 대화상자를 표시하기 위해 지연 시간을 줍니다
+        Future.delayed(const Duration(milliseconds: 100), () async {
+          if (context.mounted) {
+            final confirmed = await showDialog<bool>(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text('comment.delete_comment'.tr()),
+                content: Text('comment.delete_confirm'.tr()),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    child: Text('comment.cancel'.tr()),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    child: Text(
+                      'comment.delete'.tr(),
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
+                ],
               ),
-              TextButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: Text(
-                  'comment.delete'.tr(),
-                  style: const TextStyle(color: Colors.red),
-                ),
-              ),
-            ],
-          ),
-        );
+            );
 
-        if (confirmed == true) {
-          onDelete(comment.id);
-        }
+            if (confirmed == true) {
+              onDelete(comment.id);
+            }
+          }
+        });
       },
     );
   }
@@ -300,16 +320,21 @@ class CommentItem extends ConsumerWidget {
   PopupMenuItem _buildSendCarrotMenuItem(BuildContext context, WidgetRef ref) {
     return PopupMenuItem(
       child: Text('carrot.send'.tr()),
-      onTap: () async {
-        await SendCarrotButton(
-          receiverId: comment.userId,
-          receiverName: comment.displayUser.nickname,
-          articleId: comment.articleId,
-          commentId: comment.id,
-          description: 'carrot.for_comment'.tr(
-            args: [comment.content],
-          ),
-        ).show(context, ref);
+      onTap: () {
+        // 팝업 메뉴가 닫힌 후에 대화상자를 표시하기 위해 지연 시간을 줍니다
+        Future.delayed(const Duration(milliseconds: 100), () async {
+          if (context.mounted) {
+            await SendCarrotButton(
+              receiverId: comment.userId,
+              receiverName: comment.displayUser.nickname,
+              articleId: comment.articleId,
+              commentId: comment.id,
+              description: 'carrot.for_comment'.tr(
+                args: [comment.content],
+              ),
+            ).show(context, ref);
+          }
+        });
       },
     );
   }
@@ -320,37 +345,43 @@ class CommentItem extends ConsumerWidget {
         'block.title'.tr(),
         style: TextStyle(color: Theme.of(context).colorScheme.error),
       ),
-      onTap: () async {
-        final confirmed = await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('block.title'.tr()),
-            content: Text('block.confirm'.tr()),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: Text('block.cancel'.tr()),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: Text(
-                  'block.submit'.tr(),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
+      onTap: () {
+        // 팝업 메뉴가 닫힌 후에 대화상자를 표시하기 위해 지연 시간을 줍니다
+        Future.delayed(const Duration(milliseconds: 100), () async {
+          if (context.mounted) {
+            final confirmed = await showDialog<bool>(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text('block.title'.tr()),
+                content: Text('block.confirm'.tr()),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    child: Text('block.cancel'.tr()),
                   ),
-                ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    child: Text(
+                      'block.submit'.tr(),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        );
+            );
 
-        if (confirmed == true) {
-          await ref.read(blocksProvider.notifier).blockUser(
-                userId: comment.userId,
-                reason: 'block.from_comment'.tr(args: [comment.id.toString()]),
-                commentId: comment.id,
-              );
-        }
+            if (confirmed == true) {
+              await ref.read(blocksProvider.notifier).blockUser(
+                    userId: comment.userId,
+                    reason:
+                        'block.from_comment'.tr(args: [comment.id.toString()]),
+                    commentId: comment.id,
+                  );
+            }
+          }
+        });
       },
     );
   }
@@ -361,64 +392,70 @@ class CommentItem extends ConsumerWidget {
         'report.title'.tr(),
         style: TextStyle(color: Theme.of(context).colorScheme.error),
       ),
-      onTap: () async {
-        final reason = await showDialog<String>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('report.title'.tr()),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('report.reason'.tr()),
-                const SizedBox(height: 16),
-                TextField(
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                    hintText: 'report.reason_hint'.tr(),
-                    border: const OutlineInputBorder(),
-                  ),
-                  onSubmitted: (value) => Navigator.pop(context, value),
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('report.cancel'.tr()),
-              ),
-              TextButton(
-                onPressed: () {
-                  final textField = context.findRenderObject() as RenderBox?;
-                  if (textField != null) {
-                    Navigator.pop(context, textField.toString());
-                  }
-                },
-                child: Text(
-                  'report.submit'.tr(),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-
-        if (reason != null && reason.isNotEmpty) {
-          await ref.read(userReportProvider.notifier).reportUser(
-                userId: comment.userId,
-                reason: reason,
-                commentId: comment.id,
-              );
+      onTap: () {
+        // 팝업 메뉴가 닫힌 후에 대화상자를 표시하기 위해 지연 시간을 줍니다
+        Future.delayed(const Duration(milliseconds: 100), () async {
           if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('report.submitted'.tr()),
-                behavior: SnackBarBehavior.floating,
+            final reason = await showDialog<String>(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text('report.title'.tr()),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('report.reason'.tr()),
+                    const SizedBox(height: 16),
+                    TextField(
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        hintText: 'report.reason_hint'.tr(),
+                        border: const OutlineInputBorder(),
+                      ),
+                      onSubmitted: (value) => Navigator.pop(context, value),
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('report.cancel'.tr()),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      final textField =
+                          context.findRenderObject() as RenderBox?;
+                      if (textField != null) {
+                        Navigator.pop(context, textField.toString());
+                      }
+                    },
+                    child: Text(
+                      'report.submit'.tr(),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
+
+            if (reason != null && reason.isNotEmpty) {
+              await ref.read(userReportProvider.notifier).reportUser(
+                    userId: comment.userId,
+                    reason: reason,
+                    commentId: comment.id,
+                  );
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('report.submitted'.tr()),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              }
+            }
           }
-        }
+        });
       },
     );
   }

@@ -15,7 +15,7 @@ _$ArticleCommentDTOImpl _$$ArticleCommentDTOImplFromJson(
       content: json['content'] as String,
       createTime: json['create_time'] as String,
       updateTime: json['update_time'] as String,
-      deleteTime: json['delete_time'] as String?,
+      isDeleted: json['is_deleted'] as bool,
       displayUser:
           DisplayUserDTO.fromJson(json['display_user'] as Map<String, dynamic>),
       parentId: (json['parent_id'] as num?)?.toInt(),
@@ -37,7 +37,7 @@ Map<String, dynamic> _$$ArticleCommentDTOImplToJson(
       'content': instance.content,
       'create_time': instance.createTime,
       'update_time': instance.updateTime,
-      'delete_time': instance.deleteTime,
+      'is_deleted': instance.isDeleted,
       'display_user': instance.displayUser,
       'parent_id': instance.parentId,
       'replies': instance.replies,

@@ -53,7 +53,7 @@ class CommentListWidget extends ConsumerWidget {
             ),
             if (comment.replies != null && comment.replies!.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.only(left: 16, top: 8),
+                padding: const EdgeInsets.only(left: 24, top: 4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -71,7 +71,7 @@ class CommentListWidget extends ConsumerWidget {
                         )),
                     if (comment.hasMore == true)
                       Padding(
-                        padding: const EdgeInsets.only(left: 32),
+                        padding: const EdgeInsets.only(left: 36),
                         child: TextButton(
                           onPressed: () => onLoadMoreReplies(comment.id),
                           child: Text(
