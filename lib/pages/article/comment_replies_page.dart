@@ -72,12 +72,18 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
         .loadMore(sortBy, widget.articleId, widget.commentId);
   }
 
-  void _toggleLike(String sortBy, int commentId) {
-    ref
+  void _toggleLike(String sortBy, int commentId) async {
+    final response = await ref
         .read(
             commentReplyListProvider(sortBy, widget.articleId, widget.commentId)
                 .notifier)
         .toggleLike(commentId);
+
+    if (response != null) {
+      ref
+          .read(commentListProvider(widget.articleId).notifier)
+          .updateToggleLike(commentId, response.isLiked, response.likeCount);
+    }
   }
 
   void _toggleParentCommentLike(int commentId) {
@@ -228,7 +234,9 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
               onDelete: (commentId) {
                 _deleteComment(sortBy, commentId);
               },
-              onUpdate: (commentId, _) => {},
+              onUpdate: (commentId, commentContent) => {
+                _updateParentComment(sortBy, commentId, commentContent),
+              },
               onReply: (commentId) {
                 FocusScope.of(context).requestFocus(_focusNode);
               },
@@ -365,8 +373,8 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
         onDelete: (commentId) {
           _deleteComment(sortBy, commentId);
         },
-        onUpdate: (commentId, _) => {
-          _updateComment(sortBy, commentId),
+        onUpdate: (commentId, commentContent) => {
+          _updateComment(sortBy, commentId, commentContent),
         },
         onReply: (commentId) {
           FocusScope.of(context).requestFocus(_focusNode);
@@ -376,11 +384,20 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
     );
   }
 
-  Future<void> _updateComment(String sortBy, int commentId) async {
+  Future<void> _updateComment(
+      String sortBy, int commentId, String commentContent) async {
+    _logger.i('updateComment: $sortBy, $commentId, $commentContent');
     await ref
         .read(
             commentReplyListProvider(sortBy, widget.articleId, widget.commentId)
                 .notifier)
-        .updateComment(widget.articleId, commentId, _commentController.text);
+        .updateComment(widget.articleId, commentId, commentContent);
+  }
+
+  Future<void> _updateParentComment(
+      String sortBy, int commentId, String commentContent) async {
+    await ref
+        .read(commentListProvider(widget.articleId).notifier)
+        .updateComment(widget.articleId, commentId, commentContent);
   }
 }

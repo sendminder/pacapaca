@@ -81,7 +81,20 @@ class CommentList extends _$CommentList {
       if (updatedComment != null) {
         final currentComments = state.value ?? [];
         final updatedComments = currentComments.map((comment) {
-          return comment.id == commentId ? updatedComment : comment;
+          // 메인 댓글 확인
+          if (comment.id == commentId) {
+            return comment.copyWith(content: updatedComment.content);
+          }
+
+          // 대댓글 확인
+          if (comment.replies != null && comment.replies!.isNotEmpty) {
+            final updatedReplies = comment.replies!.map((reply) {
+              return reply.id == commentId ? updatedComment : reply;
+            }).toList();
+            return comment.copyWith(replies: updatedReplies);
+          }
+
+          return comment;
         }).toList();
         state = AsyncData(updatedComments);
       }
@@ -165,6 +178,41 @@ class CommentList extends _$CommentList {
                 ? reply.copyWith(
                     likeCount: response.likeCount,
                     isLiked: response.isLiked,
+                  )
+                : reply;
+          }).toList();
+          return comment.copyWith(replies: updatedReplies);
+        }
+
+        return comment;
+      }).toList();
+
+      state = AsyncData(updatedComments);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+    }
+  }
+
+  Future<void> updateToggleLike(
+      int commentId, bool isLiked, int likeCount) async {
+    try {
+      final currentComments = state.value ?? [];
+      final updatedComments = currentComments.map((comment) {
+        // 메인 댓글 확인
+        if (comment.id == commentId) {
+          return comment.copyWith(
+            likeCount: likeCount,
+            isLiked: isLiked,
+          );
+        }
+
+        // 대댓글 확인
+        if (comment.replies != null && comment.replies!.isNotEmpty) {
+          final updatedReplies = comment.replies!.map((reply) {
+            return reply.id == commentId
+                ? reply.copyWith(
+                    likeCount: likeCount,
+                    isLiked: isLiked,
                   )
                 : reply;
           }).toList();

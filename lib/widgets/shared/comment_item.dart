@@ -269,6 +269,7 @@ class CommentItem extends ConsumerWidget {
               ),
             );
             if (content != null && context.mounted) {
+              logger.i('updateComment: ${comment.id}, $content');
               onUpdate(comment.id, content);
             }
           }

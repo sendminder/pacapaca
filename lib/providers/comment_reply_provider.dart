@@ -98,10 +98,10 @@ class CommentReplyList extends _$CommentReplyList {
     }
   }
 
-  Future<void> toggleLike(int commentId) async {
+  Future<ResponseLikeComment?> toggleLike(int commentId) async {
     try {
       final response = await _commentService.toggleLikeComment(commentId);
-      if (response == null) return;
+      if (response == null) return null;
 
       final currentReplies = state.value ?? [];
       final updatedReplies = currentReplies.map((reply) {
@@ -113,8 +113,10 @@ class CommentReplyList extends _$CommentReplyList {
             : reply;
       }).toList();
       state = AsyncData(updatedReplies);
+      return response;
     } catch (e, stack) {
       state = AsyncError(e, stack);
+      return null;
     }
   }
 
@@ -123,19 +125,23 @@ class CommentReplyList extends _$CommentReplyList {
     int commentId,
     String content,
   ) async {
-    final request = RequestUpdateComment(content: content);
-    final updatedComment = await _commentService.updateComment(
-      articleId,
-      commentId,
-      request,
-    );
+    try {
+      final request = RequestUpdateComment(content: content);
+      final updatedComment = await _commentService.updateComment(
+        articleId,
+        commentId,
+        request,
+      );
 
-    if (updatedComment == null) return;
+      if (updatedComment == null) return;
 
-    final currentReplies = state.value ?? [];
-    final updatedReplies = currentReplies.map((reply) {
-      return reply.id == commentId ? updatedComment : reply;
-    }).toList();
-    state = AsyncData(updatedReplies);
+      final currentReplies = state.value ?? [];
+      final updatedReplies = currentReplies.map((reply) {
+        return reply.id == commentId ? updatedComment : reply;
+      }).toList();
+      state = AsyncData(updatedReplies);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+    }
   }
 }
