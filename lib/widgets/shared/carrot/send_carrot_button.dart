@@ -43,10 +43,11 @@ class SendCarrotButton {
       );
 
       try {
-        final balance =
+        final res =
             await ref.read(carrotSenderProvider.notifier).sendCarrots(request);
 
-        if (balance != null && context.mounted) {
+        if (res != null && context.mounted) {
+          ref.read(carrotBalanceProvider.notifier).updateBalance(res.balance);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('carrot.send_success'.tr(args: [

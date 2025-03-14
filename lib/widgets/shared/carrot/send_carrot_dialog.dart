@@ -318,13 +318,6 @@ class _SendCarrotDialogState extends ConsumerState<SendCarrotDialog> {
             ElevatedButton(
               onPressed: _isValid
                   ? () {
-                      ref.read(carrotSenderProvider.notifier).sendCarrots(
-                            RequestSendCarrots(
-                              receiverId: widget.receiverId,
-                              amount: _carrotAmount,
-                            ),
-                          );
-                      ref.read(carrotBalanceProvider.notifier).refresh();
                       context.pop(_carrotAmount);
                     }
                   : null,

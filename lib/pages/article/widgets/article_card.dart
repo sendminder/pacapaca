@@ -259,6 +259,24 @@ class ArticleCard extends ConsumerWidget {
             defaultText: 'article.views'.tr(),
           ),
         ),
+
+        // 당근 받은 수 버튼
+        Expanded(
+          child: InteractionButton(
+            customIcon: displayArticle.carrotCount > 0
+                ? Image.asset(
+                    'assets/icon/carrot.png',
+                    width: 20,
+                    height: 20,
+                  )
+                : const SizedBox(width: 20, height: 20),
+            count: displayArticle.carrotCount,
+            size: 20,
+            textSize: 14,
+            defaultText: '',
+            showCount: displayArticle.carrotCount > 0,
+          ),
+        ),
       ],
     );
   }

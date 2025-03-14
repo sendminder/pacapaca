@@ -21,6 +21,7 @@ _$ArticleDTOImpl _$$ArticleDTOImplFromJson(Map<String, dynamic> json) =>
       likeCount: (json['like_count'] as num).toInt(),
       commentCount: (json['comment_count'] as num).toInt(),
       viewCount: (json['view_count'] as num).toInt(),
+      carrotCount: (json['carrot_count'] as num).toInt(),
       displayUser:
           DisplayUserDTO.fromJson(json['display_user'] as Map<String, dynamic>),
       isLiked: json['is_liked'] as bool,
@@ -41,6 +42,7 @@ Map<String, dynamic> _$$ArticleDTOImplToJson(_$ArticleDTOImpl instance) =>
       'like_count': instance.likeCount,
       'comment_count': instance.commentCount,
       'view_count': instance.viewCount,
+      'carrot_count': instance.carrotCount,
       'display_user': instance.displayUser,
       'is_liked': instance.isLiked,
     };

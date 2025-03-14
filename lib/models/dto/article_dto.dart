@@ -20,6 +20,7 @@ class ArticleDTO with _$ArticleDTO {
     @JsonKey(name: 'like_count') required int likeCount,
     @JsonKey(name: 'comment_count') required int commentCount,
     @JsonKey(name: 'view_count') required int viewCount,
+    @JsonKey(name: 'carrot_count') required int carrotCount,
 
     // 유저 정보
     @JsonKey(name: 'display_user') required DisplayUserDTO displayUser,

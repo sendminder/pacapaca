@@ -40,7 +40,9 @@ mixin _$ArticleDTO {
   @JsonKey(name: 'comment_count')
   int get commentCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'view_count')
-  int get viewCount => throw _privateConstructorUsedError; // 유저 정보
+  int get viewCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'carrot_count')
+  int get carrotCount => throw _privateConstructorUsedError; // 유저 정보
   @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser =>
       throw _privateConstructorUsedError; // 현재 유저가 좋아요를 눌렀는지 여부
@@ -77,6 +79,7 @@ abstract class $ArticleDTOCopyWith<$Res> {
       @JsonKey(name: 'like_count') int likeCount,
       @JsonKey(name: 'comment_count') int commentCount,
       @JsonKey(name: 'view_count') int viewCount,
+      @JsonKey(name: 'carrot_count') int carrotCount,
       @JsonKey(name: 'display_user') DisplayUserDTO displayUser,
       @JsonKey(name: 'is_liked') bool isLiked});
 
@@ -111,6 +114,7 @@ class _$ArticleDTOCopyWithImpl<$Res, $Val extends ArticleDTO>
     Object? likeCount = null,
     Object? commentCount = null,
     Object? viewCount = null,
+    Object? carrotCount = null,
     Object? displayUser = null,
     Object? isLiked = null,
   }) {
@@ -167,6 +171,10 @@ class _$ArticleDTOCopyWithImpl<$Res, $Val extends ArticleDTO>
           ? _value.viewCount
           : viewCount // ignore: cast_nullable_to_non_nullable
               as int,
+      carrotCount: null == carrotCount
+          ? _value.carrotCount
+          : carrotCount // ignore: cast_nullable_to_non_nullable
+              as int,
       displayUser: null == displayUser
           ? _value.displayUser
           : displayUser // ignore: cast_nullable_to_non_nullable
@@ -211,6 +219,7 @@ abstract class _$$ArticleDTOImplCopyWith<$Res>
       @JsonKey(name: 'like_count') int likeCount,
       @JsonKey(name: 'comment_count') int commentCount,
       @JsonKey(name: 'view_count') int viewCount,
+      @JsonKey(name: 'carrot_count') int carrotCount,
       @JsonKey(name: 'display_user') DisplayUserDTO displayUser,
       @JsonKey(name: 'is_liked') bool isLiked});
 
@@ -244,6 +253,7 @@ class __$$ArticleDTOImplCopyWithImpl<$Res>
     Object? likeCount = null,
     Object? commentCount = null,
     Object? viewCount = null,
+    Object? carrotCount = null,
     Object? displayUser = null,
     Object? isLiked = null,
   }) {
@@ -300,6 +310,10 @@ class __$$ArticleDTOImplCopyWithImpl<$Res>
           ? _value.viewCount
           : viewCount // ignore: cast_nullable_to_non_nullable
               as int,
+      carrotCount: null == carrotCount
+          ? _value.carrotCount
+          : carrotCount // ignore: cast_nullable_to_non_nullable
+              as int,
       displayUser: null == displayUser
           ? _value.displayUser
           : displayUser // ignore: cast_nullable_to_non_nullable
@@ -329,6 +343,7 @@ class _$ArticleDTOImpl implements _ArticleDTO {
       @JsonKey(name: 'like_count') required this.likeCount,
       @JsonKey(name: 'comment_count') required this.commentCount,
       @JsonKey(name: 'view_count') required this.viewCount,
+      @JsonKey(name: 'carrot_count') required this.carrotCount,
       @JsonKey(name: 'display_user') required this.displayUser,
       @JsonKey(name: 'is_liked') required this.isLiked})
       : _tags = tags;
@@ -378,6 +393,9 @@ class _$ArticleDTOImpl implements _ArticleDTO {
   @override
   @JsonKey(name: 'view_count')
   final int viewCount;
+  @override
+  @JsonKey(name: 'carrot_count')
+  final int carrotCount;
 // 유저 정보
   @override
   @JsonKey(name: 'display_user')
@@ -389,7 +407,7 @@ class _$ArticleDTOImpl implements _ArticleDTO {
 
   @override
   String toString() {
-    return 'ArticleDTO(id: $id, userId: $userId, title: $title, content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags, category: $category, createTime: $createTime, updateTime: $updateTime, likeCount: $likeCount, commentCount: $commentCount, viewCount: $viewCount, displayUser: $displayUser, isLiked: $isLiked)';
+    return 'ArticleDTO(id: $id, userId: $userId, title: $title, content: $content, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, tags: $tags, category: $category, createTime: $createTime, updateTime: $updateTime, likeCount: $likeCount, commentCount: $commentCount, viewCount: $viewCount, carrotCount: $carrotCount, displayUser: $displayUser, isLiked: $isLiked)';
   }
 
   @override
@@ -418,6 +436,8 @@ class _$ArticleDTOImpl implements _ArticleDTO {
                 other.commentCount == commentCount) &&
             (identical(other.viewCount, viewCount) ||
                 other.viewCount == viewCount) &&
+            (identical(other.carrotCount, carrotCount) ||
+                other.carrotCount == carrotCount) &&
             (identical(other.displayUser, displayUser) ||
                 other.displayUser == displayUser) &&
             (identical(other.isLiked, isLiked) || other.isLiked == isLiked));
@@ -440,6 +460,7 @@ class _$ArticleDTOImpl implements _ArticleDTO {
       likeCount,
       commentCount,
       viewCount,
+      carrotCount,
       displayUser,
       isLiked);
 
@@ -474,6 +495,7 @@ abstract class _ArticleDTO implements ArticleDTO {
       @JsonKey(name: 'like_count') required final int likeCount,
       @JsonKey(name: 'comment_count') required final int commentCount,
       @JsonKey(name: 'view_count') required final int viewCount,
+      @JsonKey(name: 'carrot_count') required final int carrotCount,
       @JsonKey(name: 'display_user') required final DisplayUserDTO displayUser,
       @JsonKey(name: 'is_liked')
       required final bool isLiked}) = _$ArticleDTOImpl;
@@ -514,7 +536,10 @@ abstract class _ArticleDTO implements ArticleDTO {
   int get commentCount;
   @override
   @JsonKey(name: 'view_count')
-  int get viewCount; // 유저 정보
+  int get viewCount;
+  @override
+  @JsonKey(name: 'carrot_count')
+  int get carrotCount; // 유저 정보
   @override
   @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser; // 현재 유저가 좋아요를 눌렀는지 여부

@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 
 class InteractionButton extends StatefulWidget {
-  final IconData icon;
+  final IconData? icon;
+  final Widget? customIcon;
   final int count;
   final Color? color;
   final VoidCallback? onTap;
   final int size;
   final String? defaultText;
   final int textSize;
+  final bool showCount;
+
   const InteractionButton({
     super.key,
-    required this.icon,
+    this.icon,
+    this.customIcon,
     required this.count,
     this.color,
     this.onTap,
     this.size = 20,
     this.defaultText = '0',
     this.textSize = 16,
-  });
+    this.showCount = true,
+  }) : assert(icon != null || customIcon != null,
+            'Either icon or customIcon must be provided');
 
   @override
   State<InteractionButton> createState() => _InteractionButtonState();
@@ -70,11 +76,12 @@ class _InteractionButtonState extends State<InteractionButton>
               builder: (context, child) {
                 return Transform.scale(
                   scale: _scaleAnimation.value,
-                  child: Icon(
-                    widget.icon,
-                    size: widget.size.toDouble(),
-                    color: widget.color ?? Colors.grey[600],
-                  ),
+                  child: widget.customIcon ??
+                      Icon(
+                        widget.icon,
+                        size: widget.size.toDouble(),
+                        color: widget.color ?? Colors.grey[600],
+                      ),
                 );
               },
             ),
@@ -83,7 +90,11 @@ class _InteractionButtonState extends State<InteractionButton>
           SizedBox(
             width: 40,
             child: Text(
-              widget.count == 0 ? widget.defaultText! : '${widget.count}',
+              !widget.showCount
+                  ? widget.defaultText!
+                  : (widget.count == 0
+                      ? widget.defaultText!
+                      : '${widget.count}'),
               style: TextStyle(
                 fontSize: widget.textSize.toDouble(),
                 color: widget.color ?? Colors.grey[600],

@@ -18,6 +18,10 @@ class CarrotBalance extends _$CarrotBalance {
   Future<void> refresh() async {
     ref.invalidateSelf();
   }
+
+  void updateBalance(int balance) {
+    state = AsyncData(balance);
+  }
 }
 
 // 당근 거래 내역 provider
