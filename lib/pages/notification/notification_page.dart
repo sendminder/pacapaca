@@ -48,6 +48,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
             icon: const Icon(Icons.check_circle_outline),
             onPressed: () {
               ref.read(notificationsProvider.notifier).markAllAsRead();
+              ref.read(unreadNotificationCountProvider.notifier).set(0);
             },
             tooltip: 'notification.mark_all_read'.tr(),
           ),
@@ -114,7 +115,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),
         child: const Icon(
-          Icons.delete,
+          Icons.delete_rounded,
           color: Colors.white,
         ),
       ),
@@ -139,12 +140,11 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: notification.isRead
-                ? null
-                : colorScheme.primary.withOpacity(0.05),
+            color:
+                notification.isRead ? null : colorScheme.primary.withAlpha(20),
             border: Border(
               bottom: BorderSide(
-                color: colorScheme.outline.withOpacity(0.1),
+                color: colorScheme.outline.withAlpha(10),
                 width: 1,
               ),
             ),
@@ -170,14 +170,14 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
                     Text(
                       notification.body,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: colorScheme.onSurface.withOpacity(0.7),
+                            color: colorScheme.onSurface.withAlpha(200),
                           ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       timeAgo,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurface.withOpacity(0.5),
+                            color: colorScheme.onSurface.withAlpha(128),
                           ),
                     ),
                   ],
@@ -209,15 +209,18 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
 
     switch (type) {
       case 'like':
-        iconWidget = const Icon(Icons.favorite, size: 20, color: Colors.red);
+        iconWidget =
+            const Icon(Icons.favorite_rounded, size: 20, color: Colors.red);
         iconColor = Colors.red;
         break;
       case 'comment':
-        iconWidget = const Icon(Icons.comment, size: 20, color: Colors.blue);
+        iconWidget =
+            const Icon(Icons.comment_rounded, size: 20, color: Colors.blue);
         iconColor = Colors.blue;
         break;
       case 'reply':
-        iconWidget = const Icon(Icons.reply, size: 20, color: Colors.green);
+        iconWidget =
+            const Icon(Icons.comment_rounded, size: 20, color: Colors.green);
         iconColor = Colors.green;
         break;
       case 'carrot':
@@ -247,7 +250,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: iconColor.withOpacity(0.1),
+        color: iconColor.withAlpha(30),
         shape: BoxShape.circle,
       ),
       child: iconWidget,
@@ -278,7 +281,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
           break;
         case 'carrot':
           // refId가 사용자 ID인 경우
-          if (notification.refId != null) {
+          if (notification.refId != null && notification.refId != 0) {
             context.push('/users/${notification.refId}');
           }
           break;

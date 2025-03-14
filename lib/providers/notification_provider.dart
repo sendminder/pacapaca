@@ -151,4 +151,8 @@ class UnreadNotificationCount extends _$UnreadNotificationCount {
   Future<void> addNotificationCount() async {
     state = state + 1;
   }
+
+  Future<void> set(int count) async {
+    state = count;
+  }
 }
