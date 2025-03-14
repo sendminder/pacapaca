@@ -66,7 +66,10 @@
         "ai_helper_hint": "어떤 주제의 고민이 있으신가요?",
         "like": "좋아요",
         "comments": "댓글",
-        "views": "조회수"
+        "views": "조회수",
+        "deleted_title": "삭제된 게시글",
+        "deleted": "삭제된 게시글입니다.",
+        "go_to_list": "게시글 목록으로 이동"
     },
     "category": {
         "all": "전체",

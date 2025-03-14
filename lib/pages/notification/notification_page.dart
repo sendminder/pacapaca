@@ -265,7 +265,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
         case 'comment':
           // refId가 게시글 ID인 경우
           if (notification.refId != null) {
-            context.push('/articles/${notification.refId}');
+            context.push('/articles/${notification.refId}?from=notification');
           }
           break;
         case 'reply':
@@ -275,7 +275,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
               notification.subId != null &&
               notification.thirdId != null) {
             context.push(
-              '/articles/${notification.refId}/comment/${notification.subId}/replies/${notification.thirdId}',
+              '/articles/${notification.refId}/comment/${notification.subId}/replies/${notification.thirdId}?from=notification',
             );
           }
           break;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/pages/auth/set_profile_type_page.dart';
+import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'providers/auth_provider.dart';
 import 'models/dto/user_dto.dart';
 // 페이지 임포트
@@ -36,6 +37,8 @@ import 'pages/article/user_posts_page.dart';
 import 'pages/article/liked_posts_page.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/providers/comment_provider.dart';
+import 'pages/article/deleted_article_page.dart';
+import 'package:pacapaca/services/article_service.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -61,6 +64,7 @@ class RouterNotifier extends ChangeNotifier {
   final Ref _ref;
   final logger = GetIt.instance<Logger>();
   AsyncValue<UserDTO?> _lastKnownState = const AsyncValue.loading();
+  final _articleService = GetIt.instance<ArticleService>();
 
   RouterNotifier(this._ref) {
     _ref.listen<AsyncValue<UserDTO?>>(
@@ -71,6 +75,37 @@ class RouterNotifier extends ChangeNotifier {
           _lastKnownState = current;
           notifyListeners();
         }
+      },
+    );
+  }
+
+  // 게시글 삭제 여부를 확인하는 함수
+  Widget _checkArticleExists({
+    required BuildContext context,
+    required int articleId,
+    required Widget Function() buildWidget,
+  }) {
+    return FutureBuilder(
+      future: _articleService.getArticle(articleId),
+      builder: (context, snapshot) {
+        // 에러가 발생한 경우 또는 게시글이 없는 경우
+        if (snapshot.connectionState != ConnectionState.waiting &&
+            (snapshot.hasError || snapshot.data == null)) {
+          return const DeletedArticlePage();
+        }
+
+        // 로딩 중이거나 게시글이 존재하는 경우 요청한 위젯 표시
+        final widget = buildWidget();
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Stack(
+            children: [
+              widget,
+            ],
+          );
+        }
+
+        return widget;
       },
     );
   }
@@ -197,6 +232,10 @@ class RouterNotifier extends ChangeNotifier {
           builder: (context, state) => const ArticleAiHelperPage(),
         ),
         GoRoute(
+          path: '/articles/deleted',
+          builder: (context, state) => const DeletedArticlePage(),
+        ),
+        GoRoute(
           path: '/settings',
           parentNavigatorKey: _rootNavigatorKey,
           builder: (context, state) => const SettingsPage(),
@@ -288,11 +327,15 @@ class RouterNotifier extends ChangeNotifier {
                           final container = ProviderScope.containerOf(context);
                           container.invalidate(articleProvider(id));
                           container.invalidate(commentListProvider(id));
+
+                          return _checkArticleExists(
+                            context: context,
+                            articleId: id,
+                            buildWidget: () => ArticleDetailPage(articleId: id),
+                          );
                         }
 
-                        return ArticleDetailPage(
-                          articleId: id,
-                        );
+                        return ArticleDetailPage(articleId: id);
                       },
                     ),
                     GoRoute(
@@ -300,7 +343,12 @@ class RouterNotifier extends ChangeNotifier {
                       parentNavigatorKey: _rootNavigatorKey,
                       builder: (context, state) {
                         final id = int.parse(state.pathParameters['id']!);
-                        return ArticleEditPage(articleId: id);
+
+                        return _checkArticleExists(
+                          context: context,
+                          articleId: id,
+                          buildWidget: () => ArticleEditPage(articleId: id),
+                        );
                       },
                     ),
                     GoRoute(
@@ -313,6 +361,24 @@ class RouterNotifier extends ChangeNotifier {
                             int.parse(state.pathParameters['parentId']!);
                         final articleUserId =
                             int.parse(state.pathParameters['articleUserId']!);
+
+                        final fromNotification =
+                            state.uri.queryParameters['from'] == 'notification';
+
+                        if (fromNotification) {
+                          return _checkArticleExists(
+                            context: context,
+                            articleId: articleId,
+                            buildWidget: () {
+                              return CommentRepliesPage(
+                                articleId: articleId,
+                                commentId: commentId,
+                                articleUserId: articleUserId,
+                              );
+                            },
+                          );
+                        }
+
                         return CommentRepliesPage(
                           articleId: articleId,
                           commentId: commentId,

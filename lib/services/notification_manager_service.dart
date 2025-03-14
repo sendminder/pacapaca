@@ -277,7 +277,7 @@ class NotificationManagerService {
 
           // 게시글 상세 페이지로 이동 (commentId를 쿼리 파라미터로 전달)
           final path =
-              '/articles/${refId}/comment/$commentId/replies/$articleUserId';
+              '/articles/${refId}/comment/$commentId/replies/$articleUserId?from=notification';
           _logger.d('답글 알림 탭: $path');
           router.push(path);
         }
