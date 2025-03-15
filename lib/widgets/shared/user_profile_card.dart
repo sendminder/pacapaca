@@ -239,7 +239,7 @@ class UserProfileCard extends ConsumerWidget {
             'user.create_time'.tr(),
             user.createTime != null
                 ? DateFormat('yyyy-MM-dd')
-                    .format(DateTime.parse(user.createTime!))
+                    .format(DateTime.parse(user.createTime!).toLocal())
                 : 'user.unknown'.tr(),
             Icons.calendar_today,
             null,
@@ -253,7 +253,7 @@ class UserProfileCard extends ConsumerWidget {
             'user.last_login'.tr(),
             user.lastLoginTime != null
                 ? DateFormat('yyyy-MM-dd')
-                    .format(DateTime.parse(user.lastLoginTime!))
+                    .format(DateTime.parse(user.lastLoginTime!).toLocal())
                 : 'user.unknown'.tr(),
             Icons.access_time,
             null,

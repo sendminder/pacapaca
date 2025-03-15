@@ -248,7 +248,9 @@
         "block_confirm": "Are you sure you want to block this user?",
         "cancel": "Cancel",
         "points": "Activity Points",
-        "carrots": "Owned Carrots"
+        "carrots": "Owned Carrots",
+        "activity": "Activity",
+        "user_posts": "User Posts"
     },
     "notification": {
         "title": "Notification",
