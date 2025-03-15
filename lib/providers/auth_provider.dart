@@ -89,6 +89,20 @@ class Auth extends _$Auth {
     }
   }
 
+  Future<UserDTO?> updateNotificationEnabled(bool enabled) async {
+    state = const AsyncLoading();
+    try {
+      final user = await _authService.updateMe(
+        RequestUpdateMe(notificationEnabled: enabled),
+      );
+      state = AsyncData(user);
+      return user;
+    } catch (e) {
+      state = AsyncError(e, StackTrace.current);
+      return null;
+    }
+  }
+
   Future<UserDTO?> signInWithEmail({
     required String email,
     required String password,

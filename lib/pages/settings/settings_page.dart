@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/services/notification_manager_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/widgets/page_title.dart';
+import 'package:pacapaca/providers/auth_provider.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -45,6 +46,9 @@ class SettingsPage extends ConsumerWidget {
                       ref
                           .read(notificationEnabledProvider.notifier)
                           .setNotificationEnabled(true);
+                      ref
+                          .read(authProvider.notifier)
+                          .updateNotificationEnabled(true);
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -84,6 +88,9 @@ class SettingsPage extends ConsumerWidget {
                   ref
                       .read(notificationEnabledProvider.notifier)
                       .setNotificationEnabled(false);
+                  ref
+                      .read(authProvider.notifier)
+                      .updateNotificationEnabled(false);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

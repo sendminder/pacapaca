@@ -6,7 +6,7 @@ part of 'carrot_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$carrotBalanceHash() => r'816846bd85ab3c27a89465e793af21e3843cf03f';
+String _$carrotBalanceHash() => r'4879cc16a9cb6677fe32a5e98b91a36c97a5b342';
 
 /// See also [CarrotBalance].
 @ProviderFor(CarrotBalance)
