@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
   static const String _accessTokenKey = 'access_token';
@@ -19,6 +20,7 @@ class StorageService {
   static const String _notificationEnabledKey = 'notification_enabled';
   static const String _notificationSetupCompletedKey =
       'notification_setup_completed';
+  static const String _firstRunKey = 'first_run_key';
 
   final logger = GetIt.instance<Logger>();
 
@@ -31,6 +33,22 @@ class StorageService {
       encryptedSharedPreferences: true,
     ),
   );
+
+  // 앱 설치 후 첫 실행 시 보안 저장소 데이터 초기화
+  Future<void> checkFirstRun() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final isFirstRun = prefs.getBool(_firstRunKey) ?? true;
+
+      if (isFirstRun) {
+        logger.d('앱 첫 실행 감지: 보안 저장소 데이터 초기화');
+        await _storage.deleteAll();
+        await prefs.setBool(_firstRunKey, false);
+      }
+    } catch (e, stackTrace) {
+      logger.e('첫 실행 확인 중 오류 발생', error: e, stackTrace: stackTrace);
+    }
+  }
 
   // 토큰 읽기
   Future<String?> get accessToken => _storage.read(key: _accessTokenKey);

@@ -25,6 +25,14 @@ class AuthService {
         (user) async {
           if (user == null) return null;
           try {
+            // 로컬 스토리지에 토큰이 있는지 확인
+            final token = await _storageService.accessToken;
+            if (token == null) {
+              // 토큰이 없으면 Firebase에서도 로그아웃
+              await _auth.signOut();
+              return null;
+            }
+
             // 서버에 저장된 현재 사용자 정보를 가져옴
             return await currentUser;
           } catch (e, stackTrace) {
@@ -44,6 +52,17 @@ class AuthService {
   */
   Future<UserDTO?> get currentUser async {
     try {
+      // Firebase 인증 상태 확인
+      final firebaseUser = _auth.currentUser;
+      if (firebaseUser == null) {
+        // Firebase 사용자가 없으면 로컬 데이터 삭제
+        await Future.wait([
+          _storageService.deleteTokens(),
+          _storageService.deleteUser(),
+        ]);
+        return null;
+      }
+
       // 0. 현재 저장된 유저 정보를 가져간다.
       final user = await _storageService.userData;
       if (user != null) return user;
@@ -170,27 +189,51 @@ class AuthService {
 
   Future<void> signOut() async {
     try {
+      // 1. Firebase에서 먼저 로그아웃 시도
+      try {
+        await _auth.signOut();
+      } catch (e) {
+        logger.e('Firebase sign out failed', error: e);
+      }
+
+      // 2. 서버에 로그아웃 요청 (토큰이 있는 경우)
       final token = await _storageService.accessToken;
-      if (token == null) return;
+      if (token != null) {
+        try {
+          await _dio.post(
+            '/v1/auth/logout',
+            options: Options(
+              headers: {
+                'Authorization': 'Bearer $token',
+              },
+            ),
+          );
+        } catch (e) {
+          logger.e('Server logout request failed', error: e);
+        }
+      } else {
+        logger.d('No access token found, skipping server logout');
+      }
 
-      final response = await _dio.post(
-        '/v1/auth/logout',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
+      // 3. 로컬 스토리지 데이터 삭제
+      try {
+        await _storageService.deleteTokens();
+        await _storageService.deleteUser();
+      } catch (e) {
+        logger.e('Failed to delete local storage data', error: e);
+      }
 
-      if (response.statusCode == 200) {
-        await Future.wait([
-          _storageService.deleteTokens(),
-          _storageService.deleteUser(),
-          _auth.signOut(),
-        ]);
+      // 4. 마지막으로 다시 한번 Firebase 로그아웃 시도 (이중 안전장치)
+      try {
+        if (_auth.currentUser != null) {
+          await _auth.signOut();
+        }
+      } catch (e) {
+        logger.e('Final Firebase sign out attempt failed', error: e);
       }
     } catch (e, stackTrace) {
-      logger.e('sign out', error: e, stackTrace: stackTrace);
+      logger.e('Complete logout process failed',
+          error: e, stackTrace: stackTrace);
       rethrow;
     }
   }

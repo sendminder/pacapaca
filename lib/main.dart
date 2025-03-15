@@ -33,6 +33,7 @@ import 'package:pacapaca/widgets/fcm_token_manager.dart';
 import 'package:pacapaca/services/notification_manager_service.dart';
 import 'package:pacapaca/services/product_service.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   // 앱 초기화
@@ -88,6 +89,9 @@ Future<void> _initializeSettings() async {
 
   // 서비스 로케이터 설정
   _setupServiceLocator();
+
+  // 인증 상태 확인 및 초기화
+  await _checkAuthState();
 
   // 다국어 지원 초기화
   await EasyLocalization.ensureInitialized();
@@ -153,3 +157,36 @@ void _setupServiceLocator() {
 
 // 전역 변수로 GlobalKey 추가
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+// 인증 상태 확인 및 초기화 함수 추가
+Future<void> _checkAuthState() async {
+  final logger = GetIt.instance<Logger>();
+  final storageService = GetIt.instance<StorageService>();
+  try {
+    // Firebase 인증 상태 확인
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+
+    // 로컬 스토리지의 토큰 확인
+    final accessToken = await storageService.accessToken;
+    final userData = await storageService.userData;
+
+    // 불일치 상태 확인 및 처리
+    if (firebaseUser != null && (accessToken == null || userData == null)) {
+      await FirebaseAuth.instance.signOut();
+    }
+
+    if (firebaseUser == null && (accessToken != null || userData != null)) {
+      await storageService.deleteTokens();
+      await storageService.deleteUser();
+    }
+  } catch (e) {
+    // 오류 발생 시 안전하게 로그아웃 처리
+    try {
+      await FirebaseAuth.instance.signOut();
+      await storageService.deleteTokens();
+      await storageService.deleteUser();
+    } catch (e) {
+      logger.e('Failed to force logout', error: e);
+    }
+  }
+}
