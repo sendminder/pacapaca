@@ -176,6 +176,7 @@
         "history_title": "당근 내역",
         "your_balance": "보유 당근: {}개",
         "send_success": "{}님에게 당근 {}개를 보냈어요",
+        "send_error": "당근을 보내는 중 오류가 발생했어요",
         "transaction": "당근 교환",
         "payment": "당근 결제",
         "reward": "당근 보상",
@@ -275,6 +276,12 @@
     },
     "point": {
         "history_title": "포인트 내역",
-        "no_histories": "포인트 내역이 없어요"
+        "no_histories": "포인트 내역이 없어요",
+        "article_created": "게시글 작성",
+        "comment_created": "댓글 작성",
+        "article_liked": "게시글 좋아요",
+        "comment_liked": "댓글 좋아요",
+        "daily_login": "출석 체크",
+        "send_carrot": "당근 보내기"
     }
 }

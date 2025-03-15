@@ -107,6 +107,16 @@ class ArticleSkeletonItem extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ],

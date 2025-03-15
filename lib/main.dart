@@ -17,6 +17,7 @@ import 'package:pacapaca/services/article_service.dart';
 import 'package:pacapaca/services/dio_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:pacapaca/messages/ko_messages.dart';
+import 'package:pacapaca/messages/en_messages.dart';
 import 'package:pacapaca/services/block_service.dart';
 import 'package:pacapaca/services/report_service.dart';
 import 'package:pacapaca/services/carrot_service.dart';
@@ -108,9 +109,11 @@ Future<void> setupTimeZone() async {
   String timeZoneName = await FlutterTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
 
-  // timeago 한국어 설정
+  // timeago 언어 설정 (메시지 등록)
   timeago.setLocaleMessages('ko', KoMessages());
-  timeago.setDefaultLocale('ko');
+  timeago.setLocaleMessages('en', EnMessages());
+
+  // 기본 언어는 MyApp에서 context.locale을 통해 설정됨
 }
 
 void _setupServiceLocator() {
@@ -147,3 +150,6 @@ void _setupServiceLocator() {
   getIt.registerLazySingleton(() => ProductService());
   getIt.registerLazySingleton(() => InAppPurchaseService());
 }
+
+// 전역 변수로 GlobalKey 추가
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

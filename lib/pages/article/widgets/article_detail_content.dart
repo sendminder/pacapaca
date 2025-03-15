@@ -122,7 +122,7 @@ class ArticleDetailContent extends ConsumerWidget {
               const SizedBox(height: 2),
               Text(
                 timeago.format(DateTime.parse(displayArticle.createTime),
-                    locale: 'ko'),
+                    locale: context.locale.countryCode),
                 style: textTheme.bodySmall?.copyWith(
                   color: colorScheme.onSurface.withAlpha(153),
                 ),
@@ -267,6 +267,23 @@ class ArticleDetailContent extends ConsumerWidget {
             size: 20,
             textSize: 14,
             defaultText: 'article.views'.tr(),
+          ),
+        ),
+
+        Expanded(
+          child: InteractionButton(
+            customIcon: displayArticle.carrotCount > 0
+                ? Image.asset(
+                    'assets/icon/carrot.png',
+                    width: 20,
+                    height: 20,
+                  )
+                : const SizedBox(width: 20, height: 20),
+            count: displayArticle.carrotCount,
+            size: 20,
+            textSize: 14,
+            defaultText: '',
+            showCount: displayArticle.carrotCount > 0,
           ),
         ),
       ],

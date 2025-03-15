@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:pacapaca/constants/theme.dart';
@@ -7,8 +8,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_dialog.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
+import 'package:pacapaca/providers/carrot_provider.dart';
+import 'package:pacapaca/models/dto/carrot_dto.dart';
+import 'package:pacapaca/providers/user_provider.dart';
 
-class UserProfileCard extends StatelessWidget {
+class UserProfileCard extends ConsumerWidget {
   final UserDTO user;
   final bool showStats;
   final bool showBadge;
@@ -27,7 +31,7 @@ class UserProfileCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -92,7 +96,7 @@ class UserProfileCard extends StatelessWidget {
                   ),
                 ),
                 if (!isCurrentUser) ...[
-                  _buildSendCarrotButton(context),
+                  _buildSendCarrotButton(context, ref),
                 ],
                 if (onRefresh != null) ...[
                   IconButton(
@@ -312,9 +316,9 @@ class UserProfileCard extends StatelessWidget {
     return digest.toString().substring(0, 8);
   }
 
-  Widget _buildSendCarrotButton(BuildContext context) {
+  Widget _buildSendCarrotButton(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => _showSendCarrotDialog(context),
+      onTap: () => _showSendCarrotDialog(context, ref),
       child: Container(
         padding: const EdgeInsets.all(8),
         child: Image.asset(
@@ -327,8 +331,8 @@ class UserProfileCard extends StatelessWidget {
   }
 
   // 당근 보내기 다이얼로그 표시
-  void _showSendCarrotDialog(BuildContext context) async {
-    final result = await showDialog<int>(
+  void _showSendCarrotDialog(BuildContext context, WidgetRef ref) async {
+    final amount = await showDialog<int>(
       context: context,
       builder: (context) => SendCarrotDialog(
         receiverId: user.displayUser.id,
@@ -337,21 +341,42 @@ class UserProfileCard extends StatelessWidget {
     );
 
     // 결과 처리 (당근 개수가 반환됨)
-    if (result != null && result > 0 && context.mounted) {
-      // 당근 보내기 성공 메시지
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'carrot.send_success'.tr(
-              args: [
-                user.displayUser.nickname,
-                result.toString(),
-              ],
+    if (amount != null && amount > 0 && context.mounted) {
+      try {
+        final res = await ref.read(carrotSenderProvider.notifier).sendCarrots(
+              RequestSendCarrots(
+                receiverId: user.displayUser.id,
+                amount: amount,
+              ),
+            );
+        if (res != null && context.mounted) {
+          ref.read(carrotBalanceProvider.notifier).updateBalance(res.balance);
+          ref
+              .read(userDetailProvider(user.displayUser.id).notifier)
+              .refreshUser();
+          // 당근 보내기 성공 메시지
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'carrot.send_success'.tr(
+                  args: [
+                    user.displayUser.nickname,
+                    amount.toString(),
+                  ],
+                ),
+              ),
+              backgroundColor: AppTheme.carrotColor,
             ),
+          );
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('carrot.send_error'.tr()),
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
-          backgroundColor: AppTheme.carrotColor,
-        ),
-      );
+        );
+      }
     }
   }
 }

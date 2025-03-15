@@ -131,7 +131,7 @@ class _PointHistoryPageState extends ConsumerState<PointHistoryPage> {
               children: [
                 Expanded(
                   child: Text(
-                    history.description ?? 'point.history'.tr(),
+                    'point.${history.description}'.tr(),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w500,
                         ),
@@ -145,7 +145,7 @@ class _PointHistoryPageState extends ConsumerState<PointHistoryPage> {
                         color: Theme.of(context)
                             .colorScheme
                             .onSurface
-                            .withOpacity(0.6),
+                            .withAlpha(128),
                       ),
                 ),
               ],

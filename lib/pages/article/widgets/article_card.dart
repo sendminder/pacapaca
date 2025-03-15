@@ -116,7 +116,7 @@ class ArticleCard extends ConsumerWidget {
               const SizedBox(height: 2),
               Text(
                 timeago.format(DateTime.parse(displayArticle.createTime),
-                    locale: 'ko'),
+                    locale: context.locale.countryCode),
                 style: textTheme.bodySmall?.copyWith(
                   color: colorScheme.onSurface.withAlpha(150),
                 ),

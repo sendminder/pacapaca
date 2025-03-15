@@ -7,6 +7,7 @@ import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:pacapaca/widgets/shared/user_profile_card.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/widgets/shared/user_activity_section.dart';
+import 'package:pacapaca/providers/auth_provider.dart';
 
 class UserDetailPage extends ConsumerWidget {
   final int userId;
@@ -21,6 +22,7 @@ class UserDetailPage extends ConsumerWidget {
     final userDetail = ref.watch(userDetailProvider(userId));
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final currentUser = ref.read(authProvider).value;
 
     return Scaffold(
       appBar: PageTitle(
@@ -50,7 +52,7 @@ class UserDetailPage extends ConsumerWidget {
             );
           }
 
-          return _buildUserDetailContent(context, ref, user);
+          return _buildUserDetailContent(context, ref, user, currentUser);
         },
         loading: () => const Center(child: RotatingPacaLoader()),
         error: (error, stack) => Center(
@@ -64,7 +66,7 @@ class UserDetailPage extends ConsumerWidget {
   }
 
   Widget _buildUserDetailContent(
-      BuildContext context, WidgetRef ref, UserDTO user) {
+      BuildContext context, WidgetRef ref, UserDTO user, UserDTO? currentUser) {
     final divider = Divider(
       height: 1,
       color: Theme.of(context).colorScheme.onSurface.withAlpha(15),
@@ -75,7 +77,7 @@ class UserDetailPage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 프로필 정보 카드
-          _buildProfileCard(context, user),
+          _buildProfileCard(context, user, currentUser),
           const SizedBox(height: 16),
           divider,
           const SizedBox(height: 16),
@@ -86,11 +88,13 @@ class UserDetailPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildProfileCard(BuildContext context, UserDTO user) {
+  Widget _buildProfileCard(
+      BuildContext context, UserDTO user, UserDTO? currentUser) {
     return UserProfileCard(
       user: user,
       showStats: true,
       showBadge: true,
+      isCurrentUser: currentUser?.id == user.id,
     );
   }
 }

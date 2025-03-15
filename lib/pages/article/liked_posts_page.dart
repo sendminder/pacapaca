@@ -79,7 +79,7 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
             },
             child: ListView.builder(
               controller: _scrollController,
-              padding: const EdgeInsets.only(top: 8),
+              padding: const EdgeInsets.only(top: 8, bottom: 60),
               itemCount: articles.length,
               itemBuilder: (context, index) =>
                   _buildArticleCard(articles[index]),
