@@ -56,6 +56,7 @@
         "empty_category_description": "There are no articles in the {} category yet. Be the first to write one!",
         "sort": {
             "latest": "Latest",
+            "oldest": "Oldest",
             "views": "Views"
         },
         "like": "Like",
@@ -112,7 +113,12 @@
         "dark": "Dark",
         "logout_confirm": "Are you sure you want to logout?",
         "cancel": "Cancel",
-        "blocked_users": "Blocked Users"
+        "blocked_users": "Blocked Users",
+        "empty": "No notifications",
+        "notifications_enabled": "Notifications enabled",
+        "notifications_disabled": "Notifications disabled",
+        "notifications_permission_denied": "Notifications permission denied",
+        "notifications_error": "Failed to set notifications"
     },
     "report": {
         "title": "Report User",

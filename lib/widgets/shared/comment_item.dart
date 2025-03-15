@@ -11,6 +11,7 @@ import 'package:pacapaca/models/dto/comment_dto.dart';
 import 'package:pacapaca/widgets/shared/interaction_button.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pacapaca/constants/admin_user_ids.dart';
 
 class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
@@ -236,8 +237,17 @@ class CommentItem extends ConsumerWidget {
     return PopupMenuButton(
       itemBuilder: (context) => isCurrentUser
           ? _buildOwnerMenuItems(context)
-          : _buildUserMenuItems(context, ref),
+          : AdminUserIds.isAdminUserId(comment.userId)
+              ? _buildAdminMenuItems(context, ref)
+              : _buildUserMenuItems(context, ref),
     );
+  }
+
+  List<PopupMenuItem> _buildAdminMenuItems(
+      BuildContext context, WidgetRef ref) {
+    return [
+      _buildSendCarrotMenuItem(context, ref),
+    ];
   }
 
   List<PopupMenuItem> _buildOwnerMenuItems(BuildContext context) {

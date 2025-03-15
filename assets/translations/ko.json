@@ -113,7 +113,7 @@
         "title": "설정",
         "profile": "프로필 설정",
         "notifications": "알림 설정",
-        "language": "언어 설정",
+        "language": "Language",
         "theme": "테마 설정",
         "logout": "로그아웃",
         "system": "시스템",
@@ -272,7 +272,11 @@
         "permission_description": "파카파카에서 활동에 대한 알림을 받아보세요. \n새로운 댓글, 좋아요, 당근 등 알림을 받을 수 있어요.",
         "enable": "알림 받기",
         "skip": "알림 받지 않기",
-        "empty": "받은 알림이 없어요"
+        "empty": "받은 알림이 없어요",
+        "notifications_enabled": "알림이 활성화되었어요",
+        "notifications_disabled": "알림이 비활성화되었어요",
+        "notifications_permission_denied": "알림 권한이 거절되었어요",
+        "notifications_error": "알림 설정 중 오류가 발생했어요"
     },
     "point": {
         "history_title": "포인트 내역",

@@ -8,6 +8,7 @@ import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/providers/report_provider.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
+import 'package:pacapaca/constants/admin_user_ids.dart';
 
 class ArticleActionMenu extends ConsumerWidget {
   final ArticleDTO article;
@@ -33,11 +34,12 @@ class ArticleActionMenu extends ConsumerWidget {
             ),
             onPressed: () => _sendCarrot(context, ref),
           ),
-        PopupMenuButton(
-          itemBuilder: (context) => article.userId == currentUser?.id
-              ? _buildOwnerMenu(context, ref)
-              : _buildVisitorMenu(context, ref),
-        ),
+        if (!AdminUserIds.isAdminUserId(article.userId))
+          PopupMenuButton(
+            itemBuilder: (context) => article.userId == currentUser?.id
+                ? _buildOwnerMenu(context, ref)
+                : _buildVisitorMenu(context, ref),
+          ),
       ],
     );
   }
