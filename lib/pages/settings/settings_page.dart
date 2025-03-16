@@ -7,6 +7,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/services/notification_manager_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/widgets/page_title.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:pacapaca/constants/link.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -17,6 +19,10 @@ class SettingsPage extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     final notificationEnabled = ref.watch(notificationEnabledProvider);
     final notificationManager = GetIt.instance<NotificationManagerService>();
+    final divider = Divider(
+      color: Theme.of(context).colorScheme.onSurface.withAlpha(15),
+      height: 1,
+    );
 
     return Scaffold(
       appBar: PageTitle(
@@ -149,6 +155,22 @@ class SettingsPage extends ConsumerWidget {
               },
             ),
           ),
+          divider,
+          ListTile(
+            leading: const Icon(Icons.person_outline_rounded),
+            title: Text('settings.personal_info'.tr()),
+            onTap: () {
+              launchUrl(Uri.parse(PacapacaLink.personalInfoLink));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.info_outline_rounded),
+            title: Text('settings.terms_of_service'.tr()),
+            onTap: () {
+              launchUrl(Uri.parse(PacapacaLink.termsOfServiceLink));
+            },
+          ),
+          divider,
           ListTile(
             leading: const Icon(Icons.block),
             title: Text('settings.blocked_users'.tr()),
@@ -156,7 +178,6 @@ class SettingsPage extends ConsumerWidget {
               context.push('/settings/blocked-users');
             },
           ),
-          const Divider(),
           ListTile(
             leading: Icon(
               Icons.logout,

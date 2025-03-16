@@ -136,8 +136,7 @@ class StorageService {
 
   // 테마 가져오기
   Future<ThemeMode?> get theme async {
-    final themeStr = _prefs.getString(_themeKey);
-    if (themeStr == null) return null;
+    final themeStr = _prefs.getString(_themeKey) ?? 'system';
     return ThemeMode.values.firstWhere((e) => e.toString() == themeStr,
         orElse: () => ThemeMode.system);
   }
@@ -149,8 +148,7 @@ class StorageService {
 
   // 언어 가져오기
   Future<Locale?> get locale async {
-    final localeStr = _prefs.getString(_localeKey);
-    if (localeStr == null) return null;
+    final localeStr = _prefs.getString(_localeKey) ?? 'ko';
     return Locale(localeStr);
   }
 
@@ -161,7 +159,7 @@ class StorageService {
 
   // 댓글 정렬 가져오기
   Future<String?> get commentSort async {
-    return _prefs.getString(_commentSortKey);
+    return _prefs.getString(_commentSortKey) ?? 'ordest';
   }
 
   // 게시글 정렬 저장
@@ -171,7 +169,7 @@ class StorageService {
 
   // 게시글 정렬 가져오기
   Future<String?> get articleSort async {
-    return _prefs.getString(_articleSortKey);
+    return _prefs.getString(_articleSortKey) ?? 'latest';
   }
 
   // 게시글 카테고리 저장
@@ -181,8 +179,7 @@ class StorageService {
 
   // 게시글 카테고리 가져오기
   Future<ArticleCategory?> get articleCategory async {
-    final categoryStr = _prefs.getString(_articleCategoryKey);
-    if (categoryStr == null) return null;
+    final categoryStr = _prefs.getString(_articleCategoryKey) ?? 'daily';
     return ArticleCategory.values.firstWhere(
       (e) => e.toString() == categoryStr,
       orElse: () => ArticleCategory.daily,
@@ -196,49 +193,24 @@ class StorageService {
 
   // 최근 검색어 가져오기
   Future<List<String>> getRecentSearches() async {
-    final searchesStr = _prefs.getString(_recentSearchesKey);
-    if (searchesStr == null) return [];
+    final searchesStr = _prefs.getString(_recentSearchesKey) ?? '[]';
     return List<String>.from(jsonDecode(searchesStr));
   }
 
   // 알림 설정 관련 메서드
   Future<bool?> get notificationEnabled async {
-    try {
-      if (_prefs.containsKey(_notificationEnabledKey)) {
-        return _prefs.getBool(_notificationEnabledKey);
-      }
-      return false;
-    } catch (e) {
-      print('알림 설정 읽기 중 오류 발생: $e');
-      return false;
-    }
+    return _prefs.getBool(_notificationEnabledKey) ?? false;
   }
 
   Future<void> saveNotificationEnabled(bool enabled) async {
-    try {
-      await _prefs.setBool(_notificationEnabledKey, enabled);
-    } catch (e) {
-      print('알림 설정 저장 중 오류 발생: $e');
-    }
+    await _prefs.setBool(_notificationEnabledKey, enabled);
   }
 
   Future<bool?> get notificationSetupCompleted async {
-    try {
-      if (_prefs.containsKey(_notificationSetupCompletedKey)) {
-        return _prefs.getBool(_notificationSetupCompletedKey);
-      }
-      return false;
-    } catch (e) {
-      print('알림 설정 완료 상태 읽기 중 오류 발생: $e');
-      return false;
-    }
+    return _prefs.getBool(_notificationSetupCompletedKey) ?? false;
   }
 
   Future<void> saveNotificationSetupCompleted(bool completed) async {
-    try {
-      await _prefs.setBool(_notificationSetupCompletedKey, completed);
-    } catch (e) {
-      print('알림 설정 완료 상태 저장 중 오류 발생: $e');
-    }
+    await _prefs.setBool(_notificationSetupCompletedKey, completed);
   }
 }

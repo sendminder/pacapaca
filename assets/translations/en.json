@@ -1,5 +1,6 @@
 {
     "app_name": "PacaPaca",
+    "app_description": "A warm community",
     "nav": {
         "home": "Home",
         "articles": "Articles",
@@ -99,7 +100,10 @@
         "invalid_email": "Please enter a valid email",
         "password_required": "Password is required",
         "password_too_short": "Password must be at least 6 characters",
-        "no_account_sign_up": "Don't have an account? Sign up"
+        "no_account_sign_up": "Don't have an account? Sign up",
+        "check_agreement_prefix": "By logging in, you agree to the ",
+        "check_agreement_suffix": ".",
+        "check_agreement_link_suffix": " and "
     },
     "settings": {
         "title": "Settings",
@@ -118,7 +122,9 @@
         "notifications_enabled": "Notifications enabled",
         "notifications_disabled": "Notifications disabled",
         "notifications_permission_denied": "Notifications permission denied",
-        "notifications_error": "Failed to set notifications"
+        "notifications_error": "Failed to set notifications",
+        "personal_info": "Personal Information Processing Policy",
+        "terms_of_service": "Terms of Service"
     },
     "report": {
         "title": "Report User",
