@@ -109,10 +109,12 @@ class StorageService {
 
   // 토큰 삭제
   Future<void> deleteTokens() async {
-    await Future.wait([
-      _secureStorage.delete(key: _accessTokenKey),
-      _secureStorage.delete(key: _refreshTokenKey),
-    ]);
+    if (await _secureStorage.containsKey(key: _accessTokenKey)) {
+      await _secureStorage.delete(key: _accessTokenKey);
+    }
+    if (await _secureStorage.containsKey(key: _refreshTokenKey)) {
+      await _secureStorage.delete(key: _refreshTokenKey);
+    }
   }
 
   // 저장된 사용자 정보 가져오기
@@ -124,7 +126,9 @@ class StorageService {
 
   // 사용자 정보 삭제
   Future<void> deleteUser() async {
-    await _secureStorage.delete(key: _userKey);
+    if (await _secureStorage.containsKey(key: _userKey)) {
+      await _secureStorage.delete(key: _userKey);
+    }
   }
 
   // ==================== 일반 환경설정 관련 메서드 (SharedPreferences 사용) ====================

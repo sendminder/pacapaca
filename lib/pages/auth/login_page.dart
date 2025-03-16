@@ -15,7 +15,7 @@ class LoginPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final textStyle = theme.textTheme.bodyMedium?.copyWith(
-      color: theme.colorScheme.onSurface.withAlpha(150),
+      color: Colors.black.withAlpha(200),
       fontSize: 11.sp,
     );
 
@@ -42,7 +42,7 @@ class LoginPage extends ConsumerWidget {
                       Text(
                         'app_name'.tr(),
                         style: theme.textTheme.headlineLarge?.copyWith(
-                          color: theme.colorScheme.onSurface,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 50.sp,
                         ),
@@ -51,7 +51,7 @@ class LoginPage extends ConsumerWidget {
                       Text(
                         'app_description'.tr(),
                         style: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onSurface,
+                          color: Colors.black,
                           fontSize: 24.sp,
                         ),
                       ),
