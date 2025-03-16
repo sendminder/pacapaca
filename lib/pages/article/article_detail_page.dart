@@ -206,10 +206,9 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                     ? PopupMenuButton<String>(
                         child: Row(
                           children: [
-                            if (commentSort == 'latest')
-                              Text('article.sort.latest'.tr()),
-                            if (commentSort == 'oldest')
-                              Text('article.sort.oldest'.tr()),
+                            Text(commentSort == 'latest'
+                                ? 'article.sort.latest'.tr()
+                                : 'article.sort.oldest'.tr()),
                             const Icon(Icons.arrow_drop_down),
                           ],
                         ),

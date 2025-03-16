@@ -125,8 +125,8 @@
         "logout_confirm": "정말 로그아웃 하시겠어요?",
         "cancel": "취소",
         "blocked_users": "차단한 사용자",
-        "notification_disabled": "이제 알림을 받지 않아요",
-        "notification_enabled": "이제 알림을 받아요",
+        "notifications_disabled": "이제 알림을 받지 않아요",
+        "notifications_enabled": "이제 알림을 받아요",
         "personal_info": "개인정보 처리 방침",
         "terms_of_service": "이용약관"
     },

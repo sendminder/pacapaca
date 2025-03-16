@@ -290,8 +290,9 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
     return PopupMenuButton<String>(
       child: Row(
         children: [
-          if (sortBy == 'latest') Text('article.sort.latest'.tr()),
-          if (sortBy == 'oldest') Text('article.sort.oldest'.tr()),
+          Text(sortBy == 'latest'
+              ? 'article.sort.latest'.tr()
+              : 'article.sort.oldest'.tr()),
           const Icon(Icons.arrow_drop_down),
         ],
       ),
