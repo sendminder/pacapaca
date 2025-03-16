@@ -35,6 +35,16 @@ class ArticleCache extends _$ArticleCache {
     state = newState;
   }
 
+  Future<void> refresh(int articleId) async {
+    final article = state[articleId];
+    if (article == null) return;
+
+    final updatedArticle = await _articleService.getArticle(articleId);
+    if (updatedArticle != null) {
+      state = Map<int, ArticleDTO>.from(state)..[articleId] = updatedArticle;
+    }
+  }
+
   // 좋아요 토글 (낙관적 UI 업데이트 + 서버 요청)
   Future<void> toggleLike(int articleId) async {
     final article = state[articleId];

@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/services/notification_service.dart';
 import 'package:pacapaca/services/storage_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -136,6 +137,12 @@ class NotificationManagerService {
 
       // 알림 타입이 댓글 관련이면 게시글 정보 업데이트
       _updateArticleIfNeeded(message);
+
+      // 알림 타입이 당근 관련이면 당근 잔액 업데이트
+      _updateCarrotIfNeeded(message);
+
+      // 알림 좋아요 관련이면 좋아요 카운트 업데이트
+      _updateLikeIfNeeded(message);
 
       // 기존 콜백 호출
       onMessageReceived(message);
@@ -400,6 +407,31 @@ class NotificationManagerService {
           .addNotificationCount();
     } catch (e) {
       _logger.e('게시글 업데이트 오류', error: e);
+    }
+  }
+
+  void _updateCarrotIfNeeded(RemoteMessage message) {
+    try {
+      final data = message.data;
+      final type = data['type'];
+      if (type == 'carrot') {
+        _container.read(carrotBalanceProvider.notifier).refresh();
+      }
+    } catch (e) {
+      _logger.e('당근 업데이트 오류', error: e);
+    }
+  }
+
+  void _updateLikeIfNeeded(RemoteMessage message) {
+    try {
+      final data = message.data;
+      final type = data['type'];
+      final refId = int.tryParse(data['ref_id']?.toString() ?? '') ?? 0;
+      if (type == 'like') {
+        _container.read(articleCacheProvider.notifier).refresh(refId);
+      }
+    } catch (e) {
+      _logger.e('좋아요 업데이트 오류', error: e);
     }
   }
 }
