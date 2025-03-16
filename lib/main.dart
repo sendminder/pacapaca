@@ -34,6 +34,7 @@ import 'package:pacapaca/services/notification_manager_service.dart';
 import 'package:pacapaca/services/product_service.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   // 앱 초기화
@@ -88,7 +89,11 @@ Future<void> _initializeSettings() async {
   );
 
   // 서비스 로케이터 설정
-  _setupServiceLocator();
+  await _setupServiceLocator();
+
+  // 스토리지 서비스 초기화
+  final storageService = GetIt.instance<StorageService>();
+  await storageService.checkFirstRun();
 
   // 인증 상태 확인 및 초기화
   await _checkAuthState();
@@ -105,7 +110,12 @@ Future<void> _initializeSettings() async {
       NotificationManagerService());
 
   // 알림 관리자 초기화
-  await GetIt.instance<NotificationManagerService>().initialize();
+  try {
+    await GetIt.instance<NotificationManagerService>().initialize();
+  } catch (e) {
+    print('알림 관리자 초기화 중 오류 발생: $e');
+    // 오류가 발생해도 앱 실행은 계속 진행
+  }
 }
 
 Future<void> setupTimeZone() async {
@@ -120,7 +130,7 @@ Future<void> setupTimeZone() async {
   // 기본 언어는 MyApp에서 context.locale을 통해 설정됨
 }
 
-void _setupServiceLocator() {
+Future<void> _setupServiceLocator() async {
   final getIt = GetIt.instance;
 
   // 로거 등록
@@ -135,6 +145,10 @@ void _setupServiceLocator() {
       ),
     ),
   );
+
+  // SharedPreferences 인스턴스 등록
+  final prefs = await SharedPreferences.getInstance();
+  getIt.registerSingleton<SharedPreferences>(prefs);
 
   // 핵심 서비스는 즉시 초기화
   getIt.registerSingleton<StorageService>(StorageService());

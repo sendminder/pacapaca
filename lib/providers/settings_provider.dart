@@ -200,18 +200,34 @@ class NotificationSetupCompletedNotifier extends StateNotifier<bool> {
   }
 
   Future<void> _loadNotificationSetupCompleted() async {
-    final completed = await _storage.notificationSetupCompleted;
-    state = completed ?? false;
+    try {
+      final completed = await _storage.notificationSetupCompleted;
+      state = completed ?? false;
+    } catch (e) {
+      print('알림 설정 완료 상태 로드 중 오류 발생: $e');
+      state = false; // 오류 발생 시 기본값으로 false 설정
+    }
   }
 
   Future<bool> loadAndGetNotificationSetupCompleted() async {
-    final completed = await _storage.notificationSetupCompleted;
-    state = completed ?? false;
-    return state;
+    try {
+      final completed = await _storage.notificationSetupCompleted;
+      state = completed ?? false;
+      return state;
+    } catch (e) {
+      print('알림 설정 완료 상태 로드 및 가져오기 중 오류 발생: $e');
+      state = false; // 오류 발생 시 기본값으로 false 설정
+      return false;
+    }
   }
 
   Future<void> setNotificationSetupCompleted(bool completed) async {
-    await _storage.saveNotificationSetupCompleted(completed);
-    state = completed;
+    try {
+      await _storage.saveNotificationSetupCompleted(completed);
+      state = completed;
+    } catch (e) {
+      print('알림 설정 완료 상태 설정 중 오류 발생: $e');
+      state = false; // 오류 발생 시 기본값으로 false 설정
+    }
   }
 }

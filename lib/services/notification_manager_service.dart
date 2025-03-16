@@ -37,8 +37,14 @@ class NotificationManagerService {
 
   // 알림 설정 상태 가져오기
   Future<bool> isNotificationEnabled() async {
-    final enabled = await _storageService.notificationEnabled;
-    return enabled ?? false;
+    try {
+      final enabled = await _storageService.notificationEnabled;
+      return enabled ?? false;
+    } catch (e) {
+      // 권한 관련 예외 발생 시 기본값으로 false 반환
+      print('알림 권한 확인 중 오류 발생: $e');
+      return false;
+    }
   }
 
   // 알림 설정 상태 저장
@@ -48,13 +54,23 @@ class NotificationManagerService {
 
   // 알림 설정 완료 상태 가져오기
   Future<bool> isNotificationSetupCompleted() async {
-    final completed = await _storageService.notificationSetupCompleted;
-    return completed ?? false;
+    try {
+      final completed = await _storageService.notificationSetupCompleted;
+      return completed ?? false;
+    } catch (e) {
+      _logger.e('알림 설정 완료 상태 확인 중 오류 발생', error: e);
+      return false; // 오류 발생 시 기본값으로 false 반환
+    }
   }
 
   // 알림 설정 완료 상태 저장
   Future<void> setNotificationSetupCompleted(bool completed) async {
-    await _storageService.saveNotificationSetupCompleted(completed);
+    try {
+      await _storageService.saveNotificationSetupCompleted(completed);
+    } catch (e) {
+      _logger.e('알림 설정 완료 상태 저장 중 오류 발생', error: e);
+      // 오류가 발생해도 앱 실행은 계속 진행
+    }
   }
 
   // 알림 권한 요청 및 토큰 등록
@@ -133,31 +149,40 @@ class NotificationManagerService {
 
   // 앱 시작 시 초기화
   Future<void> initialize() async {
-    final isEnabled = await isNotificationEnabled();
-    if (isEnabled) {
-      setupTokenRefreshListener();
+    try {
+      final isEnabled = await isNotificationEnabled();
+      if (isEnabled) {
+        setupTokenRefreshListener();
 
-      // 현재 토큰 확인 및 등록
-      final token = await _firebaseMessaging.getToken();
-      if (token != null) {
-        _logger.i('현재 FCM 토큰: $token');
-        await _notificationService.registerFCMToken(token);
+        // 현재 토큰 확인 및 등록
+        final token = await _firebaseMessaging.getToken();
+        if (token != null) {
+          _logger.i('현재 FCM 토큰: $token');
+          await _notificationService.registerFCMToken(token);
+        }
+
+        // 로컬 알림 초기화
+        await _initializeLocalNotifications();
+
+        // 앱이 종료된 상태에서 알림을 클릭하여 열린 경우 처리
+        await _handleInitialMessage();
+
+        // 백그라운드 메시지 핸들러 설정
+        FirebaseMessaging.onMessageOpenedApp.listen(_handleBackgroundMessage);
       }
 
-      // 로컬 알림 초기화
-      await _initializeLocalNotifications();
-
-      // 앱이 종료된 상태에서 알림을 클릭하여 열린 경우 처리
-      await _handleInitialMessage();
-
-      // 백그라운드 메시지 핸들러 설정
-      FirebaseMessaging.onMessageOpenedApp.listen(_handleBackgroundMessage);
-    }
-
-    // 알림 설정 완료 상태 확인
-    final isSetupCompleted = await isNotificationSetupCompleted();
-    if (!isSetupCompleted) {
-      _logger.i('알림 설정이 완료되지 않았습니다. 알림 설정 페이지로 이동합니다.');
+      // 알림 설정 완료 상태 확인
+      try {
+        final isSetupCompleted = await isNotificationSetupCompleted();
+        if (!isSetupCompleted) {
+          _logger.i('알림 설정이 완료되지 않았습니다. 알림 설정 페이지로 이동합니다.');
+        }
+      } catch (e) {
+        _logger.e('알림 설정 완료 상태 확인 중 오류 발생', error: e);
+      }
+    } catch (e) {
+      _logger.e('알림 관리자 초기화 중 오류 발생', error: e);
+      // 오류가 발생해도 앱 실행은 계속 진행
     }
   }
 

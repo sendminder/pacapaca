@@ -15,6 +15,7 @@ class LoginPage extends ConsumerWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
+          color: Colors.white,
           image: DecorationImage(
             image: AssetImage('assets/icon/pacasplash.png'),
             fit: BoxFit.fitWidth,
@@ -47,16 +48,29 @@ class LoginPage extends ConsumerWidget {
                           fontSize: 24.sp,
                         ),
                       ),
+                      SizedBox(height: 24.h),
                     ],
                   ),
                 ),
 
-                const Spacer(flex: 3),
+                const Spacer(flex: 4),
 
                 // 로그인 버튼들
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    TextButton(
+                      onPressed: () =>
+                          ref.read(authProvider.notifier).signInWithApple(),
+                      child: Text(
+                        '개인정보 처리방침',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurface,
+                          fontSize: 16.sp,
+                          height: 1.5,
+                        ),
+                      ),
+                    ),
                     // Apple 로그인 버튼 (Apple 가이드라인에 맞게 구현)
                     SignInWithAppleButton(
                       onPressed: () =>
