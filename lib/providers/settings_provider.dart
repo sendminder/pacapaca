@@ -100,6 +100,8 @@ class CommentSortNotifier extends StateNotifier<String> {
     final savedCommentSort = await _storage.commentSort;
     if (savedCommentSort != null) {
       state = savedCommentSort;
+    } else {
+      state = 'ordest';
     }
   }
 }
@@ -120,6 +122,8 @@ class ArticleSortNotifier extends StateNotifier<String> {
     final savedArticleSort = await _storage.articleSort;
     if (savedArticleSort != null) {
       state = savedArticleSort;
+    } else {
+      state = 'latest';
     }
   }
 }

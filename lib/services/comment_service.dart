@@ -41,7 +41,7 @@ class CommentService {
   ) async {
     try {
       final request = RequestListComments(
-        sortBy: sortBy ?? 'latest',
+        sortBy: sortBy ?? 'ordest',
         limit: limit,
         pagingKey: pagingKey,
       );
