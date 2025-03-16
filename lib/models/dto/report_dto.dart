@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pacapaca/models/dto/user_dto.dart';
 
 part 'report_dto.freezed.dart';
 part 'report_dto.g.dart';

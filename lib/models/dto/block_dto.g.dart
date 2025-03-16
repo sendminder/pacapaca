@@ -35,6 +35,10 @@ _$UserBlockDTOImpl _$$UserBlockDTOImplFromJson(Map<String, dynamic> json) =>
       articleId: (json['article_id'] as num?)?.toInt(),
       createTime: json['create_time'] as String,
       updateTime: json['update_time'] as String,
+      reportedUser: json['reported_user'] == null
+          ? null
+          : DisplayUserDTO.fromJson(
+              json['reported_user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$UserBlockDTOImplToJson(_$UserBlockDTOImpl instance) =>
@@ -48,6 +52,7 @@ Map<String, dynamic> _$$UserBlockDTOImplToJson(_$UserBlockDTOImpl instance) =>
       'article_id': instance.articleId,
       'create_time': instance.createTime,
       'update_time': instance.updateTime,
+      'reported_user': instance.reportedUser,
     };
 
 _$ResponseUserBlockImpl _$$ResponseUserBlockImplFromJson(

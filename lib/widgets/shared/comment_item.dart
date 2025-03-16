@@ -386,8 +386,7 @@ class CommentItem extends ConsumerWidget {
             if (confirmed == true) {
               await ref.read(blocksProvider.notifier).blockUser(
                     userId: comment.userId,
-                    reason:
-                        'block.from_comment'.tr(args: [comment.id.toString()]),
+                    reason: 'block.from_comment'.tr(),
                     commentId: comment.id,
                   );
             }

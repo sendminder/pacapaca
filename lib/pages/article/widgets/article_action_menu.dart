@@ -143,7 +143,7 @@ class ArticleActionMenu extends ConsumerWidget {
     if (confirmed == true) {
       await ref.read(blocksProvider.notifier).blockUser(
             userId: article.userId,
-            reason: 'block.from_article'.tr(args: [article.id.toString()]),
+            reason: 'block.from_article'.tr(),
             articleId: article.id,
           );
       if (context.mounted) context.pop();

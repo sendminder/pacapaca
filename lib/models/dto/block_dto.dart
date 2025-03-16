@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pacapaca/models/dto/user_dto.dart';
 
 part 'block_dto.freezed.dart';
 part 'block_dto.g.dart';
@@ -28,6 +29,7 @@ class UserBlockDTO with _$UserBlockDTO {
     @JsonKey(name: 'article_id') int? articleId,
     @JsonKey(name: 'create_time') required String createTime,
     @JsonKey(name: 'update_time') required String updateTime,
+    @JsonKey(name: 'reported_user') DisplayUserDTO? reportedUser,
   }) = _UserBlockDTO;
 
   factory UserBlockDTO.fromJson(Map<String, dynamic> json) =>

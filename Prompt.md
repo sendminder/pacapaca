@@ -366,11 +366,9 @@ class BlockedUsersPage extends ConsumerWidget {
                             .format(DateTime.parse(block.createTime)),
                       ),
                       if (block.articleId != null)
-                        Text('block.from_article'
-                            .tr(args: [block.articleId.toString()])),
+                        Text('block.from_article'.tr()),
                       if (block.commentId != null)
-                        Text('block.from_comment'
-                            .tr(args: [block.commentId.toString()])),
+                        Text('block.from_comment'.tr()),
                     ],
                   ),
                   trailing: IconButton(

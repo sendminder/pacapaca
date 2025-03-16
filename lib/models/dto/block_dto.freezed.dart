@@ -268,6 +268,8 @@ mixin _$UserBlockDTO {
   String get createTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'update_time')
   String get updateTime => throw _privateConstructorUsedError;
+  @JsonKey(name: 'reported_user')
+  DisplayUserDTO? get reportedUser => throw _privateConstructorUsedError;
 
   /// Serializes this UserBlockDTO to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -294,7 +296,10 @@ abstract class $UserBlockDTOCopyWith<$Res> {
       @JsonKey(name: 'comment_id') int? commentId,
       @JsonKey(name: 'article_id') int? articleId,
       @JsonKey(name: 'create_time') String createTime,
-      @JsonKey(name: 'update_time') String updateTime});
+      @JsonKey(name: 'update_time') String updateTime,
+      @JsonKey(name: 'reported_user') DisplayUserDTO? reportedUser});
+
+  $DisplayUserDTOCopyWith<$Res>? get reportedUser;
 }
 
 /// @nodoc
@@ -321,6 +326,7 @@ class _$UserBlockDTOCopyWithImpl<$Res, $Val extends UserBlockDTO>
     Object? articleId = freezed,
     Object? createTime = null,
     Object? updateTime = null,
+    Object? reportedUser = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -359,7 +365,25 @@ class _$UserBlockDTOCopyWithImpl<$Res, $Val extends UserBlockDTO>
           ? _value.updateTime
           : updateTime // ignore: cast_nullable_to_non_nullable
               as String,
+      reportedUser: freezed == reportedUser
+          ? _value.reportedUser
+          : reportedUser // ignore: cast_nullable_to_non_nullable
+              as DisplayUserDTO?,
     ) as $Val);
+  }
+
+  /// Create a copy of UserBlockDTO
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DisplayUserDTOCopyWith<$Res>? get reportedUser {
+    if (_value.reportedUser == null) {
+      return null;
+    }
+
+    return $DisplayUserDTOCopyWith<$Res>(_value.reportedUser!, (value) {
+      return _then(_value.copyWith(reportedUser: value) as $Val);
+    });
   }
 }
 
@@ -380,7 +404,11 @@ abstract class _$$UserBlockDTOImplCopyWith<$Res>
       @JsonKey(name: 'comment_id') int? commentId,
       @JsonKey(name: 'article_id') int? articleId,
       @JsonKey(name: 'create_time') String createTime,
-      @JsonKey(name: 'update_time') String updateTime});
+      @JsonKey(name: 'update_time') String updateTime,
+      @JsonKey(name: 'reported_user') DisplayUserDTO? reportedUser});
+
+  @override
+  $DisplayUserDTOCopyWith<$Res>? get reportedUser;
 }
 
 /// @nodoc
@@ -405,6 +433,7 @@ class __$$UserBlockDTOImplCopyWithImpl<$Res>
     Object? articleId = freezed,
     Object? createTime = null,
     Object? updateTime = null,
+    Object? reportedUser = freezed,
   }) {
     return _then(_$UserBlockDTOImpl(
       id: null == id
@@ -443,6 +472,10 @@ class __$$UserBlockDTOImplCopyWithImpl<$Res>
           ? _value.updateTime
           : updateTime // ignore: cast_nullable_to_non_nullable
               as String,
+      reportedUser: freezed == reportedUser
+          ? _value.reportedUser
+          : reportedUser // ignore: cast_nullable_to_non_nullable
+              as DisplayUserDTO?,
     ));
   }
 }
@@ -459,7 +492,8 @@ class _$UserBlockDTOImpl implements _UserBlockDTO {
       @JsonKey(name: 'comment_id') this.commentId,
       @JsonKey(name: 'article_id') this.articleId,
       @JsonKey(name: 'create_time') required this.createTime,
-      @JsonKey(name: 'update_time') required this.updateTime});
+      @JsonKey(name: 'update_time') required this.updateTime,
+      @JsonKey(name: 'reported_user') this.reportedUser});
 
   factory _$UserBlockDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserBlockDTOImplFromJson(json);
@@ -488,10 +522,13 @@ class _$UserBlockDTOImpl implements _UserBlockDTO {
   @override
   @JsonKey(name: 'update_time')
   final String updateTime;
+  @override
+  @JsonKey(name: 'reported_user')
+  final DisplayUserDTO? reportedUser;
 
   @override
   String toString() {
-    return 'UserBlockDTO(id: $id, reporterId: $reporterId, reportedId: $reportedId, reason: $reason, status: $status, commentId: $commentId, articleId: $articleId, createTime: $createTime, updateTime: $updateTime)';
+    return 'UserBlockDTO(id: $id, reporterId: $reporterId, reportedId: $reportedId, reason: $reason, status: $status, commentId: $commentId, articleId: $articleId, createTime: $createTime, updateTime: $updateTime, reportedUser: $reportedUser)';
   }
 
   @override
@@ -513,13 +550,25 @@ class _$UserBlockDTOImpl implements _UserBlockDTO {
             (identical(other.createTime, createTime) ||
                 other.createTime == createTime) &&
             (identical(other.updateTime, updateTime) ||
-                other.updateTime == updateTime));
+                other.updateTime == updateTime) &&
+            (identical(other.reportedUser, reportedUser) ||
+                other.reportedUser == reportedUser));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, reporterId, reportedId,
-      reason, status, commentId, articleId, createTime, updateTime);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      reporterId,
+      reportedId,
+      reason,
+      status,
+      commentId,
+      articleId,
+      createTime,
+      updateTime,
+      reportedUser);
 
   /// Create a copy of UserBlockDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -547,7 +596,8 @@ abstract class _UserBlockDTO implements UserBlockDTO {
           @JsonKey(name: 'comment_id') final int? commentId,
           @JsonKey(name: 'article_id') final int? articleId,
           @JsonKey(name: 'create_time') required final String createTime,
-          @JsonKey(name: 'update_time') required final String updateTime}) =
+          @JsonKey(name: 'update_time') required final String updateTime,
+          @JsonKey(name: 'reported_user') final DisplayUserDTO? reportedUser}) =
       _$UserBlockDTOImpl;
 
   factory _UserBlockDTO.fromJson(Map<String, dynamic> json) =
@@ -577,6 +627,9 @@ abstract class _UserBlockDTO implements UserBlockDTO {
   @override
   @JsonKey(name: 'update_time')
   String get updateTime;
+  @override
+  @JsonKey(name: 'reported_user')
+  DisplayUserDTO? get reportedUser;
 
   /// Create a copy of UserBlockDTO
   /// with the given fields replaced by the non-null parameter values.

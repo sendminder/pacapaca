@@ -6,7 +6,7 @@ part of 'article_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$articleCacheHash() => r'7eb3e51493be34f26cbd9fcacdfb2f62abf66081';
+String _$articleCacheHash() => r'8d9b712bb7b95b96466d92632068c817acaadf26';
 
 /// See also [ArticleCache].
 @ProviderFor(ArticleCache)

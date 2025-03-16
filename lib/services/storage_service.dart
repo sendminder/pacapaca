@@ -25,6 +25,8 @@ class StorageService {
       'notification_setup_completed';
   static const String _firstRunKey = 'first_run_key';
 
+  static String nullValue = 'null';
+
   final logger = GetIt.instance<Logger>();
 
   // SharedPreferences 인스턴스
@@ -68,10 +70,6 @@ class StorageService {
   // 사용자 정보 저장
   Future<void> saveUser(UserDTO user) async {
     try {
-      // 기존 데이터 삭제 후 저장
-      if (await _secureStorage.containsKey(key: _userKey)) {
-        await _secureStorage.delete(key: _userKey);
-      }
       await _secureStorage.write(
         key: _userKey,
         value: jsonEncode(user.toJson()),
@@ -88,15 +86,7 @@ class StorageService {
     required String refreshToken,
   }) async {
     try {
-      // 1. 기존 토큰이 있는지 확인 후 삭제
-      if (await _secureStorage.containsKey(key: _accessTokenKey)) {
-        await _secureStorage.delete(key: _accessTokenKey);
-      }
-      if (await _secureStorage.containsKey(key: _refreshTokenKey)) {
-        await _secureStorage.delete(key: _refreshTokenKey);
-      }
-
-      // 2. 새 토큰 저장
+      // 1. 새 토큰 저장
       await _secureStorage.write(key: _accessTokenKey, value: accessToken);
       await _secureStorage.write(key: _refreshTokenKey, value: refreshToken);
 
@@ -110,10 +100,12 @@ class StorageService {
   // 토큰 삭제
   Future<void> deleteTokens() async {
     if (await _secureStorage.containsKey(key: _accessTokenKey)) {
-      await _secureStorage.delete(key: _accessTokenKey);
+      await _secureStorage.write(key: _accessTokenKey, value: nullValue);
+      logger.d('access token deleted');
     }
     if (await _secureStorage.containsKey(key: _refreshTokenKey)) {
-      await _secureStorage.delete(key: _refreshTokenKey);
+      await _secureStorage.write(key: _refreshTokenKey, value: nullValue);
+      logger.d('refresh token deleted');
     }
   }
 
@@ -127,7 +119,7 @@ class StorageService {
   // 사용자 정보 삭제
   Future<void> deleteUser() async {
     if (await _secureStorage.containsKey(key: _userKey)) {
-      await _secureStorage.delete(key: _userKey);
+      await _secureStorage.write(key: _userKey, value: nullValue);
     }
   }
 

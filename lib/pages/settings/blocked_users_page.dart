@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/widgets/page_title.dart';
+import 'package:pacapaca/widgets/shared/user_avatar.dart';
 
 class BlockedUsersPage extends ConsumerWidget {
   const BlockedUsersPage({super.key});
@@ -40,6 +41,8 @@ class BlockedUsersPage extends ConsumerWidget {
             itemCount: users.length,
             itemBuilder: (context, index) {
               final block = users[index];
+              final reportedUser = block.reportedUser;
+
               return Dismissible(
                 key: Key('block-${block.id}'),
                 direction: DismissDirection.endToStart,
@@ -87,22 +90,14 @@ class BlockedUsersPage extends ConsumerWidget {
                   );
                 },
                 child: ListTile(
-                  title: Text(block.reason),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        DateFormat('yyyy-MM-dd HH:mm')
-                            .format(DateTime.parse(block.createTime)),
-                      ),
-                      if (block.articleId != null)
-                        Text('block.from_article'
-                            .tr(args: [block.articleId.toString()])),
-                      if (block.commentId != null)
-                        Text('block.from_comment'
-                            .tr(args: [block.commentId.toString()])),
-                    ],
+                  leading: UserAvatar(
+                    imageUrl: reportedUser!.profileImageUrl ?? '',
+                    radius: 20,
+                    userId: reportedUser.id,
+                    profileType: reportedUser.profileType,
                   ),
+                  title: Text(reportedUser.nickname),
+                  subtitle: Text(block.reason),
                   trailing: IconButton(
                     icon: const Icon(Icons.remove_circle),
                     color: Theme.of(context).colorScheme.error,
