@@ -414,8 +414,12 @@ class NotificationManagerService {
     try {
       final data = message.data;
       final type = data['type'];
+      final articleId = int.tryParse(data['sub_id']?.toString() ?? '') ?? 0;
       if (type == 'carrot') {
         _container.read(carrotBalanceProvider.notifier).refresh();
+        if (articleId > 0) {
+          _container.read(articleCacheProvider.notifier).refresh(articleId);
+        }
       }
     } catch (e) {
       _logger.e('당근 업데이트 오류', error: e);
