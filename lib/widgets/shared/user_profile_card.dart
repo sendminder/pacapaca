@@ -349,6 +349,22 @@ class UserProfileCard extends ConsumerWidget {
                 amount: amount,
               ),
             );
+
+        if (res != null && res.errorMessage != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: res.errorMessage!.contains('sent_max_limit_day')
+                  ? Text('carrot.sent_max_limit_day'.tr(args: [
+                      user.displayUser.nickname,
+                    ]))
+                  : Text('carrot.error'.tr()),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+          );
+          return;
+        }
+
         if (res != null && context.mounted) {
           ref.read(carrotBalanceProvider.notifier).updateBalance(res.balance);
           ref

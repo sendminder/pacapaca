@@ -75,6 +75,7 @@ _$ResponseCarrotBalanceImpl _$$ResponseCarrotBalanceImplFromJson(
     _$ResponseCarrotBalanceImpl(
       userId: (json['user_id'] as num).toInt(),
       balance: (json['balance'] as num).toInt(),
+      errorMessage: json['errorMessage'] as String?,
     );
 
 Map<String, dynamic> _$$ResponseCarrotBalanceImplToJson(
@@ -82,6 +83,7 @@ Map<String, dynamic> _$$ResponseCarrotBalanceImplToJson(
     <String, dynamic>{
       'user_id': instance.userId,
       'balance': instance.balance,
+      'errorMessage': instance.errorMessage,
     };
 
 _$ResponseCarrotTransactionImpl _$$ResponseCarrotTransactionImplFromJson(

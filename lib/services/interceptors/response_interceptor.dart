@@ -32,6 +32,31 @@ class ResponseInterceptor extends Interceptor {
     }
   }
 
+  /// 응답에서 오류 메시지 추출
+  String _extractErrorMessage(Response? response) {
+    if (response?.data == null) {
+      return '알 수 없는 오류가 발생했습니다.';
+    }
+
+    try {
+      // RestResponse 형식인 경우 메시지 추출
+      if (response!.data is Map<String, dynamic> &&
+          response.data.containsKey('message')) {
+        return response.data['message'] as String;
+      }
+
+      // 문자열인 경우 그대로 반환
+      if (response.data is String) {
+        return response.data as String;
+      }
+
+      return '서버 오류가 발생했습니다.';
+    } catch (e) {
+      _logger.e('Error message extraction failed', error: e);
+      return '알 수 없는 오류가 발생했습니다.';
+    }
+  }
+
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     // 로그아웃 중이면 모든 요청 에러를 그대로 반환
@@ -44,8 +69,23 @@ class ResponseInterceptor extends Interceptor {
       return _handle401Error(err, handler);
     }
 
-    _logger.e('API Error', error: err, stackTrace: err.stackTrace);
-    return handler.next(err);
+    // 오류 메시지 추출 및 DioException에 추가
+    final errorMessage = _extractErrorMessage(err.response);
+    _logger.e('API Error: $errorMessage', error: err.response?.data.toString());
+
+    // 오류 메시지를 DioException의 error 필드에 저장
+    final modifiedErr = DioException(
+      requestOptions: err.requestOptions,
+      response: err.response,
+      type: err.type,
+      error: errorMessage,
+      stackTrace: err.stackTrace,
+      message: err.message,
+    );
+
+    _logger.e('API Error',
+        error: modifiedErr, stackTrace: modifiedErr.stackTrace);
+    return handler.next(modifiedErr);
   }
 
   /// 401 인증 오류 처리

@@ -820,6 +820,7 @@ mixin _$ResponseCarrotBalance {
   @JsonKey(name: 'user_id')
   int get userId => throw _privateConstructorUsedError;
   int get balance => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
 
   /// Serializes this ResponseCarrotBalance to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -837,7 +838,10 @@ abstract class $ResponseCarrotBalanceCopyWith<$Res> {
           $Res Function(ResponseCarrotBalance) then) =
       _$ResponseCarrotBalanceCopyWithImpl<$Res, ResponseCarrotBalance>;
   @useResult
-  $Res call({@JsonKey(name: 'user_id') int userId, int balance});
+  $Res call(
+      {@JsonKey(name: 'user_id') int userId,
+      int balance,
+      String? errorMessage});
 }
 
 /// @nodoc
@@ -858,6 +862,7 @@ class _$ResponseCarrotBalanceCopyWithImpl<$Res,
   $Res call({
     Object? userId = null,
     Object? balance = null,
+    Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
@@ -868,6 +873,10 @@ class _$ResponseCarrotBalanceCopyWithImpl<$Res,
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as int,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -881,7 +890,10 @@ abstract class _$$ResponseCarrotBalanceImplCopyWith<$Res>
       __$$ResponseCarrotBalanceImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'user_id') int userId, int balance});
+  $Res call(
+      {@JsonKey(name: 'user_id') int userId,
+      int balance,
+      String? errorMessage});
 }
 
 /// @nodoc
@@ -900,6 +912,7 @@ class __$$ResponseCarrotBalanceImplCopyWithImpl<$Res>
   $Res call({
     Object? userId = null,
     Object? balance = null,
+    Object? errorMessage = freezed,
   }) {
     return _then(_$ResponseCarrotBalanceImpl(
       userId: null == userId
@@ -910,6 +923,10 @@ class __$$ResponseCarrotBalanceImplCopyWithImpl<$Res>
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as int,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -918,7 +935,9 @@ class __$$ResponseCarrotBalanceImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ResponseCarrotBalanceImpl implements _ResponseCarrotBalance {
   const _$ResponseCarrotBalanceImpl(
-      {@JsonKey(name: 'user_id') required this.userId, required this.balance});
+      {@JsonKey(name: 'user_id') required this.userId,
+      required this.balance,
+      this.errorMessage});
 
   factory _$ResponseCarrotBalanceImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResponseCarrotBalanceImplFromJson(json);
@@ -928,10 +947,12 @@ class _$ResponseCarrotBalanceImpl implements _ResponseCarrotBalance {
   final int userId;
   @override
   final int balance;
+  @override
+  final String? errorMessage;
 
   @override
   String toString() {
-    return 'ResponseCarrotBalance(userId: $userId, balance: $balance)';
+    return 'ResponseCarrotBalance(userId: $userId, balance: $balance, errorMessage: $errorMessage)';
   }
 
   @override
@@ -940,12 +961,14 @@ class _$ResponseCarrotBalanceImpl implements _ResponseCarrotBalance {
         (other.runtimeType == runtimeType &&
             other is _$ResponseCarrotBalanceImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.balance, balance) || other.balance == balance));
+            (identical(other.balance, balance) || other.balance == balance) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, balance);
+  int get hashCode => Object.hash(runtimeType, userId, balance, errorMessage);
 
   /// Create a copy of ResponseCarrotBalance
   /// with the given fields replaced by the non-null parameter values.
@@ -967,7 +990,8 @@ class _$ResponseCarrotBalanceImpl implements _ResponseCarrotBalance {
 abstract class _ResponseCarrotBalance implements ResponseCarrotBalance {
   const factory _ResponseCarrotBalance(
       {@JsonKey(name: 'user_id') required final int userId,
-      required final int balance}) = _$ResponseCarrotBalanceImpl;
+      required final int balance,
+      final String? errorMessage}) = _$ResponseCarrotBalanceImpl;
 
   factory _ResponseCarrotBalance.fromJson(Map<String, dynamic> json) =
       _$ResponseCarrotBalanceImpl.fromJson;
@@ -977,6 +1001,8 @@ abstract class _ResponseCarrotBalance implements ResponseCarrotBalance {
   int get userId;
   @override
   int get balance;
+  @override
+  String? get errorMessage;
 
   /// Create a copy of ResponseCarrotBalance
   /// with the given fields replaced by the non-null parameter values.

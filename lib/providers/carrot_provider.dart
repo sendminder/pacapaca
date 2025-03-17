@@ -101,9 +101,12 @@ class CarrotSender extends _$CarrotSender {
       final balance = await _carrotService.sendCarrots(request);
 
       return balance;
-    } catch (e, stack) {
-      state = AsyncError(e, stack);
-      return null;
+    } catch (e) {
+      return ResponseCarrotBalance(
+        userId: 0,
+        balance: 0,
+        errorMessage: e.toString(),
+      );
     }
   }
 }

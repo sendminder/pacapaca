@@ -3,7 +3,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:pacapaca/services/comment_service.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pacapaca/models/enums/article_category.dart';
 part 'comment_provider.g.dart';
 
 // 댓글 목록 provider
@@ -13,13 +12,11 @@ class CommentList extends _$CommentList {
 
   int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
   String _sort = 'ordest'; // 댓글 정렬 기준 저장
-  ArticleCategory _category = ArticleCategory.all;
 
   @override
   FutureOr<List<ArticleCommentDTO>?> build(int articleId) async {
     _lastPagingKey = null; // 초기화
     _sort = ref.watch(commentSortProvider);
-    _category = ref.watch(articleCategoryProvider);
 
     final comments =
         await _commentService.listComments(articleId, 20, 0, _sort);

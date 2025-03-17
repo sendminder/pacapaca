@@ -46,6 +46,21 @@ class SendCarrotButton {
         final res =
             await ref.read(carrotSenderProvider.notifier).sendCarrots(request);
 
+        if (res != null && res.errorMessage != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: res.errorMessage!.contains('sent_max_limit_day')
+                  ? Text('carrot.sent_max_limit_day'.tr(args: [
+                      receiverName,
+                    ]))
+                  : Text('carrot.error'.tr()),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+          );
+          return;
+        }
+
         if (res != null && context.mounted) {
           ref.read(carrotBalanceProvider.notifier).updateBalance(res.balance);
           ScaffoldMessenger.of(context).showSnackBar(

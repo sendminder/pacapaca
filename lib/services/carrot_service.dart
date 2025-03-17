@@ -50,7 +50,11 @@ class CarrotService {
       return null;
     } catch (e, stackTrace) {
       logger.e('send carrots', error: e, stackTrace: stackTrace);
-      rethrow;
+      return ResponseCarrotBalance(
+        userId: 0,
+        balance: 0,
+        errorMessage: e.toString(),
+      );
     }
   }
 

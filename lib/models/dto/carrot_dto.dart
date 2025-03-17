@@ -57,6 +57,7 @@ class ResponseCarrotBalance with _$ResponseCarrotBalance {
   const factory ResponseCarrotBalance({
     @JsonKey(name: 'user_id') required int userId,
     required int balance,
+    String? errorMessage,
   }) = _ResponseCarrotBalance;
 
   factory ResponseCarrotBalance.fromJson(Map<String, dynamic> json) =>

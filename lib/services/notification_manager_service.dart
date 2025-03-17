@@ -43,7 +43,7 @@ class NotificationManagerService {
       return enabled ?? false;
     } catch (e) {
       // 권한 관련 예외 발생 시 기본값으로 false 반환
-      print('알림 권한 확인 중 오류 발생: $e');
+      _logger.e('알림 권한 확인 중 오류 발생', error: e);
       return false;
     }
   }

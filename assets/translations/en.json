@@ -183,7 +183,8 @@
         "reward": "Carrot Reward",
         "transfer": "Carrot Transfer",
         "refund": "Carrot Refund",
-        "no_transactions": "No transaction history"
+        "no_transactions": "No transaction history",
+        "sent_max_limit_day": "You have exceeded the limit of sending carrots to {} per day"
     },
     "profile": {
         "title": "Profile",
