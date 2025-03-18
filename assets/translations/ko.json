@@ -14,8 +14,13 @@
         "nickname_hint": "닉네임을 입력하세요",
         "nickname_rule": "2-10자 이내로 입력해주세요",
         "nickname_error": "닉네임 설정에 실패했어요: {}",
-        "description": "파카파카에서 사용할 닉네임을 설정해주세요. 닉네임은 언제든지 변경할 수 있어요.",
-        "your_nickname": "나의 닉네임"
+        "description": "파카파카에서 사용할 닉네임을 설정해주세요.",
+        "your_nickname": "나의 닉네임",
+        "too_short": "닉네임은 2-10자 이내로 입력해주세요",
+        "already_exists": "이미 사용중인 닉네임이에요",
+        "check_availability": "중복확인",
+        "error_occurred": "에러가 발생했어요",
+        "available": "사용 가능한 닉네임이에요"
     },
     "helper": {
         "first_message": "안녕하세요! 저는 파카삐예요 🦙\n어떤 주제의 고민이 있으신가요? \n제가 이야기를 들어드리고 글로 정리해드릴게요!",

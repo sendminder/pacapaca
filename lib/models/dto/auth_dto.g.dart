@@ -31,6 +31,18 @@ Map<String, dynamic> _$$RequestRefreshImplToJson(
       'refresh_token': instance.refreshToken,
     };
 
+_$RequestCheckNicknameImpl _$$RequestCheckNicknameImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RequestCheckNicknameImpl(
+      nickname: json['nickname'] as String,
+    );
+
+Map<String, dynamic> _$$RequestCheckNicknameImplToJson(
+        _$RequestCheckNicknameImpl instance) =>
+    <String, dynamic>{
+      'nickname': instance.nickname,
+    };
+
 _$ResponseSignUpImpl _$$ResponseSignUpImplFromJson(Map<String, dynamic> json) =>
     _$ResponseSignUpImpl(
       user: UserDTO.fromJson(json['user'] as Map<String, dynamic>),
@@ -68,6 +80,18 @@ _$ResponseGetMeImpl _$$ResponseGetMeImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$ResponseGetMeImplToJson(_$ResponseGetMeImpl instance) =>
     <String, dynamic>{
       'user': instance.user,
+    };
+
+_$ResponseCheckNicknameImpl _$$ResponseCheckNicknameImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseCheckNicknameImpl(
+      exists: json['exists'] as bool,
+    );
+
+Map<String, dynamic> _$$ResponseCheckNicknameImplToJson(
+        _$ResponseCheckNicknameImpl instance) =>
+    <String, dynamic>{
+      'exists': instance.exists,
     };
 
 _$RequestUpdateMeImpl _$$RequestUpdateMeImplFromJson(

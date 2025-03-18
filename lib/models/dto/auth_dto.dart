@@ -27,6 +27,16 @@ class RequestRefresh with _$RequestRefresh {
       _$RequestRefreshFromJson(json);
 }
 
+@freezed
+class RequestCheckNickname with _$RequestCheckNickname {
+  const factory RequestCheckNickname({
+    @JsonKey(name: 'nickname') required String nickname,
+  }) = _RequestCheckNickname;
+
+  factory RequestCheckNickname.fromJson(Map<String, dynamic> json) =>
+      _$RequestCheckNicknameFromJson(json);
+}
+
 // Response DTOs
 @freezed
 class ResponseSignUp with _$ResponseSignUp {
@@ -59,6 +69,16 @@ class ResponseGetMe with _$ResponseGetMe {
 
   factory ResponseGetMe.fromJson(Map<String, dynamic> json) =>
       _$ResponseGetMeFromJson(json);
+}
+
+@freezed
+class ResponseCheckNickname with _$ResponseCheckNickname {
+  const factory ResponseCheckNickname({
+    @JsonKey(name: 'exists') required bool exists,
+  }) = _ResponseCheckNickname;
+
+  factory ResponseCheckNickname.fromJson(Map<String, dynamic> json) =>
+      _$ResponseCheckNicknameFromJson(json);
 }
 
 @freezed

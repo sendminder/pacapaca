@@ -61,6 +61,15 @@ class Auth extends _$Auth {
     }
   }
 
+  /// 닉네임 중복 체크
+  Future<bool> checkNicknameExists(String nickname) async {
+    try {
+      return await _authService.checkNicknameExists(nickname);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<UserDTO?> updateProfileType(String profileType) async {
     state = const AsyncLoading();
     try {

@@ -377,6 +377,165 @@ abstract class _RequestRefresh implements RequestRefresh {
       throw _privateConstructorUsedError;
 }
 
+RequestCheckNickname _$RequestCheckNicknameFromJson(Map<String, dynamic> json) {
+  return _RequestCheckNickname.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RequestCheckNickname {
+  @JsonKey(name: 'nickname')
+  String get nickname => throw _privateConstructorUsedError;
+
+  /// Serializes this RequestCheckNickname to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RequestCheckNickname
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RequestCheckNicknameCopyWith<RequestCheckNickname> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RequestCheckNicknameCopyWith<$Res> {
+  factory $RequestCheckNicknameCopyWith(RequestCheckNickname value,
+          $Res Function(RequestCheckNickname) then) =
+      _$RequestCheckNicknameCopyWithImpl<$Res, RequestCheckNickname>;
+  @useResult
+  $Res call({@JsonKey(name: 'nickname') String nickname});
+}
+
+/// @nodoc
+class _$RequestCheckNicknameCopyWithImpl<$Res,
+        $Val extends RequestCheckNickname>
+    implements $RequestCheckNicknameCopyWith<$Res> {
+  _$RequestCheckNicknameCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RequestCheckNickname
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? nickname = null,
+  }) {
+    return _then(_value.copyWith(
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RequestCheckNicknameImplCopyWith<$Res>
+    implements $RequestCheckNicknameCopyWith<$Res> {
+  factory _$$RequestCheckNicknameImplCopyWith(_$RequestCheckNicknameImpl value,
+          $Res Function(_$RequestCheckNicknameImpl) then) =
+      __$$RequestCheckNicknameImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'nickname') String nickname});
+}
+
+/// @nodoc
+class __$$RequestCheckNicknameImplCopyWithImpl<$Res>
+    extends _$RequestCheckNicknameCopyWithImpl<$Res, _$RequestCheckNicknameImpl>
+    implements _$$RequestCheckNicknameImplCopyWith<$Res> {
+  __$$RequestCheckNicknameImplCopyWithImpl(_$RequestCheckNicknameImpl _value,
+      $Res Function(_$RequestCheckNicknameImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RequestCheckNickname
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? nickname = null,
+  }) {
+    return _then(_$RequestCheckNicknameImpl(
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RequestCheckNicknameImpl implements _RequestCheckNickname {
+  const _$RequestCheckNicknameImpl(
+      {@JsonKey(name: 'nickname') required this.nickname});
+
+  factory _$RequestCheckNicknameImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestCheckNicknameImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'nickname')
+  final String nickname;
+
+  @override
+  String toString() {
+    return 'RequestCheckNickname(nickname: $nickname)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestCheckNicknameImpl &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, nickname);
+
+  /// Create a copy of RequestCheckNickname
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestCheckNicknameImplCopyWith<_$RequestCheckNicknameImpl>
+      get copyWith =>
+          __$$RequestCheckNicknameImplCopyWithImpl<_$RequestCheckNicknameImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestCheckNicknameImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RequestCheckNickname implements RequestCheckNickname {
+  const factory _RequestCheckNickname(
+          {@JsonKey(name: 'nickname') required final String nickname}) =
+      _$RequestCheckNicknameImpl;
+
+  factory _RequestCheckNickname.fromJson(Map<String, dynamic> json) =
+      _$RequestCheckNicknameImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'nickname')
+  String get nickname;
+
+  /// Create a copy of RequestCheckNickname
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequestCheckNicknameImplCopyWith<_$RequestCheckNicknameImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 ResponseSignUp _$ResponseSignUpFromJson(Map<String, dynamic> json) {
   return _ResponseSignUp.fromJson(json);
 }
@@ -941,6 +1100,166 @@ abstract class _ResponseGetMe implements ResponseGetMe {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ResponseGetMeImplCopyWith<_$ResponseGetMeImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+ResponseCheckNickname _$ResponseCheckNicknameFromJson(
+    Map<String, dynamic> json) {
+  return _ResponseCheckNickname.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ResponseCheckNickname {
+  @JsonKey(name: 'exists')
+  bool get exists => throw _privateConstructorUsedError;
+
+  /// Serializes this ResponseCheckNickname to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ResponseCheckNickname
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ResponseCheckNicknameCopyWith<ResponseCheckNickname> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ResponseCheckNicknameCopyWith<$Res> {
+  factory $ResponseCheckNicknameCopyWith(ResponseCheckNickname value,
+          $Res Function(ResponseCheckNickname) then) =
+      _$ResponseCheckNicknameCopyWithImpl<$Res, ResponseCheckNickname>;
+  @useResult
+  $Res call({@JsonKey(name: 'exists') bool exists});
+}
+
+/// @nodoc
+class _$ResponseCheckNicknameCopyWithImpl<$Res,
+        $Val extends ResponseCheckNickname>
+    implements $ResponseCheckNicknameCopyWith<$Res> {
+  _$ResponseCheckNicknameCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ResponseCheckNickname
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? exists = null,
+  }) {
+    return _then(_value.copyWith(
+      exists: null == exists
+          ? _value.exists
+          : exists // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ResponseCheckNicknameImplCopyWith<$Res>
+    implements $ResponseCheckNicknameCopyWith<$Res> {
+  factory _$$ResponseCheckNicknameImplCopyWith(
+          _$ResponseCheckNicknameImpl value,
+          $Res Function(_$ResponseCheckNicknameImpl) then) =
+      __$$ResponseCheckNicknameImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'exists') bool exists});
+}
+
+/// @nodoc
+class __$$ResponseCheckNicknameImplCopyWithImpl<$Res>
+    extends _$ResponseCheckNicknameCopyWithImpl<$Res,
+        _$ResponseCheckNicknameImpl>
+    implements _$$ResponseCheckNicknameImplCopyWith<$Res> {
+  __$$ResponseCheckNicknameImplCopyWithImpl(_$ResponseCheckNicknameImpl _value,
+      $Res Function(_$ResponseCheckNicknameImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ResponseCheckNickname
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? exists = null,
+  }) {
+    return _then(_$ResponseCheckNicknameImpl(
+      exists: null == exists
+          ? _value.exists
+          : exists // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ResponseCheckNicknameImpl implements _ResponseCheckNickname {
+  const _$ResponseCheckNicknameImpl(
+      {@JsonKey(name: 'exists') required this.exists});
+
+  factory _$ResponseCheckNicknameImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseCheckNicknameImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'exists')
+  final bool exists;
+
+  @override
+  String toString() {
+    return 'ResponseCheckNickname(exists: $exists)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResponseCheckNicknameImpl &&
+            (identical(other.exists, exists) || other.exists == exists));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, exists);
+
+  /// Create a copy of ResponseCheckNickname
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ResponseCheckNicknameImplCopyWith<_$ResponseCheckNicknameImpl>
+      get copyWith => __$$ResponseCheckNicknameImplCopyWithImpl<
+          _$ResponseCheckNicknameImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ResponseCheckNicknameImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ResponseCheckNickname implements ResponseCheckNickname {
+  const factory _ResponseCheckNickname(
+          {@JsonKey(name: 'exists') required final bool exists}) =
+      _$ResponseCheckNicknameImpl;
+
+  factory _ResponseCheckNickname.fromJson(Map<String, dynamic> json) =
+      _$ResponseCheckNicknameImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'exists')
+  bool get exists;
+
+  /// Create a copy of ResponseCheckNickname
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ResponseCheckNicknameImplCopyWith<_$ResponseCheckNicknameImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 RequestUpdateMe _$RequestUpdateMeFromJson(Map<String, dynamic> json) {

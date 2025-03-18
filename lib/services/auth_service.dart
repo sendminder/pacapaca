@@ -325,4 +325,30 @@ class AuthService {
       rethrow;
     }
   }
+
+  /// 닉네임 중복 체크
+  Future<bool> checkNicknameExists(String nickname) async {
+    try {
+      final request = RequestCheckNickname(nickname: nickname);
+      String body = jsonEncode(request.toJson());
+      final response = await _dio.post(
+        '/v1/users/check-nickname',
+        data: body,
+      );
+
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
+
+      if (responseRest.response != null) {
+        final result = ResponseCheckNickname.fromJson(responseRest.response!);
+        return result.exists;
+      }
+      throw Exception(responseRest.message);
+    } catch (e, stackTrace) {
+      logger.e('check nickname exists', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
 }

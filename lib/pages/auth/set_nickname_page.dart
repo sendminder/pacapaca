@@ -80,6 +80,10 @@ class _NicknameInput extends ConsumerStatefulWidget {
 class _NicknameInputState extends ConsumerState<_NicknameInput> {
   final _controller = TextEditingController();
   bool _isValid = false;
+  bool _isChecking = false;
+  bool _nicknameChecked = false;
+  bool _nicknameAvailable = false;
+  String? _errorMessage;
 
   @override
   void dispose() {
@@ -90,12 +94,50 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
   void _validateInput(String value) {
     setState(() {
       _isValid = value.trim().length >= 2;
+      _nicknameChecked = false;
+      _errorMessage = null;
     });
+  }
+
+  Future<void> _checkNickname() async {
+    final nickname = _controller.text.trim();
+
+    if (nickname.length < 2) {
+      setState(() {
+        _errorMessage = 'nickname.too_short'.tr();
+      });
+      return;
+    }
+
+    setState(() {
+      _isChecking = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final exists =
+          await ref.read(authProvider.notifier).checkNicknameExists(nickname);
+
+      setState(() {
+        _isChecking = false;
+        _nicknameChecked = true;
+        _nicknameAvailable = !exists;
+
+        if (exists) {
+          _errorMessage = 'nickname.already_exists'.tr();
+        }
+      });
+    } catch (e) {
+      setState(() {
+        _isChecking = false;
+        _errorMessage = 'common.error_occurred'.tr();
+      });
+    }
   }
 
   void _submit() {
     final nickname = _controller.text.trim();
-    if (nickname.length >= 2) {
+    if (nickname.length >= 2 && _nicknameChecked && _nicknameAvailable) {
       ref.read(authProvider.notifier).updateNickname(nickname);
     }
   }
@@ -121,9 +163,11 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
                 ? Colors.grey.shade800.withOpacity(0.5)
                 : Colors.grey.shade50,
             hintText: 'nickname.nickname_hint'.tr(),
-            helperText: 'nickname.nickname_rule'.tr(),
+            helperText: _errorMessage ?? 'nickname.nickname_rule'.tr(),
             helperStyle: TextStyle(
-              color: isDarkMode ? Colors.white70 : Colors.black54,
+              color: _errorMessage != null
+                  ? Colors.red
+                  : (isDarkMode ? Colors.white70 : Colors.black54),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 20,
@@ -152,35 +196,103 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
                 : null,
           ),
         ),
-        const SizedBox(height: 32),
-        AnimatedOpacity(
-          opacity: _isValid ? 1.0 : 0.7,
-          duration: const Duration(milliseconds: 200),
-          child: SizedBox(
-            width: double.infinity,
-            height: 56,
-            child: ElevatedButton(
-              onPressed: _isValid ? _submit : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
-                foregroundColor: Colors.white,
-                disabledBackgroundColor: primaryColor.withOpacity(0.3),
-                disabledForegroundColor: Colors.white70,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-              child: Text(
-                'complete'.tr(),
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: SizedBox(
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: _isValid && !_isChecking ? _checkNickname : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isDarkMode
+                        ? Colors.grey.shade800
+                        : Colors.grey.shade100,
+                    foregroundColor: primaryColor,
+                    disabledBackgroundColor: isDarkMode
+                        ? Colors.grey.shade800.withOpacity(0.3)
+                        : Colors.grey.shade100.withOpacity(0.3),
+                    disabledForegroundColor:
+                        isDarkMode ? Colors.white30 : Colors.black26,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: _isChecking
+                      ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(primaryColor),
+                          ),
+                        )
+                      : Text(
+                          'nickname.check_availability'.tr(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                 ),
               ),
             ),
-          ),
+            const SizedBox(width: 12),
+            Expanded(
+              flex: 1,
+              child: SizedBox(
+                height: 56,
+                child: ElevatedButton(
+                  onPressed:
+                      (_isValid && _nicknameChecked && _nicknameAvailable)
+                          ? _submit
+                          : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    foregroundColor: Colors.white,
+                    disabledBackgroundColor: primaryColor.withOpacity(0.3),
+                    disabledForegroundColor: Colors.white70,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: Text(
+                    'complete'.tr(),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
+        if (_nicknameChecked && _nicknameAvailable)
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                  size: 16,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  'nickname.available'.tr(),
+                  style: TextStyle(
+                    color: Colors.green,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
       ],
     );
   }
