@@ -128,6 +128,7 @@ class ResponseInterceptor extends Interceptor {
     // 토큰 갱신이 완료되었으면 재시도
     final accessToken = await _storage.accessToken;
     if (accessToken == null) {
+      _logger.w('Access token not found');
       return handler.next(err);
     }
 
@@ -138,7 +139,7 @@ class ResponseInterceptor extends Interceptor {
   Future<bool> _waitUntilRefreshComplete() async {
     int attempts = 0;
     while (_isRefreshing && attempts < 10) {
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 2000));
       attempts++;
     }
     return !_isRefreshing;
