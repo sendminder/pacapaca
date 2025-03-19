@@ -3,23 +3,28 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:pacapaca/services/comment_service.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 part 'comment_provider.g.dart';
 
 // 댓글 목록 provider
 @riverpod
 class CommentList extends _$CommentList {
   final _commentService = GetIt.instance<CommentService>();
-
+  final _logger = GetIt.instance<Logger>();
   int? _lastPagingKey; // 마지막으로 요청한 페이징 키 저장
-  String _sort = 'ordest'; // 댓글 정렬 기준 저장
+  String _sort = 'oldest'; // 댓글 정렬 기준 저장
 
   @override
   FutureOr<List<ArticleCommentDTO>?> build(int articleId) async {
     _lastPagingKey = null; // 초기화
     _sort = ref.watch(commentSortProvider);
 
+    _logger.d('댓글 목록 빌드 $articleId $_sort');
+
     final comments =
         await _commentService.listComments(articleId, 20, 0, _sort);
+
+    _logger.d('댓글 목록 빌드 완료 $articleId $_sort ${comments?.length} $comments');
     return comments;
   }
 

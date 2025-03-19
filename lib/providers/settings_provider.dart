@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/services/storage_service.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {
   return ThemeNotifier();
@@ -92,14 +91,14 @@ class LocaleNotifier extends StateNotifier<Locale> {
 
 // 댓글 정렬 상태를 위한 provider
 class CommentSortNotifier extends StateNotifier<String> {
-  CommentSortNotifier() : super('ordest') {
+  CommentSortNotifier() : super('oldest') {
     _loadCommentSort();
   }
   final _storage = GetIt.instance<StorageService>();
 
-  void setSort(String sort) {
+  Future<void> setSort(String sort) async {
     state = sort;
-    _storage.saveCommentSort(sort);
+    await _storage.saveCommentSort(sort);
   }
 
   Future<void> _loadCommentSort() async {
@@ -107,7 +106,7 @@ class CommentSortNotifier extends StateNotifier<String> {
     if (savedCommentSort != null) {
       state = savedCommentSort;
     } else {
-      state = 'ordest';
+      state = 'oldest';
     }
   }
 }

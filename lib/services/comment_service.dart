@@ -41,10 +41,12 @@ class CommentService {
   ) async {
     try {
       final request = RequestListComments(
-        sortBy: sortBy ?? 'ordest',
+        sortBy: sortBy ?? 'oldest',
         limit: limit,
         pagingKey: pagingKey,
       );
+
+      logger.d('댓글 목록 조회 paging 이용 $articleId $limit $pagingKey $sortBy');
 
       final response = await _dio.get(
         '/v1/articles/$articleId/comments',

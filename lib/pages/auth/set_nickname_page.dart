@@ -8,42 +8,26 @@ class SetNicknamePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final primaryColor = Theme.of(context).colorScheme.primary;
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 60),
-              Center(
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: primaryColor.withOpacity(0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.person_rounded,
-                    size: 40,
-                    color: primaryColor,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
+              const Spacer(flex: 1),
               Center(
                 child: Text(
                   'nickname.set_nickname'.tr(),
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black87
-                        : Colors.white,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),
@@ -53,15 +37,17 @@ class SetNicknamePage extends ConsumerWidget {
                   'nickname.description'.tr(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 15,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black54
-                        : Colors.white70,
+                    fontSize: 16,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
                   ),
                 ),
               ),
-              const SizedBox(height: 48),
-              _NicknameInput(),
+              const SizedBox(height: 40),
+              const _NicknameInput(),
+              const Spacer(flex: 2),
             ],
           ),
         ),
@@ -144,48 +130,49 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = Theme.of(context).colorScheme.primary;
+    final colorScheme = Theme.of(context).colorScheme;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextField(
           controller: _controller,
           onChanged: _validateInput,
           style: TextStyle(
-            fontSize: 16,
-            color: isDarkMode ? Colors.white : Colors.black87,
+            fontSize: 18,
+            color: colorScheme.onSurface,
           ),
           decoration: InputDecoration(
             filled: true,
             fillColor: isDarkMode
-                ? Colors.grey.shade800.withOpacity(0.5)
-                : Colors.grey.shade50,
+                ? colorScheme.surfaceVariant.withOpacity(0.3)
+                : colorScheme.surfaceVariant.withOpacity(0.1),
             hintText: 'nickname.nickname_hint'.tr(),
-            helperText: _errorMessage ?? 'nickname.nickname_rule'.tr(),
-            helperStyle: TextStyle(
-              color: _errorMessage != null
-                  ? Colors.red
-                  : (isDarkMode ? Colors.white70 : Colors.black54),
+            hintStyle: TextStyle(
+              color: colorScheme.onSurface.withOpacity(0.5),
             ),
+            errorText: _errorMessage,
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 16,
+              horizontal: 24,
+              vertical: 20,
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide.none,
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: primaryColor, width: 1.5),
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(
+                color: colorScheme.primary,
+                width: 2,
+              ),
             ),
             suffixIcon: _controller.text.isNotEmpty
                 ? IconButton(
                     icon: Icon(
-                      Icons.clear,
-                      color: isDarkMode ? Colors.white70 : Colors.black45,
+                      Icons.clear_rounded,
+                      color: colorScheme.onSurface.withOpacity(0.5),
                       size: 20,
                     ),
                     onPressed: () {
@@ -196,103 +183,76 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
                 : null,
           ),
         ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: SizedBox(
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: _isValid && !_isChecking ? _checkNickname : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isDarkMode
-                        ? Colors.grey.shade800
-                        : Colors.grey.shade100,
-                    foregroundColor: primaryColor,
-                    disabledBackgroundColor: isDarkMode
-                        ? Colors.grey.shade800.withOpacity(0.3)
-                        : Colors.grey.shade100.withOpacity(0.3),
-                    disabledForegroundColor:
-                        isDarkMode ? Colors.white30 : Colors.black26,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: _isChecking
-                      ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(primaryColor),
-                          ),
-                        )
-                      : Text(
-                          'nickname.check_availability'.tr(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                ),
+        const SizedBox(height: 8),
+        if (_errorMessage == null)
+          Padding(
+            padding: const EdgeInsets.only(left: 16, bottom: 24),
+            child: Text(
+              'nickname.nickname_rule'.tr(),
+              style: TextStyle(
+                fontSize: 14,
+                color: colorScheme.onSurface.withOpacity(0.6),
               ),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              flex: 1,
-              child: SizedBox(
-                height: 56,
-                child: ElevatedButton(
-                  onPressed:
-                      (_isValid && _nicknameChecked && _nicknameAvailable)
-                          ? _submit
-                          : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    foregroundColor: Colors.white,
-                    disabledBackgroundColor: primaryColor.withOpacity(0.3),
-                    disabledForegroundColor: Colors.white70,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Text(
-                    'complete'.tr(),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        const SizedBox(height: 8),
         if (_nicknameChecked && _nicknameAvailable)
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(left: 16, bottom: 24),
             child: Row(
               children: [
                 Icon(
-                  Icons.check_circle,
-                  color: Colors.green,
+                  Icons.check_circle_rounded,
+                  color: colorScheme.primary,
                   size: 16,
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: 8),
                 Text(
                   'nickname.available'.tr(),
                   style: TextStyle(
-                    color: Colors.green,
+                    color: colorScheme.primary,
                     fontSize: 14,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
           ),
+        const SizedBox(height: 16),
+        FilledButton(
+          onPressed: (_isValid && !_isChecking)
+              ? (_nicknameChecked && _nicknameAvailable
+                  ? _submit
+                  : _checkNickname)
+              : null,
+          style: FilledButton.styleFrom(
+            backgroundColor: colorScheme.primary,
+            foregroundColor: colorScheme.onPrimary,
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          child: _isChecking
+              ? SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(colorScheme.onPrimary),
+                  ),
+                )
+              : Text(
+                  _nicknameChecked && _nicknameAvailable
+                      ? 'complete'.tr()
+                      : 'nickname.check_availability'.tr(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+        ),
       ],
     );
   }

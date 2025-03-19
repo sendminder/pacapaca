@@ -133,7 +133,8 @@
         "notifications_disabled": "이제 알림을 받지 않아요",
         "notifications_enabled": "이제 알림을 받아요",
         "personal_info": "개인정보 처리 방침",
-        "terms_of_service": "이용약관"
+        "terms_of_service": "이용약관",
+        "community_guidelines": "파카파카 가이드라인"
     },
     "report": {
         "title": "사용자 신고",

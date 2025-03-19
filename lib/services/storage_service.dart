@@ -156,7 +156,7 @@ class StorageService {
 
   // 댓글 정렬 가져오기
   Future<String?> get commentSort async {
-    return _prefs.getString(_commentSortKey) ?? 'ordest';
+    return _prefs.getString(_commentSortKey) ?? 'oldest';
   }
 
   // 게시글 정렬 저장

@@ -171,6 +171,13 @@ class SettingsPage extends ConsumerWidget {
               launchUrl(Uri.parse(PacapacaLink.termsOfServiceLink));
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.people_outline_rounded),
+            title: Text('settings.community_guidelines'.tr()),
+            onTap: () {
+              context.push('/community-guidelines');
+            },
+          ),
           divider,
           ListTile(
             leading: const Icon(Icons.block),

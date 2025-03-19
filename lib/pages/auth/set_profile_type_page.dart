@@ -30,7 +30,7 @@ class SetProfileTypePage extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: primaryColor,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -43,11 +43,11 @@ class SetProfileTypePage extends ConsumerWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: screenHeight * 0.06),
+              SizedBox(height: screenHeight * 0.03),
               Expanded(
                 child: _buildProfileTypeOptions(context, ref),
               ),
-              SizedBox(height: screenHeight * 0.03),
+              SizedBox(height: screenHeight * 0.06),
             ],
           ),
         ),

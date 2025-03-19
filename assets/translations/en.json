@@ -129,7 +129,8 @@
         "notifications_permission_denied": "Notifications permission denied",
         "notifications_error": "Failed to set notifications",
         "personal_info": "Personal Information Processing Policy",
-        "terms_of_service": "Terms of Service"
+        "terms_of_service": "Terms of Service",
+        "community_guidelines": "PacaPaca Guidelines"
     },
     "report": {
         "title": "Report User",

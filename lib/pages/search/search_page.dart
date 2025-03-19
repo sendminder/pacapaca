@@ -51,8 +51,6 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           _onSearch(_currentQuery);
         }
       });
-    } else {
-      _focusNode.requestFocus();
     }
 
     _scrollController.addListener(_onScroll);
@@ -66,24 +64,27 @@ class _SearchPageState extends ConsumerState<SearchPage> {
 
     final recentSearches = ref.watch(recentSearchesProvider);
 
-    return Scaffold(
-      appBar: PageTitle(
-        title: _isTagSearch ? '#${_currentQuery}' : 'search.title'.tr(),
-        actions: const [
-          NotificationBell(),
-        ],
-        bottom: _buildSearchField(),
-        hasBackButton: false,
+    return GestureDetector(
+      onTap: () => _focusNode.unfocus(),
+      child: Scaffold(
+        appBar: PageTitle(
+          title: _isTagSearch ? '#${_currentQuery}' : 'search.title'.tr(),
+          actions: const [
+            NotificationBell(),
+          ],
+          bottom: _buildSearchField(),
+          hasBackButton: false,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        body: _currentQuery.isEmpty
+            ? _buildEmptySearch(recentSearches)
+            : searchResults.when(
+                data: (articles) => _buildSearchResults(articles),
+                error: (error, stackTrace) => _buildError(),
+                loading: () => _buildLoading(),
+              ),
+        floatingActionButton: _buildFloatingActionButton(),
       ),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: _currentQuery.isEmpty
-          ? _buildEmptySearch(recentSearches)
-          : searchResults.when(
-              data: (articles) => _buildSearchResults(articles),
-              error: (error, stackTrace) => _buildError(),
-              loading: () => _buildLoading(),
-            ),
-      floatingActionButton: _buildFloatingActionButton(),
     );
   }
 
