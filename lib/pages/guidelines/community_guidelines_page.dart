@@ -87,6 +87,15 @@ class CommunityGuidelinesPage extends ConsumerWidget {
                   await ref
                       .read(guidelinesConfirmedProvider.notifier)
                       .setGuidelinesConfirmed();
+
+                  if (context.mounted) {
+                    final fromSettings = GoRouterState.of(context)
+                        .matchedLocation
+                        .startsWith('/settings');
+                    if (fromSettings) {
+                      context.pop(); // 설정 페이지로 돌아가기
+                    }
+                  }
                 },
                 child: Text('guidelines.confirm_button'.tr()),
               ),

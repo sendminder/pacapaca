@@ -158,6 +158,13 @@ class SettingsPage extends ConsumerWidget {
           ),
           divider,
           ListTile(
+            leading: const Icon(Icons.people_outline_rounded),
+            title: Text('settings.community_guidelines'.tr()),
+            onTap: () {
+              context.push('/settings/guidelines');
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.person_outline_rounded),
             title: Text('settings.personal_info'.tr()),
             onTap: () {
@@ -169,13 +176,6 @@ class SettingsPage extends ConsumerWidget {
             title: Text('settings.terms_of_service'.tr()),
             onTap: () {
               launchUrl(Uri.parse(PacapacaLink.termsOfServiceLink));
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.people_outline_rounded),
-            title: Text('settings.community_guidelines'.tr()),
-            onTap: () {
-              context.push('/community-guidelines');
             },
           ),
           divider,

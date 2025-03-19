@@ -257,6 +257,11 @@ class RouterNotifier extends ChangeNotifier {
           builder: (context, state) => const BlockedUsersPage(),
         ),
         GoRoute(
+          path: '/settings/guidelines',
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => const CommunityGuidelinesPage(),
+        ),
+        GoRoute(
           path: '/store',
           parentNavigatorKey: _rootNavigatorKey,
           builder: (context, state) => const StorePage(),
