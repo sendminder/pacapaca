@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/services/storage_service.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {
   return ThemeNotifier();
@@ -42,6 +43,11 @@ final notificationEnabledProvider =
 final notificationSetupCompletedProvider =
     StateNotifierProvider<NotificationSetupCompletedNotifier, bool>((ref) {
   return NotificationSetupCompletedNotifier();
+});
+
+final guidelinesConfirmedProvider =
+    StateNotifierProvider<GuidelinesConfirmedNotifier, bool>((ref) {
+  return GuidelinesConfirmedNotifier();
 });
 
 class ThemeNotifier extends StateNotifier<ThemeMode> {
@@ -232,6 +238,32 @@ class NotificationSetupCompletedNotifier extends StateNotifier<bool> {
     } catch (e) {
       print('알림 설정 완료 상태 설정 중 오류 발생: $e');
       state = false; // 오류 발생 시 기본값으로 false 설정
+    }
+  }
+}
+
+class GuidelinesConfirmedNotifier extends StateNotifier<bool> {
+  GuidelinesConfirmedNotifier() : super(false) {
+    loadGuidelinesConfirmed();
+  }
+  final _storage = GetIt.instance<StorageService>();
+
+  Future<void> setGuidelinesConfirmed() async {
+    try {
+      await _storage.saveGuidelinesConfirmed(true);
+      state = true;
+    } catch (e) {
+      print('가이드라인 확인 상태 저장 중 오류 발생: $e');
+    }
+  }
+
+  Future<void> loadGuidelinesConfirmed() async {
+    try {
+      final confirmed = await _storage.guidelinesConfirmed;
+      state = confirmed ?? false;
+    } catch (e) {
+      print('가이드라인 확인 상태 로드 중 오류 발생: $e');
+      state = false;
     }
   }
 }

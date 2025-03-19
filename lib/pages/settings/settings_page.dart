@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pacapaca/constants/link.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -220,6 +221,19 @@ class SettingsPage extends ConsumerWidget {
               }
             },
           ),
+          // 개발 모드에서만 보이는 리셋 버튼
+          if (const bool.fromEnvironment('dart.vm.product') == false)
+            ListTile(
+              title: const Text('Reset All Settings (Dev only)'),
+              leading: const Icon(Icons.restore),
+              onTap: () async {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.clear();
+                if (context.mounted) {
+                  context.go('/splash');
+                }
+              },
+            ),
         ],
       ),
     );

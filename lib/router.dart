@@ -39,6 +39,7 @@ import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/providers/comment_provider.dart';
 import 'pages/article/deleted_article_page.dart';
 import 'package:pacapaca/services/article_service.dart';
+import 'pages/guidelines/community_guidelines_page.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -146,6 +147,12 @@ class RouterNotifier extends ChangeNotifier {
               : '/notification-setup';
         }
 
+        // 가이드라인 확인 여부 체크
+        final guidelinesConfirmed = _ref.read(guidelinesConfirmedProvider);
+        if (!guidelinesConfirmed) {
+          return state.matchedLocation == '/guidelines' ? null : '/guidelines';
+        }
+
         if (user.displayUser.isBlocked) {
           return '/login';
         }
@@ -154,7 +161,8 @@ class RouterNotifier extends ChangeNotifier {
         if (state.matchedLocation == '/login' ||
             state.matchedLocation == '/set-nickname' ||
             state.matchedLocation == '/set-profile-type' ||
-            state.matchedLocation == '/notification-setup') {
+            state.matchedLocation == '/notification-setup' ||
+            state.matchedLocation == '/guidelines') {
           return '/articles';
         }
 
@@ -179,6 +187,10 @@ class RouterNotifier extends ChangeNotifier {
         GoRoute(
           path: '/splash',
           builder: (context, state) => const SplashPage(),
+        ),
+        GoRoute(
+          path: '/guidelines',
+          builder: (context, state) => const CommunityGuidelinesPage(),
         ),
         GoRoute(
           path: '/login',

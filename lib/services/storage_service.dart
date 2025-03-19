@@ -24,6 +24,7 @@ class StorageService {
   static const String _notificationSetupCompletedKey =
       'notification_setup_completed';
   static const String _firstRunKey = 'first_run_key';
+  static const String _guidelinesConfirmedKey = 'guidelines_confirmed';
 
   static String nullValue = 'null';
 
@@ -208,5 +209,13 @@ class StorageService {
 
   Future<void> saveNotificationSetupCompleted(bool completed) async {
     await _prefs.setBool(_notificationSetupCompletedKey, completed);
+  }
+
+  Future<bool?> get guidelinesConfirmed async {
+    return _prefs.getBool(_guidelinesConfirmedKey) ?? false;
+  }
+
+  Future<void> saveGuidelinesConfirmed(bool confirmed) async {
+    await _prefs.setBool(_guidelinesConfirmedKey, confirmed);
   }
 }

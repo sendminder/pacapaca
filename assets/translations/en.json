@@ -288,5 +288,19 @@
         "comment_liked": "Comment Liked",
         "daily_login": "Daily Login",
         "send_carrot": "Send Carrot"
+    },
+    "guidelines": {
+        "title": "PacaPaca Community Guidelines",
+        "rule1_title": "1. Respect and Be Considerate",
+        "rule1_content": "Criticism, profanity, discriminatory remarks, and sexual content are prohibited. Please respect each other for comfortable conversations.",
+        "rule2_title": "2. Communicate Warmly and Positively",
+        "rule2_content": "Empathize with others' concerns and suggest positive solutions with a warm heart. It's important to communicate while respecting each other's feelings.",
+        "rule3_title": "3. Provide Constructive and Encouraging Feedback",
+        "rule3_content": "Please provide positive and constructive feedback rather than criticism. Communicate with the intention of encouraging others and solving problems together.",
+        "rule4_title": "4. Don't Ask for Personal Information or Suggest Meetings",
+        "rule4_content": "Requesting personal information or suggesting personal meetings is prohibited. Please focus on concern counseling.",
+        "rule5_title": "5. Report Rule Violations",
+        "rule5_content": "Please report users who violate community norms or engage in inappropriate behavior. Everyone must work together to maintain a safe and warm environment.",
+        "confirm_button": "I Understand"
     }
 }

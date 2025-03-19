@@ -52,6 +52,11 @@ void main() async {
       .read(notificationSetupCompletedProvider.notifier)
       .loadAndGetNotificationSetupCompleted();
 
+  // 가이드라인 확인 상태 로드
+  await container
+      .read(guidelinesConfirmedProvider.notifier)
+      .loadGuidelinesConfirmed();
+
   // 알림 관리자에 컨테이너 설정
   GetIt.instance<NotificationManagerService>().setProviderContainer(container);
 
