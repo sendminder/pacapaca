@@ -269,7 +269,17 @@
         "points": "Activity Points",
         "carrots": "Owned Carrots",
         "activity": "Activity",
-        "user_posts": "User Posts"
+        "user_posts": "User Posts",
+        "block_notice": {
+            "title": "Account Restriction Notice",
+            "title_short": "Account Restricted",
+            "description": "Your account has been temporarily restricted \ndue to a community guideline violation.",
+            "dialog_description": "Your account has been temporarily restricted \ndue to a community guideline violation.",
+            "unblock_time": "Restriction End Time",
+            "unblock_time_with_date": "Restriction ends at: %s",
+            "restrictions": "During the restriction period, activities such as posting, commenting, and liking are limited.",
+            "confirm": "OK"
+        }
     },
     "notification": {
         "title": "Notification",

@@ -55,3 +55,25 @@ class Blocks extends _$Blocks {
     }
   }
 }
+
+// 현재 사용자의 차단 상태를 확인하는 provider
+@riverpod
+class UserBlockStatus extends _$UserBlockStatus {
+  final _blockService = GetIt.instance<BlockService>();
+
+  @override
+  Future<Map<String, dynamic>> build() async {
+    return await _blockService.isUserBlocked();
+  }
+
+  /// 사용자 차단 상태 새로고침
+  Future<void> refreshBlockStatus() async {
+    state = const AsyncValue.loading();
+    try {
+      final status = await _blockService.isUserBlocked();
+      state = AsyncValue.data(status);
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+    }
+  }
+}

@@ -11,6 +11,7 @@ import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/utils/block_check_util.dart';
 
 class ArticleDetailContent extends ConsumerWidget {
   final ArticleDTO article;
@@ -233,11 +234,14 @@ class ArticleDetailContent extends ConsumerWidget {
                 displayArticle.isLiked ? Icons.favorite : Icons.favorite_border,
             count: displayArticle.likeCount,
             color: displayArticle.isLiked ? colorScheme.primary : null,
-            onTap: () {
+            onTap: () async {
               logger.i('상세 페이지: 좋아요 버튼 클릭 - articleId=${displayArticle.id}');
-              ref
-                  .read(articleCacheProvider.notifier)
-                  .toggleLike(displayArticle.id);
+              // 차단 상태 확인
+              if (await BlockCheckUtil.canPerformAction(context, ref)) {
+                ref
+                    .read(articleCacheProvider.notifier)
+                    .toggleLike(displayArticle.id);
+              }
             },
             size: 20,
             textSize: 14,

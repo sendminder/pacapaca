@@ -12,6 +12,7 @@ import 'package:pacapaca/widgets/shared/article_skeleton_item.dart';
 import 'package:pacapaca/widgets/notification/notification_bell.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pacapaca/utils/block_check_util.dart';
 
 class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});
@@ -314,7 +315,11 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
       children: [
         FloatingActionButton(
           heroTag: 'ai_helper',
-          onPressed: () => context.push('/articles/ai-helper'),
+          onPressed: () async {
+            if (await BlockCheckUtil.canPerformAction(context, ref)) {
+              context.push('/articles/ai-helper');
+            }
+          },
           child: Image.asset(
             'assets/profiles/pacappiface.png',
             width: 36,
@@ -324,7 +329,11 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
         const SizedBox(height: 8),
         FloatingActionButton(
           heroTag: 'create_article',
-          onPressed: () => context.push('/articles/new'),
+          onPressed: () async {
+            if (await BlockCheckUtil.canPerformAction(context, ref)) {
+              context.push('/articles/new');
+            }
+          },
           child: Icon(
             Icons.edit,
             color: Colors.white.withAlpha(200),

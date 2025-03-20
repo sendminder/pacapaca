@@ -21,5 +21,21 @@ final blocksProvider =
 );
 
 typedef _$Blocks = AutoDisposeAsyncNotifier<List<UserBlockDTO>>;
+String _$userBlockStatusHash() => r'7157902165e3908ad8124fc426da3ba0a94950b7';
+
+/// See also [UserBlockStatus].
+@ProviderFor(UserBlockStatus)
+final userBlockStatusProvider = AutoDisposeAsyncNotifierProvider<
+    UserBlockStatus, Map<String, dynamic>>.internal(
+  UserBlockStatus.new,
+  name: r'userBlockStatusProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$userBlockStatusHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$UserBlockStatus = AutoDisposeAsyncNotifier<Map<String, dynamic>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

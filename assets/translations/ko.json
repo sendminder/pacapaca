@@ -275,7 +275,17 @@
         "points": "활동 점수",
         "carrots": "보유 당근",
         "activity": "활동",
-        "user_posts": "사용자가 올린 게시글"
+        "user_posts": "사용자가 올린 게시글",
+        "block_notice": {
+            "title": "계정 이용 제한 안내",
+            "title_short": "계정 이용 제한",
+            "description": "커뮤니티 가이드라인 위반으로 \n일시적으로 서비스 이용이 제한되었습니다.",
+            "dialog_description": "커뮤니티 가이드라인 위반으로 \n일시적으로 서비스 이용이 제한되었습니다.",
+            "unblock_time": "제한 해제 시간",
+            "unblock_time_with_date": "제한 해제 시간: %s",
+            "restrictions": "제한 기간 동안에는 글쓰기, 댓글 작성, 좋아요 등의 활동이 제한됩니다.",
+            "confirm": "확인"
+        }
     },
     "notification": {
         "title": "알림함",

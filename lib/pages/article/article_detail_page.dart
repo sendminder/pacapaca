@@ -17,6 +17,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pacapaca/utils/block_check_util.dart';
 
 class ArticleDetailPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -158,21 +159,24 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                 controller: _commentController,
                 focusNode: _focusNode,
                 onSubmit: (content) async {
-                  await ref
-                      .read(commentListProvider(widget.articleId).notifier)
-                      .addComment(
-                          widget.articleId, content, _replyingCommentId);
+                  // 차단 상태 확인
+                  if (await BlockCheckUtil.canPerformAction(context, ref)) {
+                    await ref
+                        .read(commentListProvider(widget.articleId).notifier)
+                        .addComment(
+                            widget.articleId, content, _replyingCommentId);
 
-                  // 댓글 카운트 증가
-                  ref
-                      .read(articleCacheProvider.notifier)
-                      .incrementCommentCount(widget.articleId);
+                    // 댓글 카운트 증가
+                    ref
+                        .read(articleCacheProvider.notifier)
+                        .incrementCommentCount(widget.articleId);
 
-                  _commentController.clear();
-                  _focusNode.unfocus();
-                  setState(() {
-                    _replyingCommentId = null; // 답글 작성 완료 후 초기화
-                  });
+                    _commentController.clear();
+                    _focusNode.unfocus();
+                    setState(() {
+                      _replyingCommentId = null; // 답글 작성 완료 후 초기화
+                    });
+                  }
                 },
                 hintText: _replyingCommentId != null
                     ? 'comment.write_reply'.tr()
@@ -278,9 +282,12 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
             _focusNode.requestFocus();
           },
           onToggleLike: (commentId) async {
-            await ref
-                .read(commentListProvider(widget.articleId).notifier)
-                .toggleLike(commentId);
+            // 차단 상태 확인
+            if (await BlockCheckUtil.canPerformAction(context, ref)) {
+              await ref
+                  .read(commentListProvider(widget.articleId).notifier)
+                  .toggleLike(commentId);
+            }
           },
         );
       },
