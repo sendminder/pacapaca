@@ -276,7 +276,8 @@
             "description": "Your account has been temporarily restricted \ndue to a community guideline violation.",
             "dialog_description": "Your account has been temporarily restricted \ndue to a community guideline violation.",
             "unblock_time": "Restriction End Time",
-            "unblock_time_with_date": "Restriction ends at: %s",
+            "unblock_time_with_date": "Restriction ends at\n{}",
+            "unblock_time_forever": "Permanently restricted",
             "restrictions": "During the restriction period, activities such as posting, commenting, and liking are limited.",
             "confirm": "OK"
         }

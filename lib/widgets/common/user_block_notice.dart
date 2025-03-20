@@ -16,7 +16,7 @@ class UserBlockNotice extends ConsumerWidget {
       data: (status) {
         if (status['isBlocked'] == true && !skipShownBlockNotice) {
           skipShownBlockNotice = true;
-          return _buildBlockedView(context, status['blockUntil'], ref);
+          return _buildBlockedView(context, status['blockedTime'], ref);
         }
         return const SizedBox.shrink(); // 차단되지 않은 경우 빈 위젯 반환
       },
@@ -26,11 +26,13 @@ class UserBlockNotice extends ConsumerWidget {
   }
 
   Widget _buildBlockedView(
-      BuildContext context, DateTime blockUntil, WidgetRef ref) {
+      BuildContext context, DateTime? blockUntil, WidgetRef ref) {
     final dateFormat = context.locale.languageCode == 'ko'
         ? DateFormat('yyyy년 MM월 dd일 HH시 mm분')
         : DateFormat('MMM dd, yyyy HH:mm');
-    final formattedDate = dateFormat.format(blockUntil);
+    final formattedDate = blockUntil != null
+        ? dateFormat.format(blockUntil)
+        : 'user.block_notice.unblock_time'.tr();
 
     return Container(
       color: Colors.black.withAlpha(230),

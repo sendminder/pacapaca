@@ -89,7 +89,7 @@ class BlockService {
         if (blockTime.isAfter(now)) {
           return {
             'isBlocked': true,
-            'blockUntil': blockTime,
+            'blockedTime': blockTime,
           };
         }
       }

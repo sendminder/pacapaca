@@ -23,7 +23,7 @@ class BlockCheckUtil {
       data: (status) {
         if (status['isBlocked'] == true) {
           // 차단된 경우 알림 다이얼로그 표시
-          _showBlockedDialog(context, status['blockUntil']);
+          _showBlockedDialog(context, status['blockedTime']);
           return false;
         }
         return true;
