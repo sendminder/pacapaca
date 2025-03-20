@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/block_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// 사용자 차단 기능 확인 유틸리티
 ///
@@ -34,27 +35,30 @@ class BlockCheckUtil {
 
   /// 차단 알림 다이얼로그를 표시합니다.
   static void _showBlockedDialog(BuildContext context, DateTime blockUntil) {
-    final dateFormat = DateFormat('yyyy년 MM월 dd일 HH시 mm분', 'ko');
+    final dateFormat = context.locale.languageCode == 'ko'
+        ? DateFormat('yyyy년 MM월 dd일 HH시 mm분')
+        : DateFormat('MMM dd, yyyy HH:mm');
     final formattedDate = dateFormat.format(blockUntil);
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.block, color: Colors.red),
-            SizedBox(width: 8),
-            Text('계정 이용 제한'),
+            const Icon(Icons.block, color: Colors.red),
+            const SizedBox(width: 8),
+            Text('user.block_notice.title_short'.tr()),
           ],
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('커뮤니티 가이드라인 위반으로 일시적으로 서비스 이용이 제한되었습니다.'),
+            Text('user.block_notice.dialog_description'.tr()),
             const SizedBox(height: 16),
             Text(
-              '제한 해제 시간: $formattedDate',
+              'user.block_notice.unblock_time_with_date'
+                  .tr(args: [formattedDate]),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.red.withAlpha(200),
@@ -65,7 +69,7 @@ class BlockCheckUtil {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('확인'),
+            child: Text('user.block_notice.confirm'.tr()),
           ),
         ],
       ),

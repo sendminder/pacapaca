@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/block_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:intl/intl.dart';
+import 'package:pacapaca/router.dart';
 
 class UserBlockNotice extends ConsumerWidget {
-  const UserBlockNotice({Key? key}) : super(key: key);
+  UserBlockNotice({Key? key}) : super(key: key);
+  bool skipShownBlockNotice = false;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -13,8 +14,9 @@ class UserBlockNotice extends ConsumerWidget {
 
     return blockStatus.when(
       data: (status) {
-        if (status['isBlocked'] == true) {
-          return _buildBlockedView(context, status['blockUntil']);
+        if (status['isBlocked'] == true && !skipShownBlockNotice) {
+          skipShownBlockNotice = true;
+          return _buildBlockedView(context, status['blockUntil'], ref);
         }
         return const SizedBox.shrink(); // 차단되지 않은 경우 빈 위젯 반환
       },
@@ -23,8 +25,11 @@ class UserBlockNotice extends ConsumerWidget {
     );
   }
 
-  Widget _buildBlockedView(BuildContext context, DateTime blockUntil) {
-    final dateFormat = DateFormat('yyyy년 MM월 dd일 HH시 mm분', 'ko');
+  Widget _buildBlockedView(
+      BuildContext context, DateTime blockUntil, WidgetRef ref) {
+    final dateFormat = context.locale.languageCode == 'ko'
+        ? DateFormat('yyyy년 MM월 dd일 HH시 mm분')
+        : DateFormat('MMM dd, yyyy HH:mm');
     final formattedDate = dateFormat.format(blockUntil);
 
     return Container(
@@ -49,14 +54,14 @@ class UserBlockNotice extends ConsumerWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                '계정 이용 제한 안내',
+                'user.block_notice.title'.tr(),
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
               ),
               const SizedBox(height: 16),
               Text(
-                '안녕하세요.\n커뮤니티 가이드라인 위반으로 일시적으로 서비스 이용이 제한되었습니다.',
+                'user.block_notice.description'.tr(),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
@@ -64,7 +69,7 @@ class UserBlockNotice extends ConsumerWidget {
               const Divider(),
               const SizedBox(height: 8),
               Text(
-                '제한 해제 시간',
+                'user.block_notice.unblock_time'.tr(),
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -78,7 +83,7 @@ class UserBlockNotice extends ConsumerWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                '제한 기간 동안에는 글쓰기, 댓글 작성, 좋아요 등의 활동이 제한됩니다.',
+                'user.block_notice.restrictions'.tr(),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.grey[600],
@@ -86,7 +91,12 @@ class UserBlockNotice extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  skipShownBlockNotice = true;
+                  ref.invalidate(userBlockStatusProvider);
+                  final router = ref.read(routerProvider);
+                  router.go('/articles');
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                   minimumSize: const Size(double.infinity, 50),
@@ -95,7 +105,7 @@ class UserBlockNotice extends ConsumerWidget {
                   ),
                 ),
                 child: Text(
-                  '확인',
+                  'user.block_notice.confirm'.tr(),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Colors.white,
                       ),

@@ -40,6 +40,7 @@ import 'package:pacapaca/providers/comment_provider.dart';
 import 'pages/article/deleted_article_page.dart';
 import 'package:pacapaca/services/article_service.dart';
 import 'pages/guidelines/community_guidelines_page.dart';
+import 'widgets/common/user_block_notice.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -50,9 +51,9 @@ final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/splash',
     navigatorKey: _rootNavigatorKey,
-    refreshListenable: router, // 인증 상태 변경 감지
-    redirect: router._redirectLogic, // 리다이렉트 로직
-    routes: router._routes, // 라우트 설정
+    refreshListenable: router,
+    redirect: router._redirectLogic,
+    routes: router._routes,
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text('페이지를 찾을 수 없습니다: ${state.error}'),
@@ -151,10 +152,6 @@ class RouterNotifier extends ChangeNotifier {
         final guidelinesConfirmed = _ref.read(guidelinesConfirmedProvider);
         if (!guidelinesConfirmed) {
           return state.matchedLocation == '/guidelines' ? null : '/guidelines';
-        }
-
-        if (user.displayUser.isBlocked) {
-          return '/login';
         }
 
         // 모든 정보가 설정된 경우
