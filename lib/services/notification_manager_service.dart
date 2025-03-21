@@ -11,6 +11,8 @@ import 'package:pacapaca/router.dart';
 import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/providers/comment_provider.dart';
 import 'package:pacapaca/providers/notification_provider.dart';
+import 'package:pacapaca/providers/comment_reply_provider.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
 
 class NotificationManagerService {
   final _notificationService = GetIt.instance<NotificationService>();
@@ -409,7 +411,10 @@ class NotificationManagerService {
         }
 
         // 댓글 목록도 새로고침
+        final sortBy = _container.read(commentSortProvider);
+        final commentId = int.tryParse(data['sub_id']?.toString() ?? '') ?? 0;
         _container.refresh(commentListProvider(refId));
+        _container.refresh(commentReplyListProvider(sortBy, refId, commentId));
       }
       // 알림 목록도 새로고침
       _container
