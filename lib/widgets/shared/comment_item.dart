@@ -55,18 +55,20 @@ class CommentItem extends ConsumerWidget {
             padding: EdgeInsets.only(
               left: 12,
               right: 12,
-              bottom: comment.isDeleted ? 12 : 6,
+              bottom: comment.isDeleted || comment.isBlocked ? 12 : 6,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildCommentHeader(context, ref),
                 _buildCommentContent(context),
-                SizedBox(height: comment.isDeleted ? 10 : 16),
-                comment.isDeleted
+                SizedBox(
+                    height: comment.isDeleted || comment.isBlocked ? 10 : 16),
+                comment.isDeleted || comment.isBlocked
                     ? const SizedBox.shrink()
                     : _buildActionButtons(context),
-                SizedBox(height: comment.isDeleted ? 0 : 4),
+                SizedBox(
+                    height: comment.isDeleted || comment.isBlocked ? 0 : 4),
               ],
             ),
           ),
@@ -222,10 +224,14 @@ class CommentItem extends ConsumerWidget {
 
   Widget _buildCommentContent(BuildContext context) {
     return Text(
-      comment.isDeleted ? 'comment.deleted'.tr() : comment.content,
+      comment.isDeleted
+          ? 'comment.deleted'.tr()
+          : comment.isBlocked
+              ? 'comment.blocked'.tr()
+              : comment.content,
       style: TextStyle(
         fontSize: 16,
-        color: comment.isDeleted
+        color: comment.isDeleted || comment.isBlocked
             ? Theme.of(context).colorScheme.onSurface.withAlpha(128)
             : Theme.of(context).colorScheme.onSurface,
         height: 1.4,

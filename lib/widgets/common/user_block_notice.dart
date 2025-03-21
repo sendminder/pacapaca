@@ -43,7 +43,9 @@ class UserBlockNotice extends ConsumerWidget {
           margin: const EdgeInsets.all(24),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey[900]
+                : Colors.white,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
@@ -59,21 +61,35 @@ class UserBlockNotice extends ConsumerWidget {
                 'user.block_notice.title'.tr(),
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
                     ),
               ),
               const SizedBox(height: 16),
               Text(
                 'user.block_notice.description'.tr(),
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey[300]
+                          : Colors.black,
+                    ),
               ),
               const SizedBox(height: 20),
-              const Divider(),
+              Divider(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey[700]
+                    : Colors.grey[300],
+              ),
               const SizedBox(height: 8),
               Text(
                 'user.block_notice.unblock_time'.tr(),
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
                     ),
               ),
               const SizedBox(height: 8),
@@ -88,7 +104,9 @@ class UserBlockNotice extends ConsumerWidget {
                 'user.block_notice.restrictions'.tr(),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[600],
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey[400]
+                          : Colors.grey[600],
                     ),
               ),
               const SizedBox(height: 24),

@@ -26,6 +26,7 @@ _$ArticleCommentDTOImpl _$$ArticleCommentDTOImplFromJson(
       hasMore: json['has_more'] as bool?,
       likeCount: (json['like_count'] as num).toInt(),
       isLiked: json['is_liked'] as bool,
+      isBlocked: json['is_blocked'] as bool,
     );
 
 Map<String, dynamic> _$$ArticleCommentDTOImplToJson(
@@ -45,6 +46,7 @@ Map<String, dynamic> _$$ArticleCommentDTOImplToJson(
       'has_more': instance.hasMore,
       'like_count': instance.likeCount,
       'is_liked': instance.isLiked,
+      'is_blocked': instance.isBlocked,
     };
 
 _$ResponseGetCommentImpl _$$ResponseGetCommentImplFromJson(
