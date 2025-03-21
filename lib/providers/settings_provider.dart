@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/services/storage_service.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {
   return ThemeNotifier();
@@ -47,6 +48,11 @@ final notificationSetupCompletedProvider =
 final guidelinesConfirmedProvider =
     StateNotifierProvider<GuidelinesConfirmedNotifier, bool>((ref) {
   return GuidelinesConfirmedNotifier();
+});
+
+final appVersionProvider =
+    StateNotifierProvider<AppVersionNotifier, String>((ref) {
+  return AppVersionNotifier();
 });
 
 class ThemeNotifier extends StateNotifier<ThemeMode> {
@@ -264,5 +270,16 @@ class GuidelinesConfirmedNotifier extends StateNotifier<bool> {
       print('가이드라인 확인 상태 로드 중 오류 발생: $e');
       state = false;
     }
+  }
+}
+
+class AppVersionNotifier extends StateNotifier<String> {
+  AppVersionNotifier() : super('') {
+    _loadAppVersion();
+  }
+
+  Future<void> _loadAppVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    state = packageInfo.version;
   }
 }

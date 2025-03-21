@@ -222,7 +222,7 @@ class StorageService {
 
   bool get isFirstLaunch => _prefs.getBool(_isFirstLaunchKey) ?? true;
 
-  void saveIsFirstLaunch(bool isFirstLaunch) {
-    _prefs.setBool(_isFirstLaunchKey, isFirstLaunch);
+  Future<void> saveIsFirstLaunch(bool isFirstLaunch) async {
+    await _prefs.setBool(_isFirstLaunchKey, isFirstLaunch);
   }
 }

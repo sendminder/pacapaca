@@ -118,7 +118,7 @@ class RouterNotifier extends ChangeNotifier {
       BuildContext context, GoRouterState state) async {
     final bool isFirstLaunch = _storageService.isFirstLaunch;
     if (isFirstLaunch) {
-      _storageService.saveIsFirstLaunch(false);
+      await _storageService.saveIsFirstLaunch(false);
     }
 
     return _lastKnownState.when(

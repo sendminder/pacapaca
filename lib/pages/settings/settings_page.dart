@@ -24,6 +24,7 @@ class SettingsPage extends ConsumerWidget {
       color: Theme.of(context).colorScheme.onSurface.withAlpha(15),
       height: 1,
     );
+    final appVersion = ref.watch(appVersionProvider);
 
     return Scaffold(
       appBar: PageTitle(
@@ -185,6 +186,17 @@ class SettingsPage extends ConsumerWidget {
             onTap: () {
               context.push('/settings/blocked-users');
             },
+          ),
+          ListTile(
+            leading: const Icon(Icons.perm_device_information_rounded),
+            title: Text('settings.app_version'.tr()),
+            trailing: Text(
+              appVersion,
+              style: TextStyle(
+                fontSize: 12,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(15),
+              ),
+            ),
           ),
           ListTile(
             leading: Icon(

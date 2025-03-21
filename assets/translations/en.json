@@ -131,7 +131,8 @@
         "notifications_error": "Failed to set notifications",
         "personal_info": "Personal Information Processing Policy",
         "terms_of_service": "Terms of Service",
-        "community_guidelines": "PacaPaca Guidelines"
+        "community_guidelines": "PacaPaca Guidelines",
+        "app_version": "App Version"
     },
     "report": {
         "title": "Report User",
