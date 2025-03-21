@@ -32,7 +32,13 @@ class _CommentEditDialogState extends State<CommentEditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('comment.edit_comment'.tr()),
+      title: Text(
+        'comment.edit_comment'.tr(),
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+      ),
       content: TextField(
         controller: _controller,
         decoration: InputDecoration(
@@ -46,13 +52,21 @@ class _CommentEditDialogState extends State<CommentEditDialog> {
           onPressed: () => context.pop(),
           child: Text('comment.cancel'.tr()),
         ),
-        TextButton(
+        FilledButton(
           onPressed: () {
             final content = _controller.text.trim();
             if (content.isNotEmpty) {
               context.pop(content);
             }
           },
+          style: FilledButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
           child: Text('comment.edit'.tr()),
         ),
       ],

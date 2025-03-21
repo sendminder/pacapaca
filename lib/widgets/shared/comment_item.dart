@@ -13,6 +13,7 @@ import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/constants/admin_user_ids.dart';
 import 'package:pacapaca/utils/block_check_util.dart';
+import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
 
 class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
@@ -311,22 +312,12 @@ class CommentItem extends ConsumerWidget {
           if (context.mounted) {
             final confirmed = await showDialog<bool>(
               context: context,
-              builder: (context) => AlertDialog(
-                title: Text('comment.delete_comment'.tr()),
-                content: Text('comment.delete_confirm'.tr()),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, false),
-                    child: Text('comment.cancel'.tr()),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, true),
-                    child: Text(
-                      'comment.delete'.tr(),
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                  ),
-                ],
+              builder: (context) => ConfirmationDialog(
+                title: 'comment.delete_comment'.tr(),
+                content: 'comment.delete_confirm'.tr(),
+                cancelText: 'comment.cancel'.tr(),
+                confirmText: 'comment.delete'.tr(),
+                isDanger: true,
               ),
             );
 

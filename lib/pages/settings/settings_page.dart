@@ -10,6 +10,7 @@ import 'package:pacapaca/widgets/page_title.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pacapaca/constants/link.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -210,24 +211,12 @@ class SettingsPage extends ConsumerWidget {
             onTap: () async {
               final confirmed = await showDialog<bool>(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('settings.logout'.tr()),
-                  content: Text('settings.logout_confirm'.tr()),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: Text('settings.cancel'.tr()),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: Text(
-                        'settings.logout'.tr(),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      ),
-                    ),
-                  ],
+                builder: (context) => ConfirmationDialog(
+                  title: 'settings.logout'.tr(),
+                  content: 'settings.logout_confirm'.tr(),
+                  cancelText: 'settings.cancel'.tr(),
+                  confirmText: 'settings.logout'.tr(),
+                  isDanger: true,
                 ),
               );
 

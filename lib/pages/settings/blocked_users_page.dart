@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/models/dto/block_dto.dart';
 import 'package:pacapaca/providers/block_provider.dart';
-import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
-import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
+import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
+import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
+import 'package:pacapaca/widgets/page_title.dart';
 
 class BlockedUsersPage extends ConsumerWidget {
   const BlockedUsersPage({super.key});
@@ -58,24 +60,12 @@ class BlockedUsersPage extends ConsumerWidget {
                 confirmDismiss: (direction) async {
                   return await showDialog<bool>(
                         context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text('block.unblock'.tr()),
-                          content: Text('block.unblock_confirm'.tr()),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, false),
-                              child: Text('block.cancel'.tr()),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, true),
-                              child: Text(
-                                'block.unblock'.tr(),
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.error,
-                                ),
-                              ),
-                            ),
-                          ],
+                        builder: (context) => ConfirmationDialog(
+                          title: 'block.unblock'.tr(),
+                          content: 'block.unblock_confirm'.tr(),
+                          cancelText: 'block.cancel'.tr(),
+                          confirmText: 'block.unblock'.tr(),
+                          isDanger: true,
                         ),
                       ) ??
                       false;
@@ -104,24 +94,12 @@ class BlockedUsersPage extends ConsumerWidget {
                     onPressed: () async {
                       final confirmed = await showDialog<bool>(
                         context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text('block.unblock'.tr()),
-                          content: Text('block.unblock_confirm'.tr()),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, false),
-                              child: Text('block.cancel'.tr()),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, true),
-                              child: Text(
-                                'block.unblock'.tr(),
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.error,
-                                ),
-                              ),
-                            ),
-                          ],
+                        builder: (context) => ConfirmationDialog(
+                          title: 'block.unblock'.tr(),
+                          content: 'block.unblock_confirm'.tr(),
+                          cancelText: 'block.cancel'.tr(),
+                          confirmText: 'block.unblock'.tr(),
+                          isDanger: true,
                         ),
                       );
 

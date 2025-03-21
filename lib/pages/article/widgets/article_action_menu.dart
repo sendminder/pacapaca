@@ -8,6 +8,7 @@ import 'package:pacapaca/providers/article_provider.dart';
 import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/providers/report_provider.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
+import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
 import 'package:pacapaca/constants/admin_user_ids.dart';
 import 'package:pacapaca/utils/block_check_util.dart';
 
@@ -89,22 +90,12 @@ class ArticleActionMenu extends ConsumerWidget {
       BuildContext context, WidgetRef ref) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('article.delete_confirm'.tr()),
-        content: Text('article.delete_confirm_desc'.tr()),
-        actions: [
-          TextButton(
-            onPressed: () => context.pop(false),
-            child: Text('article.cancel'.tr()),
-          ),
-          TextButton(
-            onPressed: () => context.pop(true),
-            child: Text(
-              'article.delete'.tr(),
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-          ),
-        ],
+      builder: (context) => ConfirmationDialog(
+        title: 'article.delete_confirm'.tr(),
+        content: 'article.delete_confirm_desc'.tr(),
+        cancelText: 'article.cancel'.tr(),
+        confirmText: 'article.delete'.tr(),
+        isDanger: true,
       ),
     );
 
@@ -127,22 +118,12 @@ class ArticleActionMenu extends ConsumerWidget {
       BuildContext context, WidgetRef ref) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('block.title'.tr()),
-        content: Text('block.confirm'.tr()),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('block.cancel'.tr()),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(
-              'block.submit'.tr(),
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-          ),
-        ],
+      builder: (context) => ConfirmationDialog(
+        title: 'block.title'.tr(),
+        content: 'block.confirm'.tr(),
+        cancelText: 'block.cancel'.tr(),
+        confirmText: 'block.submit'.tr(),
+        isDanger: true,
       ),
     );
 
