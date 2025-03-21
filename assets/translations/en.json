@@ -323,6 +323,7 @@
         "force_update_warning": "Service is not available in the current version",
         "update_now": "Update Now",
         "required": "Required",
+        "new": "New",
         "new_version_available": "New Version Available",
         "update_description": "Please update to the latest version\nfor smooth service use",
         "update": "Update",

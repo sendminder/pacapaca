@@ -34,6 +34,9 @@ class StorageService {
   // SharedPreferences 인스턴스
   final SharedPreferences _prefs;
 
+  // local memory instance
+  bool _isFirstLaunch = true;
+
   // FlutterSecureStorage 인스턴스 (민감 정보용)
   final _secureStorage = const FlutterSecureStorage(
     iOptions: IOSOptions(
@@ -220,9 +223,9 @@ class StorageService {
     await _prefs.setBool(_guidelinesConfirmedKey, confirmed);
   }
 
-  bool get isFirstLaunch => _prefs.getBool(_isFirstLaunchKey) ?? true;
+  bool get isFirstLaunch => _isFirstLaunch;
 
-  Future<void> saveIsFirstLaunch(bool isFirstLaunch) async {
-    await _prefs.setBool(_isFirstLaunchKey, isFirstLaunch);
+  void saveIsFirstLaunch(bool isFirstLaunch) {
+    _isFirstLaunch = isFirstLaunch;
   }
 }

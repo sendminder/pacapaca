@@ -38,10 +38,10 @@ class ForceUpdatePage extends StatelessWidget {
                   ),
                   child: Stack(
                     children: [
-                      const Icon(
-                        Icons.warning_rounded,
-                        size: 80,
-                        color: Colors.red,
+                      Image.asset(
+                        'assets/icon/pacapaca_app.jpeg',
+                        width: 80,
+                        height: 80,
                       ),
                       Positioned(
                         right: 0,
@@ -52,7 +52,7 @@ class ForceUpdatePage extends StatelessWidget {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.red,
+                            color: Theme.of(context).colorScheme.secondary,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -90,9 +90,9 @@ class ForceUpdatePage extends StatelessWidget {
                 Text(
                   'update.force_update_warning'.tr(),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
-                    color: Colors.red,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -101,7 +101,7 @@ class ForceUpdatePage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: _openStore,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(

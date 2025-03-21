@@ -193,8 +193,8 @@ class SettingsPage extends ConsumerWidget {
             trailing: Text(
               appVersion,
               style: TextStyle(
-                fontSize: 12,
-                color: Theme.of(context).colorScheme.onSurface.withAlpha(15),
+                fontSize: 15,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
               ),
             ),
           ),

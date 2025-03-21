@@ -28,7 +28,7 @@ class SetProfileTypePage extends ConsumerWidget {
               Text(
                 'profile.choose_type'.tr(),
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
@@ -38,7 +38,7 @@ class SetProfileTypePage extends ConsumerWidget {
               Text(
                 'profile.question'.tr(),
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   color: isDarkMode ? Colors.white70 : Colors.black54,
                 ),
                 textAlign: TextAlign.center,
@@ -115,8 +115,8 @@ class _ProfileTypeCard extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     final cardColor = type == PacapacaProfileType.pacappi
-        ? primaryColor.withOpacity(0.1)
-        : secondaryColor.withOpacity(0.1);
+        ? primaryColor.withAlpha(25)
+        : secondaryColor.withAlpha(25);
 
     final borderColor =
         type == PacapacaProfileType.pacappi ? primaryColor : secondaryColor;
@@ -125,15 +125,15 @@ class _ProfileTypeCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: isDarkMode ? Colors.grey.shade800.withOpacity(0.3) : cardColor,
+        color: isDarkMode ? Colors.grey.shade800.withAlpha(75) : cardColor,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: borderColor.withOpacity(0.3),
+          color: borderColor.withAlpha(75),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: borderColor.withOpacity(0.1),
+            color: borderColor.withAlpha(25),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -156,7 +156,7 @@ class _ProfileTypeCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: borderColor.withOpacity(0.5),
+                          color: borderColor.withAlpha(128),
                           width: 2,
                         ),
                       ),
@@ -171,7 +171,7 @@ class _ProfileTypeCard extends StatelessWidget {
                             return Container(
                               height: imageSize,
                               width: imageSize,
-                              color: borderColor.withOpacity(0.2),
+                              color: borderColor.withAlpha(50),
                               child: Icon(
                                 Icons.person,
                                 size: imageSize * 0.5,
@@ -199,10 +199,10 @@ class _ProfileTypeCard extends StatelessWidget {
                           Text(
                             description,
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 16,
                               color:
                                   isDarkMode ? Colors.white70 : Colors.black54,
-                              height: 1.3,
+                              height: 1.4,
                             ),
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,

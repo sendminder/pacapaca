@@ -117,15 +117,9 @@ class RouterNotifier extends ChangeNotifier {
   Future<String?> _redirectLogic(
       BuildContext context, GoRouterState state) async {
     final bool isFirstLaunch = _storageService.isFirstLaunch;
-    if (isFirstLaunch) {
-      await _storageService.saveIsFirstLaunch(false);
-    }
 
     return _lastKnownState.when(
       data: (user) {
-        logger.d(
-            'Redirect logic with user: $user, current location: ${state.matchedLocation}');
-
         // 스플래시 페이지는 항상 허용
         if (state.matchedLocation == '/splash') return null;
 
@@ -168,7 +162,8 @@ class RouterNotifier extends ChangeNotifier {
 
         if (user.needUpdated == true) {
           // 앱 최초 실행 시에는 업데이트 페이지를 보여주지 않음
-          if (!isFirstLaunch) {
+          if (isFirstLaunch) {
+            _storageService.saveIsFirstLaunch(false);
             return '/update';
           }
         }

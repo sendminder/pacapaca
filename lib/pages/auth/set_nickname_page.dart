@@ -38,10 +38,8 @@ class SetNicknamePage extends ConsumerWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.6),
+                    color:
+                        Theme.of(context).colorScheme.onSurface.withAlpha(150),
                   ),
                 ),
               ),

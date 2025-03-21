@@ -31,13 +31,18 @@ class _NotificationPermissionPageState
     });
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Icon(
+                Icons.notifications_active,
+                size: 80,
+                color: Colors.amber,
+              ),
+              const SizedBox(height: 16),
               Text(
                 'notification.setup_title'.tr(),
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -45,45 +50,63 @@ class _NotificationPermissionPageState
                     ),
                 textAlign: TextAlign.center,
               ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.notifications_active,
-                      size: 80,
-                      color: Colors.amber,
-                    ),
-                    const SizedBox(height: 24),
-                    Text(
-                      'notification.permission_title'.tr(),
-                      style: Theme.of(context).textTheme.headlineMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'notification.permission_description'.tr(),
-                      style: Theme.of(context).textTheme.bodyLarge,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                onPressed: _isLoading ? null : _enableNotifications,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                ),
-                child: _isLoading
-                    ? const CircularProgressIndicator()
-                    : Text('notification.enable'.tr()),
-              ),
               const SizedBox(height: 16),
-              TextButton(
-                onPressed: _isLoading ? null : _skipNotifications,
-                child: Text('notification.skip'.tr()),
+              Text(
+                'notification.permission_description'.tr(),
+                style: Theme.of(context).textTheme.bodyLarge,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 50),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : _enableNotifications,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: _isLoading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Text(
+                          'notification.enable'.tr(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : _skipNotifications,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Theme.of(context).colorScheme.primary.withAlpha(30),
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    'notification.skip'.tr(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(height: 50),
             ],
