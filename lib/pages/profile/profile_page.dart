@@ -23,7 +23,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => ref.read(authProvider.notifier).getMe());
+    Future.microtask(() => ref.read(authProvider.notifier).getMe(null));
   }
 
   @override

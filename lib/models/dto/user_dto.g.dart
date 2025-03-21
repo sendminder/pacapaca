@@ -46,6 +46,7 @@ _$UserDTOImpl _$$UserDTOImplFromJson(Map<String, dynamic> json) =>
       blockTime: json['block_time'] as String?,
       deleteTime: json['delete_time'] as String?,
       needUpdated: json['need_updated'] as bool?,
+      forceUpdated: json['force_updated'] as bool?,
       displayUser:
           DisplayUserDTO.fromJson(json['display_user'] as Map<String, dynamic>),
     );
@@ -59,6 +60,7 @@ Map<String, dynamic> _$$UserDTOImplToJson(_$UserDTOImpl instance) =>
       'block_time': instance.blockTime,
       'delete_time': instance.deleteTime,
       'need_updated': instance.needUpdated,
+      'force_updated': instance.forceUpdated,
       'display_user': instance.displayUser,
     };
 

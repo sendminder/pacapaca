@@ -428,6 +428,8 @@ mixin _$UserDTO {
   String? get deleteTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'need_updated')
   bool? get needUpdated => throw _privateConstructorUsedError;
+  @JsonKey(name: 'force_updated')
+  bool? get forceUpdated => throw _privateConstructorUsedError;
   @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser => throw _privateConstructorUsedError;
 
@@ -453,6 +455,7 @@ abstract class $UserDTOCopyWith<$Res> {
       @JsonKey(name: 'block_time') String? blockTime,
       @JsonKey(name: 'delete_time') String? deleteTime,
       @JsonKey(name: 'need_updated') bool? needUpdated,
+      @JsonKey(name: 'force_updated') bool? forceUpdated,
       @JsonKey(name: 'display_user') DisplayUserDTO displayUser});
 
   $DisplayUserDTOCopyWith<$Res> get displayUser;
@@ -480,6 +483,7 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
     Object? blockTime = freezed,
     Object? deleteTime = freezed,
     Object? needUpdated = freezed,
+    Object? forceUpdated = freezed,
     Object? displayUser = null,
   }) {
     return _then(_value.copyWith(
@@ -510,6 +514,10 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
       needUpdated: freezed == needUpdated
           ? _value.needUpdated
           : needUpdated // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      forceUpdated: freezed == forceUpdated
+          ? _value.forceUpdated
+          : forceUpdated // ignore: cast_nullable_to_non_nullable
               as bool?,
       displayUser: null == displayUser
           ? _value.displayUser
@@ -544,6 +552,7 @@ abstract class _$$UserDTOImplCopyWith<$Res> implements $UserDTOCopyWith<$Res> {
       @JsonKey(name: 'block_time') String? blockTime,
       @JsonKey(name: 'delete_time') String? deleteTime,
       @JsonKey(name: 'need_updated') bool? needUpdated,
+      @JsonKey(name: 'force_updated') bool? forceUpdated,
       @JsonKey(name: 'display_user') DisplayUserDTO displayUser});
 
   @override
@@ -570,6 +579,7 @@ class __$$UserDTOImplCopyWithImpl<$Res>
     Object? blockTime = freezed,
     Object? deleteTime = freezed,
     Object? needUpdated = freezed,
+    Object? forceUpdated = freezed,
     Object? displayUser = null,
   }) {
     return _then(_$UserDTOImpl(
@@ -601,6 +611,10 @@ class __$$UserDTOImplCopyWithImpl<$Res>
           ? _value.needUpdated
           : needUpdated // ignore: cast_nullable_to_non_nullable
               as bool?,
+      forceUpdated: freezed == forceUpdated
+          ? _value.forceUpdated
+          : forceUpdated // ignore: cast_nullable_to_non_nullable
+              as bool?,
       displayUser: null == displayUser
           ? _value.displayUser
           : displayUser // ignore: cast_nullable_to_non_nullable
@@ -620,6 +634,7 @@ class _$UserDTOImpl implements _UserDTO {
       @JsonKey(name: 'block_time') this.blockTime,
       @JsonKey(name: 'delete_time') this.deleteTime,
       @JsonKey(name: 'need_updated') this.needUpdated,
+      @JsonKey(name: 'force_updated') this.forceUpdated,
       @JsonKey(name: 'display_user') required this.displayUser});
 
   factory _$UserDTOImpl.fromJson(Map<String, dynamic> json) =>
@@ -646,12 +661,15 @@ class _$UserDTOImpl implements _UserDTO {
   @JsonKey(name: 'need_updated')
   final bool? needUpdated;
   @override
+  @JsonKey(name: 'force_updated')
+  final bool? forceUpdated;
+  @override
   @JsonKey(name: 'display_user')
   final DisplayUserDTO displayUser;
 
   @override
   String toString() {
-    return 'UserDTO(id: $id, createTime: $createTime, updateTime: $updateTime, lastLoginTime: $lastLoginTime, blockTime: $blockTime, deleteTime: $deleteTime, needUpdated: $needUpdated, displayUser: $displayUser)';
+    return 'UserDTO(id: $id, createTime: $createTime, updateTime: $updateTime, lastLoginTime: $lastLoginTime, blockTime: $blockTime, deleteTime: $deleteTime, needUpdated: $needUpdated, forceUpdated: $forceUpdated, displayUser: $displayUser)';
   }
 
   @override
@@ -672,14 +690,25 @@ class _$UserDTOImpl implements _UserDTO {
                 other.deleteTime == deleteTime) &&
             (identical(other.needUpdated, needUpdated) ||
                 other.needUpdated == needUpdated) &&
+            (identical(other.forceUpdated, forceUpdated) ||
+                other.forceUpdated == forceUpdated) &&
             (identical(other.displayUser, displayUser) ||
                 other.displayUser == displayUser));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, createTime, updateTime,
-      lastLoginTime, blockTime, deleteTime, needUpdated, displayUser);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      createTime,
+      updateTime,
+      lastLoginTime,
+      blockTime,
+      deleteTime,
+      needUpdated,
+      forceUpdated,
+      displayUser);
 
   /// Create a copy of UserDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -706,6 +735,7 @@ abstract class _UserDTO implements UserDTO {
       @JsonKey(name: 'block_time') final String? blockTime,
       @JsonKey(name: 'delete_time') final String? deleteTime,
       @JsonKey(name: 'need_updated') final bool? needUpdated,
+      @JsonKey(name: 'force_updated') final bool? forceUpdated,
       @JsonKey(name: 'display_user')
       required final DisplayUserDTO displayUser}) = _$UserDTOImpl;
 
@@ -731,6 +761,9 @@ abstract class _UserDTO implements UserDTO {
   @override
   @JsonKey(name: 'need_updated')
   bool? get needUpdated;
+  @override
+  @JsonKey(name: 'force_updated')
+  bool? get forceUpdated;
   @override
   @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser;

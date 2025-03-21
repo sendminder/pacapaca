@@ -315,5 +315,16 @@
         "rule5_title": "5. Report Rule Violations",
         "rule5_content": "Please report users who violate community norms or engage in inappropriate behavior. Everyone must work together to maintain a safe and warm environment.",
         "confirm_button": "I Understand"
+    },
+    "update": {
+        "force_update_required": "Emergency Update Required",
+        "force_update_description": "Please update to the latest version\nfor smooth service use",
+        "force_update_warning": "Service is not available in the current version",
+        "update_now": "Update Now",
+        "required": "Required",
+        "new_version_available": "New Version Available",
+        "update_description": "Please update to the latest version\nfor smooth service use",
+        "update": "Update",
+        "skip": "Skip for Now"
     }
 }

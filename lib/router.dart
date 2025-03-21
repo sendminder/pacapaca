@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/pages/auth/set_profile_type_page.dart';
-import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'providers/auth_provider.dart';
 import 'models/dto/user_dto.dart';
 // 페이지 임포트
@@ -40,7 +39,9 @@ import 'package:pacapaca/providers/comment_provider.dart';
 import 'pages/article/deleted_article_page.dart';
 import 'package:pacapaca/services/article_service.dart';
 import 'pages/guidelines/community_guidelines_page.dart';
-import 'widgets/common/user_block_notice.dart';
+import 'pages/auth/update_page.dart';
+import 'pages/auth/force_update_page.dart';
+import 'services/storage_service.dart';
 
 // 라우터 프로바이더 생성
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -67,6 +68,7 @@ class RouterNotifier extends ChangeNotifier {
   final logger = GetIt.instance<Logger>();
   AsyncValue<UserDTO?> _lastKnownState = const AsyncValue.loading();
   final _articleService = GetIt.instance<ArticleService>();
+  final _storageService = GetIt.instance<StorageService>();
 
   RouterNotifier(this._ref) {
     _ref.listen<AsyncValue<UserDTO?>>(
@@ -112,7 +114,13 @@ class RouterNotifier extends ChangeNotifier {
     );
   }
 
-  String? _redirectLogic(BuildContext context, GoRouterState state) {
+  Future<String?> _redirectLogic(
+      BuildContext context, GoRouterState state) async {
+    final bool isFirstLaunch = _storageService.isFirstLaunch;
+    if (isFirstLaunch) {
+      _storageService.saveIsFirstLaunch(false);
+    }
+
     return _lastKnownState.when(
       data: (user) {
         logger.d(
@@ -152,6 +160,17 @@ class RouterNotifier extends ChangeNotifier {
         final guidelinesConfirmed = _ref.read(guidelinesConfirmedProvider);
         if (!guidelinesConfirmed) {
           return state.matchedLocation == '/guidelines' ? null : '/guidelines';
+        }
+
+        if (user.forceUpdated == true) {
+          return '/force-update';
+        }
+
+        if (user.needUpdated == true) {
+          // 앱 최초 실행 시에는 업데이트 페이지를 보여주지 않음
+          if (!isFirstLaunch) {
+            return '/update';
+          }
         }
 
         // 모든 정보가 설정된 경우
@@ -301,6 +320,16 @@ class RouterNotifier extends ChangeNotifier {
               isTagSearch: true,
             );
           },
+        ),
+        GoRoute(
+          path: '/update',
+          builder: (context, state) => UpdatePage(
+            onSkip: () => context.go('/articles'),
+          ),
+        ),
+        GoRoute(
+          path: '/force-update',
+          builder: (context, state) => const ForceUpdatePage(),
         ),
         GoRoute(
           path: '/user-posts/:userId',

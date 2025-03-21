@@ -61,6 +61,7 @@ class UserDTO with _$UserDTO {
     @JsonKey(name: 'block_time') String? blockTime,
     @JsonKey(name: 'delete_time') String? deleteTime,
     @JsonKey(name: 'need_updated') bool? needUpdated,
+    @JsonKey(name: 'force_updated') bool? forceUpdated,
     @JsonKey(name: 'display_user') required DisplayUserDTO displayUser,
   }) = _UserDTO;
 

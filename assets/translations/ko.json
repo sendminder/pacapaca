@@ -326,5 +326,16 @@
         "rule5_title": "5. 규칙을 위반하는 행동은 신고해 주세요",
         "rule5_content": "커뮤니티 규범을 어기거나 부적절한 행동을 하는 사용자는 신고해 주세요. 안전하고 따뜻한 환경을 유지하려면 모두가 함께 지켜야 합니다.",
         "confirm_button": "확인했어요"
+    },
+    "update": {
+        "force_update_required": "긴급 업데이트가 필요합니다",
+        "force_update_description": "원활한 서비스 이용을 위해\n반드시 최신 버전으로 업데이트해 주세요",
+        "force_update_warning": "현재 버전에서는 서비스 이용이 불가능합니다",
+        "update_now": "지금 바로 업데이트하기",
+        "required": "필수",
+        "new_version_available": "새로운 버전이 있습니다",
+        "update_description": "원활한 서비스 이용을 위해\n최신 버전으로 업데이트해 주세요",
+        "update": "업데이트하기",
+        "skip": "나중에 하기"
     }
 }

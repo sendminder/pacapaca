@@ -31,18 +31,8 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       if (!mounted) return;
 
       if (user != null) {
-        // 유저 존재하면 각종 체크
-        // if (user.needsCheck) {
-        //   // 예: 필수 공지 확인 필요
-        //   context.go('/notice-check');
-        // } else
-
         if (user.displayUser.nickname.isEmpty) {
           context.go('/set-nickname');
-        }
-
-        if (user.displayUser.isBlocked) {
-          context.go('/login');
         }
 
         context.go('/articles');

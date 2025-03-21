@@ -25,6 +25,7 @@ class StorageService {
       'notification_setup_completed';
   static const String _firstRunKey = 'first_run_key';
   static const String _guidelinesConfirmedKey = 'guidelines_confirmed';
+  static const String _isFirstLaunchKey = 'is_first_launch';
 
   static String nullValue = 'null';
 
@@ -217,5 +218,11 @@ class StorageService {
 
   Future<void> saveGuidelinesConfirmed(bool confirmed) async {
     await _prefs.setBool(_guidelinesConfirmedKey, confirmed);
+  }
+
+  bool get isFirstLaunch => _prefs.getBool(_isFirstLaunchKey) ?? true;
+
+  void saveIsFirstLaunch(bool isFirstLaunch) {
+    _prefs.setBool(_isFirstLaunchKey, isFirstLaunch);
   }
 }
