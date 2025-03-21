@@ -11,6 +11,7 @@ import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/utils/block_check_util.dart';
 
 class ArticleCard extends ConsumerWidget {
   final ArticleDTO article;
@@ -215,7 +216,10 @@ class ArticleCard extends ConsumerWidget {
             size: 20,
             textSize: 14,
             defaultText: 'article.like'.tr(),
-            onTap: () {
+            onTap: () async {
+              if (!await BlockCheckUtil.canPerformAction(context, ref)) {
+                return;
+              }
               logger.i('좋아요 버튼 클릭 - articleId=${displayArticle.id}');
 
               // 낙관적 UI 업데이트를 위한 게시글 복사본 생성

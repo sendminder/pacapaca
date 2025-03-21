@@ -12,6 +12,7 @@ import 'package:pacapaca/widgets/shared/interaction_button.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/constants/admin_user_ids.dart';
+import 'package:pacapaca/utils/block_check_util.dart';
 
 class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
@@ -242,7 +243,7 @@ class CommentItem extends ConsumerWidget {
   Widget _buildPopupMenu(BuildContext context, WidgetRef ref) {
     return PopupMenuButton(
       itemBuilder: (context) => isCurrentUser
-          ? _buildOwnerMenuItems(context)
+          ? _buildOwnerMenuItems(context, ref)
           : AdminUserIds.isAdminUserId(comment.userId)
               ? _buildAdminMenuItems(context, ref)
               : _buildUserMenuItems(context, ref),
@@ -256,9 +257,10 @@ class CommentItem extends ConsumerWidget {
     ];
   }
 
-  List<PopupMenuItem> _buildOwnerMenuItems(BuildContext context) {
+  List<PopupMenuItem> _buildOwnerMenuItems(
+      BuildContext context, WidgetRef ref) {
     return [
-      _buildEditMenuItem(context),
+      _buildEditMenuItem(context, ref),
       _buildDeleteMenuItem(context),
     ];
   }
@@ -271,13 +273,16 @@ class CommentItem extends ConsumerWidget {
     ];
   }
 
-  PopupMenuItem _buildEditMenuItem(BuildContext context) {
+  PopupMenuItem _buildEditMenuItem(BuildContext context, WidgetRef ref) {
     return PopupMenuItem(
       child: Text('comment.edit'.tr()),
       onTap: () {
         // 팝업 메뉴가 닫힌 후에 대화상자를 표시하기 위해 지연 시간을 줍니다
         Future.delayed(const Duration(milliseconds: 100), () async {
           if (context.mounted) {
+            if (!await BlockCheckUtil.canPerformAction(context, ref)) {
+              return;
+            }
             final content = await showDialog<String>(
               context: context,
               builder: (context) => CommentEditDialog(

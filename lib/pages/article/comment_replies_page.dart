@@ -288,14 +288,6 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
 
   Widget _buildSortButton(BuildContext context, String sortBy) {
     return PopupMenuButton<String>(
-      child: Row(
-        children: [
-          Text(sortBy == 'latest'
-              ? 'article.sort.latest'.tr()
-              : 'article.sort.oldest'.tr()),
-          const Icon(Icons.arrow_drop_down),
-        ],
-      ),
       itemBuilder: (context) => [
         PopupMenuItem(
           value: 'latest',
@@ -307,6 +299,14 @@ class _CommentRepliesPageState extends ConsumerState<CommentRepliesPage> {
         ),
       ],
       onSelected: _updateSortOrder,
+      child: Row(
+        children: [
+          Text(sortBy == 'latest'
+              ? 'article.sort.latest'.tr()
+              : 'article.sort.oldest'.tr()),
+          const Icon(Icons.arrow_drop_down),
+        ],
+      ),
     );
   }
 

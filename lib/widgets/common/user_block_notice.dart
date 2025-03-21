@@ -4,18 +4,19 @@ import 'package:pacapaca/providers/block_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/router.dart';
 
+final skipBlockNoticeProvider = StateProvider<bool>((ref) => false);
+
 class UserBlockNotice extends ConsumerWidget {
   UserBlockNotice({Key? key}) : super(key: key);
-  bool skipShownBlockNotice = false;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final skipShownBlockNotice = ref.watch(skipBlockNoticeProvider);
     final blockStatus = ref.watch(userBlockStatusProvider);
 
     return blockStatus.when(
       data: (status) {
         if (status['isBlocked'] == true && !skipShownBlockNotice) {
-          skipShownBlockNotice = true;
           return _buildBlockedView(context, status['blockedTime'], ref);
         }
         return const SizedBox.shrink(); // 차단되지 않은 경우 빈 위젯 반환
@@ -112,7 +113,7 @@ class UserBlockNotice extends ConsumerWidget {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
-                  skipShownBlockNotice = true;
+                  ref.read(skipBlockNoticeProvider.notifier).state = true;
                   ref.invalidate(userBlockStatusProvider);
                   final router = ref.read(routerProvider);
                   router.go('/articles');

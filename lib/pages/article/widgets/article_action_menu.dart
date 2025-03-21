@@ -9,6 +9,7 @@ import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/providers/report_provider.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
 import 'package:pacapaca/constants/admin_user_ids.dart';
+import 'package:pacapaca/utils/block_check_util.dart';
 
 class ArticleActionMenu extends ConsumerWidget {
   final ArticleDTO article;
@@ -48,7 +49,12 @@ class ArticleActionMenu extends ConsumerWidget {
     return [
       PopupMenuItem(
         child: Text('article.edit'.tr()),
-        onTap: () => context.push('/articles/${article.id}/edit'),
+        onTap: () async {
+          if (!await BlockCheckUtil.canPerformAction(context, ref)) {
+            return;
+          }
+          context.push('/articles/${article.id}/edit');
+        },
       ),
       PopupMenuItem(
         child: Text(

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pacapaca/constants/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/carrot_provider.dart';
-import 'package:pacapaca/models/dto/carrot_dto.dart';
 
 class SendCarrotDialog extends ConsumerStatefulWidget {
   final String? description;

@@ -5,6 +5,7 @@ import 'package:pacapaca/models/dto/carrot_dto.dart';
 import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_dialog.dart';
 import 'package:pacapaca/constants/theme.dart';
+import 'package:pacapaca/utils/block_check_util.dart';
 
 class SendCarrotButton {
   final int receiverId;
@@ -43,6 +44,10 @@ class SendCarrotButton {
       );
 
       try {
+        if (!await BlockCheckUtil.canPerformAction(context, ref)) {
+          return;
+        }
+
         final res =
             await ref.read(carrotSenderProvider.notifier).sendCarrots(request);
 
