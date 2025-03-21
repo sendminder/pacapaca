@@ -72,12 +72,12 @@ class AuthService {
       if (token == null) return null;
 
       try {
-        return await getMe(token);
+        return await getMe(token, null);
       } on DioException catch (e) {
         if (e.response?.statusCode == 401) {
           final newToken = await refreshToken();
           if (newToken != null) {
-            return await getMe(newToken);
+            return await getMe(newToken, null);
           }
           await signOut();
         }
@@ -90,15 +90,22 @@ class AuthService {
     }
   }
 
-  Future<UserDTO?> getMe(String? token) async {
+  Future<UserDTO?> getMe(String? token, String? appVersion) async {
     try {
       var accessToken = token;
       if (token == null) {
         accessToken = await _storageService.accessToken;
       }
 
+      Map<String, dynamic>? queryParameters;
+      if (appVersion != null) {
+        final request = RequestGetMe(appVersion: appVersion);
+        queryParameters = request.toJson();
+      }
+
       final response = await _dio.get(
         '/v1/me',
+        queryParameters: queryParameters,
         options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
       );
 

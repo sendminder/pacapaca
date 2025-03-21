@@ -13,10 +13,10 @@ class Auth extends _$Auth {
     return _authService.currentUser;
   }
 
-  Future<UserDTO?> getMe() async {
+  Future<UserDTO?> getMe(String? appVersion) async {
     state = const AsyncLoading();
     try {
-      final user = await _authService.getMe(null);
+      final user = await _authService.getMe(null, appVersion);
       state = AsyncData(user);
       return user;
     } catch (e) {

@@ -45,6 +45,7 @@ _$UserDTOImpl _$$UserDTOImplFromJson(Map<String, dynamic> json) =>
       lastLoginTime: json['last_login_time'] as String?,
       blockTime: json['block_time'] as String?,
       deleteTime: json['delete_time'] as String?,
+      needUpdated: json['need_updated'] as bool?,
       displayUser:
           DisplayUserDTO.fromJson(json['display_user'] as Map<String, dynamic>),
     );
@@ -57,7 +58,18 @@ Map<String, dynamic> _$$UserDTOImplToJson(_$UserDTOImpl instance) =>
       'last_login_time': instance.lastLoginTime,
       'block_time': instance.blockTime,
       'delete_time': instance.deleteTime,
+      'need_updated': instance.needUpdated,
       'display_user': instance.displayUser,
+    };
+
+_$RequestGetMeImpl _$$RequestGetMeImplFromJson(Map<String, dynamic> json) =>
+    _$RequestGetMeImpl(
+      appVersion: json['app_version'] as String?,
+    );
+
+Map<String, dynamic> _$$RequestGetMeImplToJson(_$RequestGetMeImpl instance) =>
+    <String, dynamic>{
+      'app_version': instance.appVersion,
     };
 
 _$RequestGetUserByIDImpl _$$RequestGetUserByIDImplFromJson(

@@ -426,6 +426,8 @@ mixin _$UserDTO {
   String? get blockTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'delete_time')
   String? get deleteTime => throw _privateConstructorUsedError;
+  @JsonKey(name: 'need_updated')
+  bool? get needUpdated => throw _privateConstructorUsedError;
   @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser => throw _privateConstructorUsedError;
 
@@ -450,6 +452,7 @@ abstract class $UserDTOCopyWith<$Res> {
       @JsonKey(name: 'last_login_time') String? lastLoginTime,
       @JsonKey(name: 'block_time') String? blockTime,
       @JsonKey(name: 'delete_time') String? deleteTime,
+      @JsonKey(name: 'need_updated') bool? needUpdated,
       @JsonKey(name: 'display_user') DisplayUserDTO displayUser});
 
   $DisplayUserDTOCopyWith<$Res> get displayUser;
@@ -476,6 +479,7 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
     Object? lastLoginTime = freezed,
     Object? blockTime = freezed,
     Object? deleteTime = freezed,
+    Object? needUpdated = freezed,
     Object? displayUser = null,
   }) {
     return _then(_value.copyWith(
@@ -503,6 +507,10 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
           ? _value.deleteTime
           : deleteTime // ignore: cast_nullable_to_non_nullable
               as String?,
+      needUpdated: freezed == needUpdated
+          ? _value.needUpdated
+          : needUpdated // ignore: cast_nullable_to_non_nullable
+              as bool?,
       displayUser: null == displayUser
           ? _value.displayUser
           : displayUser // ignore: cast_nullable_to_non_nullable
@@ -535,6 +543,7 @@ abstract class _$$UserDTOImplCopyWith<$Res> implements $UserDTOCopyWith<$Res> {
       @JsonKey(name: 'last_login_time') String? lastLoginTime,
       @JsonKey(name: 'block_time') String? blockTime,
       @JsonKey(name: 'delete_time') String? deleteTime,
+      @JsonKey(name: 'need_updated') bool? needUpdated,
       @JsonKey(name: 'display_user') DisplayUserDTO displayUser});
 
   @override
@@ -560,6 +569,7 @@ class __$$UserDTOImplCopyWithImpl<$Res>
     Object? lastLoginTime = freezed,
     Object? blockTime = freezed,
     Object? deleteTime = freezed,
+    Object? needUpdated = freezed,
     Object? displayUser = null,
   }) {
     return _then(_$UserDTOImpl(
@@ -587,6 +597,10 @@ class __$$UserDTOImplCopyWithImpl<$Res>
           ? _value.deleteTime
           : deleteTime // ignore: cast_nullable_to_non_nullable
               as String?,
+      needUpdated: freezed == needUpdated
+          ? _value.needUpdated
+          : needUpdated // ignore: cast_nullable_to_non_nullable
+              as bool?,
       displayUser: null == displayUser
           ? _value.displayUser
           : displayUser // ignore: cast_nullable_to_non_nullable
@@ -605,6 +619,7 @@ class _$UserDTOImpl implements _UserDTO {
       @JsonKey(name: 'last_login_time') this.lastLoginTime,
       @JsonKey(name: 'block_time') this.blockTime,
       @JsonKey(name: 'delete_time') this.deleteTime,
+      @JsonKey(name: 'need_updated') this.needUpdated,
       @JsonKey(name: 'display_user') required this.displayUser});
 
   factory _$UserDTOImpl.fromJson(Map<String, dynamic> json) =>
@@ -628,12 +643,15 @@ class _$UserDTOImpl implements _UserDTO {
   @JsonKey(name: 'delete_time')
   final String? deleteTime;
   @override
+  @JsonKey(name: 'need_updated')
+  final bool? needUpdated;
+  @override
   @JsonKey(name: 'display_user')
   final DisplayUserDTO displayUser;
 
   @override
   String toString() {
-    return 'UserDTO(id: $id, createTime: $createTime, updateTime: $updateTime, lastLoginTime: $lastLoginTime, blockTime: $blockTime, deleteTime: $deleteTime, displayUser: $displayUser)';
+    return 'UserDTO(id: $id, createTime: $createTime, updateTime: $updateTime, lastLoginTime: $lastLoginTime, blockTime: $blockTime, deleteTime: $deleteTime, needUpdated: $needUpdated, displayUser: $displayUser)';
   }
 
   @override
@@ -652,6 +670,8 @@ class _$UserDTOImpl implements _UserDTO {
                 other.blockTime == blockTime) &&
             (identical(other.deleteTime, deleteTime) ||
                 other.deleteTime == deleteTime) &&
+            (identical(other.needUpdated, needUpdated) ||
+                other.needUpdated == needUpdated) &&
             (identical(other.displayUser, displayUser) ||
                 other.displayUser == displayUser));
   }
@@ -659,7 +679,7 @@ class _$UserDTOImpl implements _UserDTO {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, createTime, updateTime,
-      lastLoginTime, blockTime, deleteTime, displayUser);
+      lastLoginTime, blockTime, deleteTime, needUpdated, displayUser);
 
   /// Create a copy of UserDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -685,6 +705,7 @@ abstract class _UserDTO implements UserDTO {
       @JsonKey(name: 'last_login_time') final String? lastLoginTime,
       @JsonKey(name: 'block_time') final String? blockTime,
       @JsonKey(name: 'delete_time') final String? deleteTime,
+      @JsonKey(name: 'need_updated') final bool? needUpdated,
       @JsonKey(name: 'display_user')
       required final DisplayUserDTO displayUser}) = _$UserDTOImpl;
 
@@ -708,6 +729,9 @@ abstract class _UserDTO implements UserDTO {
   @JsonKey(name: 'delete_time')
   String? get deleteTime;
   @override
+  @JsonKey(name: 'need_updated')
+  bool? get needUpdated;
+  @override
   @JsonKey(name: 'display_user')
   DisplayUserDTO get displayUser;
 
@@ -716,6 +740,161 @@ abstract class _UserDTO implements UserDTO {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserDTOImplCopyWith<_$UserDTOImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RequestGetMe _$RequestGetMeFromJson(Map<String, dynamic> json) {
+  return _RequestGetMe.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RequestGetMe {
+  @JsonKey(name: 'app_version')
+  String? get appVersion => throw _privateConstructorUsedError;
+
+  /// Serializes this RequestGetMe to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RequestGetMe
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RequestGetMeCopyWith<RequestGetMe> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RequestGetMeCopyWith<$Res> {
+  factory $RequestGetMeCopyWith(
+          RequestGetMe value, $Res Function(RequestGetMe) then) =
+      _$RequestGetMeCopyWithImpl<$Res, RequestGetMe>;
+  @useResult
+  $Res call({@JsonKey(name: 'app_version') String? appVersion});
+}
+
+/// @nodoc
+class _$RequestGetMeCopyWithImpl<$Res, $Val extends RequestGetMe>
+    implements $RequestGetMeCopyWith<$Res> {
+  _$RequestGetMeCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RequestGetMe
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? appVersion = freezed,
+  }) {
+    return _then(_value.copyWith(
+      appVersion: freezed == appVersion
+          ? _value.appVersion
+          : appVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RequestGetMeImplCopyWith<$Res>
+    implements $RequestGetMeCopyWith<$Res> {
+  factory _$$RequestGetMeImplCopyWith(
+          _$RequestGetMeImpl value, $Res Function(_$RequestGetMeImpl) then) =
+      __$$RequestGetMeImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'app_version') String? appVersion});
+}
+
+/// @nodoc
+class __$$RequestGetMeImplCopyWithImpl<$Res>
+    extends _$RequestGetMeCopyWithImpl<$Res, _$RequestGetMeImpl>
+    implements _$$RequestGetMeImplCopyWith<$Res> {
+  __$$RequestGetMeImplCopyWithImpl(
+      _$RequestGetMeImpl _value, $Res Function(_$RequestGetMeImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RequestGetMe
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? appVersion = freezed,
+  }) {
+    return _then(_$RequestGetMeImpl(
+      appVersion: freezed == appVersion
+          ? _value.appVersion
+          : appVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RequestGetMeImpl implements _RequestGetMe {
+  const _$RequestGetMeImpl({@JsonKey(name: 'app_version') this.appVersion});
+
+  factory _$RequestGetMeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestGetMeImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'app_version')
+  final String? appVersion;
+
+  @override
+  String toString() {
+    return 'RequestGetMe(appVersion: $appVersion)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestGetMeImpl &&
+            (identical(other.appVersion, appVersion) ||
+                other.appVersion == appVersion));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, appVersion);
+
+  /// Create a copy of RequestGetMe
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestGetMeImplCopyWith<_$RequestGetMeImpl> get copyWith =>
+      __$$RequestGetMeImplCopyWithImpl<_$RequestGetMeImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestGetMeImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RequestGetMe implements RequestGetMe {
+  const factory _RequestGetMe(
+          {@JsonKey(name: 'app_version') final String? appVersion}) =
+      _$RequestGetMeImpl;
+
+  factory _RequestGetMe.fromJson(Map<String, dynamic> json) =
+      _$RequestGetMeImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'app_version')
+  String? get appVersion;
+
+  /// Create a copy of RequestGetMe
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequestGetMeImplCopyWith<_$RequestGetMeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

@@ -60,11 +60,22 @@ class UserDTO with _$UserDTO {
     @JsonKey(name: 'last_login_time') String? lastLoginTime,
     @JsonKey(name: 'block_time') String? blockTime,
     @JsonKey(name: 'delete_time') String? deleteTime,
+    @JsonKey(name: 'need_updated') bool? needUpdated,
     @JsonKey(name: 'display_user') required DisplayUserDTO displayUser,
   }) = _UserDTO;
 
   factory UserDTO.fromJson(Map<String, dynamic> json) =>
       _$UserDTOFromJson(json);
+}
+
+@freezed
+class RequestGetMe with _$RequestGetMe {
+  const factory RequestGetMe({
+    @JsonKey(name: 'app_version') String? appVersion,
+  }) = _RequestGetMe;
+
+  factory RequestGetMe.fromJson(Map<String, dynamic> json) =>
+      _$RequestGetMeFromJson(json);
 }
 
 @freezed

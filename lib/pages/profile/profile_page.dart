@@ -95,7 +95,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       showStats: false,
       isCurrentUser: true,
       onRefresh: () {
-        ref.read(authProvider.notifier).getMe();
+        ref.read(authProvider.notifier).getMe(null);
         ref.invalidate(carrotBalanceProvider);
         ref.invalidate(pointBalanceProvider);
       },
