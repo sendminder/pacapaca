@@ -99,6 +99,16 @@ class NotificationManagerService {
           _logger.i('FCM 토큰: $token');
           await _notificationService.registerFCMToken(token);
           await setNotificationEnabled(true);
+
+          // 로컬 알림 초기화
+          await _initializeLocalNotifications();
+
+          // 앱이 종료된 상태에서 알림을 클릭하여 열린 경우 처리
+          await _handleInitialMessage();
+
+          // 백그라운드 메시지 핸들러 설정
+          FirebaseMessaging.onMessageOpenedApp.listen(_handleBackgroundMessage);
+
           return NotificationPermissionResult.granted;
         }
         return NotificationPermissionResult.error;
