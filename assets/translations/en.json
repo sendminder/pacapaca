@@ -17,10 +17,12 @@
         "description": "Please set a nickname to use in Pacapaca. You can change your nickname anytime.",
         "your_nickname": "Your Nickname",
         "too_short": "Nickname must be 2-10 characters",
+        "too_long": "Nickname cannot exceed 10 characters",
         "already_exists": "Nickname already exists",
         "check_availability": "Check Availability",
         "error_occurred": "An error occurred",
-        "available": "Available nickname"
+        "available": "Available nickname",
+        "no_spaces": "Nickname cannot contain spaces"
     },
     "helper": {
         "first_message": "Hello! I'm Pacappi 🦙\nWhat's your topic of concern? \nI'll listen to your story and summarize it in an article!",
@@ -198,6 +200,7 @@
         "title": "Profile",
         "my_activity": "My Activity",
         "my_posts": "My Posts",
+        "my_carrots": "My Carrots",
         "my_comments": "My Comments",
         "my_likes": "My Likes",
         "my_scraps": "My Scraps",

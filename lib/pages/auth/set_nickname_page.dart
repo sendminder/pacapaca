@@ -77,16 +77,48 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
 
   void _validateInput(String value) {
     setState(() {
-      _isValid = value.trim().length >= 2;
-      _nicknameChecked = false;
+      if (value.contains(' ')) {
+        _isValid = false;
+        _errorMessage = 'nickname.no_spaces'.tr();
+        _nicknameChecked = false;
+        return;
+      }
+
+      final trimmedValue = value.trim();
+
+      if (trimmedValue.length > 10) {
+        _isValid = false;
+        _errorMessage = 'nickname.too_long'.tr();
+        _nicknameChecked = false;
+        return;
+      }
+
+      _isValid = trimmedValue.length >= 2;
       _errorMessage = null;
+      _nicknameChecked = false;
     });
   }
 
   Future<void> _checkNickname() async {
-    final nickname = _controller.text.trim();
+    final nickname = _controller.text;
 
-    if (nickname.length < 2) {
+    if (nickname.contains(' ')) {
+      setState(() {
+        _errorMessage = 'nickname.no_spaces'.tr();
+      });
+      return;
+    }
+
+    final trimmedNickname = nickname.trim();
+
+    if (trimmedNickname.length > 10) {
+      setState(() {
+        _errorMessage = 'nickname.too_long'.tr();
+      });
+      return;
+    }
+
+    if (trimmedNickname.length < 2) {
       setState(() {
         _errorMessage = 'nickname.too_short'.tr();
       });
@@ -99,8 +131,9 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
     });
 
     try {
-      final exists =
-          await ref.read(authProvider.notifier).checkNicknameExists(nickname);
+      final exists = await ref
+          .read(authProvider.notifier)
+          .checkNicknameExists(trimmedNickname);
 
       setState(() {
         _isChecking = false;
@@ -120,9 +153,28 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
   }
 
   void _submit() {
-    final nickname = _controller.text.trim();
-    if (nickname.length >= 2 && _nicknameChecked && _nicknameAvailable) {
-      ref.read(authProvider.notifier).updateNickname(nickname);
+    final nickname = _controller.text;
+
+    // 원본 값에서 띄어쓰기 체크
+    if (nickname.contains(' ')) {
+      setState(() {
+        _errorMessage = 'nickname.no_spaces'.tr();
+      });
+      return;
+    }
+
+    final trimmedNickname = nickname.trim();
+
+    // 10자 초과 체크
+    if (trimmedNickname.length > 10) {
+      setState(() {
+        _errorMessage = 'nickname.too_long'.tr();
+      });
+      return;
+    }
+
+    if (trimmedNickname.length >= 2 && _nicknameChecked && _nicknameAvailable) {
+      ref.read(authProvider.notifier).updateNickname(trimmedNickname);
     }
   }
 
@@ -137,18 +189,20 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
         TextField(
           controller: _controller,
           onChanged: _validateInput,
+          maxLength: 10,
           style: TextStyle(
             fontSize: 18,
             color: colorScheme.onSurface,
           ),
           decoration: InputDecoration(
             filled: true,
+            counterText: '',
             fillColor: isDarkMode
-                ? colorScheme.surfaceVariant.withOpacity(0.3)
-                : colorScheme.surfaceVariant.withOpacity(0.1),
+                ? colorScheme.surfaceVariant.withAlpha(77)
+                : colorScheme.surfaceVariant.withAlpha(26),
             hintText: 'nickname.nickname_hint'.tr(),
             hintStyle: TextStyle(
-              color: colorScheme.onSurface.withOpacity(0.5),
+              color: colorScheme.onSurface.withAlpha(128),
             ),
             errorText: _errorMessage,
             contentPadding: const EdgeInsets.symmetric(
@@ -157,7 +211,17 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(
+                color: colorScheme.primary.withAlpha(50),
+                width: 2,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(
+                color: colorScheme.primary.withAlpha(50),
+                width: 2,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
@@ -166,11 +230,25 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
                 width: 2,
               ),
             ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(
+                color: colorScheme.error,
+                width: 2,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(
+                color: colorScheme.error,
+                width: 2,
+              ),
+            ),
             suffixIcon: _controller.text.isNotEmpty
                 ? IconButton(
                     icon: Icon(
                       Icons.clear_rounded,
-                      color: colorScheme.onSurface.withOpacity(0.5),
+                      color: colorScheme.onSurface.withAlpha(128),
                       size: 20,
                     ),
                     onPressed: () {
@@ -189,7 +267,7 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
               'nickname.nickname_rule'.tr(),
               style: TextStyle(
                 fontSize: 14,
-                color: colorScheme.onSurface.withOpacity(0.6),
+                color: colorScheme.onSurface.withAlpha(153),
               ),
             ),
           ),
