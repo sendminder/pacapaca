@@ -26,7 +26,6 @@ mixin _$RequestVerifyPayment {
   String get orderId => throw _privateConstructorUsedError;
   @JsonKey(name: 'purchase_token')
   String get purchaseToken => throw _privateConstructorUsedError;
-  String get platform => throw _privateConstructorUsedError;
 
   /// Serializes this RequestVerifyPayment to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,8 +46,7 @@ abstract class $RequestVerifyPaymentCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'product_id') String productId,
       @JsonKey(name: 'order_id') String orderId,
-      @JsonKey(name: 'purchase_token') String purchaseToken,
-      String platform});
+      @JsonKey(name: 'purchase_token') String purchaseToken});
 }
 
 /// @nodoc
@@ -70,7 +68,6 @@ class _$RequestVerifyPaymentCopyWithImpl<$Res,
     Object? productId = null,
     Object? orderId = null,
     Object? purchaseToken = null,
-    Object? platform = null,
   }) {
     return _then(_value.copyWith(
       productId: null == productId
@@ -84,10 +81,6 @@ class _$RequestVerifyPaymentCopyWithImpl<$Res,
       purchaseToken: null == purchaseToken
           ? _value.purchaseToken
           : purchaseToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      platform: null == platform
-          ? _value.platform
-          : platform // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -104,8 +97,7 @@ abstract class _$$RequestVerifyPaymentImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'product_id') String productId,
       @JsonKey(name: 'order_id') String orderId,
-      @JsonKey(name: 'purchase_token') String purchaseToken,
-      String platform});
+      @JsonKey(name: 'purchase_token') String purchaseToken});
 }
 
 /// @nodoc
@@ -124,7 +116,6 @@ class __$$RequestVerifyPaymentImplCopyWithImpl<$Res>
     Object? productId = null,
     Object? orderId = null,
     Object? purchaseToken = null,
-    Object? platform = null,
   }) {
     return _then(_$RequestVerifyPaymentImpl(
       productId: null == productId
@@ -139,10 +130,6 @@ class __$$RequestVerifyPaymentImplCopyWithImpl<$Res>
           ? _value.purchaseToken
           : purchaseToken // ignore: cast_nullable_to_non_nullable
               as String,
-      platform: null == platform
-          ? _value.platform
-          : platform // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -153,8 +140,7 @@ class _$RequestVerifyPaymentImpl implements _RequestVerifyPayment {
   const _$RequestVerifyPaymentImpl(
       {@JsonKey(name: 'product_id') required this.productId,
       @JsonKey(name: 'order_id') required this.orderId,
-      @JsonKey(name: 'purchase_token') required this.purchaseToken,
-      required this.platform});
+      @JsonKey(name: 'purchase_token') required this.purchaseToken});
 
   factory _$RequestVerifyPaymentImpl.fromJson(Map<String, dynamic> json) =>
       _$$RequestVerifyPaymentImplFromJson(json);
@@ -168,12 +154,10 @@ class _$RequestVerifyPaymentImpl implements _RequestVerifyPayment {
   @override
   @JsonKey(name: 'purchase_token')
   final String purchaseToken;
-  @override
-  final String platform;
 
   @override
   String toString() {
-    return 'RequestVerifyPayment(productId: $productId, orderId: $orderId, purchaseToken: $purchaseToken, platform: $platform)';
+    return 'RequestVerifyPayment(productId: $productId, orderId: $orderId, purchaseToken: $purchaseToken)';
   }
 
   @override
@@ -185,15 +169,13 @@ class _$RequestVerifyPaymentImpl implements _RequestVerifyPayment {
                 other.productId == productId) &&
             (identical(other.orderId, orderId) || other.orderId == orderId) &&
             (identical(other.purchaseToken, purchaseToken) ||
-                other.purchaseToken == purchaseToken) &&
-            (identical(other.platform, platform) ||
-                other.platform == platform));
+                other.purchaseToken == purchaseToken));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, productId, orderId, purchaseToken, platform);
+      Object.hash(runtimeType, productId, orderId, purchaseToken);
 
   /// Create a copy of RequestVerifyPayment
   /// with the given fields replaced by the non-null parameter values.
@@ -217,8 +199,8 @@ abstract class _RequestVerifyPayment implements RequestVerifyPayment {
   const factory _RequestVerifyPayment(
       {@JsonKey(name: 'product_id') required final String productId,
       @JsonKey(name: 'order_id') required final String orderId,
-      @JsonKey(name: 'purchase_token') required final String purchaseToken,
-      required final String platform}) = _$RequestVerifyPaymentImpl;
+      @JsonKey(name: 'purchase_token')
+      required final String purchaseToken}) = _$RequestVerifyPaymentImpl;
 
   factory _RequestVerifyPayment.fromJson(Map<String, dynamic> json) =
       _$RequestVerifyPaymentImpl.fromJson;
@@ -232,8 +214,6 @@ abstract class _RequestVerifyPayment implements RequestVerifyPayment {
   @override
   @JsonKey(name: 'purchase_token')
   String get purchaseToken;
-  @override
-  String get platform;
 
   /// Create a copy of RequestVerifyPayment
   /// with the given fields replaced by the non-null parameter values.

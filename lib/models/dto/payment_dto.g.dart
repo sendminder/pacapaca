@@ -12,7 +12,6 @@ _$RequestVerifyPaymentImpl _$$RequestVerifyPaymentImplFromJson(
       productId: json['product_id'] as String,
       orderId: json['order_id'] as String,
       purchaseToken: json['purchase_token'] as String,
-      platform: json['platform'] as String,
     );
 
 Map<String, dynamic> _$$RequestVerifyPaymentImplToJson(
@@ -21,7 +20,6 @@ Map<String, dynamic> _$$RequestVerifyPaymentImplToJson(
       'product_id': instance.productId,
       'order_id': instance.orderId,
       'purchase_token': instance.purchaseToken,
-      'platform': instance.platform,
     };
 
 _$RequestListPaymentsImpl _$$RequestListPaymentsImplFromJson(

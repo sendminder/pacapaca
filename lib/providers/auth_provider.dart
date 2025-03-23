@@ -3,6 +3,7 @@ import 'package:pacapaca/services/auth_service.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/models/dto/auth_dto.dart';
+import 'dart:io' show Platform;
 part 'auth_provider.g.dart';
 
 @riverpod
@@ -50,8 +51,9 @@ class Auth extends _$Auth {
   Future<UserDTO?> updateNickname(String nickname) async {
     state = const AsyncLoading();
     try {
+      final platform = Platform.isAndroid ? 'android' : 'ios';
       final user = await _authService.updateMe(
-        RequestUpdateMe(nickname: nickname),
+        RequestUpdateMe(nickname: nickname, platform: platform),
       );
       state = AsyncData(user);
       return user;
@@ -73,8 +75,9 @@ class Auth extends _$Auth {
   Future<UserDTO?> updateProfileType(String profileType) async {
     state = const AsyncLoading();
     try {
+      final platform = Platform.isAndroid ? 'android' : 'ios';
       final user = await _authService.updateMe(
-        RequestUpdateMe(profileType: profileType),
+        RequestUpdateMe(profileType: profileType, platform: platform),
       );
       state = AsyncData(user);
       return user;
@@ -87,8 +90,9 @@ class Auth extends _$Auth {
   Future<UserDTO?> updateBadgeType(String badgeType) async {
     state = const AsyncLoading();
     try {
+      final platform = Platform.isAndroid ? 'android' : 'ios';
       final user = await _authService.updateMe(
-        RequestUpdateMe(badgeType: badgeType),
+        RequestUpdateMe(badgeType: badgeType, platform: platform),
       );
       state = AsyncData(user);
       return user;
@@ -101,8 +105,9 @@ class Auth extends _$Auth {
   Future<UserDTO?> updateNotificationEnabled(bool enabled) async {
     state = const AsyncLoading();
     try {
+      final platform = Platform.isAndroid ? 'android' : 'ios';
       final user = await _authService.updateMe(
-        RequestUpdateMe(notificationEnabled: enabled),
+        RequestUpdateMe(notificationEnabled: enabled, platform: platform),
       );
       state = AsyncData(user);
       return user;
