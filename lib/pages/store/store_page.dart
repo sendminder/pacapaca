@@ -304,7 +304,7 @@ class _StorePageState extends ConsumerState<StorePage> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 4),
                     Row(
                       children: [
                         Image.asset(
@@ -320,6 +320,22 @@ class _StorePageState extends ConsumerState<StorePage> {
                                     color: AppTheme.carrotColor,
                                     fontWeight: FontWeight.bold,
                                   ),
+                        ),
+                        Text(
+                          NumberFormat.compact().format(product.originalPrice),
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          NumberFormat.compact().format(product.price),
+                          style: Theme.of(context).textTheme.titleMedium,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         if (product.discountRate > 0) ...[
                           const SizedBox(width: 8),
@@ -346,6 +362,7 @@ class _StorePageState extends ConsumerState<StorePage> {
                         ],
                       ],
                     ),
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),
