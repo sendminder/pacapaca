@@ -1276,6 +1276,8 @@ mixin _$RequestUpdateMe {
   String? get badgeType => throw _privateConstructorUsedError;
   @JsonKey(name: 'notification_enabled')
   bool? get notificationEnabled => throw _privateConstructorUsedError;
+  @JsonKey(name: 'platform')
+  String? get platform => throw _privateConstructorUsedError;
 
   /// Serializes this RequestUpdateMe to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1297,7 +1299,8 @@ abstract class $RequestUpdateMeCopyWith<$Res> {
       {@JsonKey(name: 'nickname') String? nickname,
       @JsonKey(name: 'profile_type') String? profileType,
       @JsonKey(name: 'badge_type') String? badgeType,
-      @JsonKey(name: 'notification_enabled') bool? notificationEnabled});
+      @JsonKey(name: 'notification_enabled') bool? notificationEnabled,
+      @JsonKey(name: 'platform') String? platform});
 }
 
 /// @nodoc
@@ -1319,6 +1322,7 @@ class _$RequestUpdateMeCopyWithImpl<$Res, $Val extends RequestUpdateMe>
     Object? profileType = freezed,
     Object? badgeType = freezed,
     Object? notificationEnabled = freezed,
+    Object? platform = freezed,
   }) {
     return _then(_value.copyWith(
       nickname: freezed == nickname
@@ -1337,6 +1341,10 @@ class _$RequestUpdateMeCopyWithImpl<$Res, $Val extends RequestUpdateMe>
           ? _value.notificationEnabled
           : notificationEnabled // ignore: cast_nullable_to_non_nullable
               as bool?,
+      platform: freezed == platform
+          ? _value.platform
+          : platform // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -1353,7 +1361,8 @@ abstract class _$$RequestUpdateMeImplCopyWith<$Res>
       {@JsonKey(name: 'nickname') String? nickname,
       @JsonKey(name: 'profile_type') String? profileType,
       @JsonKey(name: 'badge_type') String? badgeType,
-      @JsonKey(name: 'notification_enabled') bool? notificationEnabled});
+      @JsonKey(name: 'notification_enabled') bool? notificationEnabled,
+      @JsonKey(name: 'platform') String? platform});
 }
 
 /// @nodoc
@@ -1373,6 +1382,7 @@ class __$$RequestUpdateMeImplCopyWithImpl<$Res>
     Object? profileType = freezed,
     Object? badgeType = freezed,
     Object? notificationEnabled = freezed,
+    Object? platform = freezed,
   }) {
     return _then(_$RequestUpdateMeImpl(
       nickname: freezed == nickname
@@ -1391,6 +1401,10 @@ class __$$RequestUpdateMeImplCopyWithImpl<$Res>
           ? _value.notificationEnabled
           : notificationEnabled // ignore: cast_nullable_to_non_nullable
               as bool?,
+      platform: freezed == platform
+          ? _value.platform
+          : platform // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -1402,7 +1416,8 @@ class _$RequestUpdateMeImpl implements _RequestUpdateMe {
       {@JsonKey(name: 'nickname') this.nickname,
       @JsonKey(name: 'profile_type') this.profileType,
       @JsonKey(name: 'badge_type') this.badgeType,
-      @JsonKey(name: 'notification_enabled') this.notificationEnabled});
+      @JsonKey(name: 'notification_enabled') this.notificationEnabled,
+      @JsonKey(name: 'platform') this.platform});
 
   factory _$RequestUpdateMeImpl.fromJson(Map<String, dynamic> json) =>
       _$$RequestUpdateMeImplFromJson(json);
@@ -1419,10 +1434,13 @@ class _$RequestUpdateMeImpl implements _RequestUpdateMe {
   @override
   @JsonKey(name: 'notification_enabled')
   final bool? notificationEnabled;
+  @override
+  @JsonKey(name: 'platform')
+  final String? platform;
 
   @override
   String toString() {
-    return 'RequestUpdateMe(nickname: $nickname, profileType: $profileType, badgeType: $badgeType, notificationEnabled: $notificationEnabled)';
+    return 'RequestUpdateMe(nickname: $nickname, profileType: $profileType, badgeType: $badgeType, notificationEnabled: $notificationEnabled, platform: $platform)';
   }
 
   @override
@@ -1437,13 +1455,15 @@ class _$RequestUpdateMeImpl implements _RequestUpdateMe {
             (identical(other.badgeType, badgeType) ||
                 other.badgeType == badgeType) &&
             (identical(other.notificationEnabled, notificationEnabled) ||
-                other.notificationEnabled == notificationEnabled));
+                other.notificationEnabled == notificationEnabled) &&
+            (identical(other.platform, platform) ||
+                other.platform == platform));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, nickname, profileType, badgeType, notificationEnabled);
+  int get hashCode => Object.hash(runtimeType, nickname, profileType, badgeType,
+      notificationEnabled, platform);
 
   /// Create a copy of RequestUpdateMe
   /// with the given fields replaced by the non-null parameter values.
@@ -1467,8 +1487,9 @@ abstract class _RequestUpdateMe implements RequestUpdateMe {
       {@JsonKey(name: 'nickname') final String? nickname,
       @JsonKey(name: 'profile_type') final String? profileType,
       @JsonKey(name: 'badge_type') final String? badgeType,
-      @JsonKey(name: 'notification_enabled')
-      final bool? notificationEnabled}) = _$RequestUpdateMeImpl;
+      @JsonKey(name: 'notification_enabled') final bool? notificationEnabled,
+      @JsonKey(name: 'platform')
+      final String? platform}) = _$RequestUpdateMeImpl;
 
   factory _RequestUpdateMe.fromJson(Map<String, dynamic> json) =
       _$RequestUpdateMeImpl.fromJson;
@@ -1485,6 +1506,9 @@ abstract class _RequestUpdateMe implements RequestUpdateMe {
   @override
   @JsonKey(name: 'notification_enabled')
   bool? get notificationEnabled;
+  @override
+  @JsonKey(name: 'platform')
+  String? get platform;
 
   /// Create a copy of RequestUpdateMe
   /// with the given fields replaced by the non-null parameter values.

@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:pacapaca/models/dto/common_dto.dart';
 import 'package:pacapaca/services/storage_service.dart';
 import 'package:pacapaca/services/dio_service.dart';
+import 'package:flutter/foundation.dart';
 
 class AuthService {
   final Dio _dio = DioService.instance;
@@ -288,6 +289,7 @@ class AuthService {
 
   Future<UserDTO?> updateMe(RequestUpdateMe request) async {
     try {
+      final platform = Platform.isAndroid ? 'android' : 'ios';
       final response = await _dio.put(
         '/v1/me',
         data: jsonEncode(request.toJson()),

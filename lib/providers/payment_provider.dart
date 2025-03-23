@@ -21,13 +21,11 @@ class Payments extends _$Payments {
     required String productId,
     required String orderId,
     required String purchaseToken,
-    required String platform,
   }) async {
     final request = RequestVerifyPayment(
       productId: productId,
       orderId: orderId,
       purchaseToken: purchaseToken,
-      platform: platform,
     );
 
     final payment = await _paymentService.verifyPayment(request);

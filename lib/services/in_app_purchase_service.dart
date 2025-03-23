@@ -50,7 +50,6 @@ class InAppPurchaseService {
         logger.i('결제 완료: ${purchaseDetails.productID}');
 
         // 서버에 결제 검증 요청
-        final platform = Platform.isAndroid ? 'android' : 'ios';
         try {
           final payment = await _paymentService.verifyPayment(
             RequestVerifyPayment(
@@ -64,7 +63,6 @@ class InAppPurchaseService {
                           .skPaymentTransaction
                           .transactionIdentifier ??
                       '',
-              platform: platform,
             ),
           );
 

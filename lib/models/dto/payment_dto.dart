@@ -10,7 +10,6 @@ class RequestVerifyPayment with _$RequestVerifyPayment {
     @JsonKey(name: 'product_id') required String productId,
     @JsonKey(name: 'order_id') required String orderId,
     @JsonKey(name: 'purchase_token') required String purchaseToken,
-    required String platform,
   }) = _RequestVerifyPayment;
 
   factory RequestVerifyPayment.fromJson(Map<String, dynamic> json) =>
