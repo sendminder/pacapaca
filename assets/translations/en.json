@@ -239,6 +239,8 @@
         "pacappu": "Pacappu"
     },
     "store": {
+        "banner": "Part of the carrot's profit is donated to the\nYouth Violence Prevention Foundation.",
+        "banner_title": "Together with Donation",
         "title": "Carrot Store",
         "error": "Failed to load carrot store: {}",
         "no_data": "Carrot store data is missing",
@@ -248,7 +250,10 @@
         "payment_history": "Payment History",
         "no_featured_products": "No featured products",
         "no_products": "No products",
-        "buy_now": "Buy Now"
+        "buy_now": "Buy Now",
+        "purchase_success": "Purchase successful",
+        "purchase_failed": "Purchase failed",
+        "purchase_error": "Purchase error"
     },
     "payment": {
         "history": "Payment History",

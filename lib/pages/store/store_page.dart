@@ -61,11 +61,84 @@ class _StorePageState extends ConsumerState<StorePage> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            _buildBannerSection(context),
             _buildFeaturedProductsSection(context, asyncFeaturedProducts),
             const SizedBox(height: 24),
             _buildAllProductsSection(context, asyncProducts),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildBannerSection(BuildContext context) {
+    return Container(
+      height: 180,
+      margin: const EdgeInsets.symmetric(vertical: 16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppTheme.carrotColor.withAlpha(200),
+            AppTheme.carrotColor.withAlpha(100),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(20),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            right: -20,
+            bottom: -20,
+            child: Image.asset(
+              'assets/icon/carrot.png',
+              width: 150,
+              height: 150,
+              opacity: const AlwaysStoppedAnimation(0.8),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.favorite,
+                      color: Colors.white.withAlpha(240),
+                      size: 28,
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      'store.banner_title'.tr(),
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'store.banner'.tr(),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Colors.white.withAlpha(240),
+                        height: 1.5,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -170,6 +243,23 @@ class _StorePageState extends ConsumerState<StorePage> {
                               Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     color: AppTheme.carrotColor,
                                     fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${product.originalPrice}￦',
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    decoration: TextDecoration.lineThrough,
+                                    color: Colors.grey,
+                                  ),
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${product.price}￦',
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Colors.black,
                                   ),
                         ),
                       ],
@@ -291,11 +381,21 @@ class _StorePageState extends ConsumerState<StorePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      product.name,
-                      style: Theme.of(context).textTheme.titleMedium,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      children: [
+                        Image.asset(
+                          'assets/icon/carrot.png',
+                          width: 20,
+                          height: 20,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          product.name,
+                          style: Theme.of(context).textTheme.titleMedium,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -307,34 +407,22 @@ class _StorePageState extends ConsumerState<StorePage> {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        Image.asset(
-                          'assets/icon/carrot.png',
-                          width: 20,
-                          height: 20,
-                        ),
+                        if (product.originalPrice > product.price)
+                          Text(
+                            '${product.originalPrice}￦',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  decoration: TextDecoration.lineThrough,
+                                  color: Colors.grey,
+                                ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         const SizedBox(width: 4),
                         Text(
-                          NumberFormat.compact().format(product.carrotAmount),
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: AppTheme.carrotColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                        Text(
-                          NumberFormat.compact().format(product.originalPrice),
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          NumberFormat.compact().format(product.price),
+                          '${product.price}￦',
                           style: Theme.of(context).textTheme.titleMedium,
-                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         if (product.discountRate > 0) ...[
@@ -422,11 +510,21 @@ class _StorePageState extends ConsumerState<StorePage> {
               ),
             ),
           const SizedBox(height: 24),
-          Text(
-            product.name,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+          Row(
+            children: [
+              Image.asset(
+                'assets/icon/carrot.png',
+                width: 24,
+                height: 24,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                product.name,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
           Text(
@@ -436,14 +534,19 @@ class _StorePageState extends ConsumerState<StorePage> {
           const SizedBox(height: 16),
           Row(
             children: [
-              Image.asset(
-                'assets/icon/carrot.png',
-                width: 24,
-                height: 24,
-              ),
               const SizedBox(width: 8),
+              if (product.originalPrice > product.price) ...[
+                Text(
+                  '${product.originalPrice}￦',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Colors.grey,
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                ),
+                const SizedBox(width: 8),
+              ],
               Text(
-                NumberFormat.compact().format(product.carrotAmount),
+                '${product.price}￦',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: AppTheme.carrotColor,
                       fontWeight: FontWeight.bold,
@@ -478,13 +581,20 @@ class _StorePageState extends ConsumerState<StorePage> {
                 _handlePurchase(context, product);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                backgroundColor: AppTheme.carrotColor,
+                foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              child: Text('store.buy_now'.tr()),
+              child: Text(
+                'store.buy_now'.tr(),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+              ),
             ),
           ),
+          const SizedBox(height: 24),
         ],
       ),
     );

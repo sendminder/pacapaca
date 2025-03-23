@@ -244,6 +244,8 @@
         "pacappu": "파카뿌"
     },
     "store": {
+        "banner": "당근의 수익금 일부를\n청소년폭력예방재단에\n기부하고 있습니다.",
+        "banner_title": "함께하는 기부",
         "title": "당근 상점",
         "error": "당근 상점 로드 중 오류가 발생했어요: {}",
         "no_data": "당근 상점 데이터가 없어요",
@@ -253,7 +255,10 @@
         "payment_history": "결제 내역",
         "no_featured_products": "추천 상품이 없어요",
         "no_products": "상품이 없어요",
-        "buy_now": "바로 구매하기"
+        "buy_now": "바로 구매하기",
+        "purchase_success": "구매가 완료되었어요",
+        "purchase_failed": "구매에 실패했어요",
+        "purchase_error": "구매 중 오류가 발생했어요"
     },
     "payment": {
         "history": "결제 내역",
