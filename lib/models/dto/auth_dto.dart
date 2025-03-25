@@ -89,6 +89,7 @@ class RequestUpdateMe with _$RequestUpdateMe {
     @JsonKey(name: 'badge_type') String? badgeType,
     @JsonKey(name: 'notification_enabled') bool? notificationEnabled,
     @JsonKey(name: 'platform') String? platform,
+    @JsonKey(name: 'language') String? language,
   }) = _RequestUpdateMe;
 
   factory RequestUpdateMe.fromJson(Map<String, dynamic> json) =>

@@ -128,6 +128,7 @@ class SettingsPage extends ConsumerWidget {
                   ref
                       .read(localeProvider.notifier)
                       .setLocale(Locale(newLocale));
+                  ref.read(authProvider.notifier).updateLanguage(newLocale);
                 }
               },
             ),

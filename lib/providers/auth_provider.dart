@@ -3,6 +3,7 @@ import 'package:pacapaca/services/auth_service.dart';
 import 'package:pacapaca/models/dto/user_dto.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/models/dto/auth_dto.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
 import 'dart:io' show Platform;
 part 'auth_provider.g.dart';
 
@@ -52,8 +53,28 @@ class Auth extends _$Auth {
     state = const AsyncLoading();
     try {
       final platform = Platform.isAndroid ? 'android' : 'ios';
+      final language = ref.read(localeProvider).languageCode;
       final user = await _authService.updateMe(
-        RequestUpdateMe(nickname: nickname, platform: platform),
+        RequestUpdateMe(
+          nickname: nickname,
+          platform: platform,
+          language: language,
+        ),
+      );
+      state = AsyncData(user);
+      return user;
+    } catch (e) {
+      state = AsyncError(e, StackTrace.current);
+      return null;
+    }
+  }
+
+  Future<UserDTO?> updateLanguage(String language) async {
+    state = const AsyncLoading();
+    try {
+      final platform = Platform.isAndroid ? 'android' : 'ios';
+      final user = await _authService.updateMe(
+        RequestUpdateMe(language: language, platform: platform),
       );
       state = AsyncData(user);
       return user;

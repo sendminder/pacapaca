@@ -19,8 +19,10 @@ class MyApp extends ConsumerWidget {
     final currentLocale = context.locale.languageCode;
     if (['ko', 'en'].contains(currentLocale)) {
       timeago.setDefaultLocale(currentLocale);
+      ref.read(localeProvider.notifier).setLocale(Locale(currentLocale));
     } else {
       timeago.setDefaultLocale('ko'); // 지원하지 않는 언어인 경우 기본값
+      ref.read(localeProvider.notifier).setLocale(const Locale('ko'));
     }
 
     return MaterialApp.router(

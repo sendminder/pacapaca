@@ -102,6 +102,7 @@ _$RequestUpdateMeImpl _$$RequestUpdateMeImplFromJson(
       badgeType: json['badge_type'] as String?,
       notificationEnabled: json['notification_enabled'] as bool?,
       platform: json['platform'] as String?,
+      language: json['language'] as String?,
     );
 
 Map<String, dynamic> _$$RequestUpdateMeImplToJson(
@@ -112,4 +113,5 @@ Map<String, dynamic> _$$RequestUpdateMeImplToJson(
       'badge_type': instance.badgeType,
       'notification_enabled': instance.notificationEnabled,
       'platform': instance.platform,
+      'language': instance.language,
     };
