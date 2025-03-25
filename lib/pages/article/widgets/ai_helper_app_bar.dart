@@ -5,11 +5,20 @@ import 'package:pacapaca/models/enums/profile_type.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
 
 class AiHelperAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const AiHelperAppBar({super.key});
+  final VoidCallback? onSummarize;
+  final bool showSummarizeButton;
+
+  const AiHelperAppBar({
+    super.key,
+    this.onSummarize,
+    this.showSummarizeButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       title: Row(
         children: [
           UserAvatar(
@@ -18,13 +27,30 @@ class AiHelperAppBar extends StatelessWidget implements PreferredSizeWidget {
             imageUrl: '',
           ),
           const SizedBox(width: 8),
-          Text('helper.title'.tr()),
+          Text(
+            'helper.title'.tr(),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
       leading: IconButton(
         icon: const Icon(Icons.close),
         onPressed: () => context.pop(),
       ),
+      actions: [
+        if (showSummarizeButton)
+          IconButton(
+            onPressed: onSummarize,
+            icon: Icon(
+              Icons.download_done,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
+        const SizedBox(width: 8),
+      ],
     );
   }
 

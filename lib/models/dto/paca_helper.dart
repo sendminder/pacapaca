@@ -37,3 +37,27 @@ class ResponseDefineProblems with _$ResponseDefineProblems {
   factory ResponseDefineProblems.fromJson(Map<String, dynamic> json) =>
       _$ResponseDefineProblemsFromJson(json);
 }
+
+@freezed
+class RequestSummarizeConcerns with _$RequestSummarizeConcerns {
+  const factory RequestSummarizeConcerns({
+    required List<Message> messages,
+  }) = _RequestSummarizeConcerns;
+
+  factory RequestSummarizeConcerns.fromJson(Map<String, dynamic> json) =>
+      _$RequestSummarizeConcernsFromJson(json);
+}
+
+@freezed
+class ResponseSummarizeConcerns with _$ResponseSummarizeConcerns {
+  const factory ResponseSummarizeConcerns({
+    required String answer,
+    bool? done,
+    String? title,
+    String? category,
+    List<String>? keywords,
+  }) = _ResponseSummarizeConcerns;
+
+  factory ResponseSummarizeConcerns.fromJson(Map<String, dynamic> json) =>
+      _$ResponseSummarizeConcernsFromJson(json);
+}

@@ -33,4 +33,28 @@ class PacaHelperService {
       rethrow;
     }
   }
+
+  /// 고민 요약하기
+  Future<ResponseSummarizeConcerns?> summarizeConcerns(
+      RequestSummarizeConcerns request) async {
+    try {
+      final response = await _dio.post(
+        '/v1/paca/summarize-concerns',
+        data: jsonEncode(request.toJson()),
+      );
+
+      final responseRest = RestResponse<Map<String, dynamic>>.fromJson(
+        response.data,
+        (json) => json as Map<String, dynamic>,
+      );
+
+      if (responseRest.response != null) {
+        return ResponseSummarizeConcerns.fromJson(responseRest.response!);
+      }
+      return null;
+    } catch (e, stackTrace) {
+      logger.e('summarize concerns', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
 }

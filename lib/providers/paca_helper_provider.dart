@@ -24,4 +24,12 @@ class PacaHelper extends _$PacaHelper {
 
     return await _pacaHelperService.defineProblems(request);
   }
+
+  /// 고민 요약하기
+  Future<ResponseSummarizeConcerns?> summarizeConcerns({
+    required List<Message> messages,
+  }) async {
+    final request = RequestSummarizeConcerns(messages: messages);
+    return await _pacaHelperService.summarizeConcerns(request);
+  }
 }

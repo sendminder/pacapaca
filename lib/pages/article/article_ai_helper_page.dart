@@ -44,7 +44,10 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
         _focusNode.unfocus();
       },
       child: Scaffold(
-        appBar: const AiHelperAppBar(),
+        appBar: AiHelperAppBar(
+          showSummarizeButton: _chatHistory.length >= 6,
+          onSummarize: _handleSummarize,
+        ),
         body: _buildChatBody(),
         bottomSheet: ChatInput(
           controller: _messageController,
@@ -102,7 +105,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     _addMessageToChat('user', message);
 
     // API 호출은 즉시 시작 (백그라운드에서)
-    final responseFuture = _getAiResponse();
+    final responseFuture = _getDefineProblemsResponse();
 
     // 로딩 상태 표시는 지연시킴
     await Future.delayed(const Duration(milliseconds: 800));
@@ -116,11 +119,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
       final response = await responseFuture; // 이미 진행 중인 API 호출 결과 기다림
       if (!mounted) return;
 
-      if (response?.done == true) {
-        _handleCompletedDraft(response!);
-      } else {
-        _handleContinuedConversation(response);
-      }
+      _handleContinuedConversation(response);
     } catch (e) {
       _handleError();
     }
@@ -133,7 +132,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     _scrollToBottom();
   }
 
-  Future<ResponseDefineProblems?> _getAiResponse() async {
+  Future<ResponseDefineProblems?> _getDefineProblemsResponse() async {
     final messages = _chatHistory.map((msg) {
       final role = msg.containsKey('user') ? 'user' : 'assistant';
       return Message(role: role, content: msg[role] ?? '');
@@ -144,7 +143,18 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
         );
   }
 
-  void _handleCompletedDraft(ResponseDefineProblems response) {
+  Future<ResponseSummarizeConcerns?> _getSummarizeResponse() async {
+    final messages = _chatHistory.map((msg) {
+      final role = msg.containsKey('user') ? 'user' : 'assistant';
+      return Message(role: role, content: msg[role] ?? '');
+    }).toList();
+
+    return await ref.read(pacaHelperProvider.notifier).summarizeConcerns(
+          messages: messages,
+        );
+  }
+
+  void _handleCompletedDraft(ResponseSummarizeConcerns response) {
     setState(() => _isLoading = false);
     _showDraftPreview(
       response.title ?? 'helper.title'.tr(),
@@ -298,6 +308,29 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
       isUser: false,
       isLoading: true,
     );
+  }
+
+  Future<void> _handleSummarize() async {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final response = await _getSummarizeResponse();
+      if (!mounted) return;
+
+      setState(() => _isLoading = false);
+
+      if (response?.done == true) {
+        _handleCompletedDraft(response!);
+      } else {
+        _handleError();
+      }
+    } catch (e) {
+      _handleError();
+    }
   }
 
   @override

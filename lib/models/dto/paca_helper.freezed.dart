@@ -587,3 +587,415 @@ abstract class _ResponseDefineProblems implements ResponseDefineProblems {
   _$$ResponseDefineProblemsImplCopyWith<_$ResponseDefineProblemsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+RequestSummarizeConcerns _$RequestSummarizeConcernsFromJson(
+    Map<String, dynamic> json) {
+  return _RequestSummarizeConcerns.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RequestSummarizeConcerns {
+  List<Message> get messages => throw _privateConstructorUsedError;
+
+  /// Serializes this RequestSummarizeConcerns to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RequestSummarizeConcerns
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RequestSummarizeConcernsCopyWith<RequestSummarizeConcerns> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RequestSummarizeConcernsCopyWith<$Res> {
+  factory $RequestSummarizeConcernsCopyWith(RequestSummarizeConcerns value,
+          $Res Function(RequestSummarizeConcerns) then) =
+      _$RequestSummarizeConcernsCopyWithImpl<$Res, RequestSummarizeConcerns>;
+  @useResult
+  $Res call({List<Message> messages});
+}
+
+/// @nodoc
+class _$RequestSummarizeConcernsCopyWithImpl<$Res,
+        $Val extends RequestSummarizeConcerns>
+    implements $RequestSummarizeConcernsCopyWith<$Res> {
+  _$RequestSummarizeConcernsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RequestSummarizeConcerns
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? messages = null,
+  }) {
+    return _then(_value.copyWith(
+      messages: null == messages
+          ? _value.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<Message>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RequestSummarizeConcernsImplCopyWith<$Res>
+    implements $RequestSummarizeConcernsCopyWith<$Res> {
+  factory _$$RequestSummarizeConcernsImplCopyWith(
+          _$RequestSummarizeConcernsImpl value,
+          $Res Function(_$RequestSummarizeConcernsImpl) then) =
+      __$$RequestSummarizeConcernsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<Message> messages});
+}
+
+/// @nodoc
+class __$$RequestSummarizeConcernsImplCopyWithImpl<$Res>
+    extends _$RequestSummarizeConcernsCopyWithImpl<$Res,
+        _$RequestSummarizeConcernsImpl>
+    implements _$$RequestSummarizeConcernsImplCopyWith<$Res> {
+  __$$RequestSummarizeConcernsImplCopyWithImpl(
+      _$RequestSummarizeConcernsImpl _value,
+      $Res Function(_$RequestSummarizeConcernsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RequestSummarizeConcerns
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? messages = null,
+  }) {
+    return _then(_$RequestSummarizeConcernsImpl(
+      messages: null == messages
+          ? _value._messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<Message>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RequestSummarizeConcernsImpl implements _RequestSummarizeConcerns {
+  const _$RequestSummarizeConcernsImpl({required final List<Message> messages})
+      : _messages = messages;
+
+  factory _$RequestSummarizeConcernsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestSummarizeConcernsImplFromJson(json);
+
+  final List<Message> _messages;
+  @override
+  List<Message> get messages {
+    if (_messages is EqualUnmodifiableListView) return _messages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_messages);
+  }
+
+  @override
+  String toString() {
+    return 'RequestSummarizeConcerns(messages: $messages)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestSummarizeConcernsImpl &&
+            const DeepCollectionEquality().equals(other._messages, _messages));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_messages));
+
+  /// Create a copy of RequestSummarizeConcerns
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestSummarizeConcernsImplCopyWith<_$RequestSummarizeConcernsImpl>
+      get copyWith => __$$RequestSummarizeConcernsImplCopyWithImpl<
+          _$RequestSummarizeConcernsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestSummarizeConcernsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RequestSummarizeConcerns implements RequestSummarizeConcerns {
+  const factory _RequestSummarizeConcerns(
+      {required final List<Message> messages}) = _$RequestSummarizeConcernsImpl;
+
+  factory _RequestSummarizeConcerns.fromJson(Map<String, dynamic> json) =
+      _$RequestSummarizeConcernsImpl.fromJson;
+
+  @override
+  List<Message> get messages;
+
+  /// Create a copy of RequestSummarizeConcerns
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RequestSummarizeConcernsImplCopyWith<_$RequestSummarizeConcernsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ResponseSummarizeConcerns _$ResponseSummarizeConcernsFromJson(
+    Map<String, dynamic> json) {
+  return _ResponseSummarizeConcerns.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ResponseSummarizeConcerns {
+  String get answer => throw _privateConstructorUsedError;
+  bool? get done => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get category => throw _privateConstructorUsedError;
+  List<String>? get keywords => throw _privateConstructorUsedError;
+
+  /// Serializes this ResponseSummarizeConcerns to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ResponseSummarizeConcerns
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ResponseSummarizeConcernsCopyWith<ResponseSummarizeConcerns> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ResponseSummarizeConcernsCopyWith<$Res> {
+  factory $ResponseSummarizeConcernsCopyWith(ResponseSummarizeConcerns value,
+          $Res Function(ResponseSummarizeConcerns) then) =
+      _$ResponseSummarizeConcernsCopyWithImpl<$Res, ResponseSummarizeConcerns>;
+  @useResult
+  $Res call(
+      {String answer,
+      bool? done,
+      String? title,
+      String? category,
+      List<String>? keywords});
+}
+
+/// @nodoc
+class _$ResponseSummarizeConcernsCopyWithImpl<$Res,
+        $Val extends ResponseSummarizeConcerns>
+    implements $ResponseSummarizeConcernsCopyWith<$Res> {
+  _$ResponseSummarizeConcernsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ResponseSummarizeConcerns
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? answer = null,
+    Object? done = freezed,
+    Object? title = freezed,
+    Object? category = freezed,
+    Object? keywords = freezed,
+  }) {
+    return _then(_value.copyWith(
+      answer: null == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
+              as String,
+      done: freezed == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
+      keywords: freezed == keywords
+          ? _value.keywords
+          : keywords // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ResponseSummarizeConcernsImplCopyWith<$Res>
+    implements $ResponseSummarizeConcernsCopyWith<$Res> {
+  factory _$$ResponseSummarizeConcernsImplCopyWith(
+          _$ResponseSummarizeConcernsImpl value,
+          $Res Function(_$ResponseSummarizeConcernsImpl) then) =
+      __$$ResponseSummarizeConcernsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String answer,
+      bool? done,
+      String? title,
+      String? category,
+      List<String>? keywords});
+}
+
+/// @nodoc
+class __$$ResponseSummarizeConcernsImplCopyWithImpl<$Res>
+    extends _$ResponseSummarizeConcernsCopyWithImpl<$Res,
+        _$ResponseSummarizeConcernsImpl>
+    implements _$$ResponseSummarizeConcernsImplCopyWith<$Res> {
+  __$$ResponseSummarizeConcernsImplCopyWithImpl(
+      _$ResponseSummarizeConcernsImpl _value,
+      $Res Function(_$ResponseSummarizeConcernsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ResponseSummarizeConcerns
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? answer = null,
+    Object? done = freezed,
+    Object? title = freezed,
+    Object? category = freezed,
+    Object? keywords = freezed,
+  }) {
+    return _then(_$ResponseSummarizeConcernsImpl(
+      answer: null == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
+              as String,
+      done: freezed == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
+      keywords: freezed == keywords
+          ? _value._keywords
+          : keywords // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ResponseSummarizeConcernsImpl implements _ResponseSummarizeConcerns {
+  const _$ResponseSummarizeConcernsImpl(
+      {required this.answer,
+      this.done,
+      this.title,
+      this.category,
+      final List<String>? keywords})
+      : _keywords = keywords;
+
+  factory _$ResponseSummarizeConcernsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseSummarizeConcernsImplFromJson(json);
+
+  @override
+  final String answer;
+  @override
+  final bool? done;
+  @override
+  final String? title;
+  @override
+  final String? category;
+  final List<String>? _keywords;
+  @override
+  List<String>? get keywords {
+    final value = _keywords;
+    if (value == null) return null;
+    if (_keywords is EqualUnmodifiableListView) return _keywords;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ResponseSummarizeConcerns(answer: $answer, done: $done, title: $title, category: $category, keywords: $keywords)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResponseSummarizeConcernsImpl &&
+            (identical(other.answer, answer) || other.answer == answer) &&
+            (identical(other.done, done) || other.done == done) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            const DeepCollectionEquality().equals(other._keywords, _keywords));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, answer, done, title, category,
+      const DeepCollectionEquality().hash(_keywords));
+
+  /// Create a copy of ResponseSummarizeConcerns
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ResponseSummarizeConcernsImplCopyWith<_$ResponseSummarizeConcernsImpl>
+      get copyWith => __$$ResponseSummarizeConcernsImplCopyWithImpl<
+          _$ResponseSummarizeConcernsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ResponseSummarizeConcernsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ResponseSummarizeConcerns implements ResponseSummarizeConcerns {
+  const factory _ResponseSummarizeConcerns(
+      {required final String answer,
+      final bool? done,
+      final String? title,
+      final String? category,
+      final List<String>? keywords}) = _$ResponseSummarizeConcernsImpl;
+
+  factory _ResponseSummarizeConcerns.fromJson(Map<String, dynamic> json) =
+      _$ResponseSummarizeConcernsImpl.fromJson;
+
+  @override
+  String get answer;
+  @override
+  bool? get done;
+  @override
+  String? get title;
+  @override
+  String? get category;
+  @override
+  List<String>? get keywords;
+
+  /// Create a copy of ResponseSummarizeConcerns
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ResponseSummarizeConcernsImplCopyWith<_$ResponseSummarizeConcernsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
