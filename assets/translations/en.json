@@ -22,7 +22,8 @@
         "check_availability": "Check Availability",
         "error_occurred": "An error occurred",
         "available": "Available nickname",
-        "no_spaces": "Nickname cannot contain spaces"
+        "no_spaces": "Nickname cannot contain spaces",
+        "contains_forbidden_word": "Contains prohibited words"
     },
     "helper": {
         "first_message": "Hello! I'm Pacappi 🦙\nWhat's your topic of concern? \nI'll listen to your story and summarize it in an article!",

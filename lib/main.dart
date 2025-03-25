@@ -35,6 +35,7 @@ import 'package:pacapaca/services/product_service.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pacapaca/services/word_filter_service.dart';
 
 void main() async {
   // 앱 초기화
@@ -160,7 +161,6 @@ Future<void> _setupServiceLocator() async {
   getIt.registerSingleton<AuthService>(AuthService());
   getIt.registerSingleton<UserService>(UserService());
   getIt.registerSingleton<DioService>(DioService());
-
   // 나머지 서비스는 필요할 때 초기화
   getIt.registerLazySingleton(() => ArticleService());
   getIt.registerLazySingleton(() => BlockService());
@@ -172,6 +172,9 @@ Future<void> _setupServiceLocator() async {
   getIt.registerLazySingleton(() => PaymentService());
   getIt.registerLazySingleton(() => ProductService());
   getIt.registerLazySingleton(() => InAppPurchaseService());
+
+  // static 서비스 초기화
+  await WordFilterService.instance.initialize();
 }
 
 // 전역 변수로 GlobalKey 추가

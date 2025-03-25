@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/services/word_filter_service.dart';
 
 class SetNicknamePage extends ConsumerWidget {
   const SetNicknamePage({super.key});
@@ -125,6 +126,16 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
       return;
     }
 
+    if (WordFilterService.instance.containsForbiddenWord(trimmedNickname)) {
+      final category =
+          WordFilterService.instance.getForbiddenWordCategory(trimmedNickname);
+      setState(() {
+        _errorMessage =
+            'nickname.contains_forbidden_word'.tr(args: [category ?? '']);
+      });
+      return;
+    }
+
     setState(() {
       _isChecking = true;
       _errorMessage = null;
@@ -198,8 +209,8 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
             filled: true,
             counterText: '',
             fillColor: isDarkMode
-                ? colorScheme.surfaceVariant.withAlpha(77)
-                : colorScheme.surfaceVariant.withAlpha(26),
+                ? colorScheme.surfaceContainerHigh.withAlpha(77)
+                : colorScheme.surfaceContainerHigh.withAlpha(26),
             hintText: 'nickname.nickname_hint'.tr(),
             hintStyle: TextStyle(
               color: colorScheme.onSurface.withAlpha(128),

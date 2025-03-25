@@ -23,7 +23,7 @@
         "error_occurred": "에러가 발생했어요",
         "available": "사용 가능한 닉네임이에요",
         "no_spaces": "닉네임에는 띄어쓰기를 사용할 수 없어요",
-        "contains_forbidden_word": "부적절한 단어가 포함되어 있습니다 (카테고리: %s)"
+        "contains_forbidden_word": "부적절한 단어가 포함되어 있습니다"
     },
     "helper": {
         "first_message": "안녕하세요! 저는 파카삐예요 🦙\n어떤 주제의 고민이 있으신가요? \n제가 이야기를 들어드리고 글로 정리해드릴게요!",
