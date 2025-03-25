@@ -283,6 +283,9 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
           // refId가 사용자 ID인 경우
           if (notification.refId != null && notification.refId != 0) {
             context.push('/users/${notification.refId}');
+          } else {
+            // refId가 0이거나 null인 경우 당근 가이드라인 페이지로 이동
+            context.push('/guidelines/carrot');
           }
           break;
         case 'system':

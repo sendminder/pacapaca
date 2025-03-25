@@ -218,7 +218,8 @@
         "user_posts": "User Posts",
         "my_liked_posts": "Liked Posts",
         "no_user_posts": "No posts yet.",
-        "no_liked_posts": "No liked posts yet."
+        "no_liked_posts": "No liked posts yet.",
+        "go_to_store": "Carrot Store"
     },
     "ranking": {
         "title": "Ranking",
@@ -323,7 +324,20 @@
         "rule4_content": "Requesting personal information or suggesting personal meetings is prohibited. Please focus on concern counseling.",
         "rule5_title": "5. Report Rule Violations",
         "rule5_content": "Please report users who violate community norms or engage in inappropriate behavior. Everyone must work together to maintain a safe and warm environment.",
-        "confirm_button": "I Understand"
+        "confirm_button": "I Understand",
+        "carrot": {
+            "title": "Carrot Usage Guide",
+            "what_is_carrot": "What is the Carrot?",
+            "intro": "What Pacappi and Pacappu love the most in the world? It's carrots! 😆\nBut these aren't just any carrots! In PacaPaca, carrots are symbols of empathy and encouragement.",
+            "outro": "The more carrots we share, the warmer our community becomes.\nPacappi and Pacappu get happy when they see carrots too! 🥕",
+            "case1_title": "When You Empathize",
+            "case1_content": "When you relate to someone's concern!\nSay \"I totally understand!\" and give a carrot!\n\nEmpathy is the first step to understanding and comforting each other.",
+            "case2_title": "When You Get Help",
+            "case2_content": "When you receive good advice!\nSay \"This advice really helped me!\" and give a carrot!\n\nShow your gratitude for helpful advice.",
+            "case3_title": "When You Want to Encourage",
+            "case3_content": "When you want to cheer someone up!\nSay \"I'm rooting for you!\" and give a carrot!\n\nA small encouragement can make a big difference.",
+            "confirm": "Got it!"
+        }
     },
     "update": {
         "force_update_required": "Emergency Update Required",

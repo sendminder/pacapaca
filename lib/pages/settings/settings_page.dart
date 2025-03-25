@@ -161,6 +161,17 @@ class SettingsPage extends ConsumerWidget {
           ),
           divider,
           ListTile(
+            leading: Image.asset(
+              'assets/icon/carrot.png',
+              width: 24,
+              height: 24,
+            ),
+            title: Text('guidelines.carrot.title'.tr()),
+            onTap: () {
+              context.push('/guidelines/carrot');
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.people_outline_rounded),
             title: Text('settings.community_guidelines'.tr()),
             onTap: () {

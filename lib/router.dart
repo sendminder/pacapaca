@@ -39,6 +39,7 @@ import 'package:pacapaca/providers/comment_provider.dart';
 import 'pages/article/deleted_article_page.dart';
 import 'package:pacapaca/services/article_service.dart';
 import 'pages/guidelines/community_guidelines_page.dart';
+import 'pages/guidelines/carrot_guidelines_page.dart';
 import 'pages/auth/update_page.dart';
 import 'pages/auth/force_update_page.dart';
 import 'services/storage_service.dart';
@@ -202,6 +203,10 @@ class RouterNotifier extends ChangeNotifier {
         GoRoute(
           path: '/guidelines',
           builder: (context, state) => const CommunityGuidelinesPage(),
+        ),
+        GoRoute(
+          path: '/guidelines/carrot',
+          builder: (context, state) => const CarrotGuidelinesPage(),
         ),
         GoRoute(
           path: '/login',
