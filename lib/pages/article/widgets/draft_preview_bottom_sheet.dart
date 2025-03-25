@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/models/enums/profile_type.dart';
+import 'package:pacapaca/widgets/shared/user_avatar.dart';
 
 class DraftPreviewBottomSheet extends StatelessWidget {
   final String title;
@@ -46,16 +48,10 @@ class DraftPreviewBottomSheet extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     return Row(
       children: [
-        Container(
-          width: 30,
-          height: 30,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-              image: AssetImage('assets/profiles/pacappiface.png'),
-              fit: BoxFit.cover,
-            ),
-          ),
+        UserAvatar(
+          radius: 20,
+          profileType: PacapacaProfileType.pacappiface.value,
+          imageUrl: '',
         ),
         const SizedBox(width: 8),
         Text(

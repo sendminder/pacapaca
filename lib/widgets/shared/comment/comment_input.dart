@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/services/word_filter_service.dart';
 
 class CommentInput extends ConsumerStatefulWidget {
   final Future<void> Function(String content) onSubmit;
@@ -45,7 +46,10 @@ class _CommentInputState extends ConsumerState<CommentInput> {
             final content = _controller.text.trim();
             if (content.isEmpty) return;
 
-            await widget.onSubmit(content);
+            // 부적절한 단어 자동 필터링
+            final filteredContent =
+                WordFilterService.instance.filter(content).filteredText;
+            await widget.onSubmit(filteredContent);
             _controller.clear();
           },
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pacapaca/models/enums/profile_type.dart';
+import 'package:pacapaca/widgets/shared/user_avatar.dart';
 
 class AiHelperAppBar extends StatelessWidget implements PreferredSizeWidget {
   const AiHelperAppBar({super.key});
@@ -10,16 +12,10 @@ class AiHelperAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Row(
         children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                image: AssetImage('assets/profiles/pacappiface.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
+          UserAvatar(
+            radius: 20,
+            profileType: PacapacaProfileType.pacappiface.value,
+            imageUrl: '',
           ),
           const SizedBox(width: 8),
           Text('helper.title'.tr()),

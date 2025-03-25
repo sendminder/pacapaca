@@ -63,6 +63,11 @@
         "no_articles": "No articles",
         "empty_all_description": "There are no articles yet. Be the first to write one!",
         "empty_category_description": "There are no articles in the {} category yet. Be the first to write one!",
+        "loading": "Loading articles",
+        "retry": "Retry",
+        "forbidden_word_detected": "Inappropriate Content Detected",
+        "forbidden_word_message": "This post contains inappropriate content. Would you like to post it with automatically filtered content?",
+        "confirm": "Confirm",
         "sort": {
             "latest": "Latest",
             "oldest": "Oldest",

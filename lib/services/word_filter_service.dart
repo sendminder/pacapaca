@@ -118,4 +118,19 @@ class WordFilterService {
 
     return cleanedText;
   }
+
+  /// 텍스트를 필터링하고 결과를 반환하는 메소드
+  ({String filteredText, bool hasForbiddenWord}) filter(String text) {
+    if (!_isInitialized) {
+      throw Exception('WordFilterService가 초기화되지 않았습니다.');
+    }
+
+    final hasForbidden = containsForbiddenWord(text);
+    final filteredText = hasForbidden ? clean(text) : text;
+
+    return (
+      filteredText: filteredText,
+      hasForbiddenWord: hasForbidden,
+    );
+  }
 }

@@ -8,6 +8,8 @@ import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
+import 'package:pacapaca/services/word_filter_service.dart';
+import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
 
 class ArticleCreatePage extends ConsumerStatefulWidget {
   final String? initialTitle;
@@ -82,7 +84,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
               foregroundColor: Colors.white,
               elevation: 1,
               disabledBackgroundColor:
-                  Theme.of(context).colorScheme.primary.withOpacity(0.6),
+                  Theme.of(context).colorScheme.primary.withAlpha(153),
               disabledForegroundColor: Colors.white70,
             ),
             child: _isLoading
@@ -136,6 +138,28 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
       return;
     }
 
+    final titleFilter =
+        WordFilterService.instance.filter(_titleController.text);
+    final contentFilter =
+        WordFilterService.instance.filter(_contentController.text);
+
+    if (titleFilter.hasForbiddenWord || contentFilter.hasForbiddenWord) {
+      final result = await showDialog<bool>(
+        context: context,
+        builder: (context) => ConfirmationDialog(
+          title: 'article.forbidden_word_detected'.tr(),
+          content: 'article.forbidden_word_message'.tr(),
+          cancelText: 'article.cancel'.tr(),
+          confirmText: 'article.confirm'.tr(),
+          isDanger: true,
+        ),
+      );
+
+      if (result != true) {
+        return;
+      }
+    }
+
     ArticleCategory createCategory = selectedCategory;
     if (createCategory == ArticleCategory.all) {
       createCategory = ArticleCategory.daily;
@@ -145,8 +169,8 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
 
     try {
       final request = RequestCreateArticle(
-        title: _titleController.text,
-        content: _contentController.text,
+        title: titleFilter.filteredText,
+        content: contentFilter.filteredText,
         category: createCategory.name,
         replyPacappi: _replyPacappi,
         replyPacappu: _replyPacappu,

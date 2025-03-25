@@ -7,6 +7,9 @@ import 'package:pacapaca/pages/article/widgets/article_form.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
+import 'package:pacapaca/services/word_filter_service.dart';
+import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
+import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 
 class ArticleEditPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -24,13 +27,14 @@ class _ArticleEditPageState extends ConsumerState<ArticleEditPage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
   bool _isLoading = false;
+  bool _isDataLoading = true;
   ArticleCategory _category = ArticleCategory.daily;
   bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    // 데이터는 didChangeDependencies에서 로드
+    _loadArticleData();
   }
 
   @override
@@ -49,11 +53,11 @@ class _ArticleEditPageState extends ConsumerState<ArticleEditPage> {
         setState(() {
           _titleController.text = article.title;
           _contentController.text = article.content;
-          // replyPacappi와 replyPacappu는 ArticleDTO에 없으므로 기본값 사용
           _category = ArticleCategory.values.firstWhere(
             (e) => e.name == article.category,
             orElse: () => ArticleCategory.daily,
           );
+          _isDataLoading = false;
         });
       }
     } catch (e) {
@@ -100,16 +104,16 @@ class _ArticleEditPageState extends ConsumerState<ArticleEditPage> {
         ),
         actions: [
           ElevatedButton(
-            onPressed: _updateArticle,
+            onPressed: _isDataLoading ? null : _updateArticle,
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               elevation: 1,
               disabledBackgroundColor:
-                  Theme.of(context).colorScheme.primary.withOpacity(0.6),
+                  Theme.of(context).colorScheme.primary.withAlpha(153),
               disabledForegroundColor: Colors.white70,
             ),
-            child: _isLoading
+            child: _isLoading || _isDataLoading
                 ? SizedBox(
                     width: 20,
                     height: 20,
@@ -130,17 +134,19 @@ class _ArticleEditPageState extends ConsumerState<ArticleEditPage> {
         ],
       ),
       body: SafeArea(
-        child: ArticleForm(
-          titleController: _titleController,
-          contentController: _contentController,
-          nickname:
-              currentUser?.displayUser.nickname ?? 'article.unknown_user'.tr(),
-          selectedCategory: _category,
-          onCategoryChanged: (category) {
-            setState(() => _category = category);
-          },
-          isEditMode: true,
-        ),
+        child: _isDataLoading
+            ? const SizedBox.shrink()
+            : ArticleForm(
+                titleController: _titleController,
+                contentController: _contentController,
+                nickname: currentUser?.displayUser.nickname ??
+                    'article.unknown_user'.tr(),
+                selectedCategory: _category,
+                onCategoryChanged: (category) {
+                  setState(() => _category = category);
+                },
+                isEditMode: true,
+              ),
       ),
     );
   }
@@ -153,12 +159,34 @@ class _ArticleEditPageState extends ConsumerState<ArticleEditPage> {
       return;
     }
 
+    final titleFilter =
+        WordFilterService.instance.filter(_titleController.text);
+    final contentFilter =
+        WordFilterService.instance.filter(_contentController.text);
+
+    if (titleFilter.hasForbiddenWord || contentFilter.hasForbiddenWord) {
+      final result = await showDialog<bool>(
+        context: context,
+        builder: (context) => ConfirmationDialog(
+          title: 'article.forbidden_word_detected'.tr(),
+          content: 'article.forbidden_word_message'.tr(),
+          cancelText: 'article.cancel'.tr(),
+          confirmText: 'article.confirm'.tr(),
+          isDanger: true,
+        ),
+      );
+
+      if (result != true) {
+        return;
+      }
+    }
+
     setState(() => _isLoading = true);
 
     try {
       final request = RequestUpdateArticle(
-        title: _titleController.text,
-        content: _contentController.text,
+        title: titleFilter.filteredText,
+        content: contentFilter.filteredText,
         category: _category.name,
       );
 

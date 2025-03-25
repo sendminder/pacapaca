@@ -65,6 +65,9 @@
         "empty_category_description": "아직 {} 카테고리에 작성된 게시글이 없어요. 첫 번째 게시글을 작성해보세요!",
         "loading": "게시글을 불러오고 있어요",
         "retry": "다시 시도",
+        "forbidden_word_detected": "부적절한 표현 감지",
+        "forbidden_word_message": "부적절한 표현이 포함되어 있습니다. 자동으로 필터링된 내용으로 게시하시겠습니까?",
+        "confirm": "확인",
         "sort": {
             "latest": "최신순",
             "oldest": "오래된순",

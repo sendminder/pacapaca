@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/models/enums/profile_type.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
+import 'package:pacapaca/widgets/shared/user_avatar.dart';
 
 class ChatBubble extends StatelessWidget {
   final String message;
@@ -24,7 +25,7 @@ class ChatBubble extends StatelessWidget {
       decoration: BoxDecoration(
         color: isUser
             ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.8),
+            : Theme.of(context).colorScheme.secondaryContainer.withAlpha(160),
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(20),
           topRight: const Radius.circular(20),
@@ -33,7 +34,7 @@ class ChatBubble extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withAlpha(10),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -102,7 +103,7 @@ class ChatMessageItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ChatBubble(
-                    message: message[isUser ? 'user' : 'assistant']?.tr() ?? '',
+                    message: message[isUser ? 'user' : 'assistant'] ?? '',
                     isUser: isUser,
                     isLoading: isLoading,
                   ),
@@ -125,17 +126,10 @@ class ChatMessageItem extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    return Container(
-      margin: const EdgeInsets.only(right: 8),
-      width: 35,
-      height: 35,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(
-          image: AssetImage('assets/profiles/pacappiface.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
+    return UserAvatar(
+      radius: 20,
+      profileType: PacapacaProfileType.pacappiface.value,
+      imageUrl: '',
     );
   }
 }
