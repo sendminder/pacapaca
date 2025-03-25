@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pacapaca/services/word_filter_service.dart';
 
 class ChatInput extends StatelessWidget {
   final TextEditingController controller;
@@ -68,7 +69,18 @@ class ChatInput extends StatelessWidget {
                 ),
                 maxLines: null,
                 textInputAction: TextInputAction.newline,
-                onSubmitted: canSend ? (_) => onSubmit(controller.text) : null,
+                onSubmitted: canSend
+                    ? (_) {
+                        final content = controller.text.trim();
+                        if (content.isEmpty) return;
+
+                        // 부적절한 단어 자동 필터링
+                        final filteredContent = WordFilterService.instance
+                            .filter(content)
+                            .filteredText;
+                        onSubmit(filteredContent);
+                      }
+                    : null,
               ),
             ),
             const SizedBox(width: 8),
