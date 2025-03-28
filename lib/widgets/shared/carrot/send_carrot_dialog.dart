@@ -124,10 +124,11 @@ class _SendCarrotDialogState extends ConsumerState<SendCarrotDialog> {
     return userCarrotCount.when(
       data: (balance) => GestureDetector(
         onTap: () {
-          if ((balance ?? 0) < _carrotAmount) {
-            context.pop();
-            context.push('/store');
-          }
+          // TODO: 상점 오픈
+          // if ((balance ?? 0) < _carrotAmount) {
+          //   context.pop();
+          //   context.push('/store');
+          // }
         },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -154,14 +155,15 @@ class _SendCarrotDialogState extends ConsumerState<SendCarrotDialog> {
                   fontSize: 14,
                 ),
               ),
-              if ((balance ?? 0) < _carrotAmount) ...[
-                const SizedBox(width: 4),
-                Icon(
-                  Icons.shopping_bag,
-                  size: 14,
-                  color: AppTheme.carrotColor,
-                ),
-              ],
+              // TODO: 상점 오픈
+              // if ((balance ?? 0) < _carrotAmount) ...[
+              //   const SizedBox(width: 4),
+              //   Icon(
+              //     Icons.shopping_bag,
+              //     size: 14,
+              //     color: AppTheme.carrotColor,
+              //   ),
+              // ],
             ],
           ),
         ),

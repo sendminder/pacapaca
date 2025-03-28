@@ -95,9 +95,10 @@ class UserProfileCard extends ConsumerWidget {
                     ],
                   ),
                 ),
-                if (!isCurrentUser) ...[
-                  _buildSendCarrotButton(context, ref),
-                ],
+                // TODO: 상점 오픈
+                // if (!isCurrentUser) ...[
+                //   _buildSendCarrotButton(context, ref),
+                // ],
                 if (onRefresh != null) ...[
                   IconButton(
                     onPressed: onRefresh,

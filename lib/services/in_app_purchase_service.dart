@@ -7,6 +7,7 @@ import 'package:pacapaca/models/dto/product_dto.dart';
 import 'package:pacapaca/services/payment_service.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
+import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 import 'dart:io' show Platform;
 
 class InAppPurchaseService {
@@ -25,8 +26,19 @@ class InAppPurchaseService {
     _initInAppPurchase();
   }
 
-  void _initInAppPurchase() {
+  Future<void> _initInAppPurchase() async {
     final purchaseUpdated = _inAppPurchase.purchaseStream;
+
+    // iOS인 경우 StoreKit 설정
+    if (Platform.isIOS) {
+      logger.i('iOS StoreKit 초기화 시작');
+      final InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
+          _inAppPurchase
+              .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+      await iosPlatformAddition.setDelegate(ExamplePaymentQueueDelegate());
+      logger.i('iOS StoreKit 초기화 완료');
+    }
+
     _subscription = purchaseUpdated.listen(
       _listenToPurchaseUpdated,
       onDone: () {
@@ -127,6 +139,16 @@ class InAppPurchaseService {
 
   Future<ProductDetails?> _queryProductDetails(String productId) async {
     try {
+      logger.i('상품 정보 조회 시작: $productId');
+
+      // 스토어 사용 가능 여부 확인
+      final bool available = await _inAppPurchase.isAvailable();
+      logger.i('스토어 사용 가능 여부: $available');
+      if (!available) {
+        logger.e('스토어를 사용할 수 없습니다.');
+        return null;
+      }
+
       final ProductDetailsResponse response =
           await _inAppPurchase.queryProductDetails({productId});
 
@@ -135,14 +157,25 @@ class InAppPurchaseService {
         return null;
       }
 
+      logger.i(
+          '상품 정보 조회 응답: notFoundIDs=${response.notFoundIDs}, productDetails 개수=${response.productDetails.length}');
+      logger.i('전체 응답 데이터: $response');
+
       if (response.productDetails.isEmpty) {
         logger.e('상품 정보가 없습니다: $productId');
+        if (response.notFoundIDs.isNotEmpty) {
+          logger.e('찾을 수 없는 상품 ID 목록: ${response.notFoundIDs}');
+        }
         return null;
       }
 
-      return response.productDetails.first;
+      final product = response.productDetails.first;
+      logger.i(
+          '찾은 상품 정보: id=${product.id}, title=${product.title}, price=${product.price}');
+
+      return product;
     } catch (e) {
-      logger.e('상품 정보 조회 중 오류 발생', error: e);
+      logger.e('상품 정보 조회 중 오류 발생', error: e, stackTrace: StackTrace.current);
       return null;
     }
   }
@@ -150,5 +183,19 @@ class InAppPurchaseService {
   void dispose() {
     _subscription?.cancel();
     _purchaseResultController.close();
+  }
+}
+
+// ExamplePaymentQueueDelegate 클래스 추가
+class ExamplePaymentQueueDelegate implements SKPaymentQueueDelegateWrapper {
+  @override
+  bool shouldContinueTransaction(
+      SKPaymentTransactionWrapper transaction, SKStorefrontWrapper storefront) {
+    return true;
+  }
+
+  @override
+  bool shouldShowPriceConsent() {
+    return false;
   }
 }

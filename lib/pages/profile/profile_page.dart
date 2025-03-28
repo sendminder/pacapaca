@@ -191,15 +191,16 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   onPressed: () => context.push('/carrot-history'),
                 ),
                 const Spacer(),
-                IconButton(
-                  icon: Icon(
-                    Icons.shopping_bag,
-                    color: AppTheme.carrotColor,
-                    size: 24,
-                  ),
-                  onPressed: () => context.push('/store'),
-                  tooltip: 'profile.go_to_store'.tr(),
-                ),
+                // TODO: 상점 오픈
+                // IconButton(
+                //   icon: Icon(
+                //     Icons.shopping_bag,
+                //     color: AppTheme.carrotColor,
+                //     size: 24,
+                //   ),
+                //   onPressed: () => context.push('/store'),
+                //   tooltip: 'profile.go_to_store'.tr(),
+                // ),
               ],
             ),
             const SizedBox(height: 8),

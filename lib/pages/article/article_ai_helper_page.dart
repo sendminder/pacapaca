@@ -45,7 +45,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
       },
       child: Scaffold(
         appBar: AiHelperAppBar(
-          showSummarizeButton: _chatHistory.length >= 6,
+          showSummarizeButton: _chatHistory.length >= 7,
           onSummarize: _handleSummarize,
         ),
         body: _buildChatBody(),
