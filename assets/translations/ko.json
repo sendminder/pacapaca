@@ -201,6 +201,8 @@
         "reward": "당근 보상",
         "transfer": "당근 교환",
         "refund": "당근 환불",
+        "login": "출석 보상",
+        "signup": "가입 축하 보상",
         "no_transactions": "당근 교환 내역이 없어요",
         "sent_max_limit_day": "{}님에게 하루에 당근을 보낼 수 있는 개수가 초과되었어요"
     },

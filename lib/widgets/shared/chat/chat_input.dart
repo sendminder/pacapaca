@@ -8,7 +8,6 @@ class ChatInput extends StatelessWidget {
   final String hintText;
   final bool canSend;
 
-  const ChatInput({
     super.key,
     required this.controller,
     required this.focusNode,
@@ -73,12 +72,7 @@ class ChatInput extends StatelessWidget {
                     ? (_) {
                         final content = controller.text.trim();
                         if (content.isEmpty) return;
-
-                        // 부적절한 단어 자동 필터링
-                        final filteredContent = WordFilterService.instance
-                            .filter(content)
-                            .filteredText;
-                        onSubmit(filteredContent);
+                        onSubmit(_filterContent(content));
                       }
                     : null,
               ),
@@ -92,7 +86,9 @@ class ChatInput extends StatelessWidget {
                     : Theme.of(context).colorScheme.surface,
               ),
               child: IconButton(
-                onPressed: canSend ? () => onSubmit(controller.text) : null,
+                onPressed: canSend
+                    ? () => onSubmit(_filterContent(controller.text))
+                    : null,
                 icon: const Icon(Icons.send_rounded),
                 color: canSend
                     ? Colors.white
@@ -103,5 +99,11 @@ class ChatInput extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _filterContent(String content) {
+    final filteredContent =
+        WordFilterService.instance.filter(content).filteredText;
+    return filteredContent;
   }
 }

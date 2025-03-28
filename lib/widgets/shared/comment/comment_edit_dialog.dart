@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pacapaca/services/word_filter_service.dart';
 
 class CommentEditDialog extends StatefulWidget {
   final String initialContent;
@@ -54,7 +55,7 @@ class _CommentEditDialogState extends State<CommentEditDialog> {
         ),
         FilledButton(
           onPressed: () {
-            final content = _controller.text.trim();
+            final content = _filterContent(_controller.text.trim());
             if (content.isNotEmpty) {
               context.pop(content);
             }
@@ -71,5 +72,11 @@ class _CommentEditDialogState extends State<CommentEditDialog> {
         ),
       ],
     );
+  }
+
+  String _filterContent(String content) {
+    final filteredContent =
+        WordFilterService.instance.filter(content).filteredText;
+    return filteredContent;
   }
 }
