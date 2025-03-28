@@ -25,9 +25,6 @@ class StorageService {
       'notification_setup_completed';
   static const String _firstRunKey = 'first_run_key';
   static const String _guidelinesConfirmedKey = 'guidelines_confirmed';
-  static const String _isFirstLaunchKey = 'is_first_launch';
-
-  static String nullValue = 'null';
 
   final logger = GetIt.instance<Logger>();
 
@@ -105,11 +102,11 @@ class StorageService {
   // 토큰 삭제
   Future<void> deleteTokens() async {
     if (await _secureStorage.containsKey(key: _accessTokenKey)) {
-      await _secureStorage.write(key: _accessTokenKey, value: nullValue);
+      await _secureStorage.delete(key: _accessTokenKey);
       logger.d('access token deleted');
     }
     if (await _secureStorage.containsKey(key: _refreshTokenKey)) {
-      await _secureStorage.write(key: _refreshTokenKey, value: nullValue);
+      await _secureStorage.delete(key: _refreshTokenKey);
       logger.d('refresh token deleted');
     }
   }
@@ -124,7 +121,7 @@ class StorageService {
   // 사용자 정보 삭제
   Future<void> deleteUser() async {
     if (await _secureStorage.containsKey(key: _userKey)) {
-      await _secureStorage.write(key: _userKey, value: nullValue);
+      await _secureStorage.delete(key: _userKey);
     }
   }
 

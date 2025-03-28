@@ -135,6 +135,12 @@ class ResponseInterceptor extends Interceptor {
 
       return handler.resolve(retryResponse);
     } catch (e) {
+      // DioException인 경우 401 에러 체크
+      if (e is DioException && e.response?.statusCode == 401) {
+        _logger.w('Retry request returned 401, performing sign out');
+        await _performSignOut();
+      }
+
       _logger.e('Retry request failed', error: e);
       return handler.next(err);
     }
