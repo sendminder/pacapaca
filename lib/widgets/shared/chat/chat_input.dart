@@ -8,6 +8,7 @@ class ChatInput extends StatelessWidget {
   final String hintText;
   final bool canSend;
 
+  const ChatInput({
     super.key,
     required this.controller,
     required this.focusNode,
