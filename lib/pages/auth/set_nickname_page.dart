@@ -335,6 +335,7 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
                       ? 'complete'.tr()
                       : 'nickname.check_availability'.tr(),
                   style: const TextStyle(
+                    color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
