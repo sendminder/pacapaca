@@ -9,9 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
   // 보안 저장소에 저장할 키 (민감 정보)
-  static const String _accessTokenKey = 'access_token';
-  static const String _refreshTokenKey = 'refresh_token';
-  static const String _userKey = 'user_data';
+  static const String _accessTokenKey = '_access_token';
+  static const String _refreshTokenKey = '_refresh_token';
+  static const String _userKey = '_user_data';
 
   // 일반 저장소에 저장할 키 (환경설정)
   static const String _themeKey = 'theme_mode';
@@ -54,7 +54,24 @@ class StorageService {
 
       if (isFirstRun) {
         logger.d('앱 첫 실행 감지: 보안 저장소 데이터 초기화');
-        await _secureStorage.deleteAll();
+
+        // 보안 저장소 초기화 시도
+        try {
+          await _secureStorage.deleteAll();
+
+          // 초기화 확인
+          final remainingKeys = await _secureStorage.readAll();
+          if (remainingKeys.isNotEmpty) {
+            logger.w('보안 저장소 데이터가 완전히 삭제되지 않음');
+            // 개별 키 삭제 시도
+            for (final key in remainingKeys.keys) {
+              await _secureStorage.delete(key: key);
+            }
+          }
+        } catch (e) {
+          logger.e('보안 저장소 초기화 실패', error: e);
+        }
+
         await _prefs.setBool(_firstRunKey, false);
       }
     } catch (e, stackTrace) {
@@ -65,9 +82,15 @@ class StorageService {
   // ==================== 민감 정보 관련 메서드 (SecureStorage 사용) ====================
 
   // 토큰 읽기
-  Future<String?> get accessToken => _secureStorage.read(key: _accessTokenKey);
-  Future<String?> get refreshToken =>
-      _secureStorage.read(key: _refreshTokenKey);
+  Future<String?> get accessToken async {
+    final token = await _secureStorage.read(key: _accessTokenKey);
+    return token;
+  }
+
+  Future<String?> get refreshToken async {
+    final token = await _secureStorage.read(key: _refreshTokenKey);
+    return token;
+  }
 
   // 사용자 정보 저장
   Future<void> saveUser(UserDTO user) async {
@@ -101,13 +124,32 @@ class StorageService {
 
   // 토큰 삭제
   Future<void> deleteTokens() async {
-    if (await _secureStorage.containsKey(key: _accessTokenKey)) {
-      await _secureStorage.delete(key: _accessTokenKey);
-      logger.d('access token deleted');
-    }
-    if (await _secureStorage.containsKey(key: _refreshTokenKey)) {
-      await _secureStorage.delete(key: _refreshTokenKey);
-      logger.d('refresh token deleted');
+    try {
+      await Future.wait([
+        _secureStorage.delete(key: _accessTokenKey),
+        _secureStorage.delete(key: _refreshTokenKey),
+      ]);
+
+      // 삭제 확인
+      final accessToken = await _secureStorage.read(key: _accessTokenKey);
+      final refreshToken = await _secureStorage.read(key: _refreshTokenKey);
+
+      if (accessToken != null || refreshToken != null) {
+        // 토큰이 여전히 존재하면 강제로 한번 더 삭제 시도
+        await _secureStorage.deleteAll();
+        logger
+            .w('Tokens still existed after delete, performed force deleteAll');
+      } else {
+        logger.d('Tokens deleted successfully');
+      }
+    } catch (e) {
+      logger.e('Failed to delete tokens', error: e);
+      // 오류 발생 시 deleteAll로 한번 더 시도
+      try {
+        await _secureStorage.deleteAll();
+      } catch (e) {
+        logger.e('Failed to force delete tokens', error: e);
+      }
     }
   }
 
@@ -122,6 +164,7 @@ class StorageService {
   Future<void> deleteUser() async {
     if (await _secureStorage.containsKey(key: _userKey)) {
       await _secureStorage.delete(key: _userKey);
+      logger.d('user data deleted');
     }
   }
 

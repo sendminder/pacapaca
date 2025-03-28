@@ -204,9 +204,9 @@ Future<void> _checkAuthState() async {
   } catch (e) {
     // 오류 발생 시 안전하게 로그아웃 처리
     try {
-      await FirebaseAuth.instance.signOut();
       await storageService.deleteTokens();
       await storageService.deleteUser();
+      await FirebaseAuth.instance.signOut();
     } catch (e) {
       logger.e('Failed to force logout', error: e);
     }

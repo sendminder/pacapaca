@@ -145,6 +145,14 @@ class _CarrotHistoryPageState extends ConsumerState<CarrotHistoryPage> {
       transactionTitle = 'carrot.refund'.tr();
     }
 
+    if (transaction.type == 'login') {
+      transactionTitle = 'carrot.login'.tr();
+    }
+
+    if (transaction.type == 'signup') {
+      transactionTitle = 'carrot.signup'.tr();
+    }
+
     bool isPlus = isReceived || transaction.type == 'refund';
 
     return GestureDetector(

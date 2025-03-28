@@ -97,6 +97,10 @@ class AuthService {
         accessToken = await _storageService.accessToken;
       }
 
+      if (accessToken == null) {
+        return null;
+      }
+
       Map<String, dynamic>? queryParameters;
       if (appVersion != null) {
         final request = RequestGetMe(appVersion: appVersion);
