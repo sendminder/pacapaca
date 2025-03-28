@@ -6,6 +6,7 @@ import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/widgets/shared/carrot/send_carrot_dialog.dart';
 import 'package:pacapaca/constants/theme.dart';
 import 'package:pacapaca/utils/block_check_util.dart';
+import 'package:pacapaca/providers/article_provider.dart';
 
 class SendCarrotButton {
   final int receiverId;
@@ -68,6 +69,9 @@ class SendCarrotButton {
 
         if (res != null && context.mounted) {
           ref.read(carrotBalanceProvider.notifier).updateBalance(res.balance);
+          if (articleId != null) {
+            ref.read(articleCacheProvider.notifier).refresh(articleId!);
+          }
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('carrot.send_success'.tr(args: [

@@ -268,7 +268,6 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
 
   Widget _buildEmptyState(ArticleCategory category) {
     final primaryColor = Theme.of(context).colorScheme.primary;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Center(
       child: SingleChildScrollView(

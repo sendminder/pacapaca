@@ -11,6 +11,8 @@ import 'package:pacapaca/widgets/shared/carrot/send_carrot_button.dart';
 import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
 import 'package:pacapaca/constants/admin_user_ids.dart';
 import 'package:pacapaca/utils/block_check_util.dart';
+import 'package:pacapaca/providers/settings_provider.dart';
+import 'package:pacapaca/models/enums/article_category.dart';
 
 class ArticleActionMenu extends ConsumerWidget {
   final ArticleDTO article;
@@ -102,6 +104,28 @@ class ArticleActionMenu extends ConsumerWidget {
     if (confirmed == true) {
       await ref.read(articleEditorProvider.notifier).deleteArticle(article.id);
       if (context.mounted) context.pop();
+      ref.read(articleCacheProvider.notifier).removeArticle(article.id);
+
+      final sortBy = ref.read(articleSortProvider);
+      final category = ArticleCategory.fromString(article.category ?? 'daily');
+      // 현재 카테고리 목록 무효화
+      ref
+          .read(articleListProvider(
+            sortBy: sortBy,
+            category: category,
+            limit: 20,
+          ).notifier)
+          .forceRefresh(sortBy: sortBy, limit: 20, category: category);
+
+      // 전체 탭 무효화
+      ref
+          .read(articleListProvider(
+            sortBy: sortBy,
+            category: ArticleCategory.all,
+            limit: 20,
+          ).notifier)
+          .forceRefresh(
+              sortBy: sortBy, limit: 20, category: ArticleCategory.all);
     }
   }
 

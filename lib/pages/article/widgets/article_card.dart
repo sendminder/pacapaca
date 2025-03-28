@@ -250,6 +250,7 @@ class ArticleCard extends ConsumerWidget {
             size: 20,
             textSize: 14,
             defaultText: 'article.comments'.tr(),
+            onTap: () => context.push('/articles/${displayArticle.id}'),
           ),
         ),
 
@@ -261,6 +262,7 @@ class ArticleCard extends ConsumerWidget {
             size: 20,
             textSize: 14,
             defaultText: 'article.views'.tr(),
+            onTap: () => context.push('/articles/${displayArticle.id}'),
           ),
         ),
 
@@ -279,6 +281,7 @@ class ArticleCard extends ConsumerWidget {
             textSize: 14,
             defaultText: '',
             showCount: displayArticle.carrotCount > 0,
+            onTap: () => context.push('/articles/${displayArticle.id}'),
           ),
         ),
       ],

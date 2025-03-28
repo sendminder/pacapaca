@@ -17,6 +17,10 @@ enum ArticleCategory {
     };
   }
 
+  static ArticleCategory fromString(String category) {
+    return ArticleCategory.values.firstWhere((e) => e.name == category);
+  }
+
   static List<ArticleCategory> valuesWithoutAll = ArticleCategory.values
       .where((category) => category != ArticleCategory.all)
       .toList();

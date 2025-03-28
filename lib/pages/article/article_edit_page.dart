@@ -9,7 +9,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:pacapaca/services/word_filter_service.dart';
 import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
-import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 
 class ArticleEditPage extends ConsumerStatefulWidget {
   final int articleId;

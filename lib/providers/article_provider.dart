@@ -35,6 +35,12 @@ class ArticleCache extends _$ArticleCache {
     state = newState;
   }
 
+  void removeArticle(int articleId) {
+    final newState = Map<int, ArticleDTO>.from(state);
+    newState.remove(articleId);
+    state = newState;
+  }
+
   Future<void> refresh(int articleId) async {
     final article = state[articleId];
     if (article == null) return;
@@ -197,12 +203,13 @@ class ArticleList extends _$ArticleList {
         };
       }));
 
-      // 캐시의 최신 상태로 업데이트 (기존 순서 유지)
-      final updatedArticles = state.value!.map((article) {
-        return articleCache[article.id] ?? article;
-      }).toList();
+      // 삭제된 게시글 state에서 제거
+      final currentArticles = state.value!
+          .where((article) => articleCache.containsKey(article.id))
+          .map((article) => articleCache[article.id]!)
+          .toList();
 
-      return updatedArticles;
+      return currentArticles;
     }
 
     // 초기 데이터 로드
