@@ -140,7 +140,8 @@
         "personal_info": "Personal Information Processing Policy",
         "terms_of_service": "Terms of Service",
         "community_guidelines": "PacaPaca Guidelines",
-        "app_version": "App Version"
+        "app_version": "App Version",
+        "support": "Support"
     },
     "report": {
         "title": "Report User",

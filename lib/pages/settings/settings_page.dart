@@ -212,6 +212,13 @@ class SettingsPage extends ConsumerWidget {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.support_agent_rounded),
+            title: Text('settings.support'.tr()),
+            onTap: () {
+              launchUrl(Uri.parse(PacapacaLink.openKakaoLink));
+            },
+          ),
+          ListTile(
             leading: Icon(
               Icons.logout,
               color: Theme.of(context).colorScheme.error,
