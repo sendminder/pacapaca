@@ -161,6 +161,16 @@ class SettingsPage extends ConsumerWidget {
           ),
           divider,
           ListTile(
+            leading: Icon(
+              Icons.check_circle_outline_rounded,
+              color: Colors.green,
+            ),
+            title: Text('settings.notice'.tr()),
+            onTap: () {
+              launchUrl(Uri.parse(PacapacaLink.noticeLink));
+            },
+          ),
+          ListTile(
             leading: Image.asset(
               'assets/icon/carrot.png',
               width: 24,
@@ -201,17 +211,6 @@ class SettingsPage extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.perm_device_information_rounded),
-            title: Text('settings.app_version'.tr()),
-            trailing: Text(
-              appVersion,
-              style: TextStyle(
-                fontSize: 15,
-                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
-              ),
-            ),
-          ),
-          ListTile(
             leading: const Icon(Icons.support_agent_rounded),
             title: Text('settings.support'.tr()),
             onTap: () {
@@ -249,18 +248,29 @@ class SettingsPage extends ConsumerWidget {
             },
           ),
           // 개발 모드에서만 보이는 리셋 버튼
-          if (const bool.fromEnvironment('dart.vm.product') == false)
-            ListTile(
-              title: const Text('Reset All Settings (Dev only)'),
-              leading: const Icon(Icons.restore),
-              onTap: () async {
-                final prefs = await SharedPreferences.getInstance();
-                await prefs.clear();
-                if (context.mounted) {
-                  context.go('/splash');
-                }
-              },
+          // if (const bool.fromEnvironment('dart.vm.product') == false)
+          //   ListTile(
+          //     title: const Text('Reset All Settings (Dev only)'),
+          //     leading: const Icon(Icons.restore),
+          //     onTap: () async {
+          //       final prefs = await SharedPreferences.getInstance();
+          //       await prefs.clear();
+          //       if (context.mounted) {
+          //         context.go('/splash');
+          //       }
+          //     },
+          //   ),
+          ListTile(
+            leading: const Icon(Icons.perm_device_information_rounded),
+            title: Text('settings.app_version'.tr()),
+            trailing: Text(
+              appVersion,
+              style: TextStyle(
+                fontSize: 15,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+              ),
             ),
+          ),
         ],
       ),
     );

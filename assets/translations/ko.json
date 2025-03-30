@@ -143,7 +143,8 @@
         "terms_of_service": "이용약관",
         "community_guidelines": "파카파카 가이드라인",
         "app_version": "앱 버전",
-        "support": "문의하기"
+        "support": "문의하기",
+        "notice": "공지사항"
     },
     "report": {
         "title": "사용자 신고",

@@ -141,7 +141,8 @@
         "terms_of_service": "Terms of Service",
         "community_guidelines": "PacaPaca Guidelines",
         "app_version": "App Version",
-        "support": "Support"
+        "support": "Support",
+        "notice": "Notice"
     },
     "report": {
         "title": "Report User",

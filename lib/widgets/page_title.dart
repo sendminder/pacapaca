@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PageTitle extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -48,7 +49,7 @@ class PageTitle extends StatelessWidget implements PreferredSizeWidget {
       bottom: bottom,
       titleSpacing: hasBackButton ? 0 : 20,
       scrolledUnderElevation: 0,
-      surfaceTintColor: Colors.transparent,
+      surfaceTintColor: Theme.of(context).colorScheme.surface,
       automaticallyImplyLeading: hasBackButton,
     );
   }
