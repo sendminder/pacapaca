@@ -204,12 +204,18 @@ class ArticleList extends _$ArticleList {
       }));
 
       // 삭제된 게시글 state에서 제거
-      final currentArticles = state.value!
-          .where((article) => articleCache.containsKey(article.id))
-          .map((article) => articleCache[article.id]!)
-          .toList();
+      // final currentArticles = state.value!
+      //     .where((article) => articleCache.containsKey(article.id))
+      //     .map((article) => articleCache[article.id]!)
+      //     .toList();
+      // }
 
-      return currentArticles;
+      // 캐시의 최신 상태로 업데이트 (기존 순서 유지)
+      final updatedArticles = state.value!.map((article) {
+        return articleCache[article.id] ?? article;
+      }).toList();
+
+      return updatedArticles;
     }
 
     // 초기 데이터 로드
