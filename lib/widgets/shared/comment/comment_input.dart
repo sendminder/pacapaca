@@ -37,6 +37,16 @@ class _CommentInputState extends ConsumerState<CommentInput> {
               border: const OutlineInputBorder(),
             ),
             maxLines: null,
+            onSubmitted: (_) async {
+              final content = _controller.text.trim();
+              if (content.isEmpty) return;
+
+              // 부적절한 단어 자동 필터링
+              final filteredContent =
+                  WordFilterService.instance.filter(content).filteredText;
+              _controller.clear();
+              await widget.onSubmit(filteredContent);
+            },
           ),
         ),
         const SizedBox(width: 8),
@@ -49,8 +59,8 @@ class _CommentInputState extends ConsumerState<CommentInput> {
             // 부적절한 단어 자동 필터링
             final filteredContent =
                 WordFilterService.instance.filter(content).filteredText;
-            await widget.onSubmit(filteredContent);
             _controller.clear();
+            await widget.onSubmit(filteredContent);
           },
         ),
       ],

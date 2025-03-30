@@ -26,12 +26,18 @@ class ArticleCache extends _$ArticleCache {
     state = newState;
   }
 
-  // 게시글 목록 업데이트
+  // 게시글 목록 업데이트 (기존 캐시에 추가/업데이트)
   void updateArticles(List<ArticleDTO> articles) {
     final newState = Map<int, ArticleDTO>.from(state);
     for (final article in articles) {
       newState[article.id] = article;
     }
+    state = newState;
+  }
+
+  // 게시글 목록 교체 (기존 캐시를 완전히 새로운 목록으로 교체)
+  void replaceArticles(List<ArticleDTO> articles) {
+    final newState = {for (final article in articles) article.id: article};
     state = newState;
   }
 
@@ -224,7 +230,7 @@ class ArticleList extends _$ArticleList {
 
       if (articles != null) {
         // 캐시에 저장
-        ref.read(articleCacheProvider.notifier).updateArticles(articles);
+        ref.read(articleCacheProvider.notifier).replaceArticles(articles);
       }
 
       return articles;
@@ -293,7 +299,7 @@ class ArticleList extends _$ArticleList {
 
       if (articles != null) {
         // 캐시에 저장
-        ref.read(articleCacheProvider.notifier).updateArticles(articles);
+        ref.read(articleCacheProvider.notifier).replaceArticles(articles);
       }
 
       state = AsyncData(articles);
@@ -385,7 +391,7 @@ class ArticleSearch extends _$ArticleSearch {
 
     if (articles != null) {
       // 캐시에 저장
-      ref.read(articleCacheProvider.notifier).updateArticles(articles);
+      ref.read(articleCacheProvider.notifier).replaceArticles(articles);
     }
 
     return articles;
@@ -461,7 +467,7 @@ class UserArticles extends _$UserArticles {
 
     if (articles != null) {
       // 캐시에 저장
-      ref.read(articleCacheProvider.notifier).updateArticles(articles);
+      ref.read(articleCacheProvider.notifier).replaceArticles(articles);
     }
 
     return articles;
@@ -535,7 +541,7 @@ class LikedPosts extends _$LikedPosts {
 
     if (articles != null) {
       // 캐시에 저장
-      ref.read(articleCacheProvider.notifier).updateArticles(articles);
+      ref.read(articleCacheProvider.notifier).replaceArticles(articles);
     }
 
     return articles;

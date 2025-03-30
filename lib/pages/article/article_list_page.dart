@@ -330,7 +330,9 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
           heroTag: 'create_article',
           onPressed: () async {
             if (await BlockCheckUtil.canPerformAction(context, ref)) {
-              context.push('/articles/new');
+              context.push('/articles/new', extra: <String, String>{
+                'category': _selectedCategory.name,
+              });
             }
           },
           child: Icon(

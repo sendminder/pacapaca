@@ -73,6 +73,7 @@ class ChatInput extends StatelessWidget {
                     ? (_) {
                         final content = controller.text.trim();
                         if (content.isEmpty) return;
+                        controller.clear();
                         onSubmit(_filterContent(content));
                       }
                     : null,
@@ -88,7 +89,12 @@ class ChatInput extends StatelessWidget {
               ),
               child: IconButton(
                 onPressed: canSend
-                    ? () => onSubmit(_filterContent(controller.text))
+                    ? () {
+                        final content = controller.text.trim();
+                        if (content.isEmpty) return;
+                        controller.clear();
+                        onSubmit(_filterContent(content));
+                      }
                     : null,
                 icon: const Icon(Icons.send_rounded),
                 color: canSend

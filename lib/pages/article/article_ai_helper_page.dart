@@ -273,7 +273,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
     return Container(
       padding: const EdgeInsets.only(bottom: 100),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary.withAlpha(30),
+        color: Theme.of(context).colorScheme.onSurface.withAlpha(20),
       ),
       child: ListView.builder(
         controller: _scrollController,

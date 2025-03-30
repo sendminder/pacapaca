@@ -49,7 +49,7 @@ class ChatBubble extends StatelessWidget {
               style: TextStyle(
                 color: isUser
                     ? Colors.white
-                    : Theme.of(context).colorScheme.onSecondaryContainer,
+                    : Theme.of(context).colorScheme.onSurface,
                 fontSize: 15,
               ),
             ),

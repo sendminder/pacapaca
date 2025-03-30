@@ -236,6 +236,7 @@ class RouterNotifier extends ChangeNotifier {
               child: ArticleCreatePage(
                 initialTitle: extra?['title'],
                 initialContent: extra?['content'],
+                initialCategory: extra?['category'],
               ),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {

@@ -14,11 +14,12 @@ import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
 class ArticleCreatePage extends ConsumerStatefulWidget {
   final String? initialTitle;
   final String? initialContent;
-
+  final String? initialCategory;
   const ArticleCreatePage({
     super.key,
     this.initialTitle,
     this.initialContent,
+    this.initialCategory,
   });
 
   @override
@@ -31,6 +32,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
   bool _isLoading = false;
   bool _replyPacappi = false;
   bool _replyPacappu = false;
+  ArticleCategory _selectedCategory = ArticleCategory.daily;
 
   @override
   void initState() {
@@ -42,12 +44,16 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
     if (widget.initialContent != null) {
       _contentController.text = widget.initialContent!;
     }
+    if (widget.initialCategory != null) {
+      _selectedCategory = ArticleCategory.fromString(
+          widget.initialCategory ?? ArticleCategory.daily.name);
+    }
+    print(widget.initialCategory ?? 'null' + ' ' + _selectedCategory.name);
   }
 
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(authProvider).value;
-    final selectedCategory = ref.watch(articleCategoryProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -78,7 +84,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
         ),
         actions: [
           ElevatedButton(
-            onPressed: () => _createArticle(selectedCategory),
+            onPressed: () => _createArticle(_selectedCategory),
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
@@ -113,11 +119,11 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
           contentController: _contentController,
           nickname:
               currentUser?.displayUser.nickname ?? 'article.unknown_user'.tr(),
-          selectedCategory: selectedCategory == ArticleCategory.all
+          selectedCategory: _selectedCategory == ArticleCategory.all
               ? ArticleCategory.daily
-              : selectedCategory,
+              : _selectedCategory,
           onCategoryChanged: (category) {
-            ref.read(articleCategoryProvider.notifier).setCategory(category);
+            setState(() => _selectedCategory = category);
           },
           onPacappiSelected: (selected) {
             setState(() => _replyPacappi = selected);
