@@ -35,12 +35,6 @@ class ArticleCache extends _$ArticleCache {
     state = newState;
   }
 
-  // 게시글 목록 교체 (기존 캐시를 완전히 새로운 목록으로 교체)
-  void replaceArticles(List<ArticleDTO> articles) {
-    final newState = {for (final article in articles) article.id: article};
-    state = newState;
-  }
-
   void removeArticle(int articleId) {
     final newState = Map<int, ArticleDTO>.from(state);
     newState.remove(articleId);
@@ -230,7 +224,7 @@ class ArticleList extends _$ArticleList {
 
       if (articles != null) {
         // 캐시에 저장
-        ref.read(articleCacheProvider.notifier).replaceArticles(articles);
+        ref.read(articleCacheProvider.notifier).updateArticles(articles);
       }
 
       return articles;
@@ -299,7 +293,7 @@ class ArticleList extends _$ArticleList {
 
       if (articles != null) {
         // 캐시에 저장
-        ref.read(articleCacheProvider.notifier).replaceArticles(articles);
+        ref.read(articleCacheProvider.notifier).updateArticles(articles);
       }
 
       state = AsyncData(articles);
@@ -321,9 +315,9 @@ class ArticleEditor extends _$ArticleEditor {
     return null;
   }
 
-  Future<void> createArticle(RequestCreateArticle request) async {
+  Future<ArticleDTO?> createArticle(RequestCreateArticle request) async {
     try {
-      await _articleService.createArticle(request);
+      return await _articleService.createArticle(request);
     } catch (e, stack) {
       logger.e('ArticleEditor createArticle error $e $stack');
       rethrow;
@@ -391,7 +385,7 @@ class ArticleSearch extends _$ArticleSearch {
 
     if (articles != null) {
       // 캐시에 저장
-      ref.read(articleCacheProvider.notifier).replaceArticles(articles);
+      ref.read(articleCacheProvider.notifier).updateArticles(articles);
     }
 
     return articles;
@@ -467,7 +461,7 @@ class UserArticles extends _$UserArticles {
 
     if (articles != null) {
       // 캐시에 저장
-      ref.read(articleCacheProvider.notifier).replaceArticles(articles);
+      ref.read(articleCacheProvider.notifier).updateArticles(articles);
     }
 
     return articles;
@@ -541,7 +535,7 @@ class LikedPosts extends _$LikedPosts {
 
     if (articles != null) {
       // 캐시에 저장
-      ref.read(articleCacheProvider.notifier).replaceArticles(articles);
+      ref.read(articleCacheProvider.notifier).updateArticles(articles);
     }
 
     return articles;

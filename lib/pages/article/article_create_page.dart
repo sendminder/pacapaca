@@ -48,7 +48,6 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
       _selectedCategory = ArticleCategory.fromString(
           widget.initialCategory ?? ArticleCategory.daily.name);
     }
-    print(widget.initialCategory ?? 'null' + ' ' + _selectedCategory.name);
   }
 
   @override
@@ -182,10 +181,11 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
         replyPacappu: _replyPacappu,
       );
 
-      await ref.read(articleEditorProvider.notifier).createArticle(request);
+      final article =
+          await ref.read(articleEditorProvider.notifier).createArticle(request);
       if (mounted) {
         final sortBy = ref.read(articleSortProvider);
-        context.pop();
+        context.replace('/articles/${article?.id}');
         // 현재 카테고리 목록 무효화
         ref
             .read(articleListProvider(

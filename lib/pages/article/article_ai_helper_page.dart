@@ -216,11 +216,12 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
         replyPacappu: true,
       );
 
-      await ref.read(articleEditorProvider.notifier).createArticle(request);
+      final article =
+          await ref.read(articleEditorProvider.notifier).createArticle(request);
 
       if (mounted) {
-        context.pop(); // 바텀시트 닫기
         context.pop(); // AI 헬퍼 페이지 닫기
+        context.replace('/articles/${article?.id}');
 
         final sortBy = ref.read(articleSortProvider);
         // 현재 카테고리 목록 무효화
