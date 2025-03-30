@@ -36,11 +36,16 @@ import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pacapaca/services/word_filter_service.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   // 앱 초기화
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  // 전체화면 모드 해제
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: SystemUiOverlay.values);
 
   // 설정 초기화
   await _initializeSettings();
