@@ -6,7 +6,7 @@ part of 'paca_helper_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pacaHelperHash() => r'51db4a467b1dfc2cfcdce0fdc9e805a8e6e03d04';
+String _$pacaHelperHash() => r'2c34ac4b9584b937c50674dc642b29d3c5543ff4';
 
 /// See also [PacaHelper].
 @ProviderFor(PacaHelper)

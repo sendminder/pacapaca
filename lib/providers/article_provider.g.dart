@@ -6,7 +6,7 @@ part of 'article_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$articleCacheHash() => r'8d9b712bb7b95b96466d92632068c817acaadf26';
+String _$articleCacheHash() => r'57a8195fec0bd64d0f5617ab39389c385518d719';
 
 /// See also [ArticleCache].
 @ProviderFor(ArticleCache)
@@ -416,7 +416,7 @@ class _ArticleListProviderElement
   ArticleCategory? get category => (origin as ArticleListProvider).category;
 }
 
-String _$articleEditorHash() => r'0e68118c4fb5e3cff8071e6dd99d9189632c5a72';
+String _$articleEditorHash() => r'e7c28009f24da319b3934cc40d6c0b163f38a7a4';
 
 /// See also [ArticleEditor].
 @ProviderFor(ArticleEditor)

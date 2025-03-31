@@ -155,4 +155,22 @@ class Auth extends _$Auth {
       return null;
     }
   }
+
+  Future<void> deleteMe() async {
+    state = const AsyncLoading();
+    try {
+      await _authService.deleteMe();
+      state = const AsyncData(null);
+    } catch (e) {
+      state = AsyncError(e, StackTrace.current);
+    }
+  }
+
+  Future<bool> reAuthenticateWithApple() async {
+    try {
+      return await _authService.reAuthenticateWithApple();
+    } catch (e) {
+      return false;
+    }
+  }
 }

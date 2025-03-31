@@ -9,7 +9,6 @@ import 'package:get_it/get_it.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pacapaca/constants/link.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
 
 class SettingsPage extends ConsumerWidget {
@@ -243,6 +242,48 @@ class SettingsPage extends ConsumerWidget {
                 await ref.read(authProvider.notifier).signOut();
                 if (context.mounted) {
                   context.go('/login'); // 로그인 페이지로 이동
+                }
+              }
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.delete),
+            title: Text('settings.delete_account'.tr()),
+            onTap: () async {
+              final confirmed = await showDialog<bool>(
+                context: context,
+                builder: (context) => ConfirmationDialog(
+                  title: 'settings.delete_account'.tr(),
+                  content: 'settings.delete_account_confirm'.tr(),
+                  cancelText: 'settings.cancel'.tr(),
+                  confirmText: 'settings.delete_account'.tr(),
+                  isDanger: true,
+                ),
+              );
+
+              if (confirmed == true) {
+                // 애플 로그인 재인증 시도
+                final reAuthResult = await ref
+                    .read(authProvider.notifier)
+                    .reAuthenticateWithApple();
+
+                if (reAuthResult) {
+                  // 재인증 성공 시 계정 삭제 진행
+                  await ref.read(authProvider.notifier).deleteMe();
+                  if (context.mounted) {
+                    context.go('/login'); // 로그인 페이지로 이동
+                  }
+                } else {
+                  // 재인증 실패 시 메시지 표시
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content:
+                            Text('settings.delete_account_auth_failed'.tr()),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  }
                 }
               }
             },

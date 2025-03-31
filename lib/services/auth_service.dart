@@ -174,13 +174,15 @@ class AuthService {
 
   Future<UserDTO?> signInWithApple() async {
     try {
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [AppleIDAuthorizationScopes.email],
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+        ],
       );
 
       final oauthCredential = OAuthProvider('apple.com').credential(
-        idToken: appleCredential.identityToken,
-        accessToken: appleCredential.authorizationCode,
+        idToken: credential.identityToken,
+        accessToken: credential.authorizationCode,
       );
 
       final userCredential = await _auth.signInWithCredential(oauthCredential);
@@ -188,17 +190,38 @@ class AuthService {
       final loginRequest = RequestLogin(
         idToken: await userCredential.user?.getIdToken() ?? '',
         authProvider: 'apple',
-        pushToken: '', // TODO: 푸시 토큰 추가
+        pushToken: '',
       );
 
       return await _serverLogin(loginRequest);
     } catch (e, stackTrace) {
       logger.e('sign in with apple', error: e, stackTrace: stackTrace);
-      rethrow;
+      return null;
     }
   }
 
-  Future<void> signOut() async {
+  Future<bool> reAuthenticateWithApple() async {
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+        ],
+      );
+
+      final oauthCredential = OAuthProvider('apple.com').credential(
+        idToken: credential.identityToken,
+        accessToken: credential.authorizationCode,
+      );
+
+      await _auth.currentUser?.reauthenticateWithCredential(oauthCredential);
+      return true;
+    } catch (e, stackTrace) {
+      logger.e('reauthenticate with apple', error: e, stackTrace: stackTrace);
+      return false;
+    }
+  }
+
+  Future<void> signOut({bool? isDelete = false}) async {
     try {
       // 1. Firebase에서 먼저 로그아웃 시도
       try {
@@ -209,7 +232,7 @@ class AuthService {
 
       // 2. 서버에 로그아웃 요청 (토큰이 있는 경우)
       final token = await _storageService.accessToken;
-      if (token != null) {
+      if (token != null && isDelete != true) {
         try {
           await _dio.post(
             '/v1/auth/logout',
@@ -359,6 +382,18 @@ class AuthService {
       throw Exception(responseRest.message);
     } catch (e, stackTrace) {
       logger.e('check nickname exists', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
+
+  Future<void> deleteMe() async {
+    try {
+      final response = await _dio.delete('/v1/me');
+      if (response.statusCode == 200) {
+        await signOut(isDelete: true);
+      }
+    } catch (e, stackTrace) {
+      logger.e('delete me', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
