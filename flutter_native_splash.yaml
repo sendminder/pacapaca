@@ -1,6 +1,0 @@
-flutter_native_splash:
-  color: "#FFFFFF" # 스플래시 배경 색상
-  image: assets/icon/pacasplash.png # 스플래시 이미지 경로
-  android_gravity: center
-  ios_content_mode: center
-  fullscreen: true

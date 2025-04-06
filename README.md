@@ -122,5 +122,5 @@ dart run rename_app:main android="PacaPaca" ios="PacaPaca"
 
 ## generate splash images
 ```bash
-flutter clean && flutter pub get && flutter pub run flutter_native_splash:create --path=/Users/andrew/03_side/pacapaca/pubspec.yaml
+flutter clean && flutter pub get && dart run flutter_native_splash:create --path=/Users/andrew/03_side/pacapaca/flutter_native_splash_android.yaml
 ```
