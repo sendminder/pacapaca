@@ -249,6 +249,25 @@ class AuthService {
     }
   }
 
+  Future<bool> reAuthenticateWithGoogle() async {
+    try {
+      final credential = await _googleSignIn.signIn();
+      if (credential == null) return false;
+
+      final authentication = await credential.authentication;
+      final oauthCredential = GoogleAuthProvider.credential(
+        idToken: authentication.idToken,
+        accessToken: authentication.accessToken,
+      );
+
+      await _auth.currentUser?.reauthenticateWithCredential(oauthCredential);
+      return true;
+    } catch (e, stackTrace) {
+      logger.e('reauthenticate with google', error: e, stackTrace: stackTrace);
+      return false;
+    }
+  }
+
   Future<void> signOut({bool? isDelete = false}) async {
     try {
       // 1. Firebase에서 먼저 로그아웃 시도

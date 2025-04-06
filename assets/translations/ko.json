@@ -146,7 +146,7 @@
         "support": "문의하기",
         "notice": "공지사항",
         "delete_account": "계정 삭제",
-        "delete_account_confirm": "정말 계정을 삭제하시겠어요? 계정을 삭제후 복구할 수 없어요.\n애플 재인증을 진행하면 삭제가 완료됩니다.",
+        "delete_account_confirm": "정말 계정을 삭제하시겠어요? 계정을 삭제후 복구할 수 없어요.",
         "delete_account_success": "계정이 삭제되었어요",
         "delete_account_error": "계정 삭제에 실패했어요: {}",
         "delete_account_auth_failed": "인증에 실패했어요. 다시 시도해주세요."

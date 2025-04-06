@@ -185,4 +185,12 @@ class Auth extends _$Auth {
       return false;
     }
   }
+
+  Future<bool> reAuthenticateWithGoogle() async {
+    try {
+      return await _authService.reAuthenticateWithGoogle();
+    } catch (e) {
+      return false;
+    }
+  }
 }

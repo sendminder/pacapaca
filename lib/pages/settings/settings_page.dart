@@ -25,6 +25,7 @@ class SettingsPage extends ConsumerWidget {
       height: 1,
     );
     final appVersion = ref.watch(appVersionProvider);
+    final platform = Theme.of(context).platform;
 
     return Scaffold(
       appBar: PageTitle(
@@ -263,9 +264,16 @@ class SettingsPage extends ConsumerWidget {
 
               if (confirmed == true) {
                 // 애플 로그인 재인증 시도
-                final reAuthResult = await ref
-                    .read(authProvider.notifier)
-                    .reAuthenticateWithApple();
+                var reAuthResult = false;
+                if (platform == TargetPlatform.iOS) {
+                  reAuthResult = await ref
+                      .read(authProvider.notifier)
+                      .reAuthenticateWithApple();
+                } else {
+                  reAuthResult = await ref
+                      .read(authProvider.notifier)
+                      .reAuthenticateWithGoogle();
+                }
 
                 if (reAuthResult) {
                   // 재인증 성공 시 계정 삭제 진행

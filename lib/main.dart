@@ -75,14 +75,32 @@ void main() async {
         supportedLocales: const [Locale('en'), Locale('ko')],
         fallbackLocale: const Locale('ko'),
         useFallbackTranslations: true,
-        child: ScreenUtilInit(
-          designSize: const Size(393, 852), // iPhone 16 Pro 기준
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) => FCMTokenManager(
-            child: const MyApp(),
-          ),
-        ),
+        child: Builder(builder: (context) {
+          // 플랫폼에 따라 다른 디자인 사이즈 적용
+          final platform = Theme.of(context).platform;
+          final Size designSize = platform == TargetPlatform.android
+              ? const Size(480, 1040) // 안드로이드용 디자인 사이즈 (더 크게 조정)
+              : const Size(393, 852); // iOS용 디자인 사이즈 (iPhone 16 Pro 기준)
+
+          return ScreenUtilInit(
+            designSize: designSize,
+            minTextAdapt: true,
+            splitScreenMode: true,
+            builder: (context, child) => FCMTokenManager(
+              child: MediaQuery(
+                // 안드로이드에서 추가로 텍스트 스케일링 팩터 적용
+                data: MediaQuery.of(context).copyWith(
+                  textScaler: TextScaler.linear(
+                    platform == TargetPlatform.android ? 0.85 : 1.0,
+                  ),
+                ),
+                child: Builder(builder: (context) {
+                  return const MyApp();
+                }),
+              ),
+            ),
+          );
+        }),
       ),
     ),
   );
