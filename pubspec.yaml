@@ -53,6 +53,7 @@ dependencies:
   url_launcher: ^6.3.1
   package_info_plus: ^8.3.0
   profanity_filter: ^2.0.0
+  google_sign_in: ^5.4.4
 
 dev_dependencies:
   flutter_test:

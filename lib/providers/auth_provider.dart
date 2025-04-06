@@ -39,6 +39,18 @@ class Auth extends _$Auth {
     }
   }
 
+  Future<UserDTO?> signInWithGoogle() async {
+    state = const AsyncLoading();
+    try {
+      final user = await _authService.signInWithGoogle();
+      state = AsyncData(user);
+      return user;
+    } catch (e) {
+      state = AsyncError(e, StackTrace.current);
+      return null;
+    }
+  }
+
   Future<void> signOut() async {
     state = const AsyncLoading();
     try {

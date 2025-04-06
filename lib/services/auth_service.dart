@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:pacapaca/models/dto/common_dto.dart';
 import 'package:pacapaca/services/storage_service.dart';
 import 'package:pacapaca/services/dio_service.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final Dio _dio = DioService.instance;
@@ -19,6 +20,7 @@ class AuthService {
   final HMACUtil _hmacUtil = HMACUtil(utf8.decode(
       base64Decode(dotenv.env['SENDMIND_SECRET_KEY'].toString()).toList()));
   final logger = GetIt.instance<Logger>();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   // 현재 유저 상태 스트림
   Stream<UserDTO?> get authStateChanges => _auth.authStateChanges().asyncMap(
@@ -196,6 +198,32 @@ class AuthService {
       return await _serverLogin(loginRequest);
     } catch (e, stackTrace) {
       logger.e('sign in with apple', error: e, stackTrace: stackTrace);
+      return null;
+    }
+  }
+
+  Future<UserDTO?> signInWithGoogle() async {
+    try {
+      final credential = await _googleSignIn.signIn();
+      if (credential == null) return null;
+
+      final authentication = await credential.authentication;
+      final oauthCredential = GoogleAuthProvider.credential(
+        idToken: authentication.idToken,
+        accessToken: authentication.accessToken,
+      );
+
+      final userCredential = await _auth.signInWithCredential(oauthCredential);
+
+      final loginRequest = RequestLogin(
+        idToken: await userCredential.user?.getIdToken() ?? '',
+        authProvider: 'google',
+        pushToken: '',
+      );
+
+      return await _serverLogin(loginRequest);
+    } catch (e, stackTrace) {
+      logger.e('sign in with google', error: e, stackTrace: stackTrace);
       return null;
     }
   }

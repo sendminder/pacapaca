@@ -18,6 +18,7 @@ class LoginPage extends ConsumerWidget {
       color: Colors.black.withAlpha(200),
       fontSize: 11.sp,
     );
+    final platform = Theme.of(context).platform;
 
     return Scaffold(
       body: Container(
@@ -68,12 +69,47 @@ class LoginPage extends ConsumerWidget {
                   children: [
                     SizedBox(height: 16.h),
                     // Apple 로그인 버튼 (Apple 가이드라인에 맞게 구현)
-                    SignInWithAppleButton(
-                      onPressed: () =>
-                          ref.read(authProvider.notifier).signInWithApple(),
-                      style: SignInWithAppleButtonStyle.black,
-                      height: 50.h,
-                    ),
+                    if (platform == TargetPlatform.iOS) ...[
+                      SignInWithAppleButton(
+                        onPressed: () =>
+                            ref.read(authProvider.notifier).signInWithApple(),
+                        style: SignInWithAppleButtonStyle.black,
+                        height: 50.h,
+                      ),
+                      SizedBox(height: 16.h),
+                    ] else if (platform == TargetPlatform.android) ...[
+                      ElevatedButton(
+                        onPressed: () =>
+                            ref.read(authProvider.notifier).signInWithGoogle(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black87,
+                          elevation: 1,
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            side: BorderSide(color: Colors.black12),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icon/google.webp',
+                              height: 24.h,
+                            ),
+                            SizedBox(width: 12.w),
+                            Text(
+                              'Google로 계속하기',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                     SizedBox(height: 16.h),
                     RichText(
                       textAlign: TextAlign.center,
