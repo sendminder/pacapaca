@@ -97,8 +97,30 @@ flutter pub run flutter_native_splash:create
 use key.properties, key.jks flutter build appbundle check ./build/app/outputs/bundle/release/app-release.aab
 ```
 
+## android release
+```
+    // 서명 설정 추가
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+```
+
+```bash
+flutter build apk --release
+```
+
 ## rename app
 ```bash
 dart run rename_app:main android="파카파카" ios="파카파카"
 dart run rename_app:main android="PacaPaca" ios="PacaPaca"
+```
+
+## generate splash images
+```bash
+flutter pub run flutter_native_splash:create
 ```

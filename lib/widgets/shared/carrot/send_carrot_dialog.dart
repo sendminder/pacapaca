@@ -326,8 +326,7 @@ class _SendCarrotDialogState extends ConsumerState<SendCarrotDialog> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.carrotColor,
                 foregroundColor: Colors.white,
-                disabledBackgroundColor: AppTheme.carrotColor
-                    .withAlpha(76), // withOpacity(0.3) -> withAlpha(76)
+                disabledBackgroundColor: AppTheme.carrotColor.withAlpha(76),
               ),
               child: Text('carrot.send'.tr()),
             ),

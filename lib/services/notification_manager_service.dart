@@ -208,7 +208,7 @@ class NotificationManagerService {
   // 로컬 알림 초기화
   Future<void> _initializeLocalNotifications() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@drawable/notification_icon');
 
     final DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
@@ -249,6 +249,7 @@ class NotificationManagerService {
       importance: Importance.max,
       priority: Priority.high,
       showWhen: true,
+      icon: '@drawable/notification_icon',
     );
 
     // iOS 알림 설정

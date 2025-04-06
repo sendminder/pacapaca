@@ -6,6 +6,17 @@ version: "1.0.0"
 environment:
   sdk: ^3.6.1
 
+# Flutter 네이티브 스플래시 설정
+flutter_native_splash:
+  image: "assets/icon/pacasplash.png"
+  color: "#FFFFFF"
+  android: true
+  ios: true
+  web: false
+  android_12:
+    image: "assets/icon/pacasplash.png"
+    icon_background_color: "#FFFFFF"
+
 dependencies:
   flutter:
     sdk: flutter
