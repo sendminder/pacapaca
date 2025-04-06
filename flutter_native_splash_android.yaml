@@ -1,14 +1,14 @@
 # Flutter 네이티브 스플래시 설정
 flutter_native_splash:
-  image: "assets/icon/pacasplash_android.png"
+  image: "assets/icon/pacapaca_app.jpeg"
   color: "#FFFFFF"
   android: true
   ios: true
   web: false
   android_12:
-    image: "assets/icon/pacasplash_android.png"
+    image: "assets/icon/pacapaca_app.jpeg"
     icon_background_color: "#FFFFFF"
-    image_dark: "assets/icon/pacasplash_android.png"
+    image_dark: "assets/icon/pacapaca_app.jpeg"
     icon_background_color_dark: "#FFFFFF"
   fullscreen: true
   android_gravity: center
