@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/models/dto/carrot_dto.dart';
 import 'package:pacapaca/providers/user_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserProfileCard extends ConsumerWidget {
   final UserDTO user;
@@ -69,6 +70,7 @@ class UserProfileCard extends ConsumerWidget {
                               user.displayUser.nickname,
                               style: textTheme.titleLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
+                                fontSize: 24.sp,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -89,7 +91,7 @@ class UserProfileCard extends ConsumerWidget {
                         "#$idHash",
                         style: textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurface.withAlpha(150),
-                          fontSize: 14,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ],
@@ -166,8 +168,8 @@ class UserProfileCard extends ConsumerWidget {
             null,
             Image.asset(
               'assets/icon/carrot.png',
-              width: 20,
-              height: 20,
+              width: 20.w,
+              height: 20.h,
             ),
             null,
             null,
@@ -283,7 +285,7 @@ class UserProfileCard extends ConsumerWidget {
           if (icon != null) ...[
             Icon(
               icon,
-              size: 24,
+              size: 24.h,
               color: iconColor ?? defaultIconColor,
             ),
             const SizedBox(width: 8),
@@ -295,7 +297,7 @@ class UserProfileCard extends ConsumerWidget {
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: labelColor ?? colorScheme.onSurface.withAlpha(200),
-                  fontSize: 17,
+                  fontSize: 17.sp,
                 ),
           ),
           const Spacer(),
@@ -303,7 +305,7 @@ class UserProfileCard extends ConsumerWidget {
             value,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: valueColor ?? colorScheme.onSurface,
-                  fontSize: 17,
+                  fontSize: 17.sp,
                 ),
           ),
         ],

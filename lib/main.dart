@@ -91,7 +91,7 @@ void main() async {
                 // 안드로이드에서 추가로 텍스트 스케일링 팩터 적용
                 data: MediaQuery.of(context).copyWith(
                   textScaler: TextScaler.linear(
-                    platform == TargetPlatform.android ? 0.85 : 1.0,
+                    platform == TargetPlatform.android ? 1.0 : 1.0,
                   ),
                 ),
                 child: Builder(builder: (context) {

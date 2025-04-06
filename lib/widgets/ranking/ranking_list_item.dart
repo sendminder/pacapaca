@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RankingListItem extends StatelessWidget {
   final int rank;
@@ -74,7 +75,7 @@ class RankingListItem extends StatelessWidget {
             Text(
               _rankEmoji,
               style: TextStyle(
-                fontSize: isTopRank ? 28 : 20,
+                fontSize: isTopRank ? 28.sp : 20.sp,
                 fontWeight: isTopRank ? FontWeight.w700 : FontWeight.w300,
               ),
             ),
@@ -92,6 +93,7 @@ class RankingListItem extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: isTopRank ? FontWeight.w700 : FontWeight.w500,
                 color: isTopRank ? Theme.of(context).colorScheme.primary : null,
+                fontSize: 18.sp,
               ),
         ),
         trailing: Container(
@@ -108,6 +110,7 @@ class RankingListItem extends StatelessWidget {
                   fontWeight: isTopRank ? FontWeight.w700 : FontWeight.w600,
                   color:
                       isTopRank ? Theme.of(context).colorScheme.primary : null,
+                  fontSize: 18.sp,
                 ),
           ),
         ),

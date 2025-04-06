@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UpdatePage extends StatelessWidget {
   final VoidCallback? onSkip;
@@ -61,9 +62,9 @@ class UpdatePage extends StatelessWidget {
                           ),
                           child: Text(
                             'update.new'.tr(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
-                              fontSize: 12,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -75,8 +76,8 @@ class UpdatePage extends StatelessWidget {
                 const SizedBox(height: 32),
                 Text(
                   'update.new_version_available'.tr(),
-                  style: const TextStyle(
-                    fontSize: 24,
+                  style: TextStyle(
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -101,8 +102,8 @@ class UpdatePage extends StatelessWidget {
                     ),
                     child: Text(
                       'update.update'.tr(),
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -124,8 +125,8 @@ class UpdatePage extends StatelessWidget {
                     ),
                     child: Text(
                       'update.skip'.tr(),
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: 16.sp,
                       ),
                     ),
                   ),

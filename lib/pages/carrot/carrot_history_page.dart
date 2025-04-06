@@ -20,7 +20,6 @@ class _CarrotHistoryPageState extends ConsumerState<CarrotHistoryPage> {
   final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
   int? _lastPagingKey;
-  final int _limit = 20;
 
   @override
   void initState() {

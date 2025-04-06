@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/services/word_filter_service.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SetNicknamePage extends ConsumerWidget {
   const SetNicknamePage({super.key});
@@ -26,7 +27,7 @@ class SetNicknamePage extends ConsumerWidget {
                 child: Text(
                   'nickname.set_nickname'.tr(),
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: 28.sp,
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
@@ -38,7 +39,7 @@ class SetNicknamePage extends ConsumerWidget {
                   'nickname.description'.tr(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     color:
                         Theme.of(context).colorScheme.onSurface.withAlpha(150),
                   ),
@@ -202,7 +203,7 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
           onChanged: _validateInput,
           maxLength: 10,
           style: TextStyle(
-            fontSize: 18,
+            fontSize: 18.sp,
             color: colorScheme.onSurface,
           ),
           decoration: InputDecoration(
@@ -277,7 +278,7 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
             child: Text(
               'nickname.nickname_rule'.tr(),
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 14.sp,
                 color: colorScheme.onSurface.withAlpha(153),
               ),
             ),
@@ -298,7 +299,7 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
                   'nickname.available'.tr(),
                   style: TextStyle(
                     color: colorScheme.primary,
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -334,9 +335,9 @@ class _NicknameInputState extends ConsumerState<_NicknameInput> {
                   _nicknameChecked && _nicknameAvailable
                       ? 'complete'.tr()
                       : 'nickname.check_availability'.tr(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

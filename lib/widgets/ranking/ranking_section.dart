@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'ranking_list_item.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:pacapaca/widgets/shared/ranking_skeleton_item.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RankingSection extends StatelessWidget {
   final String title;
@@ -36,8 +37,8 @@ class RankingSection extends StatelessWidget {
               if (imagePath != null)
                 Image.asset(
                   imagePath!,
-                  width: 32,
-                  height: 32,
+                  width: 32.w,
+                  height: 32.h,
                 ),
               if (icon != null)
                 Icon(
@@ -49,6 +50,7 @@ class RankingSection extends StatelessWidget {
                 title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w500,
+                      fontSize: 24.sp,
                     ),
               ),
               const Spacer(),
@@ -61,11 +63,13 @@ class RankingSection extends StatelessWidget {
                 label: Text(
                   'ranking.view_more'.tr(),
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withAlpha(100)),
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withAlpha(100),
+                        fontSize: 16.sp,
+                      ),
                 ),
                 style: TextButton.styleFrom(
                   foregroundColor: Theme.of(context).colorScheme.primary,

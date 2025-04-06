@@ -14,6 +14,7 @@ import 'package:get_it/get_it.dart';
 import 'package:pacapaca/constants/admin_user_ids.dart';
 import 'package:pacapaca/utils/block_check_util.dart';
 import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CommentItem extends ConsumerWidget {
   final ArticleCommentDTO comment;
@@ -232,7 +233,7 @@ class CommentItem extends ConsumerWidget {
               ? 'comment.blocked'.tr()
               : comment.content,
       style: TextStyle(
-        fontSize: 16,
+        fontSize: 16.sp,
         color: comment.isDeleted || comment.isBlocked
             ? Theme.of(context).colorScheme.onSurface.withAlpha(128)
             : Theme.of(context).colorScheme.onSurface,

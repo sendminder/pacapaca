@@ -9,6 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:pacapaca/services/word_filter_service.dart';
 import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ArticleEditPage extends ConsumerStatefulWidget {
   final int articleId;
@@ -87,7 +88,7 @@ class _ArticleEditPageState extends ConsumerState<ArticleEditPage> {
           child: Text(
             'article.cancel'.tr(),
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 16.sp,
               color: Theme.of(context).colorScheme.onSurface,
               fontWeight: FontWeight.w500,
             ),
@@ -97,7 +98,7 @@ class _ArticleEditPageState extends ConsumerState<ArticleEditPage> {
         title: Text(
           'article.edit_article'.tr(),
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 20.sp,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -124,7 +125,7 @@ class _ArticleEditPageState extends ConsumerState<ArticleEditPage> {
                 : Text(
                     'article.edit'.tr(),
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w700,
                     ),
                   ),

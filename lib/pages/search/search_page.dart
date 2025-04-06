@@ -9,6 +9,7 @@ import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/widgets/notification/notification_bell.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   final String? initialSearchQuery;
@@ -98,7 +99,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           focusNode: _focusNode,
           autofocus: false,
           textInputAction: TextInputAction.search,
-          style: const TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16.sp),
           decoration: InputDecoration(
             hintText:
                 _isTagSearch ? 'search.tag_hint'.tr() : 'search.hint'.tr(),
@@ -203,8 +204,8 @@ class _SearchPageState extends ConsumerState<SearchPage> {
             Expanded(
               child: Text(
                 query,
-                style: const TextStyle(
-                  fontSize: 15,
+                style: TextStyle(
+                  fontSize: 15.sp,
                   height: 1.2,
                 ),
               ),

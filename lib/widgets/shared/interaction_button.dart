@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InteractionButton extends StatefulWidget {
   final IconData? icon;
@@ -96,7 +97,7 @@ class _InteractionButtonState extends State<InteractionButton>
                       ? widget.defaultText!
                       : '${widget.count}'),
               style: TextStyle(
-                fontSize: widget.textSize.toDouble(),
+                fontSize: widget.textSize.toDouble().sp,
                 color: widget.color ?? Colors.grey[600],
               ),
             ),

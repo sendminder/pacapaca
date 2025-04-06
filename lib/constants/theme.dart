@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
   // 색상 정의
@@ -38,9 +39,9 @@ class AppTheme {
         foregroundColor: primaryColor,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle: const TextStyle(
+        titleTextStyle: TextStyle(
           fontFamily: 'Pretendard',
-          fontSize: 18,
+          fontSize: 18.sp,
           fontWeight: FontWeight.w600,
           color: Colors.black87,
         ),
@@ -89,7 +90,7 @@ class AppTheme {
         ),
         hintStyle: TextStyle(
           color: Colors.grey[400],
-          fontSize: 14,
+          fontSize: 14.sp,
         ),
       ),
 
@@ -99,7 +100,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        contentTextStyle: const TextStyle(
+        contentTextStyle: TextStyle(
           fontFamily: 'Pretendard',
         ),
       ),
@@ -131,7 +132,7 @@ class AppTheme {
         centerTitle: true,
         titleTextStyle: TextStyle(
           fontFamily: 'Pretendard',
-          fontSize: 18,
+          fontSize: 18.sp,
           fontWeight: FontWeight.w600,
           color: darkTextColor,
         ),
@@ -190,7 +191,7 @@ class AppTheme {
         ),
         hintStyle: TextStyle(
           color: darkTextSecondaryColor,
-          fontSize: 14,
+          fontSize: 14.sp,
         ),
       ),
 

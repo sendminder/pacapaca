@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PageTitle extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -27,11 +28,11 @@ class PageTitle extends StatelessWidget implements PreferredSizeWidget {
         : [];
 
     final mainTextStyle = TextStyle(
-      fontSize: 28,
+      fontSize: 28.sp,
       fontWeight: FontWeight.bold,
     );
     final subTextStyle = TextStyle(
-      fontSize: 20,
+      fontSize: 20.sp,
       fontWeight: FontWeight.bold,
       color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
     );

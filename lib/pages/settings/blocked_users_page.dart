@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:pacapaca/models/dto/block_dto.dart';
 import 'package:pacapaca/providers/block_provider.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';

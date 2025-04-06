@@ -13,6 +13,7 @@ import 'package:pacapaca/widgets/notification/notification_bell.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/utils/block_check_util.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});
@@ -228,7 +229,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
                   child: Text(
                     category.label,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       fontWeight:
                           isSelected ? FontWeight.w600 : FontWeight.normal,
                       color: isSelected
@@ -294,7 +295,7 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
               Text(
                 'article.no_articles'.tr(),
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.normal,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),

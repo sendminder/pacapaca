@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pacapaca/constants/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/carrot_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SendCarrotDialog extends ConsumerStatefulWidget {
   final String? description;
@@ -152,7 +153,7 @@ class _SendCarrotDialogState extends ConsumerState<SendCarrotDialog> {
                       ? theme.colorScheme.error
                       : AppTheme.carrotColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                 ),
               ),
               // TODO: 상점 오픈
@@ -180,7 +181,7 @@ class _SendCarrotDialogState extends ConsumerState<SendCarrotDialog> {
           'carrot.balance_error'.tr(),
           style: TextStyle(
             color: theme.colorScheme.error,
-            fontSize: 12,
+            fontSize: 12.sp,
           ),
         ),
       ),
@@ -291,7 +292,7 @@ class _SendCarrotDialogState extends ConsumerState<SendCarrotDialog> {
           Text(
             'carrot.send_to'.tr(args: [widget.receiverName]),
             style: theme.textTheme.bodyMedium?.copyWith(
-              fontSize: 16,
+              fontSize: 16.sp,
             ),
           ),
           const SizedBox(height: 16),
@@ -311,7 +312,7 @@ class _SendCarrotDialogState extends ConsumerState<SendCarrotDialog> {
               child: Text(
                 'carrot.cancel'.tr(),
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  fontSize: 16,
+                  fontSize: 16.sp,
                 ),
               ),
             ),

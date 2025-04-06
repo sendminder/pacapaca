@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pacapaca/models/enums/profile_type.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AiHelperAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onSummarize;
@@ -30,7 +31,7 @@ class AiHelperAppBar extends StatelessWidget implements PreferredSizeWidget {
           Text(
             'helper.title'.tr(),
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 20.sp,
               fontWeight: FontWeight.w500,
             ),
           ),

@@ -107,8 +107,8 @@ class CommunityGuidelinesPage extends ConsumerWidget {
                 ),
                 child: Text(
                   'guidelines.confirm_button'.tr(),
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

@@ -10,6 +10,7 @@ import 'package:pacapaca/widgets/page_title.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pacapaca/constants/link.dart';
 import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -315,7 +316,7 @@ class SettingsPage extends ConsumerWidget {
             trailing: Text(
               appVersion,
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 15.sp,
                 color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
               ),
             ),

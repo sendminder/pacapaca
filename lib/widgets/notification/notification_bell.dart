@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pacapaca/providers/notification_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NotificationBell extends ConsumerWidget {
   const NotificationBell({super.key});
@@ -41,9 +42,9 @@ class NotificationBell extends ConsumerWidget {
               ),
               child: Text(
                 'N',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 10,
+                  fontSize: 10.sp,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,

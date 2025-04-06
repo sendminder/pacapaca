@@ -79,8 +79,8 @@ class CarrotGuidelinesPage extends StatelessWidget {
                 ),
                 child: Text(
                   'guidelines.carrot.confirm'.tr(),
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

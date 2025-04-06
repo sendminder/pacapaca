@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TagList extends StatelessWidget {
   final List<String> tags;
@@ -26,7 +27,7 @@ class TagList extends StatelessWidget {
           child: Text(
             '#$tag',
             style: TextStyle(
-              fontSize: 13,
+              fontSize: 13.sp,
               color: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
           ),

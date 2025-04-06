@@ -11,6 +11,7 @@ import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/widgets/shared/user_profile_card.dart';
 import 'package:pacapaca/constants/theme.dart';
 import 'package:pacapaca/widgets/shared/user_activity_section.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -119,6 +120,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   'profile.my_points'.tr(),
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w500,
+                        fontSize: 24.sp,
                       ),
                 ),
                 IconButton(
@@ -138,7 +140,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 Icon(
                   Icons.workspace_premium,
                   color: Theme.of(context).colorScheme.primary,
-                  size: 32,
+                  size: 32.h,
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -146,6 +148,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w500,
+                        fontSize: 24.sp,
                       ),
                 ),
                 Text(
@@ -179,6 +182,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   'profile.my_carrots'.tr(),
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w500,
+                        fontSize: 24.sp,
                       ),
                 ),
                 IconButton(
@@ -186,7 +190,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     Icons.history,
                     color:
                         Theme.of(context).colorScheme.onSurface.withAlpha(150),
-                    size: 20,
+                    size: 20.h,
                   ),
                   onPressed: () => context.push('/carrot-history'),
                 ),
@@ -208,8 +212,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               children: [
                 Image.asset(
                   'assets/icon/carrot.png',
-                  width: 32,
-                  height: 32,
+                  width: 32.w,
+                  height: 32.h,
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -217,6 +221,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         color: AppTheme.carrotColor,
                         fontWeight: FontWeight.w500,
+                        fontSize: 24.sp,
                       ),
                 ),
                 Text(

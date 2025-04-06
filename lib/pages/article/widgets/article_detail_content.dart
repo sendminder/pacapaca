@@ -12,6 +12,7 @@ import 'package:get_it/get_it.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/utils/block_check_util.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ArticleDetailContent extends ConsumerWidget {
   final ArticleDTO article;
@@ -54,6 +55,7 @@ class ArticleDetailContent extends ConsumerWidget {
               child: Text(
                 displayArticle.title,
                 style: textTheme.headlineSmall?.copyWith(
+                  fontSize: 24.sp,
                   fontWeight: FontWeight.bold,
                   height: 1.3,
                   letterSpacing: -0.5,
@@ -118,6 +120,7 @@ class ArticleDetailContent extends ConsumerWidget {
                 displayArticle.displayUser.nickname,
                 style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
                 ),
               ),
               const SizedBox(height: 2),
@@ -150,7 +153,7 @@ class ArticleDetailContent extends ConsumerWidget {
         style: textTheme.bodyLarge?.copyWith(
           height: 1.6,
           color: colorScheme.onSurface.withAlpha(230),
-          fontSize: 16,
+          fontSize: 16.sp,
         ),
       ),
     );
@@ -163,7 +166,7 @@ class ArticleDetailContent extends ConsumerWidget {
       padding: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 15),
       child: Text(
         emoji,
-        style: const TextStyle(fontSize: 18),
+        style: TextStyle(fontSize: 18.sp),
       ),
     );
   }
@@ -212,7 +215,7 @@ class ArticleDetailContent extends ConsumerWidget {
             style: TextStyle(
               color: colorScheme.primary,
               fontWeight: FontWeight.w500,
-              fontSize: 14,
+              fontSize: 14.sp,
             ),
           ),
         );

@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/models/enums/profile_type.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SetProfileTypePage extends ConsumerWidget {
   SetProfileTypePage({super.key});
@@ -27,7 +28,7 @@ class SetProfileTypePage extends ConsumerWidget {
               Text(
                 'profile.choose_type'.tr(),
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 28.sp,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
@@ -37,7 +38,7 @@ class SetProfileTypePage extends ConsumerWidget {
               Text(
                 'profile.question'.tr(),
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   color: isDarkMode ? Colors.white70 : Colors.black54,
                 ),
                 textAlign: TextAlign.center,
@@ -189,7 +190,7 @@ class _ProfileTypeCard extends StatelessWidget {
                           Text(
                             title,
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
                               color: isDarkMode ? Colors.white : Colors.black87,
                             ),
@@ -198,7 +199,7 @@ class _ProfileTypeCard extends StatelessWidget {
                           Text(
                             description,
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               color:
                                   isDarkMode ? Colors.white70 : Colors.black54,
                               height: 1.4,
@@ -226,8 +227,8 @@ class _ProfileTypeCard extends StatelessWidget {
                       type == PacapacaProfileType.pacappi
                           ? 'pacapaca.pacappi'.tr()
                           : 'pacapaca.pacappu'.tr(),
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),

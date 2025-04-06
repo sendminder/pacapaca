@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pacapaca/models/enums/profile_type.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
 import 'package:pacapaca/widgets/shared/user_avatar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatBubble extends StatelessWidget {
   final String message;
@@ -50,15 +51,15 @@ class ChatBubble extends StatelessWidget {
                 color: isUser
                     ? Colors.white
                     : Theme.of(context).colorScheme.onSurface,
-                fontSize: 15,
+                fontSize: 15.sp,
               ),
             ),
           ),
           if (isLoading) ...[
             const SizedBox(width: 8),
             SizedBox(
-              width: 16,
-              height: 16,
+              width: 16.w,
+              height: 16.h,
               child: RotatingPacaLoader(),
             ),
           ],
@@ -88,8 +89,8 @@ class ChatMessageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        bottom: isLast ? 16.0 : 12.0,
-        top: isFirst ? 8.0 : 0.0,
+        bottom: isLast ? 16.h : 12.h,
+        top: isFirst ? 8.h : 0.h,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -110,9 +111,9 @@ class ChatMessageItem extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 40),
+            SizedBox(width: 40.w),
           ] else ...[
-            const SizedBox(width: 50),
+            SizedBox(width: 50.w),
             Flexible(
               child: ChatBubble(
                 message: message[isUser ? 'user' : 'assistant'] ?? '',

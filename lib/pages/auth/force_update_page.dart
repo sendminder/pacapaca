@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ForceUpdatePage extends StatelessWidget {
   const ForceUpdatePage({super.key});
@@ -40,8 +41,8 @@ class ForceUpdatePage extends StatelessWidget {
                     children: [
                       Image.asset(
                         'assets/icon/pacapaca_app.jpeg',
-                        width: 80,
-                        height: 80,
+                        width: 80.sp,
+                        height: 80.sp,
                       ),
                       Positioned(
                         right: 0,
@@ -57,9 +58,9 @@ class ForceUpdatePage extends StatelessWidget {
                           ),
                           child: Text(
                             'update.required'.tr(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
-                              fontSize: 12,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -71,8 +72,8 @@ class ForceUpdatePage extends StatelessWidget {
                 const SizedBox(height: 32),
                 Text(
                   'update.force_update_required'.tr(),
-                  style: const TextStyle(
-                    fontSize: 24,
+                  style: TextStyle(
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -80,8 +81,8 @@ class ForceUpdatePage extends StatelessWidget {
                 Text(
                   'update.force_update_description'.tr(),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: 16.sp,
                     height: 1.6,
                     color: Colors.grey,
                   ),
@@ -91,11 +92,11 @@ class ForceUpdatePage extends StatelessWidget {
                   'update.force_update_warning'.tr(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
-                const SizedBox(height: 32),
+                SizedBox(height: 32.h),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -110,8 +111,8 @@ class ForceUpdatePage extends StatelessWidget {
                     ),
                     child: Text(
                       'update.update_now'.tr(),
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

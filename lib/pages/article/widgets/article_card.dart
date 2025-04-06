@@ -12,6 +12,7 @@ import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/utils/block_check_util.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ArticleCard extends ConsumerWidget {
   final ArticleDTO article;
@@ -112,6 +113,7 @@ class ArticleCard extends ConsumerWidget {
                 displayArticle.displayUser.nickname,
                 style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
                 ),
               ),
               const SizedBox(height: 2),
@@ -140,7 +142,7 @@ class ArticleCard extends ConsumerWidget {
       padding: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 15),
       child: Text(
         emoji,
-        style: const TextStyle(fontSize: 18),
+        style: TextStyle(fontSize: 18.sp),
       ),
     );
   }
@@ -151,6 +153,7 @@ class ArticleCard extends ConsumerWidget {
     return Text(
       displayArticle.title,
       style: textTheme.titleLarge?.copyWith(
+        fontSize: 24.sp,
         fontWeight: FontWeight.bold,
         height: 1.3,
       ),
@@ -193,7 +196,7 @@ class ArticleCard extends ConsumerWidget {
       style: textTheme.bodyMedium?.copyWith(
         color: colorScheme.onSurface.withAlpha(200),
         height: 1.5,
-        fontSize: 16,
+        fontSize: 16.sp,
       ),
       maxLines: 3,
       overflow: TextOverflow.ellipsis,

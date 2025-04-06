@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pacapaca/models/enums/article_category.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ArticleForm extends StatefulWidget {
   final TextEditingController titleController;
@@ -142,7 +143,7 @@ class _ArticleFormState extends State<ArticleForm> {
                     TextSpan(
                       text: '$_currentLength',
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         color: _currentLength > _maxLength
                             ? Theme.of(context).colorScheme.error
                             : _isContentLongEnough
@@ -156,7 +157,7 @@ class _ArticleFormState extends State<ArticleForm> {
                           ? ' / $_maxLength'
                           : ' / $_minLength',
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         color: Theme.of(context)
                             .colorScheme
                             .onSurface
@@ -168,7 +169,7 @@ class _ArticleFormState extends State<ArticleForm> {
                       TextSpan(
                         text: ' ✓',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 15.sp,
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w600,
                         ),
@@ -231,7 +232,7 @@ class _ArticleFormState extends State<ArticleForm> {
                 child: Text(
                   category.label,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     color: isSelected
                         ? Theme.of(context).colorScheme.primary
                         : Theme.of(context).colorScheme.onSurface,
@@ -259,7 +260,7 @@ class _ArticleFormState extends State<ArticleForm> {
           Text(
             'article.nickname'.tr(),
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 15.sp,
               color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
               fontWeight: FontWeight.w100,
               letterSpacing: -0.3,
@@ -269,7 +270,7 @@ class _ArticleFormState extends State<ArticleForm> {
           Text(
             widget.nickname,
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 15.sp,
               color: Theme.of(context).colorScheme.onSurface,
               fontWeight: FontWeight.w500,
               letterSpacing: -0.3,
@@ -287,14 +288,14 @@ class _ArticleFormState extends State<ArticleForm> {
         controller: widget.titleController,
         maxLength: _maxTitleLength,
         style: TextStyle(
-          fontSize: 22,
+          fontSize: 22.sp,
           fontWeight: FontWeight.bold,
         ),
         decoration: InputDecoration(
           hintText: 'article.title_hint'.tr(),
           hintStyle: TextStyle(
             color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
-            fontSize: 20,
+            fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
           fillColor: Theme.of(context).colorScheme.surface,
@@ -317,15 +318,15 @@ class _ArticleFormState extends State<ArticleForm> {
       maxLength: _maxLength,
       expands: true,
       textAlignVertical: TextAlignVertical.top,
-      style: const TextStyle(
-        fontSize: 16,
+      style: TextStyle(
+        fontSize: 16.sp,
         height: 1.6,
       ),
       decoration: InputDecoration(
         hintText: 'article.content_hint'.tr(),
         hintStyle: TextStyle(
           color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
-          fontSize: 16,
+          fontSize: 16.sp,
           height: 1.6,
         ),
         border: InputBorder.none,

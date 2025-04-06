@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/services/notification_manager_service.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NotificationPermissionPage extends ConsumerStatefulWidget {
   const NotificationPermissionPage({super.key});
@@ -79,8 +80,8 @@ class _NotificationPermissionPageState
                         )
                       : Text(
                           'notification.enable'.tr(),
-                          style: const TextStyle(
-                            fontSize: 16,
+                          style: TextStyle(
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -102,8 +103,8 @@ class _NotificationPermissionPageState
                   ),
                   child: Text(
                     'notification.skip'.tr(),
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style: TextStyle(
+                      fontSize: 16.sp,
                     ),
                   ),
                 ),

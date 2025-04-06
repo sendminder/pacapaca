@@ -10,6 +10,7 @@ import 'package:pacapaca/models/enums/article_category.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/services/word_filter_service.dart';
 import 'package:pacapaca/widgets/shared/dialogs/confirmation_dialog.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ArticleCreatePage extends ConsumerStatefulWidget {
   final String? initialTitle;
@@ -67,7 +68,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
           child: Text(
             'article.cancel'.tr(),
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 16.sp,
               color: Theme.of(context).colorScheme.onSurface,
               fontWeight: FontWeight.w500,
             ),
@@ -77,7 +78,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
         title: Text(
           'article.create'.tr(),
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 20.sp,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -104,7 +105,7 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
                 : Text(
                     'article.register'.tr(),
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
