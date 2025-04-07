@@ -112,6 +112,7 @@
         "login_failed": "로그인 실패했어요: {}",
         "try_again": "다시 시도",
         "login_with_email": "이메일로 로그인",
+        "google_login": "구글로 로그인",
         "email_login": "이메일로 로그인",
         "email": "이메일",
         "password": "비밀번호",
@@ -252,6 +253,9 @@
     },
     "error": {
         "common": "오류가 발생했어요. 다시 시도해주세요."
+    },
+    "common": {
+        "cancel": "취소"
     },
     "pacapaca": {
         "pacappi": "파카삐",

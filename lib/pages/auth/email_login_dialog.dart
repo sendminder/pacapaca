@@ -33,7 +33,7 @@ class _EmailLoginDialogState extends ConsumerState<EmailLoginDialog> {
         borderRadius: BorderRadius.circular(16.r),
       ),
       elevation: 0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: theme.colorScheme.surface,
       child: Container(
         padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
@@ -41,7 +41,7 @@ class _EmailLoginDialogState extends ConsumerState<EmailLoginDialog> {
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black26,
+              color: theme.colorScheme.surface,
               blurRadius: 10.r,
               offset: Offset(0, 5.r),
             ),
@@ -50,15 +50,7 @@ class _EmailLoginDialogState extends ConsumerState<EmailLoginDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // 제목
-            Text(
-              'login.email_login'.tr(),
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.sp,
-              ),
-            ),
-            SizedBox(height: 24.h),
+            SizedBox(height: 36.h),
 
             // 폼
             Form(
@@ -174,7 +166,7 @@ class _EmailLoginDialogState extends ConsumerState<EmailLoginDialog> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: Colors.white,
+                    foregroundColor: theme.colorScheme.onPrimary,
                     padding: EdgeInsets.symmetric(
                       horizontal: 16.w,
                       vertical: 8.h,

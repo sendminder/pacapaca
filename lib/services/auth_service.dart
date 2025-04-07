@@ -397,7 +397,7 @@ class AuthService {
       final loginRequest = RequestLogin(
         idToken: await userCredential.user?.getIdToken() ?? '',
         authProvider: 'email',
-        pushToken: '', // TODO: 푸시 토큰 추가
+        pushToken: '',
       );
 
       return await _serverLogin(loginRequest);

@@ -250,6 +250,9 @@
     "error": {
         "common": "An error occurred. Please try again."
     },
+    "common": {
+        "cancel": "Cancel"
+    },
     "pacapaca": {
         "pacappi": "Pacappi",
         "pacappu": "Pacappu"
