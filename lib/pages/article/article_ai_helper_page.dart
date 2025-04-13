@@ -12,6 +12,7 @@ import 'package:pacapaca/pages/article/widgets/chat_bubble.dart';
 import 'package:pacapaca/pages/article/widgets/draft_preview_bottom_sheet.dart';
 import 'package:pacapaca/pages/article/widgets/ai_helper_app_bar.dart';
 import 'package:pacapaca/providers/settings_provider.dart';
+import 'package:pacapaca/providers/report_provider.dart';
 
 class ArticleAiHelperPage extends ConsumerStatefulWidget {
   const ArticleAiHelperPage({super.key});
@@ -300,6 +301,7 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
       isUser: isUser,
       isFirst: isFirstMessage,
       isLast: isLastMessage,
+      onReport: isUser ? null : () => _handleReport(index, message),
     );
   }
 
@@ -308,6 +310,47 @@ class _ArticleAiHelperPageState extends ConsumerState<ArticleAiHelperPage> {
       message: {'assistant': 'helper.thinking'.tr()},
       isUser: false,
       isLoading: true,
+    );
+  }
+
+  void _handleReport(int messageIndex, Map<String, String> message) {
+    final content = message['assistant'] ?? '';
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('report.ai_report'.tr()),
+        content: Text('report.ai_report_desc'.tr()),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('report.cancel'.tr()),
+          ),
+          TextButton(
+            onPressed: () async {
+              try {
+                await ref.read(userReportProvider.notifier).reportUser(
+                      userId: 1, // 파카삐
+                      reason: content,
+                    );
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('report.reported'.tr())),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('error.common'.tr())),
+                  );
+                }
+              }
+            },
+            child: Text('report.ai_report'.tr()),
+          ),
+        ],
+      ),
     );
   }
 

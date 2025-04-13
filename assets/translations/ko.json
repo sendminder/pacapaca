@@ -27,7 +27,7 @@
     },
     "helper": {
         "first_message": "안녕하세요! 저는 파카삐예요 🦙\n어떤 주제의 고민이 있으신가요? \n제가 이야기를 들어드리고 글로 정리해드릴게요!",
-        "title": "파카삐와 함께 고민 정리하기",
+        "title": "파카삐와 고민정리",
         "content_hint": "고민 상담 결과를 입력하세요",
         "complete": "완료",
         "edit": "수정",
@@ -161,7 +161,10 @@
         "submitted": "신고가 접수되었어요",
         "from_article": "게시글에서 신고됨",
         "from_comment": "댓글에서 신고됨",
-        "cancel": "취소"
+        "cancel": "취소",
+        "ai_report": "제보하기",
+        "ai_report_desc": "더 나은 답변을 위해 부적절한 답변을 제보해주세요",
+        "reported": "제보되었어요"
     },
     "block": {
         "title": "사용자 차단",

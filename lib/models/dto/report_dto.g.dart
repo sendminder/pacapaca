@@ -24,6 +24,18 @@ Map<String, dynamic> _$$CreateReportRequestImplToJson(
       'article_id': instance.articleId,
     };
 
+_$ResponseCreateUserReportImpl _$$ResponseCreateUserReportImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ResponseCreateUserReportImpl(
+      report: UserReportDTO.fromJson(json['report'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ResponseCreateUserReportImplToJson(
+        _$ResponseCreateUserReportImpl instance) =>
+    <String, dynamic>{
+      'report': instance.report,
+    };
+
 _$UserReportDTOImpl _$$UserReportDTOImplFromJson(Map<String, dynamic> json) =>
     _$UserReportDTOImpl(
       id: (json['id'] as num).toInt(),

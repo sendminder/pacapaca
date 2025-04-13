@@ -1,7 +1,7 @@
 name: pacapaca
 description: "Sharing your stories."
 publish_to: "none"
-version: "1.0.0"
+version: "1.0.2"
 
 environment:
   sdk: ^3.6.1

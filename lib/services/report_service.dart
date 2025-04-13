@@ -24,7 +24,10 @@ class ReportService {
       );
 
       if (responseRest.response != null) {
-        return UserReportDTO.fromJson(responseRest.response!);
+        final responseCreateUserReport = ResponseCreateUserReport.fromJson(
+          responseRest.response!,
+        );
+        return responseCreateUserReport.report;
       }
       return null;
     } catch (e, stackTrace) {

@@ -256,6 +256,7 @@ class CommentItem extends ConsumerWidget {
       BuildContext context, WidgetRef ref) {
     return [
       _buildSendCarrotMenuItem(context, ref),
+      _buildReportMenuItem(context, ref),
     ];
   }
 

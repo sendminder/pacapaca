@@ -245,6 +245,177 @@ abstract class _CreateReportRequest implements RequestCreateUserReport {
       throw _privateConstructorUsedError;
 }
 
+ResponseCreateUserReport _$ResponseCreateUserReportFromJson(
+    Map<String, dynamic> json) {
+  return _ResponseCreateUserReport.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ResponseCreateUserReport {
+  UserReportDTO get report => throw _privateConstructorUsedError;
+
+  /// Serializes this ResponseCreateUserReport to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ResponseCreateUserReport
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ResponseCreateUserReportCopyWith<ResponseCreateUserReport> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ResponseCreateUserReportCopyWith<$Res> {
+  factory $ResponseCreateUserReportCopyWith(ResponseCreateUserReport value,
+          $Res Function(ResponseCreateUserReport) then) =
+      _$ResponseCreateUserReportCopyWithImpl<$Res, ResponseCreateUserReport>;
+  @useResult
+  $Res call({UserReportDTO report});
+
+  $UserReportDTOCopyWith<$Res> get report;
+}
+
+/// @nodoc
+class _$ResponseCreateUserReportCopyWithImpl<$Res,
+        $Val extends ResponseCreateUserReport>
+    implements $ResponseCreateUserReportCopyWith<$Res> {
+  _$ResponseCreateUserReportCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ResponseCreateUserReport
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? report = null,
+  }) {
+    return _then(_value.copyWith(
+      report: null == report
+          ? _value.report
+          : report // ignore: cast_nullable_to_non_nullable
+              as UserReportDTO,
+    ) as $Val);
+  }
+
+  /// Create a copy of ResponseCreateUserReport
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserReportDTOCopyWith<$Res> get report {
+    return $UserReportDTOCopyWith<$Res>(_value.report, (value) {
+      return _then(_value.copyWith(report: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ResponseCreateUserReportImplCopyWith<$Res>
+    implements $ResponseCreateUserReportCopyWith<$Res> {
+  factory _$$ResponseCreateUserReportImplCopyWith(
+          _$ResponseCreateUserReportImpl value,
+          $Res Function(_$ResponseCreateUserReportImpl) then) =
+      __$$ResponseCreateUserReportImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({UserReportDTO report});
+
+  @override
+  $UserReportDTOCopyWith<$Res> get report;
+}
+
+/// @nodoc
+class __$$ResponseCreateUserReportImplCopyWithImpl<$Res>
+    extends _$ResponseCreateUserReportCopyWithImpl<$Res,
+        _$ResponseCreateUserReportImpl>
+    implements _$$ResponseCreateUserReportImplCopyWith<$Res> {
+  __$$ResponseCreateUserReportImplCopyWithImpl(
+      _$ResponseCreateUserReportImpl _value,
+      $Res Function(_$ResponseCreateUserReportImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ResponseCreateUserReport
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? report = null,
+  }) {
+    return _then(_$ResponseCreateUserReportImpl(
+      report: null == report
+          ? _value.report
+          : report // ignore: cast_nullable_to_non_nullable
+              as UserReportDTO,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ResponseCreateUserReportImpl implements _ResponseCreateUserReport {
+  const _$ResponseCreateUserReportImpl({required this.report});
+
+  factory _$ResponseCreateUserReportImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseCreateUserReportImplFromJson(json);
+
+  @override
+  final UserReportDTO report;
+
+  @override
+  String toString() {
+    return 'ResponseCreateUserReport(report: $report)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResponseCreateUserReportImpl &&
+            (identical(other.report, report) || other.report == report));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, report);
+
+  /// Create a copy of ResponseCreateUserReport
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ResponseCreateUserReportImplCopyWith<_$ResponseCreateUserReportImpl>
+      get copyWith => __$$ResponseCreateUserReportImplCopyWithImpl<
+          _$ResponseCreateUserReportImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ResponseCreateUserReportImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ResponseCreateUserReport implements ResponseCreateUserReport {
+  const factory _ResponseCreateUserReport(
+      {required final UserReportDTO report}) = _$ResponseCreateUserReportImpl;
+
+  factory _ResponseCreateUserReport.fromJson(Map<String, dynamic> json) =
+      _$ResponseCreateUserReportImpl.fromJson;
+
+  @override
+  UserReportDTO get report;
+
+  /// Create a copy of ResponseCreateUserReport
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ResponseCreateUserReportImplCopyWith<_$ResponseCreateUserReportImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 UserReportDTO _$UserReportDTOFromJson(Map<String, dynamic> json) {
   return _UserReportDTO.fromJson(json);
 }

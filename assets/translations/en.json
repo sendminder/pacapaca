@@ -27,7 +27,7 @@
     },
     "helper": {
         "first_message": "Hello! I'm Pacappi 🦙\nWhat's your topic of concern? \nI'll listen to your story and summarize it in an article!",
-        "title": "Concern Counseling with Pacappi",
+        "title": "Sharing concerns",
         "content_hint": "Enter the concern counseling result",
         "complete": "Complete",
         "edit": "Edit",
@@ -158,7 +158,10 @@
         "submitted": "Report submitted",
         "from_article": "Reported from article",
         "from_comment": "Reported from comment",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "ai_report": "Report",
+        "ai_report_desc": "Report inappropriate answers for better answers",
+        "reported": "Reported"
     },
     "block": {
         "title": "Block User",

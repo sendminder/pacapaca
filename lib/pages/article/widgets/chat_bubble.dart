@@ -8,12 +8,14 @@ class ChatBubble extends StatelessWidget {
   final String message;
   final bool isUser;
   final bool isLoading;
+  final VoidCallback? onReport;
 
   const ChatBubble({
     super.key,
     required this.message,
     required this.isUser,
     this.isLoading = false,
+    this.onReport,
   });
 
   @override
@@ -75,6 +77,7 @@ class ChatMessageItem extends StatelessWidget {
   final bool isFirst;
   final bool isLast;
   final bool isLoading;
+  final VoidCallback? onReport;
 
   const ChatMessageItem({
     super.key,
@@ -83,6 +86,7 @@ class ChatMessageItem extends StatelessWidget {
     this.isFirst = false,
     this.isLast = false,
     this.isLoading = false,
+    this.onReport,
   });
 
   @override
@@ -97,29 +101,33 @@ class ChatMessageItem extends StatelessWidget {
         mainAxisAlignment:
             isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
+          if (!isUser) _buildAvatar(),
+          Flexible(
+            child: Stack(
+              children: [
+                ChatBubble(
+                  message: message[isUser ? 'user' : 'assistant'] ?? '',
+                  isUser: isUser,
+                  isLoading: isLoading,
+                  onReport: onReport,
+                ),
+              ],
+            ),
+          ),
           if (!isUser) ...[
-            _buildAvatar(),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ChatBubble(
-                    message: message[isUser ? 'user' : 'assistant'] ?? '',
-                    isUser: isUser,
-                    isLoading: isLoading,
-                  ),
-                ],
+            SizedBox(width: 8.w),
+            if (!isLoading)
+              IconButton(
+                icon: const Icon(Icons.flag_outlined),
+                onPressed: onReport,
+                iconSize: 20.w,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                constraints: BoxConstraints(
+                  minWidth: 32.w,
+                  minHeight: 32.h,
+                ),
+                padding: EdgeInsets.zero,
               ),
-            ),
-            SizedBox(width: 40.w),
-          ] else ...[
-            SizedBox(width: 50.w),
-            Flexible(
-              child: ChatBubble(
-                message: message[isUser ? 'user' : 'assistant'] ?? '',
-                isUser: isUser,
-              ),
-            ),
           ],
         ],
       ),

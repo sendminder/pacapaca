@@ -111,7 +111,7 @@ use key.properties, key.jks flutter build appbundle check ./build/app/outputs/bu
 ```
 
 ```bash
-flutter build apk --release
+flutter build appbundle --release
 ```
 
 ## rename app

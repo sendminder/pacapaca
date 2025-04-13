@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pacapaca/models/dto/user_dto.dart';
 
 part 'report_dto.freezed.dart';
 part 'report_dto.g.dart';
@@ -15,6 +14,16 @@ class RequestCreateUserReport with _$RequestCreateUserReport {
 
   factory RequestCreateUserReport.fromJson(Map<String, dynamic> json) =>
       _$RequestCreateUserReportFromJson(json);
+}
+
+@freezed
+class ResponseCreateUserReport with _$ResponseCreateUserReport {
+  const factory ResponseCreateUserReport({
+    required UserReportDTO report,
+  }) = _ResponseCreateUserReport;
+
+  factory ResponseCreateUserReport.fromJson(Map<String, dynamic> json) =>
+      _$ResponseCreateUserReportFromJson(json);
 }
 
 @freezed
