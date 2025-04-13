@@ -120,7 +120,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   'profile.my_points'.tr(),
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w500,
-                        fontSize: 24.sp,
+                        fontSize: 20.sp,
                       ),
                 ),
                 IconButton(
@@ -148,7 +148,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w500,
-                        fontSize: 24.sp,
+                        fontSize: 20.sp,
                       ),
                 ),
                 Text(
@@ -182,7 +182,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   'profile.my_carrots'.tr(),
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w500,
-                        fontSize: 24.sp,
+                        fontSize: 20.sp,
                       ),
                 ),
                 IconButton(
@@ -221,7 +221,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         color: AppTheme.carrotColor,
                         fontWeight: FontWeight.w500,
-                        fontSize: 24.sp,
+                        fontSize: 20.sp,
                       ),
                 ),
                 Text(

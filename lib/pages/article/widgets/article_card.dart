@@ -153,7 +153,7 @@ class ArticleCard extends ConsumerWidget {
     return Text(
       displayArticle.title,
       style: textTheme.titleLarge?.copyWith(
-        fontSize: 24.sp,
+        fontSize: 20.sp,
         fontWeight: FontWeight.bold,
         height: 1.3,
       ),

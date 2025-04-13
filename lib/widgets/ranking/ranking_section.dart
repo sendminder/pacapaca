@@ -50,7 +50,7 @@ class RankingSection extends StatelessWidget {
                 title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w500,
-                      fontSize: 24.sp,
+                      fontSize: 20.sp,
                     ),
               ),
               const Spacer(),

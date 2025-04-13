@@ -24,7 +24,7 @@ class UserActivitySection extends StatelessWidget {
             isCurrentUser ? 'profile.my_activity'.tr() : 'user.activity'.tr(),
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w500,
-                  fontSize: 24.sp,
+                  fontSize: 20.sp,
                 ),
           ),
         ),

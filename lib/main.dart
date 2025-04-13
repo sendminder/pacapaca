@@ -78,10 +78,7 @@ void main() async {
         child: Builder(builder: (context) {
           // 플랫폼에 따라 다른 디자인 사이즈 적용
           final platform = Theme.of(context).platform;
-          final Size designSize = platform == TargetPlatform.android
-              ? const Size(480, 1040) // 안드로이드용 디자인 사이즈 (더 크게 조정)
-              : const Size(393, 852); // iOS용 디자인 사이즈 (iPhone 16 Pro 기준)
-
+          final Size designSize = const Size(480, 1040); // 안드로이드 기준 디자인 사이즈
           return ScreenUtilInit(
             designSize: designSize,
             minTextAdapt: true,
