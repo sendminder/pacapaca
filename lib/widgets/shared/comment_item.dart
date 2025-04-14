@@ -197,6 +197,7 @@ class CommentItem extends ConsumerWidget {
             'comment.reply'.tr(),
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.onSurface.withAlpha(128),
+                  fontSize: 14.sp,
                 ),
           ),
         ],
@@ -219,7 +220,7 @@ class CommentItem extends ConsumerWidget {
           onTap: () => onToggleLike(comment.id),
           size: 16,
           defaultText: 'comment.like'.tr(),
-          textSize: 12,
+          textSize: 14,
         ),
       ],
     );

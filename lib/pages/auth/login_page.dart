@@ -21,10 +21,6 @@ class LoginPage extends ConsumerWidget {
     );
     final platform = Theme.of(context).platform;
 
-    // 컨트롤러 추가
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -84,73 +80,75 @@ class LoginPage extends ConsumerWidget {
                       SizedBox(height: 16.h),
                     ],
 
-                    // 구글 로그인 버튼
-                    ElevatedButton(
-                      onPressed: () =>
-                          ref.read(authProvider.notifier).signInWithGoogle(),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.black87,
-                        elevation: 1,
-                        padding: EdgeInsets.symmetric(vertical: 12.h),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(color: Colors.black12),
+                    if (platform == TargetPlatform.android) ...[
+                      // 구글 로그인 버튼
+                      ElevatedButton(
+                        onPressed: () =>
+                            ref.read(authProvider.notifier).signInWithGoogle(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black87,
+                          elevation: 1,
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(color: Colors.black12),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icon/google.webp',
+                              height: 24.h,
+                            ),
+                            SizedBox(width: 12.w),
+                            Text(
+                              'login.google_login'.tr(),
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/icon/google.webp',
-                            height: 24.h,
-                          ),
-                          SizedBox(width: 12.w),
-                          Text(
-                            'login.google_login'.tr(),
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
+                      SizedBox(height: 16.h),
 
-                    // 이메일 로그인 버튼
-                    ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => const EmailLoginDialog(),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary,
-                        foregroundColor: Colors.white,
-                        elevation: 1,
-                        padding: EdgeInsets.symmetric(vertical: 12.h),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                      // 이메일 로그인 버튼
+                      ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => const EmailLoginDialog(),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: theme.colorScheme.primary,
+                          foregroundColor: Colors.white,
+                          elevation: 1,
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.email_outlined, size: 24.h),
+                            SizedBox(width: 12.w),
+                            Text(
+                              'login.email_login'.tr(),
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.email_outlined, size: 24.h),
-                          SizedBox(width: 12.w),
-                          Text(
-                            'login.email_login'.tr(),
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
+                      SizedBox(height: 16.h),
+                    ],
 
                     RichText(
                       textAlign: TextAlign.center,

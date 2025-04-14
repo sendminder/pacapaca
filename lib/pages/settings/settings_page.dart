@@ -27,6 +27,10 @@ class SettingsPage extends ConsumerWidget {
     );
     final appVersion = ref.watch(appVersionProvider);
     final platform = Theme.of(context).platform;
+    final textStyle = TextStyle(
+      fontSize: 18.sp,
+      fontWeight: FontWeight.w300,
+    );
 
     return Scaffold(
       appBar: PageTitle(
@@ -37,7 +41,7 @@ class SettingsPage extends ConsumerWidget {
         children: [
           ListTile(
             leading: const Icon(Icons.notifications),
-            title: Text('settings.notifications'.tr()),
+            title: Text('settings.notifications'.tr(), style: textStyle),
             trailing: Switch(
               value: notificationEnabled,
               onChanged: (value) async {
@@ -110,17 +114,17 @@ class SettingsPage extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.language),
-            title: Text('settings.language'.tr()),
+            title: Text('settings.language'.tr(), style: textStyle),
             trailing: DropdownButton<String>(
               value: locale.languageCode,
-              items: const [
+              items: [
                 DropdownMenuItem(
                   value: 'ko',
-                  child: Text('한국어'),
+                  child: Text('한국어', style: textStyle),
                 ),
                 DropdownMenuItem(
                   value: 'en',
-                  child: Text('English'),
+                  child: Text('English', style: textStyle),
                 ),
               ],
               onChanged: (String? newLocale) {
@@ -136,21 +140,21 @@ class SettingsPage extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.dark_mode),
-            title: Text('settings.theme'.tr()),
+            title: Text('settings.theme'.tr(), style: textStyle),
             trailing: DropdownButton<ThemeMode>(
               value: themeMode,
               items: [
                 DropdownMenuItem(
                   value: ThemeMode.system,
-                  child: Text('settings.system'.tr()),
+                  child: Text('settings.system'.tr(), style: textStyle),
                 ),
                 DropdownMenuItem(
                   value: ThemeMode.light,
-                  child: Text('settings.light'.tr()),
+                  child: Text('settings.light'.tr(), style: textStyle),
                 ),
                 DropdownMenuItem(
                   value: ThemeMode.dark,
-                  child: Text('settings.dark'.tr()),
+                  child: Text('settings.dark'.tr(), style: textStyle),
                 ),
               ],
               onChanged: (ThemeMode? newTheme) {
@@ -166,7 +170,7 @@ class SettingsPage extends ConsumerWidget {
               Icons.check_circle_outline_rounded,
               color: Colors.green,
             ),
-            title: Text('settings.notice'.tr()),
+            title: Text('settings.notice'.tr(), style: textStyle),
             onTap: () {
               launchUrl(Uri.parse(PacapacaLink.noticeLink));
             },
@@ -177,28 +181,28 @@ class SettingsPage extends ConsumerWidget {
               width: 24,
               height: 24,
             ),
-            title: Text('guidelines.carrot.title'.tr()),
+            title: Text('guidelines.carrot.title'.tr(), style: textStyle),
             onTap: () {
               context.push('/guidelines/carrot');
             },
           ),
           ListTile(
             leading: const Icon(Icons.people_outline_rounded),
-            title: Text('settings.community_guidelines'.tr()),
+            title: Text('settings.community_guidelines'.tr(), style: textStyle),
             onTap: () {
               context.push('/settings/guidelines');
             },
           ),
           ListTile(
             leading: const Icon(Icons.person_outline_rounded),
-            title: Text('settings.personal_info'.tr()),
+            title: Text('settings.personal_info'.tr(), style: textStyle),
             onTap: () {
               launchUrl(Uri.parse(PacapacaLink.personalInfoLink));
             },
           ),
           ListTile(
             leading: const Icon(Icons.info_outline_rounded),
-            title: Text('settings.terms_of_service'.tr()),
+            title: Text('settings.terms_of_service'.tr(), style: textStyle),
             onTap: () {
               launchUrl(Uri.parse(PacapacaLink.termsOfServiceLink));
             },
@@ -206,14 +210,14 @@ class SettingsPage extends ConsumerWidget {
           divider,
           ListTile(
             leading: const Icon(Icons.block),
-            title: Text('settings.blocked_users'.tr()),
+            title: Text('settings.blocked_users'.tr(), style: textStyle),
             onTap: () {
               context.push('/settings/blocked-users');
             },
           ),
           ListTile(
             leading: const Icon(Icons.support_agent_rounded),
-            title: Text('settings.support'.tr()),
+            title: Text('settings.support'.tr(), style: textStyle),
             onTap: () {
               launchUrl(Uri.parse(PacapacaLink.openKakaoLink));
             },
@@ -225,7 +229,11 @@ class SettingsPage extends ConsumerWidget {
             ),
             title: Text(
               'settings.logout'.tr(),
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.error,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w300,
+              ),
             ),
             onTap: () async {
               final confirmed = await showDialog<bool>(
@@ -250,7 +258,7 @@ class SettingsPage extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.delete),
-            title: Text('settings.delete_account'.tr()),
+            title: Text('settings.delete_account'.tr(), style: textStyle),
             onTap: () async {
               final confirmed = await showDialog<bool>(
                 context: context,
@@ -312,7 +320,7 @@ class SettingsPage extends ConsumerWidget {
           //   ),
           ListTile(
             leading: const Icon(Icons.perm_device_information_rounded),
-            title: Text('settings.app_version'.tr()),
+            title: Text('settings.app_version'.tr(), style: textStyle),
             trailing: Text(
               appVersion,
               style: TextStyle(
