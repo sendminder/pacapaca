@@ -70,9 +70,6 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       child: Scaffold(
         appBar: PageTitle(
           title: _isTagSearch ? '#$_currentQuery' : 'search.title'.tr(),
-          actions: const [
-            NotificationBell(),
-          ],
           bottom: _buildSearchField(),
         ),
         backgroundColor: Theme.of(context).colorScheme.surface,

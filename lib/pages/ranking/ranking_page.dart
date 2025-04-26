@@ -26,9 +26,6 @@ class RankingPage extends ConsumerWidget {
     return Scaffold(
       appBar: PageTitle(
         title: 'ranking.title'.tr(),
-        actions: const [
-          NotificationBell(),
-        ],
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: RefreshIndicator(
