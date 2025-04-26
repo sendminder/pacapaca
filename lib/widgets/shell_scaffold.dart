@@ -27,59 +27,29 @@ class ShellScaffold extends StatelessWidget {
           NavigationDestination(
             icon: Icon(
               Icons.article_outlined,
-              size: 28,
+              size: 24,
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.grey[400]
                   : Colors.grey[600],
             ),
             selectedIcon: Icon(
               Icons.article,
-              size: 28,
+              size: 24,
               color: Theme.of(context).colorScheme.primary,
             ),
             label: 'nav.articles'.tr(),
           ),
           NavigationDestination(
             icon: Icon(
-              Icons.search_outlined,
-              size: 28,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.grey[400]
-                  : Colors.grey[600],
-            ),
-            selectedIcon: Icon(
-              Icons.search,
-              size: 28,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            label: 'nav.search'.tr(),
-          ),
-          NavigationDestination(
-            icon: Icon(
-              Icons.emoji_events_outlined,
-              size: 28,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.grey[400]
-                  : Colors.grey[600],
-            ),
-            selectedIcon: Icon(
-              Icons.emoji_events,
-              size: 28,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            label: 'nav.ranking'.tr(),
-          ),
-          NavigationDestination(
-            icon: Icon(
               Icons.person_outline,
-              size: 28,
+              size: 24,
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.grey[400]
                   : Colors.grey[600],
             ),
             selectedIcon: Icon(
               Icons.person,
-              size: 28,
+              size: 24,
               color: Theme.of(context).colorScheme.primary,
             ),
             label: 'nav.profile'.tr(),

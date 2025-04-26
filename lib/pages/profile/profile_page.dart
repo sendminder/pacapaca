@@ -42,6 +42,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         title: 'profile.title'.tr(),
         actions: [
           IconButton(
+            onPressed: () => context.push('/ranking'),
+            icon: const Icon(Icons.emoji_events_outlined),
+          ),
+          IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () => context.push('/settings'),
           ),

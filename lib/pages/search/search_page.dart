@@ -69,12 +69,11 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       onTap: () => _focusNode.unfocus(),
       child: Scaffold(
         appBar: PageTitle(
-          title: _isTagSearch ? '#${_currentQuery}' : 'search.title'.tr(),
+          title: _isTagSearch ? '#$_currentQuery' : 'search.title'.tr(),
           actions: const [
             NotificationBell(),
           ],
           bottom: _buildSearchField(),
-          hasBackButton: false,
         ),
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: _currentQuery.isEmpty

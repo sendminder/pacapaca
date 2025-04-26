@@ -190,8 +190,6 @@ class RouterNotifier extends ChangeNotifier {
       GlobalKey<NavigatorState>(debugLabel: 'shell/home');
   final _shellNavigatorBoardKey =
       GlobalKey<NavigatorState>(debugLabel: 'shell/articles');
-  final _shellNavigatorSearchKey =
-      GlobalKey<NavigatorState>(debugLabel: 'shell/search');
   final _shellNavigatorProfileKey =
       GlobalKey<NavigatorState>(debugLabel: 'shell/profile');
 
@@ -346,6 +344,29 @@ class RouterNotifier extends ChangeNotifier {
             return LikedPostsPage(userId: userId);
           },
         ),
+        GoRoute(
+          path: '/search',
+          builder: (context, state) {
+            return SearchPage(
+              isTagSearch: false,
+            );
+          },
+        ),
+        GoRoute(
+          path: '/ranking',
+          builder: (context, state) => const RankingPage(),
+          routes: [
+            GoRoute(
+              path: ':type',
+              parentNavigatorKey: _rootNavigatorKey,
+              builder: (context, state) => RankingDetailPage(
+                title: state.extra as String,
+                type: RankingType
+                    .values[int.parse(state.pathParameters['type']!)],
+              ),
+            ),
+          ],
+        ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
             return ShellScaffold(navigationShell: navigationShell);
@@ -429,39 +450,6 @@ class RouterNotifier extends ChangeNotifier {
                           articleUserId: articleUserId,
                         );
                       },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              navigatorKey: _shellNavigatorSearchKey,
-              routes: [
-                GoRoute(
-                  path: '/search',
-                  builder: (context, state) {
-                    return SearchPage(
-                      isTagSearch: false,
-                    );
-                  },
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              navigatorKey: _shellNavigatorHomeKey,
-              routes: [
-                GoRoute(
-                  path: '/ranking',
-                  builder: (context, state) => const RankingPage(),
-                  routes: [
-                    GoRoute(
-                      path: ':type',
-                      parentNavigatorKey: _rootNavigatorKey,
-                      builder: (context, state) => RankingDetailPage(
-                        title: state.extra as String,
-                        type: RankingType
-                            .values[int.parse(state.pathParameters['type']!)],
-                      ),
                     ),
                   ],
                 ),

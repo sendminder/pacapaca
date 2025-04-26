@@ -14,6 +14,7 @@ import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/utils/block_check_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pacapaca/pages/search/search_page.dart';
 
 class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});
@@ -76,7 +77,11 @@ class _ArticleListPageState extends ConsumerState<ArticleListPage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: PageTitle(
         title: 'article.title'.tr(),
-        actions: const [
+        actions: [
+          IconButton(
+            onPressed: () => context.push('/search'),
+            icon: const Icon(Icons.search),
+          ),
           NotificationBell(),
         ],
         bottom: _buildCategoryAndSortBar(),
