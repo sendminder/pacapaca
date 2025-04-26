@@ -17,7 +17,6 @@ class _PointHistoryPageState extends ConsumerState<PointHistoryPage> {
   final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
   int? _lastPagingKey;
-  final int _limit = 20;
 
   @override
   void initState() {

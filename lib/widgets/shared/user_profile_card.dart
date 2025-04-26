@@ -319,19 +319,19 @@ class UserProfileCard extends ConsumerWidget {
     return digest.toString().substring(0, 8);
   }
 
-  Widget _buildSendCarrotButton(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      onTap: () => _showSendCarrotDialog(context, ref),
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        child: Image.asset(
-          'assets/icon/carrot.png',
-          width: 24,
-          height: 24,
-        ),
-      ),
-    );
-  }
+  // Widget _buildSendCarrotButton(BuildContext context, WidgetRef ref) {
+  //   return GestureDetector(
+  //     onTap: () => _showSendCarrotDialog(context, ref),
+  //     child: Container(
+  //       padding: const EdgeInsets.all(8),
+  //       child: Image.asset(
+  //         'assets/icon/carrot.png',
+  //         width: 24,
+  //         height: 24,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   // 당근 보내기 다이얼로그 표시
   void _showSendCarrotDialog(BuildContext context, WidgetRef ref) async {

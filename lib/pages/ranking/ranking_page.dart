@@ -8,7 +8,6 @@ import 'package:pacapaca/providers/carrot_provider.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/pages/ranking/ranking_type.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pacapaca/widgets/notification/notification_bell.dart';
 
 class RankingPage extends ConsumerWidget {
   const RankingPage({super.key});

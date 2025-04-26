@@ -14,7 +14,6 @@ import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacapaca/utils/block_check_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pacapaca/pages/search/search_page.dart';
 
 class ArticleListPage extends ConsumerStatefulWidget {
   const ArticleListPage({super.key});

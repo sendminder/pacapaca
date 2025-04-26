@@ -8,7 +8,6 @@ import 'package:pacapaca/providers/settings_provider.dart';
 import 'package:pacapaca/models/dto/article_dto.dart';
 import 'package:pacapaca/widgets/page_title.dart';
 import 'package:pacapaca/widgets/shared/rotating_paca_loader.dart';
-import 'package:pacapaca/widgets/notification/notification_bell.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
