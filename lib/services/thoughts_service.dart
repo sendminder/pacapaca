@@ -175,4 +175,33 @@ class ThoughtsService {
       logger.e('생각 목록 저장 오류', error: e, stackTrace: stackTrace);
     }
   }
+
+  // 특정 날짜용 랜덤 생각 가져오기
+  Future<String> getRandomThoughtForDate(DateTime date) async {
+    _predefinedThoughts.shuffle();
+    return _predefinedThoughts.first;
+  }
+
+  // 사용자 지정 생각 저장하기
+  Future<void> saveCustomThought(ThoughtDTO thought) async {
+    try {
+      final thoughts = await _getThoughts();
+
+      // 같은 날짜의 생각이 이미 있는지 확인
+      final existingIndex = thoughts.indexWhere((t) => t.date == thought.date);
+
+      if (existingIndex != -1) {
+        // 이미 있으면 업데이트
+        thoughts[existingIndex] = thought;
+      } else {
+        // 없으면 추가
+        thoughts.add(thought);
+      }
+
+      await _saveThoughts(thoughts);
+      logger.d('날짜별 생각이 저장되었습니다: ${thought.date}');
+    } catch (e, stackTrace) {
+      logger.e('날짜별 생각 저장 오류', error: e, stackTrace: stackTrace);
+    }
+  }
 }

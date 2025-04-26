@@ -10,6 +10,15 @@ import 'package:pacapaca/services/thoughts_service.dart';
 import 'package:pacapaca/models/dto/thought_dto.dart';
 import 'package:pacapaca/pages/calendar/thought_response_page.dart';
 import 'package:pacapaca/providers/thoughts_provider.dart';
+import 'package:uuid/uuid.dart';
+
+// 미래 날짜인지 확인하는 유틸리티 함수
+bool isFutureDate(DateTime date) {
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final compareDate = DateTime(date.year, date.month, date.day);
+  return compareDate.isAfter(today);
+}
 
 class CalendarPage extends ConsumerWidget {
   const CalendarPage({super.key});
@@ -96,44 +105,59 @@ class CalendarPage extends ConsumerWidget {
                             color: colorScheme.primary.withAlpha(50),
                             shape: BoxShape.circle,
                           ),
-                          markersMaxCount: 1,
-                          markerDecoration: BoxDecoration(
-                            color: colorScheme.tertiary,
-                            shape: BoxShape.circle,
-                          ),
                           weekendTextStyle: TextStyle(
                             color: Colors.red.shade300,
                           ),
+                          outsideDaysVisible: false,
                         ),
                         calendarBuilders: CalendarBuilders(
-                          markerBuilder: (context, date, events) {
-                            return answeredDatesAsync.when(
-                              data: (thoughts) {
-                                final hasResponse = thoughts.any((thought) =>
-                                    thought.isAnswered &&
-                                    thought.date ==
-                                        DateFormat('yyyy-MM-dd').format(date));
+                          defaultBuilder: (context, date, events) {
+                            // 이미 선택된 날짜나 오늘 날짜가 아닌 경우에만 커스텀 스타일 적용
+                            if (!isSameDay(date, selectedDay) &&
+                                !isSameDay(date, now)) {
+                              return answeredDatesAsync.when(
+                                data: (thoughts) {
+                                  final hasResponse = thoughts.any((thought) =>
+                                      thought.isAnswered &&
+                                      thought.date ==
+                                          DateFormat('yyyy-MM-dd')
+                                              .format(date));
 
-                                if (hasResponse) {
-                                  return Positioned(
-                                    bottom: 2,
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 300),
+                                  if (hasResponse) {
+                                    // 답변이 있는 날짜는 primary 색상으로 배경 표시
+                                    final isWeekend =
+                                        date.weekday == DateTime.saturday ||
+                                            date.weekday == DateTime.sunday;
+
+                                    return Container(
+                                      margin: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
-                                        color: colorScheme.tertiary,
+                                        color:
+                                            colorScheme.primary.withAlpha(80),
                                         shape: BoxShape.circle,
                                       ),
-                                      width: 8.w,
-                                      height: 8.w,
-                                    ),
-                                  );
-                                }
-                                return null;
-                              },
-                              loading: () => null,
-                              error: (_, __) => null,
-                            );
+                                      child: Center(
+                                        child: Text(
+                                          '${date.day}',
+                                          style: TextStyle(
+                                            color: isWeekend
+                                                ? Colors.red.shade300
+                                                : colorScheme.onSurface,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  return null; // 기본 스타일 사용
+                                },
+                                loading: () => null,
+                                error: (_, __) => null,
+                              );
+                            }
+
+                            return null; // 기본 스타일 사용
                           },
                         ),
                       ),
@@ -148,11 +172,10 @@ class CalendarPage extends ConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: selectedThoughtAsync.when(
                 data: (thought) {
-                  // 생각이 없는 경우 오늘의 생각을 새로 가져오기
+                  // 생각이 없는 경우 해당 날짜의 생각을 새로 생성
                   if (thought == null) {
                     return FutureBuilder<ThoughtDTO>(
-                      future:
-                          GetIt.instance<ThoughtsService>().getTodayThought(),
+                      future: _createThoughtForDate(selectedDay),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -165,6 +188,7 @@ class CalendarPage extends ConsumerWidget {
                             snapshot.data!,
                             isSameDay(selectedDay, now),
                             ref,
+                            selectedDay,
                           );
                         }
 
@@ -178,6 +202,7 @@ class CalendarPage extends ConsumerWidget {
                     thought,
                     isSameDay(selectedDay, now),
                     ref,
+                    selectedDay,
                   );
                 },
                 loading: () => _buildLoadingCard(context),
@@ -195,8 +220,8 @@ class CalendarPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildThoughtCard(
-      BuildContext context, ThoughtDTO thought, bool isToday, WidgetRef ref) {
+  Widget _buildThoughtCard(BuildContext context, ThoughtDTO thought,
+      bool isToday, WidgetRef ref, DateTime date) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Hero(
@@ -233,7 +258,7 @@ class CalendarPage extends ConsumerWidget {
                     if (thought.isAnswered)
                       Icon(
                         Icons.check_circle,
-                        color: colorScheme.tertiary,
+                        color: colorScheme.primary.withAlpha(150),
                         size: 20.sp,
                       ),
                   ],
@@ -279,16 +304,13 @@ class CalendarPage extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     AnimatedOpacity(
-                      opacity: isToday ? 1.0 : 0.5,
+                      opacity: isFutureDate(date) ? 0.5 : 1.0,
                       duration: const Duration(milliseconds: 300),
                       child: TextButton.icon(
-                        onPressed: isToday
-                            ? () =>
-                                _navigateToResponsePage(context, thought, ref)
-                            : (thought.isAnswered
-                                ? () => _navigateToResponsePage(
-                                    context, thought, ref)
-                                : null),
+                        onPressed: isFutureDate(date)
+                            ? null // 미래 날짜는 비활성화
+                            : () =>
+                                _navigateToResponsePage(context, thought, ref),
                         icon: Icon(
                           thought.isAnswered ? Icons.edit : Icons.add,
                           size: 18.sp,
@@ -436,5 +458,30 @@ class CalendarPage extends ConsumerWidget {
       ref.refresh(selectedThoughtProvider(ref.read(selectedDateProvider)));
       ref.refresh(thoughtsProvider);
     });
+  }
+
+  // 특정 날짜에 대한 생각 생성 메서드
+  Future<ThoughtDTO> _createThoughtForDate(DateTime date) async {
+    final service = GetIt.instance<ThoughtsService>();
+    final dateStr = DateTime(date.year, date.month, date.day)
+        .toIso8601String()
+        .split('T')[0];
+
+    // 오늘 날짜인 경우 오늘의 생각 가져오기
+    if (isSameDay(date, DateTime.now())) {
+      return service.getTodayThought();
+    }
+
+    // 과거/미래 날짜인 경우 해당 날짜에 대한 생각 생성
+    final thought = ThoughtDTO(
+      id: const Uuid().v4(),
+      message: await service.getRandomThoughtForDate(date),
+      date: dateStr,
+    );
+
+    // 생성된 생각 저장
+    await service.saveCustomThought(thought);
+
+    return thought;
   }
 }
