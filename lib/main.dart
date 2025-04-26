@@ -37,6 +37,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pacapaca/services/word_filter_service.dart';
 import 'package:flutter/services.dart';
+import 'package:pacapaca/services/thoughts_service.dart';
 
 void main() async {
   // 앱 초기화
@@ -195,6 +196,9 @@ Future<void> _setupServiceLocator() async {
 
   // static 서비스 초기화
   await WordFilterService.instance.initialize();
+
+  // 생각 서비스 등록
+  getIt.registerLazySingleton(() => ThoughtsService());
 }
 
 // 전역 변수로 GlobalKey 추가
