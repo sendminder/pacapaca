@@ -10,7 +10,7 @@ import 'pages/auth/splash_page.dart';
 import 'pages/article/article_detail_page.dart';
 import 'pages/settings/settings_page.dart';
 import 'pages/auth/set_nickname_page.dart';
-import 'widgets/shell_scaffold.dart';
+import 'widgets/navigation_bar.dart';
 import 'pages/article/article_list_page.dart';
 import 'pages/article/article_create_page.dart';
 import 'pages/article/article_edit_page.dart';
@@ -42,6 +42,8 @@ import 'pages/guidelines/community_guidelines_page.dart';
 import 'pages/guidelines/carrot_guidelines_page.dart';
 import 'pages/auth/update_page.dart';
 import 'pages/auth/force_update_page.dart';
+import 'pages/calendar/calendar_page.dart';
+import 'pages/chat/chat_page.dart';
 import 'services/storage_service.dart';
 
 // 라우터 프로바이더 생성
@@ -186,12 +188,14 @@ class RouterNotifier extends ChangeNotifier {
     );
   }
 
-  final _shellNavigatorHomeKey =
-      GlobalKey<NavigatorState>(debugLabel: 'shell/home');
   final _shellNavigatorBoardKey =
       GlobalKey<NavigatorState>(debugLabel: 'shell/articles');
   final _shellNavigatorProfileKey =
       GlobalKey<NavigatorState>(debugLabel: 'shell/profile');
+  final _shellNavigatorCalendarKey =
+      GlobalKey<NavigatorState>(debugLabel: 'shell/calendar');
+  final _shellNavigatorChatKey =
+      GlobalKey<NavigatorState>(debugLabel: 'shell/chat');
 
   List<RouteBase> get _routes => [
         GoRoute(
@@ -452,6 +456,24 @@ class RouterNotifier extends ChangeNotifier {
                       },
                     ),
                   ],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorCalendarKey,
+              routes: [
+                GoRoute(
+                  path: '/calendar',
+                  builder: (context, state) => const CalendarPage(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorChatKey,
+              routes: [
+                GoRoute(
+                  path: '/chat',
+                  builder: (context, state) => const ChatPage(),
                 ),
               ],
             ),

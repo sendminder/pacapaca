@@ -382,5 +382,11 @@
         "update_description": "원활한 서비스 이용을 위해\n최신 버전으로 업데이트해 주세요",
         "update": "업데이트하기",
         "skip": "나중에 하기"
+    },
+    "calendar": {
+        "title": "캘린더"
+    },
+    "chat": {
+        "title": "채팅"
     }
 }

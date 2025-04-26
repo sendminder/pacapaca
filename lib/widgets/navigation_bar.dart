@@ -41,6 +41,36 @@ class ShellScaffold extends StatelessWidget {
           ),
           NavigationDestination(
             icon: Icon(
+              Icons.calendar_today_outlined,
+              size: 22,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey[400]
+                  : Colors.grey[600],
+            ),
+            selectedIcon: Icon(
+              Icons.calendar_today_rounded,
+              size: 22,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            label: 'nav.calendar'.tr(),
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.chat_bubble_outline,
+              size: 22,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey[400]
+                  : Colors.grey[600],
+            ),
+            selectedIcon: Icon(
+              Icons.chat_bubble_rounded,
+              size: 22,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            label: 'nav.chat'.tr(),
+          ),
+          NavigationDestination(
+            icon: Icon(
               Icons.person_outline,
               size: 24,
               color: Theme.of(context).brightness == Brightness.dark

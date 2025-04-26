@@ -374,5 +374,11 @@
         "update_description": "Please update to the latest version\nfor smooth service use",
         "update": "Update",
         "skip": "Skip for Now"
+    },
+    "calendar": {
+        "title": "Calendar"
+    },
+    "chat": {
+        "title": "Chat"
     }
 }
