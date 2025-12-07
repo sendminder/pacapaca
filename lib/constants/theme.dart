@@ -61,7 +61,7 @@ class AppTheme {
       ),
 
       // 카드 테마
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -162,7 +162,7 @@ class AppTheme {
       ),
 
       // 카드 테마
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
