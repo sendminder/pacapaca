@@ -76,9 +76,29 @@ class CalendarPage extends ConsumerWidget {
                         currentDay: now,
                         selectedDayPredicate: (day) =>
                             isSameDay(day, selectedDay),
+                        enabledDayPredicate: (day) => !isFutureDate(day),
                         onDaySelected: (selected, focused) {
-                          ref.read(selectedDateProvider.notifier).state =
-                              selected;
+                          // 미래 날짜가 아닌 경우만 선택 가능
+                          if (!isFutureDate(selected)) {
+                            ref.read(selectedDateProvider.notifier).state =
+                                selected;
+                          }
+                        },
+                        onPageChanged: (focusedDay) {
+                          // 다음 달로 이동하려는 경우
+                          if (focusedDay.year > now.year ||
+                              (focusedDay.year == now.year &&
+                                  focusedDay.month > now.month)) {
+                            // 현재 달로 강제 복귀
+                            Future.microtask(() {
+                              ref
+                                  .read(selectedDateProvider.notifier)
+                                  .update((state) {
+                                // 현재 월의 첫날로 설정
+                                return DateTime(now.year, now.month, 1);
+                              });
+                            });
+                          }
                         },
                         headerStyle: HeaderStyle(
                           titleCentered: true,
@@ -87,10 +107,8 @@ class CalendarPage extends ConsumerWidget {
                             Icons.chevron_left,
                             color: colorScheme.primary,
                           ),
-                          rightChevronIcon: Icon(
-                            Icons.chevron_right,
-                            color: colorScheme.primary,
-                          ),
+                          // 다음 달 이동 버튼 숨김
+                          rightChevronVisible: false,
                           titleTextStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.sp,
